@@ -1,0 +1,7 @@
+{
+  "name": "pawprints",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}
