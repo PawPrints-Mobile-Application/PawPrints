@@ -6,6 +6,7 @@
           <div class="main-content">
             <ion-text><h1>PawPrints</h1></ion-text>
             <SignInModal />
+            <Button id="modal-Sign" expand="block" color="tertiary">Sign</Button>
             <ion-button id="modal-SignUp" expand="block" color="tertiary">Sign Up</ion-button>
             <ion-button expand="block" color="tertiary">Google Sign In</ion-button>
           </div>
@@ -21,6 +22,7 @@
     } from '@ionic/vue';
     import SignInModal from './SignInModal.vue';
     import Modal from '../components/Modal.vue';
+    import Button from '../components/Button.vue';
   </script>
   
   <script lang="ts">
