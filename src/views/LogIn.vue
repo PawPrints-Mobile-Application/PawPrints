@@ -1,9 +1,10 @@
 <template>
     <ion-page>
       <ion-content color="primary">
-        <main>
+        <main :class="showContent && 'show-content'">
           <ion-thumbnail><img :src="PawPrints" alt="PawPrints"></ion-thumbnail>
-          <div class="main-content">
+          <ion-spinner :class="`login-loading ${showLoading ? 'show-loading' : ''}`" name="lines" color="primary"/>
+          <div class="main-content display-none">
             <ion-text><h1>PawPrints</h1></ion-text>
             <SignInModal />
             <Button id="modal-Sign" expand="block" color="tertiary">Sign</Button>
@@ -18,7 +19,7 @@
 
   <script lang="ts" setup>
     import {
-      IonContent, IonPage, IonThumbnail, IonButton, IonText,
+      IonContent, IonPage, IonThumbnail, IonButton, IonText, IonSpinner
     } from '@ionic/vue';
     import SignInModal from './SignInModal.vue';
     import Modal from '../components/Modal.vue';
@@ -27,18 +28,35 @@
   
   <script lang="ts">
     import { PawPrints } from '../assets/images';
+    import { ref } from 'vue';
+
+    const showContent = ref(false);
+    const showLoading = ref(false);
+    const showContentDelay = 5000;
+    const ShowContent = () => {
+      setTimeout(() => showLoading.value = true, showContentDelay/4);
+      setTimeout(() => showContent.value = true, showContentDelay);
+    };
   
     export default {
       name: "LogIn",
       data() {
         return {
-          PawPrints
+          showContent, showLoading, PawPrints
         }
       },
+      mounted() {
+        ShowContent();
+      }
     }
   </script>
   
   <style scoped>
+  :root {
+    --start-up-delay: 5s;
+    --show-content-delay: 11.5s;
+  }
+
   main {
     height: 100%;
     padding: 20%;
@@ -46,6 +64,8 @@
     justify-content: center;
     align-items: center;
     flex-flow: column nowrap;
+    background-color: var(--ion-color-tertiary);
+    transition: all 0.5s ease-in;
   }
 
   ion-thumbnail {
@@ -55,12 +75,42 @@
 
   .main-content {
     width: 100%;
+    height: 0;
+    opacity: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-flow: column nowrap;
     transform: translateY(-50px);
+    transition: height 1s ease-in-out, opacity 1s ease-in-out 1.5s;
   }
+
+  .show-content {
+    background-color: var(--ion-color-primary);
+  }
+
+  .show-content .main-content {
+    opacity: 1;
+    height: 200px ;
+  }
+
+  .login-loading{
+    position: absolute;
+    bottom: 25%;
+    width: 80px;
+    height: 80px;
+    opacity: 0;
+    transition: all 200ms ease-out;
+  }
+
+  .show-loading {
+    opacity: 1;
+  }
+
+  .show-content .login-loading {
+    display: none;
+  }
+
 
   h1 {
     font-weight: bold;

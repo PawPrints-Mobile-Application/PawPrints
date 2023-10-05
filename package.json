@@ -8,7 +8,7 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "ionic:build": "npm run build",
-    "ionic:serve": "vite dev --host"
+    "ionic:serve": "vite dev --host --port 8000"
   },
   "dependencies": {
     "@capacitor/android": "^5.4.1",
@@ -22,11 +22,10 @@
     "@ionic/cli": "^7.1.1",
     "@ionic/vue": "^7.4.1",
     "@ionic/vue-router": "^7.4.1",
+    "@vue/cli": "^5.0.8",
     "firebase": "^10.4.0",
     "firebase-tools": "^12.6.1",
-    "ionic": "^5.4.16",
     "vue": "^3.3.4",
-    "vue-cli": "^2.9.6",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
