@@ -10,15 +10,18 @@
         <ion-list>
           <ion-item>
             <ion-input
-              ref="input"
+              type="text"
+              :value="username"
               label="Username or Email"
               label-placement="floating"
               placeholder="Enter Username"
               :clear-input="true"
-              :value="username"
               fill="solid"
-              :helper-text="username === '' ? 'Enter a valid email' : 'Valid Email'"
+              :helper-text="
+                username === '' ? 'Enter a valid email' : 'Valid Email'
+              "
               error-text="Invalid email"
+              @IonInput=" username = $event.target.value; validate()"
               :class="['ion-touched', usernameClass]"
             />
           </ion-item>
@@ -41,67 +44,52 @@
   </Modal>
 </template>
 
-<script lang="ts">
-  import { IonButton, IonList, IonItem, IonInput } from "@ionic/vue";
-  import Modal from "../components/Modal.vue";
-  import { computed } from "vue";
+<script setup lang="ts">
+import { Ref, ref } from "vue";
+import { IonButton, IonList, IonItem, IonInput } from "@ionic/vue";
+import Modal from "../components/Modal.vue";
+type Input = Ref<string | number | null | undefined>;
+const username: Input = ref("");
+const password: Input = ref("");
+const usernameClass = ref("");
 
-  type Username = string;
-  var username: Username = "";
-
-  type Password = string;
-  var password: Password = "";
-
-  const usernameClass = computed(() => ({'ion-valid' : validateEmail(username), 'ion-invalid' : (!validateEmail(username) && username !== '')}));
-
-  function validateEmail(email: Username) {
-    return email.match(
+const validate = () => usernameClass.value = !username.value ? "" : (username.value.toString().trim() == "" || !EmailValidator(username) ? "ion-invalid"
+      : "ion-valid");
+const EmailValidator = (email: any) => email.value.match(
       /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     ) !== null;
-  };
+</script>
 
-  
+<script lang="ts">
+export default {
+  name: "SignInModal"
+};
+</script>
 
-  export default {
-    name: "SignInModal",
-    components: {IonButton, IonList, IonItem, IonInput, Modal},
-    data() {
-      return {
-        username,
-        password,
-        usernameClass
-      };
-    },
-    methods: {
-      validateEmail,
-    },
-  };
-  </script>
+<style scoped>
+#modal-SignIn {
+  font-weight: bold;
+  font-size: 1.5rem;
+  width: 90%;
+  min-width: 150px;
+  --border-radius: 10px;
+  margin-top: 10px;
+}
 
-  <style scoped>
-  #modal-SignIn {
-    font-weight: bold;
-    font-size: 1.5rem;
-    width: 90%;
-    min-width: 150px;
-    --border-radius: 10px;
-    margin-top: 10px;
-  }
+.signin-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column wrap;
+  height: 100%;
+}
 
-  .signin-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-flow: column wrap;
-    height: 100%;
-  }
+.content-title {
+  font-size: 3rem;
+  font-weight: bold;
+}
 
-  .content-title {
-    font-size: 3rem;
-    font-weight: bold;
-  }
-
-  ion-item {
-    margin-top: 20px;
-  }
+ion-item {
+  margin-top: 20px;
+}
 </style>

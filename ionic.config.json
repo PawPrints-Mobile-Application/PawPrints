@@ -1,7 +1,8 @@
 {
   "name": "pawprints",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "custom"
 }

@@ -6,7 +6,9 @@
             </ion-toolbar>
         </ion-header>
         <ion-content>
-            <slot />
+            <main class="main-page">
+                <slot />
+            </main>
         </ion-content>
     </ion-page>
 </template>
