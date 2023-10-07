@@ -2,8 +2,8 @@
     <ion-page>
       <ion-content color="primary">
         <main :class="showContent && 'show-content'">
-          <ion-thumbnail><img :src="PawPrints" alt="PawPrints"></ion-thumbnail>
-          <ion-spinner :class="`login-loading ${showLoading ? 'show-loading' : ''}`" name="lines" color="primary"/>
+          <ion-thumbnail :class="showThumbnail && 'show-thumbnail'"><img id="logo" :src="PawPrints" alt="PawPrints"></ion-thumbnail>
+          <ion-spinner :class="`login-loading ${showLoading && !showContent ? 'show-loading' : ''}`" name="lines" color="primary"/>
           <div class="main-content display-none">
             <ion-text><h1>PawPrints</h1></ion-text>
             <SignInModal />
@@ -30,12 +30,13 @@
     import { PawPrints } from '../assets/images';
     import { ref } from 'vue';
 
+    const showThumbnail = ref(false);
     const showContent = ref(false);
     const showLoading = ref(false);
-    const showContentDelay = 5000;
     const ShowContent = () => {
-      setTimeout(() => showLoading.value = true, showContentDelay/4);
-      setTimeout(() => showContent.value = true, showContentDelay);
+      setTimeout(() => showThumbnail.value = true, 500);
+      setTimeout(() => showLoading.value = true, 1000);
+      setTimeout(() => showContent.value = true, 4000);
     };
   
     export default {
@@ -69,8 +70,23 @@
   }
 
   ion-thumbnail {
-    width: max-content;
+    width: 80%;
     height: max-content;
+    transition: width 1000ms ease-in-out;
+  }
+
+  .show-content .show-thumbnail {
+    width: 90%;
+  }
+
+  #logo {
+    width: 100%;
+    opacity: 0;
+    transition: all 500ms ease-out;
+  }
+
+  .show-thumbnail #logo {
+    opacity: 1;
   }
 
   .main-content {
@@ -82,7 +98,7 @@
     align-items: center;
     flex-flow: column nowrap;
     transform: translateY(-50px);
-    transition: height 1s ease-in-out, opacity 1s ease-in-out 1.5s;
+    transition: height 1s ease-in-out, opacity 1s ease-in-out 1s;
   }
 
   .show-content {
@@ -100,7 +116,7 @@
     width: 80px;
     height: 80px;
     opacity: 0;
-    transition: all 200ms ease-out;
+    transition: all 500ms ease-out;
   }
 
   .show-loading {

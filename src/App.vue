@@ -1,13 +1,8 @@
 <template>
   <ion-app>
-    <ion-router-outlet :v-show="allowRouter"></ion-router-outlet>
+    <ion-router-outlet></ion-router-outlet>
   </ion-app>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-const allowRouter = ref(false);
-</script>
 
 <script lang="ts">
   import { IonApp, IonRouterOutlet } from '@ionic/vue';
@@ -19,7 +14,6 @@ const allowRouter = ref(false);
       await SplashScreen.show();
       setTimeout(()=>{
         SplashScreen.hide();
-        allowRouter.value = true;
       }, 2000);
     }
   };
