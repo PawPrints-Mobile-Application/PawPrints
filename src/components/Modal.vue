@@ -7,7 +7,9 @@
           class="prev-button"
           color="primary"
           @click="closeModal"
-          >{{ "<<" }}</ion-button
+          >
+            <ion-icon slot="start" icon="arrow-back-outline" />
+          </ion-button
         >
         <ion-button
           v-show="closeButton === true"
@@ -27,6 +29,9 @@
       <main class="modal-content">
         <slot name="modalSlot" :closeButton="closeModal" />
       </main>
+      <footer>
+
+      </footer>
     </ion-content>
   </ion-modal>
 </template>
@@ -39,6 +44,7 @@ import {
   IonToolbar,
   IonButtons,
   modalController,
+  IonIcon
 } from "@ionic/vue";
 const closeModal = () => modalController.dismiss();
 

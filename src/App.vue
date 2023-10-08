@@ -11,10 +11,14 @@
     name: 'App',
     components: { IonApp, IonRouterOutlet },
     async mounted() {
+      // Pre-app Splash Screen (Static)
       await SplashScreen.show();
       setTimeout(()=>{
         SplashScreen.hide();
       }, 2000);
+
+      // Post-app Splash Screen (Animated)
+      
     }
   };
 </script>

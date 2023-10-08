@@ -1,63 +1,59 @@
 <template>
     <ion-page>
       <ion-content color="primary">
-        <main :class="showContent && 'show-content'">
-          <ion-thumbnail :class="showThumbnail && 'show-thumbnail'"><img id="logo" :src="PawPrints" alt="PawPrints"></ion-thumbnail>
-          <ion-spinner :class="`login-loading ${showLoading && !showContent ? 'show-loading' : ''}`" name="lines" color="primary"/>
-          <div class="main-content display-none">
+        <main>
+          <ion-thumbnail><img id="logo" :src="PawPrints" alt="PawPrints"></ion-thumbnail>
+          <!-- <ion-spinner :class="`login-loading ${showLoading && !showContent ? 'show-loading' : ''}`" name="lines" color="primary"/> -->
+          <div class="main-content">
             <ion-text><h1>PawPrints</h1></ion-text>
-            <SignInModal />
-            <Button id="modal-Sign" expand="block" color="tertiary">Sign</Button>
+            <!-- <SignInModal /> -->
+            <Button color="tertiary">Sign In</Button>
+            <Button color="tertiary">Sign Up</Button>
+            <BackButton type="1" />
+
+            <!-- <ButtonModal id="sign" expand="block" color="primary" :allow-modal-buttons="false" text="iii">
+              <template #buttonContent>
+                signye
+              </template>
+              <template #modalContent>
+                yeahh
+              </template>
+            </ButtonModal>
             <ion-button id="modal-SignUp" expand="block" color="tertiary">Sign Up</ion-button>
-            <ion-button expand="block" color="tertiary">Google Sign In</ion-button>
+            <ion-button expand="block" color="tertiary"><ion-icon :icon="logoGoogle" slot="icon-only"></ion-icon></ion-button> -->
           </div>
         </main>
-        <Modal trigger="modal-SignUp" />
+        <!-- <Modal trigger="modal-SignUp" /> -->
       </ion-content>
     </ion-page>
   </template>
 
   <script lang="ts" setup>
     import {
-      IonContent, IonPage, IonThumbnail, IonButton, IonText, IonSpinner
+      IonContent, IonPage, IonThumbnail, IonText, // IonButton, IonIcon IonSpinner
     } from '@ionic/vue';
-    import SignInModal from './SignInModal.vue';
-    import Modal from '../components/Modal.vue';
-    import Button from '../components/Button.vue';
+    // import { logoGoogle } from 'ionicons/icons';
+    // import SignInModal from './SignInModal.vue';
+    // import Modal from '../components/Modal.vue';
+    // import ButtonModal from "../components/ButtonModal.vue";
+    import Button from '../components/Buttons/Button.vue';
+    import BackButton from '../components/Buttons/BackButton.vue';
   </script>
   
   <script lang="ts">
     import { PawPrints } from '../assets/images';
-    import { ref } from 'vue';
-
-    const showThumbnail = ref(false);
-    const showContent = ref(false);
-    const showLoading = ref(false);
-    const ShowContent = () => {
-      setTimeout(() => showThumbnail.value = true, 500);
-      setTimeout(() => showLoading.value = true, 1000);
-      setTimeout(() => showContent.value = true, 4000);
-    };
   
     export default {
       name: "LogIn",
       data() {
         return {
-          showContent, showLoading, PawPrints
+          PawPrints
         }
-      },
-      mounted() {
-        ShowContent();
       }
     }
   </script>
   
   <style scoped>
-  :root {
-    --start-up-delay: 5s;
-    --show-content-delay: 11.5s;
-  }
-
   main {
     height: 100%;
     padding: 20%;
@@ -65,52 +61,33 @@
     justify-content: center;
     align-items: center;
     flex-flow: column nowrap;
-    background-color: var(--ion-color-tertiary);
+    background-color: var(--ion-color-primary);
     transition: all 0.5s ease-in;
   }
 
   ion-thumbnail {
-    width: 80%;
-    height: max-content;
-    transition: width 1000ms ease-in-out;
-  }
-
-  .show-content .show-thumbnail {
     width: 90%;
+    min-width: 150px;
+    max-width: 400px;
+    height: max-content;
   }
 
   #logo {
     width: 100%;
-    opacity: 0;
-    transition: all 500ms ease-out;
-  }
-
-  .show-thumbnail #logo {
-    opacity: 1;
   }
 
   .main-content {
     width: 100%;
-    height: 0;
-    opacity: 0;
+    opacity: 1;
+    height: 200px ;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-flow: column nowrap;
     transform: translateY(-50px);
-    transition: height 1s ease-in-out, opacity 1s ease-in-out 1s;
   }
-
-  .show-content {
-    background-color: var(--ion-color-primary);
-  }
-
-  .show-content .main-content {
-    opacity: 1;
-    height: 200px ;
-  }
-
-  .login-loading{
+  
+  /* .login-loading{
     position: absolute;
     bottom: 25%;
     width: 80px;
@@ -121,11 +98,7 @@
 
   .show-loading {
     opacity: 1;
-  }
-
-  .show-content .login-loading {
-    display: none;
-  }
+  } */
 
 
   h1 {
@@ -135,8 +108,8 @@
   ion-button {
     font-weight: bold;
     font-size: 1.5rem;
-    width: 90%;
     min-width: 150px;
+    max-width: 400px;
     --border-radius: 10px;
     margin-top: 10px;
   }

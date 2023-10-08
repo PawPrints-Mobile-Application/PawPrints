@@ -6,7 +6,7 @@ import { hiddenPages, navPages } from './views';
 var routes: Array<RouteRecordRaw> = [
   {
     path: '',
-    redirect: '/login',
+    redirect: '/splashscreen',
   },
   {
     path: '/',

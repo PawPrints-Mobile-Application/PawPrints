@@ -4,15 +4,18 @@ import Calendar from "./Calendar.vue";
 import Profile from "./Profile.vue";
 import Insight from "./Insight.vue";
 
+import SplashScreen from './SplashScreen.vue';
 import LogIn from "./LogIn.vue";
 import SignInModal from './SignInModal.vue';
 import SignUp from "./SignUp.vue";
+
+import SignInPage from "./SignInPage.vue";
 
 import { playCircle } from 'ionicons/icons';
 
 const navPages = [Home, Map, Calendar, Profile, Insight].map(page => PageInfo(page));
 
-const hiddenPages = [LogIn, SignInModal, SignUp].map(page => PageInfo(page));
+const hiddenPages = [SplashScreen, LogIn, SignInModal, SignUp, SignInPage].map(page => PageInfo(page));
 
 const pages = navPages.concat(hiddenPages);
 
@@ -30,7 +33,9 @@ function PageInfo(page: any) {
 export {
     Home, Calendar, Profile, Map, Insight,
 
-    LogIn, SignInModal, SignUp,
+    SplashScreen, LogIn, SignInModal, SignUp,
+
+    SignInPage,
 
     navPages, hiddenPages
 }
