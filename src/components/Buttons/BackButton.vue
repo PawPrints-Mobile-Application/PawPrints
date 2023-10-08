@@ -1,25 +1,16 @@
 <template>
-  <button
-    class="ion-activatable ion-focusable"
-    id="back-button"
-    @click="
-      () => {
-        onClick;
-        togglePress(type, design, filled);
-      }
-    "
-    :onmousedown="onPseudoMount(type, design, filled)" :style="backgroundColor && {backgroundColor: `var(--ion-color-${backgroundColor})`}"
-  >
-    <ion-icon :icon="icon" :color="color" size="large" />
-    <ion-ripple-effect
-      v-show="[false, undefined].includes(noRipple) && Number(type) === 0"
-    />
-  </button>
+  <IconButton id="back-button" :on-click="onClick"
+      :background-color="backgroundColor"
+      :color="color"
+      :no-ripple="noRipple"
+      :icon="GetIcons(type, design, filled)[0]"
+      :icon-after="GetIcons(type, design, filled)[1]"
+      />
 </template>
 
 <script setup lang="ts">
-import { IonIcon, IonRippleEffect } from "@ionic/vue";
-import { ref } from "vue";
+// import { IonIcon, IonRippleEffect } from "@ionic/vue";
+import IconButton from "./IconButton.vue";
 import {
   arrowBack,
   chevronBack,
@@ -62,25 +53,17 @@ const designsList = [
     playSkipBackCircleOutline,
   ],
 ];
-const pseudoMount = ref(false);
-const onPseudoMount = (type: any, design: any, filled: any) => {
-  if (pseudoMount.value) return;
-  pseudoMount.value = true;
-  SetIcon(type, design, filled, false);
-};
+const GetIcons = (type: any, design: any, filled: any) => {
+  const iconBefore = GetIcon(type, design, filled, false);
+  const iconAfter = GetType(type) === 0 ? undefined : GetIcon(type, design, filled, true);
+  return [iconBefore, iconAfter];
+}
 
-const icon = ref("");
-const togglePress = (type: any, design: any, filled: any) => {
-  SetIcon(type, design, filled, true);
-  setTimeout(() => SetIcon(type, design, filled, false), 150);
-};
-
-const SetIcon = (type: any, design: any, filled: any, value: boolean) =>
-  (icon.value = GetIcon(type, design, filled, value));
+const GetType = (type:any) => [undefined, null, NaN, '', false, 'false'].includes(type) ? 0 : Number(type);
 
 const GetIcon = (type: any, design: any, filled: any, value: boolean) => {
   const outlined = [null, NaN, true, "true", 1, "1", ""].includes(filled) === value;
-  const curType = [undefined, null, NaN, '', false, 'false'].includes(type) ? 0 : Number(type);
+  const curType = GetType(type);
   return designsList[curType + (!outlined || curType === 0 ? 0 : 1)][design === undefined ? 0 : Number(design)];
 };
 </script>

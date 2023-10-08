@@ -29,6 +29,7 @@ const onPseudoMount = (iconBefore:any, iconAfter:any) => {
   SetIcon(iconBefore, iconAfter, false);
 };
 const SetIcon = (iconBefore:any, iconAfter:any, value:boolean) => currentIcon.value = ([false, undefined, null, ''].includes(iconAfter) || !value ? iconBefore : iconAfter);
+
 const togglePress = (iconBefore:any, iconAfter:any) => {
   SetIcon(iconBefore, iconAfter, true);
   setTimeout(() => SetIcon(iconBefore, iconAfter, false), 150);
