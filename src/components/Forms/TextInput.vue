@@ -1,18 +1,17 @@
 <template>
     <ion-input
-    type="text"
+    :type="type"
     :value="value"
     :label="label"
     label-placement="floating"
     :placeholder="placeholder"
     :clear-input="true"
     fill="solid"
-    :helper-text="
-        validate ? (value === '' ? helperTexts[0] : helperTexts[1]) : ''
-    "
-    :error-text="helperTexts[2]"
+    :helper-text="helperText"
+    :error-text="errorText"
     @IonInput=" value = $event.target.value; validation(validator, validate)"
-    :class="['ion-touched', valueClass]"
+    :class="['ion-touched', valueClass, 'input']"
+    color="white"
     />
 </template>
 
@@ -23,11 +22,15 @@ type Input = Ref<string | number | null | undefined>;
 const value: Input = ref("");
 const valueClass = ref("");
 
-const validation = (validator: Function, validate: boolean) => valueClass.value = !value.value || !validate ? "" : (value.value.toString().trim() == "" || !validator(value) ? "ion-invalid"
+const validation = (validator: Function, validate: boolean) => {
+    console.log(!value.value);
+    valueClass.value = !value.value || value.value.toString().trim() == "" || !validate ? "" : (!validator(value) ? "ion-invalid"
       : "ion-valid");
+      }
 </script>
 
 <script lang="ts">
+
 export default {
     name: 'TextInput',
     props:{
@@ -39,9 +42,13 @@ export default {
             type: String,
             default: 'Enter a value'
         },
-        helperTexts: {
-            type: Array<string>,
-            default: ['Enter a valid value', 'Valid', 'Invalid']
+        helperText: {
+            type: String,
+            default: 'Valid'
+        },
+        errorText: {
+            type: String,
+            default: 'Invalid'
         },
         validator: {
             type: Function,
@@ -50,13 +57,25 @@ export default {
         validate: {
             type: Boolean,
             default: false
+        },
+        type: {
+            type: String,
+            default: 'text'
         }
     }
 }
 </script>
 <style scoped>
-ion-input {
+ion-input.input {
+    position: relative;
     font-size: 1.25rem;   
     font-weight: 700;
+    width: 90%;
+    --border-radius: 20px;
+    --background: var(--ion-color-quarter-tint);
+}
+
+ion-input.input.has-focus {
+    --background: var(--ion-color-quarter-shade) !important;
 }
 </style>

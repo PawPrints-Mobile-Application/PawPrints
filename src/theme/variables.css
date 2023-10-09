@@ -103,6 +103,14 @@
 
 	
 	/* ================================= ADDED ================================= */
+	/* quarter */
+	--ion-color-quarter: #BAE8E8;
+	--ion-color-quarter-rgb: 186,232,232;
+	--ion-color-quarter-contrast: #000000;
+	--ion-color-quarter-contrast-rgb: 0,0,0;
+	--ion-color-quarter-shade: #a4cccc;
+	--ion-color-quarter-tint: #c1eaea;
+
     /* color black */
     --ion-color-black: #1c1c1c;
 	--ion-color-black-rgb: 28,28,28;
@@ -126,6 +134,15 @@
 	--ion-color-grey-contrast-rgb: 0,0,0;
 	--ion-color-grey-shade: #b5b5b5;
 	--ion-color-grey-tint: #d3d3d3;
+}
+
+.ion-color-quarter {
+	--ion-color-base: var(--ion-color-quarter);
+	--ion-color-base-rgb: var(--ion-color-quarter-rgb);
+	--ion-color-contrast: var(--ion-color-quarter-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-quarter-contrast-rgb);
+	--ion-color-shade: var(--ion-color-quarter-shade);
+	--ion-color-tint: var(--ion-color-quarter-tint);
 }
 
 .ion-color-black {

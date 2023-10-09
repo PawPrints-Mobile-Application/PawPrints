@@ -2,7 +2,7 @@
   <Button color="tertiary" :id="id"><span v-show="text">{{ text }}</span></Button>
   <Modal :trigger="id" :allow-buttons="allowModalButtons" :design="design ? design : 0" :title="title" :max-pages="maxPages" :onSubmit="onSubmit">
     <template #modalSlot="{page, closeModal}" >
-      <slot name="modalContent" :page="page" :closeModal="closeModal" :max="maxPages" />
+      <slot name="modalContent" id="modal-content" :page="page" :closeModal="closeModal" :max="maxPages" />
     </template>
   </Modal>
 </template>
@@ -18,4 +18,8 @@ export default {
   props: ["id", "allowModalButtons", "expand", "color", 'text', "onClick", "maxPages", "onSubmit", 'design', 'title'],
 };
 </script>
-<style scoped></style>
+<style scoped>
+  #modal-content {
+    background-color: black;
+  }
+</style>

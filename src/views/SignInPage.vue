@@ -1,40 +1,36 @@
 <template>
     <section class="signin-content">
         <h1 class="content-title">SIGN IN</h1>
-        <ion-list>
-            <ion-item>
-                <ion-input
-                type="text"
-                :value="username"
-                label="Username or Email"
-                label-placement="floating"
-                placeholder="Enter Username"
-                :clear-input="true"
-                fill="solid"
-                :helper-text="
-                    username === '' ? 'Enter a valid email' : 'Valid Email'
-                "
-                error-text="Invalid email"
-                @IonInput=" username = $event.target.value; validate()"
-                :class="['ion-touched', usernameClass]"
-                />
-            </ion-item>
-            <ion-item>
-                <ion-input
-                label="Password"
-                label-placement="floating"
-                placeholder="Enter Password"
-                :clear-input="true"
-                :value="password"
-                fill="solid"
-                type="password"
-                />
-            </ion-item>
-        </ion-list>
+        <TextInput type="email" label="Email" validate :validator="EmailValidator" placeholder="Enter Email"/>
+        <ion-input
+        type="text"
+        :value="username"
+        label="Username or Email"
+        label-placement="floating"
+        placeholder="Enter Username"
+        :clear-input="true"
+        fill="solid"
+        :helper-text="
+            username === '' ? 'Enter a valid email' : 'Valid Email'
+        "
+        error-text="Invalid email"
+        @IonInput=" username = $event.target.value; validate()"
+        :class="['ion-touched', usernameClass]"
+        />
+        <ion-input
+        label="Password"
+        label-placement="floating"
+        placeholder="Enter Password"
+        :clear-input="true"
+        :value="password"
+        fill="solid"
+        type="password"
+        />
     </section>
 </template>
 
 <script setup lang="ts">
+import TextInput from '../components/Forms/TextInput.vue';
 import { IonList, IonItem, IonInput } from '@ionic/vue';
 import { Ref, ref } from "vue";
 type Input = Ref<string | number | null | undefined>;
@@ -55,5 +51,29 @@ export default {
 }
 </script>
 <style scoped>
-    
+    .signin-content {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        background-color: pink;
+    }
+
+    .content-title {
+        font-size: 3rem;
+        font-weight: 600;
+    }
+
+    ion-list {
+        width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    ion-item {
+        background-color: inherit;
+    }
 </style>
