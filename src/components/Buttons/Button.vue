@@ -21,5 +21,11 @@ export default {
 <style scoped>
 ion-button {
   --box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-weight: bold;
+  font-size: 1.5rem;
+  min-width: 150px;
+  max-width: 400px;
+  --border-radius: 10px;
+  margin-top: 10px;
 }
 </style>

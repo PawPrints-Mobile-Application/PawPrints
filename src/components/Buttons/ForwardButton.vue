@@ -13,45 +13,45 @@
 // import { IonIcon, IonRippleEffect } from "@ionic/vue";
 import IconButton from "./IconButton.vue";
 import {
-  arrowBack,
-  chevronBack,
-  returnDownBack,
-  returnUpBack,
-  arrowBackCircle,
-  caretBackCircle,
-  chevronBackCircle,
-  playBack,
-  playBackCircle,
-  playSkipBack,
-  playSkipBackCircle,
-  arrowBackCircleOutline,
-  caretBackCircleOutline,
-  chevronBackCircleOutline,
-  playBackOutline,
-  playBackCircleOutline,
-  playSkipBackOutline,
-  playSkipBackCircleOutline,
+  arrowForward,
+  chevronForward,
+  returnDownForward,
+  returnUpForward,
+  arrowForwardCircle,
+  caretForwardCircle,
+  chevronForwardCircle,
+  playForward,
+  playForwardCircle,
+  playSkipForward,
+  playSkipForwardCircle,
+  arrowForwardCircleOutline,
+  caretForwardCircleOutline,
+  chevronForwardCircleOutline,
+  playForwardOutline,
+  playForwardCircleOutline,
+  playSkipForwardOutline,
+  playSkipForwardCircleOutline,
 } from "ionicons/icons";
 
 const designsList = [
-  [arrowBack, chevronBack, returnDownBack, returnUpBack],
+  [arrowForward, chevronForward, returnDownForward, returnUpForward],
   [
-    arrowBackCircle,
-    caretBackCircle,
-    chevronBackCircle,
-    playBack,
-    playBackCircle,
-    playSkipBack,
-    playSkipBackCircle,
+    arrowForwardCircle,
+    caretForwardCircle,
+    chevronForwardCircle,
+    playForward,
+    playForwardCircle,
+    playSkipForward,
+    playSkipForwardCircle,
   ],
   [
-    arrowBackCircleOutline,
-    caretBackCircleOutline,
-    chevronBackCircleOutline,
-    playBackOutline,
-    playBackCircleOutline,
-    playSkipBackOutline,
-    playSkipBackCircleOutline,
+    arrowForwardCircleOutline,
+    caretForwardCircleOutline,
+    chevronForwardCircleOutline,
+    playForwardOutline,
+    playForwardCircleOutline,
+    playSkipForwardOutline,
+    playSkipForwardCircleOutline,
   ],
 ];
 const GetIcons = (type: any, design: any, filled: any) => {
@@ -71,12 +71,12 @@ const GetIcon = (type: any, design: any, filled: any, value: boolean) => {
 
 <script lang="ts">
 export default {
-  name: "BackButton",
+  name: "ForwardButton",
   props: ["class", "type", "design", "onClick", "noRipple", "color", "filled", "backgroundColor"],
 };
 </script>
 <style scoped>
-#back-button {
+#back-button, .back-button {
   position: relative;
   overflow: hidden;
   padding: 2px 20px;

@@ -1,10 +1,10 @@
 <template>
     <button
-      class="ion-activatable ion-focusable"
+      :class="`ion-activatable ion-focusable ${className}`"
       :id="id"
       @click="
         () => {
-          onClick;
+          onClick();
         togglePress(icon, iconAfter);
         }
       "
@@ -13,7 +13,7 @@
     >
       <ion-icon :icon="currentIcon" :color="color" size="large" />
       <ion-ripple-effect
-        v-show="[false, undefined].includes(noRipple) && [false, undefined, null, ''].includes(iconAfter)"
+        v-show="[false, undefined].includes(noRipple) || [false, undefined, null, ''].includes(iconAfter)"
       />
     </button>
 </template>
@@ -39,9 +39,25 @@ const togglePress = (iconBefore:any, iconAfter:any) => {
 <script lang="ts">
 export default {
     name: "IconButton",
-  props: ["id", "noRipple", "color", "backgroundColor", "onClick", 'icon', 'iconAfter'],
+  props: ["className", "id", "noRipple", "color", "backgroundColor", "onClick", 'icon', 'iconAfter'],
 }
 </script>
-<style>
-    
+<style scoped>
+  button {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 50px;
+    max-width: 400px;
+    min-height: 30px;
+    border-radius: 10px;
+    margin: 10px 0;
+    font-size: inherit;
+  }
+
+  ion-icon {
+    font-size: inherit;
+  }
 </style>

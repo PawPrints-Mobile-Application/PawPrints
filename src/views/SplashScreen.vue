@@ -6,9 +6,9 @@
         <ion-spinner :class="`login-loading ${showLoading && !showContent ? 'show-loading' : ''}`" name="lines" color="primary"/>
         <div class="main-content display-none">
           <ion-text><h1>PawPrints</h1></ion-text>
-          <ion-button expand="block" color="tertiary">Sign In</ion-button>
-          <ion-button expand="block" color="tertiary">Sign Up</ion-button>
-          <ion-button expand="block" color="tertiary">Google Sign In</ion-button>
+          <Button color="tertiary">Sign In</Button>
+          <Button color="tertiary">Sign Up</Button>
+          <GoogleButton />
         </div>
       </main>
     </ion-content>
@@ -17,9 +17,11 @@
 
 <script lang="ts" setup>
   import {
-    IonContent, IonPage, IonThumbnail, IonButton, IonText, IonSpinner
+    IonContent, IonPage, IonThumbnail, IonText, IonSpinner
   } from '@ionic/vue';
   import { useIonRouter } from '@ionic/vue';
+  import GoogleButton from '../components/Buttons/GoogleButton.vue';
+  import Button from '../components/Buttons/Button.vue';
   const ionRouter = useIonRouter();
   setTimeout(() => ionRouter.navigate("/login", "forward", "replace"), 5500);
 
@@ -100,7 +102,6 @@ ion-thumbnail {
   justify-content: center;
   align-items: center;
   flex-flow: column nowrap;
-  transform: translateY(-50px);
   transition: height 1s ease-in-out, opacity 1s ease-in-out 1s;
 }
 
@@ -128,14 +129,5 @@ ion-thumbnail {
 
 h1 {
   font-weight: bold;
-}
-
-ion-button {
-  font-weight: bold;
-  font-size: 1.5rem;
-  width: 90%;
-  min-width: 150px;
-  --border-radius: 10px;
-  margin-top: 10px;
 }
 </style>
