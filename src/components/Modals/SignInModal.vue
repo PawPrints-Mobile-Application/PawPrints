@@ -1,8 +1,7 @@
 <template>
   <ButtonModal :design="1" text="Sign In" id="SignIn">
-    <template #modalContent="{}">
+    <template #modalContent>
       <SignInPage />
-      <!-- <TextInput /> -->
     </template>
   </ButtonModal>
 </template>

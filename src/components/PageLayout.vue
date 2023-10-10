@@ -1,31 +1,103 @@
 <template>
-    <ion-page>
-        <ion-header>
-            <ion-toolbar>
-                <ion-title>{{ pageTitle }}</ion-title>
-            </ion-toolbar>
-        </ion-header>
-        <ion-content>
-            <main class="main-page">
-                <slot />
-            </main>
-        </ion-content>
-    </ion-page>
+  <ion-page class="main-page">
+    <header v-show="showHeader" class="page-header-container">
+      <slot name="pageHeader" />
+    </header>
+    <main class="page-content-container">
+      <slot name="pageContent" />
+    </main>
+  </ion-page>
 </template>
 
-<script lang="ts">
-import { IonPage, IonToolbar, IonHeader, IonTitle, IonContent } from '@ionic/vue';
+<script setup lang="ts">
+import { useSlots } from "vue";
+import { IonPage } from "@ionic/vue";
+const slots = useSlots();
 
+const showHeader = !!slots.pageHeader;
+</script>
+
+<script lang="ts">
 export default {
-    props: {
-        pageTitle: String,
-    },
-    components: {
-        IonPage, IonToolbar, IonHeader, IonTitle, IonContent
-    },    
+  props: {
+    pageTitle: String,
+  },
 };
 </script>
 
 <style scoped>
-    
+.page-header-container {
+  --page-header-width: 100%;
+  --page-header-height: max-content;
+  width: var(--page-header-width);
+  height: var(--page-header-height);
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  /* border-bottom: 1px solid var(--ion-color-secondary); */
+}
+
+.page-content-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+</style>
+
+<style>
+.main-page {
+  --main-page-padding-top: 5px;
+  --main-page-padding-right: 30px;
+  --main-page-padding-down: 5px;
+  --main-page-padding-left: 30px;
+  --main-page-padding: var(--main-page-padding-top)
+    var(--main-page-padding-right) var(--main-page-padding-down)
+    var(--main-page-padding-left);
+}
+
+.page-header-container {
+  --page-header-padding-top: var(--main-page-padding-top);
+  --page-header-padding-right: var(--main-page-padding-right);
+  --page-header-padding-down: var(--main-page-padding-down);
+  --page-header-padding-left: var(--main-page-padding-left);
+  --page-header-padding: var(--page-header-padding-top)
+    var(--page-header-padding-right) var(--page-header-padding-down)
+    var(--page-header-padding-left);
+  padding: var(--page-header-padding);
+
+  --page-header-icon-height: 80px;
+  --page-header-icon-width: var(--page-header-icon-height);
+}
+
+.page-content-container {
+  --page-content-padding-top: 0px;
+  --page-content-padding-right: var(--main-page-padding-right);
+  --page-content-padding-down: var(--main-page-padding-down);
+  --page-content-padding-left: var(--main-page-padding-left);
+  --page-content-padding: var(--page-content-padding-top)
+    var(--page-content-padding-right) var(--page-content-padding-down)
+    var(--page-content-padding-left);
+  padding: var(--page-content-padding);
+}
+
+.page-header-title {
+  text-align: center;
+  font-family: Poppins;
+  font-size: var(--fs6);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--ion-color-black);
+  min-width: calc(100% - var(--page-header-icon-width) - var(--page-header-padding-left) - var(--page-header-padding-right));
+}
+
+.page-header-icon {
+  height: var(--page-header-icon-height);
+  width: var(--page-header-icon-width);
+}
 </style>

@@ -22,7 +22,8 @@ import '@ionic/vue/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import './theme/core.css';
+import './theme/customs.css';
+import './theme/fonts.css';
 import PageLayout from './components/PageLayout.vue';
 
 const app = createApp(App).use(IonicVue).use(router);

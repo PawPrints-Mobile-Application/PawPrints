@@ -1,23 +1,20 @@
 <template>
     <ion-page>
-      <ion-content color="primary">
         <main>
-          <ion-thumbnail><img id="logo" :src="PawPrints" alt="PawPrints"></ion-thumbnail>
-          <div class="main-content">
-            <ion-text><h1>PawPrints</h1></ion-text>
+          <img id="logo" :src="PawPrints" alt="PawPrints">
+          <section class="main-content">
+            <h1>PawPrints</h1>
             <SignInModal />
             <Button color="tertiary">Sign Up</Button>
             <GoogleButton />
-
-          </div>
+          </section>
         </main>
-      </ion-content>
     </ion-page>
   </template>
 
   <script lang="ts" setup>
     import {
-      IonContent, IonPage, IonThumbnail, IonText
+      IonPage
     } from '@ionic/vue';
     import Button from '../components/Buttons/Button.vue';
     import GoogleButton from '../components/Buttons/GoogleButton.vue';
@@ -49,7 +46,7 @@
     transition: all 0.5s ease-in;
   }
 
-  ion-thumbnail {
+  #logo {
     width: 90%;
     min-width: 150px;
     max-width: 400px;
