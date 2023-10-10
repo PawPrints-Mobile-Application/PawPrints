@@ -1,5 +1,5 @@
 <template>
-    <section class="text-input" :class="[`text-input-${type}`, {'focused' : focused, 'has-value' : input !== ''}, allowValidation() && (valid ? 'valid' : 'invalid')]">
+    <section class="text-input" :class="[`text-input-${type}`, {'focused' : focused, 'has-value' : input !== ''}, allowValidation && (valid ? 'valid' : 'invalid')]">
         <label
         :for="id"
         class="text-input-label"
@@ -10,22 +10,25 @@
         :name="id"
         :type="type"
         v-model.trim="input" 
-        @input="validation(validator, value)"
+        @input="validation(validator,type, value)"
         :placeholder="focused ? placeholder : '' "
         @focus="focused = true"
         @blur="focused = false"
-        :style="[`outline: ${!allowValidation() ? 'none' : `2px solid var(--ion-color-${valid ? 'success' : 'danger'})`}`]"
+        :style="[
+            `outline: ${!allowValidation ? 'none' : `2px solid var(--ion-color-${valid ? 'success' : 'danger'})`}`,
+            (allowValidation && !valid) ? 'padding-right: calc(var(--padding) + var(--icon-size)) !important' : ''
+            ]"
         />
 
         <ion-icon
-        v-show="allowValidation()"
+        v-show="allowValidation"
         :id='`text-input-icon-${id}`'
         class="text-input-icon"
         :icon="valid ? validIcon : invalidIcon"
         :color="valid ? 'success' : 'danger'"
         />
 
-        <div class="text-input-error-text" :class="{'opacity-0' : !(allowValidation() && !valid)}" >
+        <div class="text-input-error-text" :class="{'opacity-0' : !(allowValidation && !valid)}" >
             {{ errorText }}
         </div>
     </section>
@@ -36,21 +39,20 @@ import { shieldCheckmark as validIcon, warning as invalidIcon } from "ionicons/i
 import { IonIcon } from "@ionic/vue";
 import { ref } from "vue";
 const focused = ref(false);
-</script>
-
-<script lang="ts">
-const priorityValidation = ref(false);
-const PriorityValidation = (validator: Function | null, type: string) => !(!validator || type === 'password');
 
 const input = ref("");
 const valid = ref(false);
-const allowValidation = () => !(!priorityValidation.value || input.value == "");
-const validation = (validator: Function, value: Function) => {
+const allowValidation = ref(false);
+const AllowValidation = (validator: Function, type: string) => !(!validator || type === 'password' || input.value == "");
+const validation = (validator: Function, type: string, value: Function) => {
     value(input.value);
-    if (!allowValidation()) return;
+    allowValidation.value = AllowValidation(validator, type);
+    if (!allowValidation.value) return;
     valid.value = validator(input.value);
 }
+</script>
 
+<script lang="ts">
 export default {
     name: 'TextInput',
     props:{
@@ -60,7 +62,6 @@ export default {
         },
         id: {
             type: String,
-            default: "input",
             required: true
         },
         placeholder: {
@@ -82,10 +83,11 @@ export default {
         value: {
             type: Function,
             required: true
+        },
+        val: {
+            type: String,
+            default: ''
         }
-    },
-    mounted() {
-        priorityValidation.value = PriorityValidation(this.validator, this.type);
     }
 }
 </script>
@@ -127,7 +129,7 @@ export default {
     background-color: var(--ion-color-quarter);
     height: 35px;
     padding: var(--padding);
-    padding-right: calc(var(--padding) + var(--icon-size)) ;
+    /* padding-right: calc(var(--padding) + var(--icon-size)) ; */
 }
 
 .text-input-input:active {
@@ -146,5 +148,6 @@ export default {
 .text-input-error-text {
     padding: 5px var(--padding);
     color: var(--ion-color-danger);
+    opacity: 0.7;
 }
 </style>

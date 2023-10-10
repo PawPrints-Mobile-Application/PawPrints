@@ -21,6 +21,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%; */
+  --content-padding-left: 40px;
+  --content-padding-right: 40px;
+  --content-padding-top: 40px;
+  --content-padding-down: 40px;
+  --content-padding: var(--content-padding-top) var(--content-padding-right) var(--content-padding-down) var(--content-padding-left);
 }
 
 #app {
@@ -28,15 +33,15 @@
 }
 
 .display-none {
-  display: none;
+  display: none !important;
 }
 
 .opacity-1 {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .opacity-0 {
-  opacity: 0;
+  opacity: 0 !important;
 }
 
 /* a {
