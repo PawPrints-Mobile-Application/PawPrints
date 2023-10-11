@@ -22,10 +22,10 @@
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%; */
-  --content-padding-left: 40px;
-  --content-padding-right: 40px;
-  --content-padding-top: 40px;
-  --content-padding-down: 40px;
+  --content-padding-top: 5px;
+  --content-padding-right: 30px;
+  --content-padding-down: 5px;
+  --content-padding-left: 30px;
   --content-padding: var(--content-padding-top) var(--content-padding-right) var(--content-padding-down) var(--content-padding-left);
 }
 

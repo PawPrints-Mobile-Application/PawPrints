@@ -15,7 +15,7 @@
       await SplashScreen.show();
       setTimeout(()=>{
         SplashScreen.hide();
-      }, 2000);
+      }, 0);
 
       // Post-app Splash Screen (Animated)
       

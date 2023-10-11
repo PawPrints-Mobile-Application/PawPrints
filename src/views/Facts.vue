@@ -1,5 +1,5 @@
 <template>
-  <page-layout> Facts </page-layout>
+  <page-layout id="fact-page"> Facts </page-layout>
 </template>
 
 <script lang="ts" setup>

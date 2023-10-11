@@ -1,5 +1,5 @@
 <template>
-    <IconButton className="button-google" :icon="logoGoogle" background-color="primary" color="tertiary" :on-click="onClick"/>
+    <IconButton class="button-google" :icon="logoGoogle" background-color="primary" color="tertiary" :on-click="onClick"/>
 </template>
 <script setup lang="ts">
 import IconButton from './IconButton.vue';
@@ -17,6 +17,7 @@ export default {
     min-height: 50px !important;
     outline: 2px solid var(--ion-color-secondary);
     border-radius: 10px;
+    font-size: 30px;
 }
     
 </style>

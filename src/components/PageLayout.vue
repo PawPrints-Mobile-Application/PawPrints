@@ -1,10 +1,10 @@
 <template>
-  <ion-page class="main-page">
-    <header v-show="showHeader" class="page-header-container">
-      <slot name="pageHeader" />
+  <ion-page class="main-page" :class="class" :id="`${id}`">
+    <header v-show="showHeader" class="page-header-container" :id="`page-header-container-${id}`">
+      <slot name="pageHeader" :id="`page-header-${id}`" />
     </header>
-    <main class="page-content-container">
-      <slot name="pageContent" />
+    <main class="page-content-container" :id="`page-content-container-${id}`">
+      <slot name="pageContent" :id="`page-content-${id}`" />
     </main>
   </ion-page>
 </template>
@@ -19,13 +19,15 @@ const showHeader = !!slots.pageHeader;
 
 <script lang="ts">
 export default {
-  props: {
-    pageTitle: String,
-  },
+  props: ['page-title', 'id', 'class'],
 };
 </script>
 
 <style scoped>
+:root{
+  --page-content-justify-content: flex-start;
+}
+
 .page-header-container {
   --page-header-width: 100%;
   --page-header-height: max-content;
@@ -44,17 +46,18 @@ export default {
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: flex-start;
+  justify-content: var(--page-content-justify-content);
   align-items: center;
 }
 </style>
 
 <style>
 .main-page {
-  --main-page-padding-top: 5px;
-  --main-page-padding-right: 30px;
-  --main-page-padding-down: 5px;
-  --main-page-padding-left: 30px;
+  position: absolute !important;
+  --main-page-padding-top: var(--content-padding-top);
+  --main-page-padding-right: var(--content-padding-right);
+  --main-page-padding-down: var(--content-padding-down);
+  --main-page-padding-left: var(--content-padding-left);
   --main-page-padding: var(--main-page-padding-top)
     var(--main-page-padding-right) var(--main-page-padding-down)
     var(--main-page-padding-left);

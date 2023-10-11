@@ -1,16 +1,18 @@
 <template>
-  <ion-modal class="modal" ref="modal" :trigger="trigger">
-    <header v-show="design === 1">
-      <BackButton type="0" id="header-back-button" :onClick="closeModal" background-color="primary"/>
-      <h1 v-show="title">{{ title?.toUpperCase() }}</h1>
-    </header>
-    <main class="modal-content">
-      <slot name="modalSlot" :closeModal="closeModal" :page="page" :max="maxPages" />
-    </main>
-    <footer v-show="design === 0">
-      <BackButton type="1" filled id="back-button" :onClick="() => page === 1 ? closeModal() : Add(-1, maxPages)" color="primary" background-color="tertiary"/>
-      <ForwardButton v-show="!(page === maxPages && onSubmit === defaultFunction)" type="1" filled id="forward-button" :onClick="() => page === maxPages ? onSubmit() : Add(1, maxPages)" color="primary" background-color="tertiary"/>
-    </footer>
+  <ion-modal ref="modal" :trigger="trigger">
+    <div class="modal">
+      <section class="modal-header" v-show="design === 1">
+        <BackButton type="0" id="header-back-button" class="header-back-button" :onClick="closeModal" background-color="primary"/>
+        <div id="header-title" v-show="title">{{ title?.toUpperCase() }}</div>
+      </section>
+      <main class="modal-content">
+        <slot name="modalSlot" :closeModal="closeModal" :page="page" :max="maxPages" />
+      </main>
+      <section class="modal-footer" v-show="design === 0">
+        <BackButton type="1" filled id="footer-back-button" class="footer-back-button" :onClick="() => page === 1 ? closeModal() : Add(-1, maxPages)" color="primary" background-color="tertiary"/>
+        <ForwardButton v-show="!(page === maxPages && onSubmit === defaultFunction)" type="1" filled id="footer-forward-button" class="footer-forward-button" :onClick="() => page === maxPages ? onSubmit() : Add(1, maxPages)" color="primary" background-color="tertiary"/>
+      </section>
+    </div>
   </ion-modal>
 </template>
 
@@ -52,50 +54,83 @@ export default {
     onSubmit: {
       type: Function,
       default: defaultFunction
+    },
+    id: {
+      type: String,
+      required: true
     }
   }
 };
 </script>
 
 <style scoped>
-header {
-  position: absolute;
-  top: 0;
+.modal {
+  overflow: hidden scroll;
+  --icon-size: 40px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+  padding: 0;
+  min-width: 320px;
+  background-color: var(--ion-color-primary);
+  --modal-header-height: 70px;
+}
+
+.modal-header {
   width: 100%;
+  position: absolute;
+  height: var(--modal-header-height);
+  display: flex;
+  z-index: 99;
+  top: 0;
+  background-color: inherit;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-flow: row nowrap;
-  padding: 20px 0 10px;
-  margin-top: 10px;
+  padding-top: 10px;
 }
 
-#header-back-button {
+
+.header-back-button {
   position: absolute;
-  left: 10px;
+  left: calc(var(--content-padding-left) / 2);
+  font-size: var(--icon-size);
 }
 
-h1 {
-  margin: 0;
+#header-title {
   font-weight: 700;
+  font-size: 3rem;
   font-family: var(--font-family-Rubik);
 }
+
 
 .modal-content {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-flow: column wrap;
-  height: 100%;
+  height: max-content;
+  padding: 0
+    var(--content-padding-right) var(--content-padding-down)
+    var(--content-padding-left);
+  overflow: hidden scroll;
+  width: 100%;
+  margin-top: var(--modal-header-height);
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
+.modal-footer {
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  padding: 10px 0 20px;
+  padding: 10px;
+  background-color: inherit;
+}
+
+.footer-forward-button, .footer-back-button {
+  font-size: 35px;
 }
 </style>

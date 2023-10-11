@@ -1,5 +1,5 @@
 <template>
-  <IconButton id="back-button" className="back-button" :on-click="onClick"
+  <IconButton :id="`back-button-${id}`" class="back-button" :on-click="onClick"
       :background-color="backgroundColor"
       :color="color"
       :class="class"
@@ -72,11 +72,11 @@ const GetIcon = (type: any, design: any, filled: any, value: boolean) => {
 <script lang="ts">
 export default {
   name: "BackButton",
-  props: ["class", "type", "design", "onClick", "noRipple", "color", "filled", "backgroundColor"],
+  props: ["id", "class", "type", "design", "onClick", "noRipple", "color", "filled", "backgroundColor"],
 };
 </script>
 <style scoped>
-#back-button {
+.back-button {
   position: relative;
   overflow: hidden;
   padding: 2px 20px;
@@ -84,5 +84,6 @@ export default {
   width: max-content;
   height: max-content;
   background-color: #0000;
+  font-size: inherit;
 }
 </style>

@@ -5,7 +5,7 @@ import Facts from "./Facts.vue";
 
 import SplashScreen from './SplashScreen.vue';
 import LogIn from "./LogIn.vue";
-import SignUp from "./SignUp.vue";
+import SignUpPage from "./SignUpPage.vue";
 
 import SignInPage from "./SignInPage.vue";
 
@@ -14,7 +14,7 @@ import {documentOutline, document} from 'ionicons/icons';
 
 const navPages = [Home, Maps, Facts, Settings].map((page, id) => PageInfo(page, [iconsFilled[id], iconsOutline[id]]));
 
-const hiddenPages = [SplashScreen, LogIn, SignUp, SignInPage].map(page => PageInfo(page, [document, documentOutline]));
+const hiddenPages = [SplashScreen, LogIn, SignUpPage, SignInPage].map(page => PageInfo(page, [document, documentOutline]));
 
 const pages = navPages.concat(hiddenPages);
 
@@ -32,7 +32,7 @@ function PageInfo(page: any, icons: Array<string>) {
 export {
     Home, Facts, Maps, Settings,
 
-    SplashScreen, LogIn, SignUp,
+    SplashScreen, LogIn, SignUpPage,
 
     SignInPage,
 

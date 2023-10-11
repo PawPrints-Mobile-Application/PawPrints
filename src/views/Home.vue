@@ -1,5 +1,5 @@
 <template>
-  <page-layout>
+  <page-layout id="home-page">
     <template #pageHeader>
       <h1 id="home-header-title" class="page-header-title">Hello Hooman!</h1>
       <img id="home-header-logo" class="page-header-icon" :src="PawPrints" alt="PawPrints">

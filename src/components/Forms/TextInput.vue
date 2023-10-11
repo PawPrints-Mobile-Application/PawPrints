@@ -141,7 +141,8 @@ export default {
 
 .text-input-icon {
     position: absolute;
-    transform: translate(calc(100vw - 45px), 23px);
+    left: 0;
+    transform: translate(calc(100vw - 85px), 23px);
     font-size: var(--icon-size);
 }
 

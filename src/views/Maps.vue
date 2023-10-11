@@ -1,5 +1,5 @@
 <template>
-  <page-layout>
+  <page-layout id="maps-page">
     Maps
   </page-layout>
 </template>

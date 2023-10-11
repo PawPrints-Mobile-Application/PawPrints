@@ -1,5 +1,5 @@
 <template>
-  <page-layout>
+  <page-layout id="settings-page">
     Settigs
   </page-layout>
 </template>
