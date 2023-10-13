@@ -1,62 +1,65 @@
 <template>
-  <section class="signin-content">
+  <form class="signin-content" v-on:submit.prevent="">
     <h1 class="content-title">SIGN IN</h1>
     <TextInput
+      class="text-input"
       type="email"
       label="Email"
       id="email"
       name="email"
       placeholder="Enter Email"
-      :ref="form.email"
-      v-on:update="show"
+      helperText="Please enter a valid email address"
+      validate
+      :validator="EmailValidator"
+      :onInput="(value) => (email = value)"
+      :onValidate="(value) => emailValidated = value"
     />
 
-    <!-- <TextInput
-      type="email"
-      label="Email"
-      id="email"
-      placeholder="Enter Email"
-      :validator="EmailValidator"
-      :value="(v: string) => form.email.value = v"
-    /> -->
-
-    <!-- <TextInput
+    <TextInput
+      class="text-input"
       type="password"
       label="Password"
       id="password"
+      name="password"
       placeholder="Enter Password"
-      :value="(v: string) => form.password.value = v"
-    /> -->
+      :onInput="(value) => (password = value)"
+    />
 
-    <Button id="button-signin" :onClick="() => Redirect(closeModal)" text="Sign In" />
-  </section>
+    <Button
+      id="button-signin"
+      :onClick="() => Redirect(closeModal)"
+      text="Sign In"
+      :disabled="disabled"
+    />
+  </form>
 </template>
 
 <script setup lang="ts">
 import TextInput from "../components/Forms/TextInput.vue";
 import Button from "../components/Buttons/Button.vue";
-import { reactive, toRefs, toRef } from "vue";
-import { useIonRouter } from '@ionic/vue';
+import { computed, ref } from "vue";
+import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 
+defineProps(['closeModal']);
 
-const form = toRefs(reactive({ email: "", password: "" }));
-const email = () => form.email.value.value;
-const show = () => console.log(email());
+const Redirect = (func: any) => {
+  ionRouter.navigate("/home", "forward", "replace");
+  func();
+};
+
+const email = ref("");
+const password = ref("");
+
 const EmailValidator = (value: string) =>
   value.match(
     /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   ) !== null;
 
-  const Redirect = (func: any) => {ionRouter.navigate("/home", "forward", "replace"); func();};
+const emailValidated = ref(false);
+const disabled = computed(()=>!emailValidated.value || password.value === "")
 </script>
 
-<script lang="ts">
-export default {
-  name: "SignInPage",
-  props: ['closeModal']
-};
-</script>
 <style scoped>
 .signin-content {
   display: flex;
@@ -64,6 +67,7 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
+  gap: 10px;
 }
 
 .content-title {
@@ -72,6 +76,7 @@ export default {
 }
 
 #button-signin {
-  --width:150px;
+  --width: 100%;
+  margin-top: 20px;
 }
 </style>

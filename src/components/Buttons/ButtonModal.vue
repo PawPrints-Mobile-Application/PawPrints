@@ -1,12 +1,11 @@
 <template>
-  <div class="button-modal" :id="id">
-    <Button color="tertiary" :id="`button-${id}`" class="button-modal-button"
-      ><span v-show="text">{{ text }}</span></Button
-    >
+  <section class="button-modal" :id="id">
+    <Button color="tertiary" :id="`button-${id}`" class="button-modal-button" :text="text"
+      />
     <Modal
       :id="`modal-${id}`"
       class="button-modal-modal"
-      :trigger="id"
+      :trigger="`button-${id}`"
       :allow-buttons="allowModalButtons"
       :design="design ? design : 0"
       :title="title"
@@ -23,17 +22,13 @@
         />
       </template>
     </Modal>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
 import Button from "./Button.vue";
 import Modal from "../Modals/Modal.vue";
-</script>
-<script lang="ts">
-export default {
-  name: "ButtonModal",
-  props: [
+defineProps([
     "id",
     "allowModalButtons",
     "expand",
@@ -44,18 +39,12 @@ export default {
     "onSubmit",
     "design",
     "title",
-    "class"
-  ],
-};
+    "class",
+  ]);
 </script>
 <style scoped>
-:root {
-  --button-width: max-content;
-  --button-min-width: 150px;
-}
-
 .button-modal-button {
   --width: var(--button-width);
-  --min-width: var(--button-min-width);
+  min-width: var(--button-min-width);
 }
 </style>

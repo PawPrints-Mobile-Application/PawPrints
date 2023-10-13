@@ -8,17 +8,14 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview --port 1000",
     "preview:host": "vite preview --host --port 1000",
-
     "host": "vite dev --host --port 2222",
     "ionic:build": "npm run build",
     "ionic:serve": "vite dev --host --port 3000",
-
-    "android" : "ionic cap run android --livereload --host --port 4000",
-    "android:host" : "ionic cap run android --livereload --external --port 4001",
+    "android": "ionic cap run android --livereload --host --port 4000",
+    "android:host": "ionic cap run android --livereload --external --port 4001",
     "android:phone": "ionic cap run android --target adb-311ec259-wDOIV1._adb-tls-connect._tcp",
-    
-    "web" : "npm run dev --livereload --host --port 5000",
-    "web:host" : "vite dev --host --port 5001"
+    "web": "npm run dev --livereload --host --port 5000",
+    "web:host": "vite dev --host --port 5001"
   },
   "dependencies": {
     "@capacitor/android": "^5.4.1",

@@ -1,11 +1,11 @@
 <template>
-  <button :disabled="!!disabled || props.disabler()" class="button" :class="`button-${type}`" @click="emit('click', onClick)" :style="[`${!['text', 'icon'].includes(state) && `flex-direction: ${state}`}`]">
+  <button :disabled="!!disabled" class="button" :class="`button-${type}`" @click="emit('click', onClick)" :style="[`${!['text', 'icon'].includes(state) && `flex-direction: ${state}`}`]">
     <p v-show="text && state !== 'icon'" id="button-text">{{ text }}</p>
     <img v-show="icon && state !== 'text'" id="button-icon" :src="icon" />
   </button>
 </template>
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   text: {
     type: String,
     default: 'Button'
@@ -20,11 +20,7 @@ const props = defineProps({
     default: 'row',
     validator: (value: string) => ['row', 'row-reverse', 'column', 'column-reverse', 'text', 'icon'].includes(value)
   },
-  disabled: Boolean,
-  disabler: {
-    type: Function,
-    default: () => false
-  }
+  disabled: Boolean
 });
 const emit = defineEmits(['click'])
 </script>

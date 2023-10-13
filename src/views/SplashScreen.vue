@@ -11,8 +11,8 @@
       />
       <section class="main-content">
         <h1 id="main-content-title">PawPrints</h1>
-        <Button color="tertiary">Sign In</Button>
-        <Button color="tertiary">Sign Up</Button>
+        <ButtonModal text="Sign In" />
+        <ButtonModal text="Sign Up" />
         <GoogleButton />
       </section>
     </template>
@@ -23,7 +23,7 @@
 import PageLayout from "../components/PageLayout.vue";
 import { IonSpinner } from "@ionic/vue";
 import GoogleButton from "../components/Buttons/GoogleButton.vue";
-import Button from "../components/Buttons/Button.vue";
+import ButtonModal from "../components/Buttons/ButtonModal.vue";
 import ImgLogo from "../components/Logo/ImgLogo.vue";
 
 import { useIonRouter } from "@ionic/vue";
@@ -141,16 +141,12 @@ export default {
   transition: height 1s ease-in-out, opacity 1s ease-in-out 1s;
 }
 
-.show-content {
-  /* background-color: var(--ion-color-primary) !important; */
-}
-
 .show-content .main-content {
   opacity: 1 !important;
 }
 
-.button {
-  position: relative;
-  --min-width: 250px;
+.button-modal {
+  --button-width: 200px;
+  margin: 10px;
 }
 </style>

@@ -1,20 +1,20 @@
 <template>
   <page-layout id="login-page">
     <template #pageContent>
-        <ImgLogo id="logo"/>
-        <section class="main-content">
-          <h1 id="main-content-title">PawPrints</h1>
-          <SimpleButtonModal text="Sign In" id="signin">
-            <template #modalPage="{closeModal}">
-              <SignInPage :closeModal="closeModal" />
-            </template>
-          </SimpleButtonModal>
-          <SimpleButtonModal text="Sign Up" id="signup">
-            <template #modalPage="{closeModal}">
-              <SignUpPage :closeModal="closeModal" />
-            </template>
-          </SimpleButtonModal>
-          <GoogleButton />
+      <ImgLogo id="logo" />
+      <section class="main-content">
+        <h1 id="main-content-title">PawPrints</h1>
+        <ButtonModal :design="1" id="signin" text="Sign In">
+          <template #modalContent="{ closeModal }">
+            <SignInPage :closeModal="closeModal" />
+          </template>
+        </ButtonModal>
+        <ButtonModal :design="1" id="signup" text="Sign Up">
+          <template #modalContent="{ closeModal }">
+            <SignUpPage :closeModal="closeModal" />
+          </template>
+        </ButtonModal>
+        <GoogleButton />
       </section>
     </template>
   </page-layout>
@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import PageLayout from "../components/PageLayout.vue";
 import GoogleButton from "../components/Buttons/GoogleButton.vue";
-import SimpleButtonModal from "../components/Buttons/SimpleButtonModal.vue";
+import ButtonModal from "../components/Buttons/ButtonModal.vue";
 import SignInPage from "./SignInPage.vue";
 import SignUpPage from "./SignUpPage.vue";
 import ImgLogo from "../components/Logo/ImgLogo.vue";
@@ -68,7 +68,7 @@ export default {
 }
 
 .button-modal {
-  position: relative;
-  --button-min-width: 250px;
+  --button-width: 200px;
+  margin: 10px;
 }
 </style>
