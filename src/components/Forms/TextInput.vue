@@ -1,58 +1,49 @@
 <template>
-    <section class="text-input" :class="[`text-input-${type}`, {'focused' : focused, 'has-value' : input !== ''}, allowValidation && (valid ? 'valid' : 'invalid')]">
-        <label
-        :for="id"
-        class="text-input-label"
-        >{{ label }}</label>
-
-        <input class="text-input-input"
-        :id="id"
-        :name="id"
-        :type="type"
-        v-model.trim="input" 
-        @input="validation(validator,type, value)"
-        :placeholder="focused ? placeholder : '' "
-        @focus="focused = true"
-        @blur="focused = false"
-        :style="[
-            `outline: ${!allowValidation ? 'none' : `2px solid var(--ion-color-${valid ? 'success' : 'danger'})`}`,
-            (allowValidation && !valid) ? 'padding-right: calc(var(--padding) + var(--icon-size)) !important' : ''
-            ]"
-        />
-
-        <ion-icon
-        v-show="allowValidation"
-        :id='`text-input-icon-${id}`'
-        class="text-input-icon"
-        :icon="valid ? validIcon : invalidIcon"
-        :color="valid ? 'success' : 'danger'"
-        />
-
-        <div class="text-input-error-text" :class="{'opacity-0' : !(allowValidation && !valid)}" >
-            {{ errorText }}
-        </div>
+    <section class="text-input">
+        <label v-show="!!label" id="text-input-label" :for="name">{{ label }}</label>
+        <input id="text-input-input" :name="name" type="text" v-model="value" @input="emit('update', onUpdate)" :placeholder="placeholder"/>
+        <div id="text-input-helper"></div>
     </section>
 </template>
 
 <script setup lang="ts">
-import { shieldCheckmark as validIcon, warning as invalidIcon } from "ionicons/icons";
-import { IonIcon } from "@ionic/vue";
-import { ref } from "vue";
-const focused = ref(false);
-
+import { computed, ref } from "vue";
+defineProps({
+    name: {
+        type: String,
+        required: true
+    },
+    label: String,
+    placeholder: String,
+    type: {
+        type: String,
+        default: 'text',
+        validator: (value: string) => ['text', 'email', 'password'].includes(value)
+    }
+});
 const input = ref("");
-const valid = ref(false);
-const allowValidation = ref(false);
-const AllowValidation = (validator: Function, type: string) => !(!validator || type === 'password' || input.value == "");
-const validation = (validator: Function, type: string, value: Function) => {
-    value(input.value);
-    allowValidation.value = AllowValidation(validator, type);
-    if (!allowValidation.value) return;
-    valid.value = validator(input.value);
-}
+const value = computed({get() {return input.value;}, set(value) {input.value = value}})
+const emit = defineEmits(['update', ]);
+defineExpose({value});
+
+
+// import { shieldCheckmark as validIcon, warning as invalidIcon } from "ionicons/icons";
+// import { IonIcon } from "@ionic/vue";
+// import { ref } from "vue";
+// const focused = ref(false);
+
+// const valid = ref(false);
+// const allowValidation = ref(false);
+// const AllowValidation = (validator: Function, type: string) => !(!validator || type === 'password' || input.value == "");
+// const validation = (validator: Function, type: string, value: Function) => {
+//     value(input.value);
+//     allowValidation.value = AllowValidation(validator, type);
+//     if (!allowValidation.value) return;
+//     valid.value = validator(input.value);
+// }
 </script>
 
-<script lang="ts">
+<!-- <script lang="ts">
 export default {
     name: 'TextInput',
     props:{
@@ -90,7 +81,7 @@ export default {
         }
     }
 }
-</script>
+</script> -->
 <style scoped>
 .text-input {
     font-family: Rubik;

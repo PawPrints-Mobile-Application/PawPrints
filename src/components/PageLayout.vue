@@ -4,7 +4,8 @@
       <slot name="pageHeader" :id="`page-header-${id}`" />
     </header>
     <main class="page-content-container" :id="`page-content-container-${id}`">
-      <slot name="pageContent" :id="`page-content-${id}`" />
+      <slot v-if="useDefaultSlot" :id="`page-content-${id}`"  />
+      <slot v-else name="pageContent" :id="`page-content-${id}`" />
     </main>
   </ion-page>
 </template>
@@ -15,6 +16,7 @@ import { IonPage } from "@ionic/vue";
 const slots = useSlots();
 
 const showHeader = !!slots.pageHeader;
+const useDefaultSlot = !slots.pageContent;
 </script>
 
 <script lang="ts">

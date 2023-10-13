@@ -9,12 +9,16 @@ import SignUpPage from "./SignUpPage.vue";
 
 import SignInPage from "./SignInPage.vue";
 
+
+
+import Test from "./Test.vue";
+
 import {iconsFilled, iconsOutline} from '../assets/icons';
 import {documentOutline, document} from 'ionicons/icons';
 
 const navPages = [Home, Maps, Facts, Settings].map((page, id) => PageInfo(page, [iconsFilled[id], iconsOutline[id]]));
 
-const hiddenPages = [SplashScreen, LogIn, SignUpPage, SignInPage].map(page => PageInfo(page, [document, documentOutline]));
+const hiddenPages = [SplashScreen, LogIn, SignUpPage, SignInPage, Test].map(page => PageInfo(page, [document, documentOutline]));
 
 const pages = navPages.concat(hiddenPages);
 
@@ -24,7 +28,7 @@ function PageInfo(page: any, icons: Array<string>) {
     return {
         name: page.name,
         component: page,
-        path: `/${page.name.toLowerCase()}`,
+        path: `/${page.name}`,
         icons: icons
     };
 };
@@ -34,7 +38,7 @@ export {
 
     SplashScreen, LogIn, SignUpPage,
 
-    SignInPage,
+    SignInPage, Test,
 
     navPages, hiddenPages
 }

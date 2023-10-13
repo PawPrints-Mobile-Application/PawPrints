@@ -5,31 +5,44 @@
       type="email"
       label="Email"
       id="email"
+      name="email"
+      placeholder="Enter Email"
+      :ref="form.email"
+      v-on:update="show"
+    />
+
+    <!-- <TextInput
+      type="email"
+      label="Email"
+      id="email"
       placeholder="Enter Email"
       :validator="EmailValidator"
       :value="(v: string) => form.email.value = v"
-    />
+    /> -->
 
-    <TextInput
+    <!-- <TextInput
       type="password"
       label="Password"
       id="password"
       placeholder="Enter Password"
       :value="(v: string) => form.password.value = v"
-    />
+    /> -->
 
-    <Button color="tertiary" v-on:click="() => Redirect(closeModal)">Sign In</Button>
+    <Button id="button-signin" :onClick="() => Redirect(closeModal)" text="Sign In" />
   </section>
 </template>
 
 <script setup lang="ts">
 import TextInput from "../components/Forms/TextInput.vue";
 import Button from "../components/Buttons/Button.vue";
-import { reactive, toRefs } from "vue";
-  import { useIonRouter } from '@ionic/vue';
-  const ionRouter = useIonRouter();
+import { reactive, toRefs, toRef } from "vue";
+import { useIonRouter } from '@ionic/vue';
+const ionRouter = useIonRouter();
+
 
 const form = toRefs(reactive({ email: "", password: "" }));
+const email = () => form.email.value.value;
+const show = () => console.log(email());
 const EmailValidator = (value: string) =>
   value.match(
     /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -56,5 +69,9 @@ export default {
 .content-title {
   font-size: 3rem;
   font-weight: 600;
+}
+
+#button-signin {
+  --width:150px;
 }
 </style>

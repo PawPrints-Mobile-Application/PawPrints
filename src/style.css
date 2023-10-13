@@ -9,6 +9,11 @@
   --font-family-Rubik: 'Rubik', sans-serif;
   --font-family-Poppins: 'Rubik', sans-serif;
 
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
 
   /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -16,12 +21,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%; */
+  background-color: #242424; */
   --content-padding-top: 5px;
   --content-padding-right: 30px;
   --content-padding-down: 5px;

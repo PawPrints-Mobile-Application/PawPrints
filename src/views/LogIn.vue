@@ -1,7 +1,7 @@
 <template>
   <page-layout id="login-page">
     <template #pageContent>
-        <img id="logo" :src="PawPrints" alt="PawPrints" />
+        <ImgLogo id="logo"/>
         <section class="main-content">
           <h1 id="main-content-title">PawPrints</h1>
           <SimpleButtonModal text="Sign In" id="signin">
@@ -26,6 +26,7 @@ import GoogleButton from "../components/Buttons/GoogleButton.vue";
 import SimpleButtonModal from "../components/Buttons/SimpleButtonModal.vue";
 import SignInPage from "./SignInPage.vue";
 import SignUpPage from "./SignUpPage.vue";
+import ImgLogo from "../components/Logo/ImgLogo.vue";
 </script>
 
 <script lang="ts">
@@ -50,9 +51,6 @@ export default {
 
 #logo {
   --width: 250px;
-  min-width: var(--width);
-  max-width: var(--width);
-  width: 50%;
 }
 
 .main-content {

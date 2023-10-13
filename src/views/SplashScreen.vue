@@ -1,25 +1,20 @@
 <template>
-  <page-layout id="splash-screen-page"
-  :class="{ 'show-content': showContent }">
+  <page-layout id="splash-screen-page" :class="{ 'show-content': showContent }">
     <template #pageContent>
-      <img
-        id="logo"
-        :class="{ 'show-thumbnail': showThumbnail }"
-        :src="PawPrints"
-        alt="PawPrints"
-      />
-        <ion-spinner
+      <ImgLogo id="logo" :class="{ 'show-thumbnail': showThumbnail }" />
+      <ion-spinner
         class="login-loading"
-          :class="{ 'show-loading': showLoading }"
-          name="lines"
-          color="primary"
-        />
-        <section class="main-content">
-          <h1 id="main-content-title">PawPrints</h1>
-          <Button color="tertiary">Sign In</Button>
-          <Button color="tertiary">Sign Up</Button>
-          <GoogleButton />
-        </section>
+        v-show="!showContent && showLoading"
+        :class="{ 'show-loading': showLoading }"
+        name="lines"
+        color="primary"
+      />
+      <section class="main-content">
+        <h1 id="main-content-title">PawPrints</h1>
+        <Button color="tertiary">Sign In</Button>
+        <Button color="tertiary">Sign Up</Button>
+        <GoogleButton />
+      </section>
     </template>
   </page-layout>
 </template>
@@ -29,9 +24,11 @@ import PageLayout from "../components/PageLayout.vue";
 import { IonSpinner } from "@ionic/vue";
 import GoogleButton from "../components/Buttons/GoogleButton.vue";
 import Button from "../components/Buttons/Button.vue";
+import ImgLogo from "../components/Logo/ImgLogo.vue";
+
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
-setTimeout(() => ionRouter.navigate("/login", "forward", "replace"), 6000);
+setTimeout(() => ionRouter.navigate("/login", "forward", "replace"), 4000);
 
 // Redirection Process:
 // Check auth first if login already, then move to Home Page if so. If not, move to Login Page.
@@ -46,10 +43,10 @@ const showLoading = ref(false);
 const showContent = ref(false);
 const ShowContent = () => {
   setTimeout(() => {
-    showThumbnail.value = true
+    showThumbnail.value = true;
     setTimeout(() => {
-      showLoading.value = true
-      setTimeout(() => (showContent.value = true), 3000);
+      showLoading.value = true;
+      setTimeout(() => (showContent.value = true), 1000);
     }, 500);
   }, 1000);
 };
@@ -83,22 +80,33 @@ export default {
 }
 
 #logo {
-  --width: 150px;
-  min-width: var(--width);
-  max-width: var(--width);
-  width: 150px;
+  --width: 100px;
   opacity: 0;
 
-  /* width: 80%;
-  min-width: 150px;
-  max-width: 400px;
-  height: max-content; */
-  transition: opacity 500ms ease-out, min-width 1000ms ease-in-out;
+  transition: opacity 250ms ease-out, width 500ms ease-in, height 450ms ease-out, background-color 500ms ease 1500ms;
 }
 
 .show-thumbnail {
+  --background-color: var(--ion-color-primary);
   --width: 250px !important;
   opacity: 1 !important;
+}
+
+#logo::before {
+  position: absolute;
+  content: '';
+  background-color: var(--background-color);
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  z-index: -1;
+  transition: all 800ms ease-in 200ms;
+}
+
+.show-content #logo::before {
+  width: 1500px;
+  height: 1500px;
+  border-radius: 0;
 }
 
 .login-loading {
@@ -134,7 +142,7 @@ export default {
 }
 
 .show-content {
-  background-color: var(--ion-color-primary) !important;
+  /* background-color: var(--ion-color-primary) !important; */
 }
 
 .show-content .main-content {
