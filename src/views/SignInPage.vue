@@ -1,5 +1,5 @@
 <template>
-  <form class="signin-content" v-on:submit.prevent="">
+  <form class="signin-content" method="POST" @submit.prevent="Login">
     <h1 class="content-title">SIGN IN</h1>
     <TextInput
       class="text-input"
@@ -11,8 +11,8 @@
       helperText="Please enter a valid email address"
       validate
       :validator="EmailValidator"
-      :onInput="(value) => (email = value)"
-      :onValidate="(value) => emailValidated = value"
+      v-model:modelValid="emailValidated"
+      v-model:modelValue="form.email"
     />
 
     <TextInput
@@ -22,12 +22,14 @@
       id="password"
       name="password"
       placeholder="Enter Password"
-      :onInput="(value) => (password = value)"
+      v-model:modelValue="form.password"
+      :hide="!form.showPassword"
     />
+
+    <Checkbox name="checkbox" label="Show Password" v-model="form.showPassword" />
 
     <Button
       id="button-signin"
-      :onClick="() => Redirect(closeModal)"
       text="Sign In"
       :disabled="disabled"
     />
@@ -35,21 +37,29 @@
 </template>
 
 <script setup lang="ts">
+import Checkbox from "../components/Forms/Checkbox.vue";
 import TextInput from "../components/Forms/TextInput.vue";
 import Button from "../components/Buttons/Button.vue";
 import { computed, ref } from "vue";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import auth from "../server/firebase";
+import { reactive } from "vue";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
+const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
 
-defineProps(['closeModal']);
+const props = defineProps({
+  closeModal: {
+    type: Function,
+    default: () => null
+  }
+});
 
-const Redirect = (func: any) => {
-  ionRouter.navigate("/home", "forward", "replace");
-  func();
-};
-
-const email = ref("");
-const password = ref("");
+const form = reactive({
+  email:  '',
+  password: '',
+  showPassword: false
+});
 
 const EmailValidator = (value: string) =>
   value.match(
@@ -57,7 +67,33 @@ const EmailValidator = (value: string) =>
   ) !== null;
 
 const emailValidated = ref(false);
-const disabled = computed(()=>!emailValidated.value || password.value === "")
+const disabled = computed(()=>!emailValidated.value || form.email === "" || form.password === '');
+
+const errorMessage = ref('');
+const Login = () => {
+  signInWithEmailAndPassword(auth, form.email, form.password).then(() => {
+    console.log('Successfully Logged In!');
+    Redirect();
+    props.closeModal();
+  }).catch(error => {
+    console.log(error);
+    switch(error.code) {
+      case 'auth/invalid-email':
+      errorMessage.value = 'Invalid email';
+        break;
+      case 'auth/user-not-found':
+      errorMessage.value = 'User Not Found';
+        break;
+      case 'auth/wrong-password':
+      errorMessage.value = 'Wrong Password';
+        break;
+      default:
+      errorMessage.value = 'incorrect Email or Password';
+        break;
+    };
+    alert(errorMessage.value);
+  })
+};
 </script>
 
 <style scoped>

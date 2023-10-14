@@ -30,15 +30,9 @@ import ImgLogo from "../components/Logo/ImgLogo.vue";
 </script>
 
 <script lang="ts">
-import { PawPrints } from "../assets/images";
 
 export default {
   name: "LogIn",
-  data() {
-    return {
-      PawPrints,
-    };
-  },
 };
 </script>
 
@@ -51,6 +45,7 @@ export default {
 
 #logo {
   --width: 250px;
+  min-height: 250px;
 }
 
 .main-content {

@@ -2,7 +2,7 @@
   <page-layout id="home-page">
     <template #pageHeader>
       <h1 id="home-header-title" class="page-header-title">Hello Hooman!</h1>
-      <img id="home-header-logo" class="page-header-icon" :src="PawPrints" alt="PawPrints">
+      <ImgLogo id="home-header-logo" class="page-header-icon"/>
     </template>
     <template #pageContent>
       <section class="facts-preview-card-container">
@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts" setup>
+import ImgLogo from '../components/Logo/ImgLogo.vue';
 import PageLayout from '../components/PageLayout.vue';
-import { PawPrints } from '../assets/images';
 import FactsPreviewCard from '../components/Cards/FactsPreviewCard.vue';
 import AddPetButton from '../components/Buttons/AddPetButton.vue';
 import {dogs} from '../server/data';
@@ -41,8 +41,9 @@ import DogCard from '../components/Cards/DogCard.vue';
   text-align: left;
 }
 
-#home-header-icon {
-
+#home-header-logo {
+--min-width: 80px;
+--width: 80px;
 }
 
 .facts-preview-card-container {

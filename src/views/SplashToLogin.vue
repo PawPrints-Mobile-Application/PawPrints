@@ -21,22 +21,14 @@
 
 <script lang="ts" setup>
 import PageLayout from "../components/PageLayout.vue";
-import { IonSpinner } from "@ionic/vue";
 import GoogleButton from "../components/Buttons/GoogleButton.vue";
 import ButtonModal from "../components/Buttons/ButtonModal.vue";
 import ImgLogo from "../components/Logo/ImgLogo.vue";
+import { onMounted, ref } from "vue";
 
-import { useIonRouter } from "@ionic/vue";
+import { IonSpinner, useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 setTimeout(() => ionRouter.navigate("/login", "forward", "replace"), 4000);
-
-// Redirection Process:
-// Check auth first if login already, then move to Home Page if so. If not, move to Login Page.
-</script>
-
-<script lang="ts">
-import { PawPrints } from "../assets/images";
-import { ref } from "vue";
 
 const showThumbnail = ref(false);
 const showLoading = ref(false);
@@ -51,18 +43,12 @@ const ShowContent = () => {
   }, 1000);
 };
 
+onMounted(() => ShowContent());
+</script>
+
+<script lang="ts">
 export default {
-  name: "SplashScreen",
-  data() {
-    return {
-      showContent,
-      showLoading,
-      PawPrints,
-    };
-  },
-  mounted() {
-    ShowContent();
-  },
+  name: "SplashToLogin",
 };
 </script>
 
@@ -83,7 +69,8 @@ export default {
   --width: 100px;
   opacity: 0;
 
-  transition: opacity 250ms ease-out, width 500ms ease-in, height 450ms ease-out, background-color 500ms ease 1500ms;
+  transition: opacity 250ms ease-out, width 500ms ease-in, height 450ms ease-out,
+    background-color 500ms ease 1500ms;
 }
 
 .show-thumbnail {
@@ -94,7 +81,7 @@ export default {
 
 #logo::before {
   position: absolute;
-  content: '';
+  content: "";
   background-color: var(--background-color);
   width: 10px;
   height: 10px;

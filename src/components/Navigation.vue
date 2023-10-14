@@ -22,43 +22,34 @@
   </ion-page>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import {
   IonPage,
   IonTabs,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
-  IonLabel,
   IonIcon,
 } from "@ionic/vue";
 import { navPages } from "../views/index";
-import { ref, watchEffect } from "vue";
-const currentRoute = ref("");
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { useIonRouter, useBackButton } from "@ionic/vue";
+import { App } from '@capacitor/app';
+const ionRouter = useIonRouter();
+const router = useRouter();
+const currentRoute = computed(() => router.currentRoute.value.path)
 
+useBackButton(-1, () => {
+    if (!ionRouter.canGoBack()) {
+      App.exitApp();
+    }
+  });
+</script>
+
+<script lang="ts">
 export default {
-  name: "Navigation",
-  components: {
-    IonPage,
-    IonTabs,
-    IonRouterOutlet,
-    IonTabBar,
-    IonTabButton,
-    IonLabel,
-    IonIcon,
-  },
-  data() {
-    currentRoute.value = this.$router.currentRoute.value.path;
-    return {
-      navPages,
-      currentRoute,
-    };
-  },
-  mounted() {
-    watchEffect(async () => {
-      currentRoute.value = this.$router.currentRoute.value.path;
-    });
-  },
+  name: "Navigation"
 };
 </script>
 

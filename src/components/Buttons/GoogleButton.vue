@@ -1,14 +1,24 @@
 <template>
-    <IconButton class="button-google" :icon="logoGoogle" background-color="primary" color="tertiary" :on-click="onClick"/>
+    <IconButton class="button-google" :icon="logoGoogle" background-color="primary" color="tertiary" :on-click="SignInWithGoogle"/>
 </template>
 <script setup lang="ts">
 import IconButton from './IconButton.vue';
 import { logoGoogle } from "ionicons/icons";
-</script>
-<script lang="ts">
-export default {
-    name: "GoogleButton",
-    props: ['onClick']
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import auth from '../../server/firebase';
+import { useIonRouter } from "@ionic/vue";
+const ionRouter = useIonRouter();
+const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
+
+const SignInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+        .then(() => {
+            Redirect();
+        })
+        .catch(error => {
+            console.log(error.message);
+        })
 }
 </script>
 <style>

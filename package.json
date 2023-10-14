@@ -27,11 +27,12 @@
     "@capacitor/keyboard": "5.0.6",
     "@capacitor/splash-screen": "^5.0.6",
     "@capacitor/status-bar": "5.0.6",
+    "@formkit/vue": "^1.2.2",
     "@ionic/cli": "^7.1.1",
     "@ionic/vue": "^7.4.1",
     "@ionic/vue-router": "^7.4.1",
     "@vue/cli": "^5.0.8",
-    "firebase": "^10.4.0",
+    "firebase": "^10.5.0",
     "firebase-tools": "^12.6.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"

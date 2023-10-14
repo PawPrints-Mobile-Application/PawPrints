@@ -2,11 +2,12 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import { Navigation } from './components/index';
 import { hiddenPages, navPages } from './views';
+import {getCurrentUser} from './server/firebase';
 
 var routes: Array<RouteRecordRaw> = [
   {
     path: '',
-    redirect: '/splashscreen',
+    redirect: '/landingpage',
   },
   {
     path: '/',
@@ -17,6 +18,9 @@ var routes: Array<RouteRecordRaw> = [
         redirect: '/home',
       }
     ],
+    meta: {
+      requiresAuth: true
+    }
   },
 ];
 
@@ -33,5 +37,31 @@ const addRoutes = () => {
 }
 
 const router = addRoutes();
+
+router.beforeEach(async (to, from, next) => {
+  from;
+  const currentUser = await getCurrentUser();
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (currentUser) {
+      next();
+    }
+    else {
+      alert('Please Login first to access the page!');
+      next('/login')
+    }
+  }
+  else if (to.path === '/login'){
+    if (currentUser) {
+      next('/home');
+    }
+    else {
+      next();
+    }
+  }
+  else{
+    next();
+  }
+})
+
 
 export default router;

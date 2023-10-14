@@ -1,19 +1,16 @@
 <template>
     <page-layout>
         <article>
-        <Button type="0" text="Sign In" :icon="star" state="row"/>
-        <Button type="0" text="Sign In" :icon="star" state="row-reverse"/>
-        <Button type="0" text="Sign In" :icon="star" state="column"/>
-        <Button type="0" text="Sign In" :icon="star" state="column-reverse"/>
-        <Button type="0" text="Sign In" :icon="star" state="icon"/>
-        <Button type="0" text="Sign In" :icon="star" state="text"/>
+            <Checkbox name="checkbox" id="checkbox" :label="`${label}`" v-model="label"/>
         </article>
     </page-layout>
 </template>
 <script setup lang="ts">
 import PageLayout from '../components/PageLayout.vue';
-import Button from '../components/Buttons/Button.vue';
-import { star } from 'ionicons/icons';
+import Checkbox from '../components/Forms/Checkbox.vue';
+import { ref } from 'vue';
+
+const label = ref(false);
 </script>
 <script lang="ts">
 export default {
@@ -31,5 +28,10 @@ export default {
         justify-content: center;
         align-items: center;
         background-color: var(--ion-color-primary);
+        padding-left: 20px;
+    }
+
+    #checkbox {
+        --size: 18px;
     }
 </style>

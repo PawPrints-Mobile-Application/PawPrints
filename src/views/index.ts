@@ -3,13 +3,12 @@ import Maps from "./Maps.vue";
 import Settings from "./Settings.vue";
 import Facts from "./Facts.vue";
 
-import SplashScreen from './SplashScreen.vue';
 import LogIn from "./LogIn.vue";
 import SignUpPage from "./SignUpPage.vue";
-
 import SignInPage from "./SignInPage.vue";
 
-
+import LandingPage from "./LandingPage.vue";
+import SplashToLogin from "./SplashToLogin.vue";
 
 import Test from "./Test.vue";
 
@@ -18,12 +17,16 @@ import {documentOutline, document} from 'ionicons/icons';
 
 const navPages = [Home, Maps, Facts, Settings].map((page, id) => PageInfo(page, [iconsFilled[id], iconsOutline[id]]));
 
-const hiddenPages = [SplashScreen, LogIn, SignUpPage, SignInPage, Test].map(page => PageInfo(page, [document, documentOutline]));
+const hiddenPages = [
+    LogIn, SignUpPage, SignInPage,
+    LandingPage, SplashToLogin,
+    Test
+].map(page => PageInfo(page, [document, documentOutline]));
 
 const pages = navPages.concat(hiddenPages);
 
 
-
+// add meta of requiresAuth and requiresInternet
 function PageInfo(page: any, icons: Array<string>) {
     return {
         name: page.name,
@@ -36,9 +39,11 @@ function PageInfo(page: any, icons: Array<string>) {
 export {
     Home, Facts, Maps, Settings,
 
-    SplashScreen, LogIn, SignUpPage,
+    LogIn, SignUpPage, SignInPage,
 
-    SignInPage, Test,
+    LandingPage, SplashToLogin,
+    
+    Test,
 
     navPages, hiddenPages
 }

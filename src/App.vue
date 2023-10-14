@@ -4,24 +4,23 @@
   </ion-app>
 </template>
 
-<script lang="ts">
-  import { IonApp, IonRouterOutlet } from '@ionic/vue';
-  import { SplashScreen } from '@capacitor/splash-screen';
-  export default {
-    name: 'App',
-    components: { IonApp, IonRouterOutlet },
-    async mounted() {
-      // Pre-app Splash Screen (Static)
-      await SplashScreen.show();
-      setTimeout(()=>{
-        SplashScreen.hide();
-      }, 0);
+<script setup lang="ts">
+import { IonApp, IonRouterOutlet } from "@ionic/vue";
+import { SplashScreen } from "@capacitor/splash-screen";
+import { onMounted } from "vue";
 
-      // Post-app Splash Screen (Animated)
-      
-    }
-  };
+onMounted(() => {
+  SplashScreen.show();
+  setTimeout(() => {
+    SplashScreen.hide();
+  }, 0);
+});
 </script>
 
-<style scoped>
-</style>
+<script lang="ts">
+export default {
+  name: "App",
+};
+</script>
+
+<style scoped></style>

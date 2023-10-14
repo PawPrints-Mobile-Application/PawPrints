@@ -1,5 +1,3 @@
-import { StringFormat } from "firebase/storage";
-
 type ColorNodes = {
     ears: String,
     eyes: String,

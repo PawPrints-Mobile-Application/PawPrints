@@ -1,13 +1,13 @@
 <template>
   <section
     class="text-input"
-    :class="{ focused: focused, 'has-value': value !== '' }"
+    :class="{ focused: focused, 'has-value': modelValue !== '' }"
   >
     <label
       v-show="!!label"
-      id="text-input-label"
+      class="text-input-label"
       :for="name"
-      @click="input?.focus()"
+      @click="input.focus()"
       >{{ label }}</label
     >
     <div class="text-input-wrapper">
@@ -15,23 +15,22 @@
         ref="input"
         class="text-input-input"
         :name="name"
-        :type="type"
-        v-model.trim="value"
-        @input="Validate"
+        :type="hide ? type : 'text'"
+        v-model="value"
         :placeholder="focused ? placeholder : ''"
         :onFocus="() => (focused = true)"
         :onBlur="() => (focused = false)"
       />
       <ion-icon
-        id="text-input-icon"
-        v-show="AllowValidation()"
-        :icon="Valid() ? validIcon : invalidIcon"
-        :color="Valid() ? 'success' : 'danger'"
+        class="text-input-icon"
+        v-show="allowValidation"
+        :icon="valid ? validIcon : invalidIcon"
+        :color="valid ? 'success' : 'danger'"
       />
     </div>
     <div
-      id="text-input-helper"
-      :class="{ 'opacity-0': !(!!helperText && AllowValidation() && !Valid()) }"
+      class="text-input-helper"
+      :class="{ 'opacity-0': !(!!helperText && allowValidation && !valid) }"
     >
       {{ helperText }}
     </div>
@@ -44,7 +43,7 @@ import {
   warning as invalidIcon,
 } from "ionicons/icons";
 import { IonIcon } from "@ionic/vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 const props = defineProps({
   name: {
     type: String,
@@ -59,25 +58,45 @@ const props = defineProps({
   },
   validator: {
     type: Function,
-    default: (value: string) => true,
+    default: () => true,
   },
   helperText: String,
   validate: Boolean,
+  modelValue: {
+    type: String,
+    default: '',
+    required: true
+  },
+  modelValid: Boolean,
+  hide: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const input = ref("");
-const value = ref("");
-const emit = defineEmits(["input", 'validate']);
-defineExpose({ value });
+const input = ref();
+const valid = computed(() =>
+  !!props.validate ? props.validator(props.modelValue) : true
+);
+const allowValidation = computed(
+  () => !!props.validate && props.modelValue !== ""
+);
 
 const focused = ref(false);
-const AllowValidation = () => !!props.validate && value.value !== "";
-const Valid = () => props.validator(value.value);
-const Validate = () => {
-  emit('validate', !!props.validate ? Valid() : true);
-  emit("input", value.value);
-  return AllowValidation() && Valid();
-};
+const _value = ref(props.modelValue);
+const value = computed({
+  get() {
+    return _value.value;
+  },
+  set(value: string) {
+    _value.value = value;
+    emit("update:modelValue", value);
+    emit("update:modelValid", valid.value);
+    emit("input", props.modelValue);
+  },
+});
+
+const emit = defineEmits(["input", "update:modelValid", "update:modelValue"]);
 </script>
 
 <style scoped>
@@ -93,7 +112,7 @@ const Validate = () => {
   font-weight: 400;
 }
 
-#text-input-label {
+.text-input-label {
   position: relative;
   transform: translate(20px, 32px);
   transition: all 200ms ease-out;
@@ -101,8 +120,8 @@ const Validate = () => {
   overflow-x: visible;
 }
 
-.focused #text-input-label,
-.has-value #text-input-label {
+.focused .text-input-label,
+.has-value .text-input-label {
   transform: translate(0, 0);
   font-weight: 700;
 }
@@ -132,13 +151,13 @@ const Validate = () => {
   background-color: var(--ion-color-quarter-shade);
 }
 
-#text-input-icon {
+.text-input-icon {
   overflow: hidden;
   font-size: 30px;
   margin: 0px 20px 0 0;
 }
 
-#text-input-helper {
+.text-input-helper {
   padding: 5px var(--padding);
   color: var(--ion-color-danger);
   opacity: 0.7;

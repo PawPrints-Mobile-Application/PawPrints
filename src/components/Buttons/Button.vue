@@ -6,10 +6,7 @@
 </template>
 <script setup lang="ts">
 defineProps({
-  text: {
-    type: String,
-    default: 'Button'
-  },
+  text: String,
   type: {
     type: [String, Number],
     default: 1,

@@ -1,34 +1,35 @@
 <template>
   <section class="signin-content">
     <h1 class="content-title">SIGN UP</h1>
+
     <TextInput
-      class="text-input"
+      class="text-input text-input-bottom-margin"
       type="text"
       label="First Name"
-      id="firstName"
-      name="firstName"
+      id="firstname"
+      name="firstname"
       placeholder="Enter First Name"
-      :onInput="(value) => (firstName = value)"
+      v-model:modelValue="form.firstname"
     />
 
     <TextInput
-      class="text-input"
+      class="text-input text-input-bottom-margin"
       type="text"
       label="Last Name"
-      id="lastName"
-      name="lastName"
+      id="lastname"
+      name="lastname"
       placeholder="Enter Last Name"
-      :onInput="(value) => (lastName = value)"
+      v-model:modelValue="form.lastname"
     />
 
     <TextInput
-      class="text-input"
+      class="text-input text-input-bottom-margin"
       type="text"
       label="Username"
       id="username"
       name="username"
       placeholder="Enter Username"
-      :onInput="(value) => (username = value)"
+      v-model:modelValue="form.username"
     />
 
     <TextInput
@@ -41,7 +42,8 @@
       helperText="Please enter a valid email address"
       validate
       :validator="EmailValidator"
-      :onInput="(value) => (email = value)"
+      v-model:modelValid="emailValidated"
+      v-model:modelValue="form.email"
     />
 
     <TextInput
@@ -51,7 +53,12 @@
       id="password"
       name="password"
       placeholder="Enter Password"
-      :onInput="(value) => (password = value)"
+      v-model:modelValue="form.password"
+      :hide="!form.showPassword"
+      validate
+      :validator="(value: string) => value.length >= 6"
+      v-model:modelValid="passwordValidated"
+      helper-text="Password must be at least 6 characters!"
     />
 
     <TextInput
@@ -61,19 +68,24 @@
       id="confirmPassword"
       name="confirmPassword"
       placeholder="Confirm Password"
-      :onInput="(value) => (confirmPassword = value)"
-      :onValidate="(value) => emailValidated = value"
+      v-model:modelValue="form.confirmPassword"
+      :hide="!form.showPassword"
+      validate
+      :validator="(value: string) => form.password === value"
+      v-model:modelValid="passwordValidated"
+      helper-text="Passwords must match!"
     />
+    <Checkbox name="showPassword" label="Show Password" v-model="form.showPassword" />
 
-    <div class="content-text">
-      By creating an account you agree to our
-      <span class="navigation-link">Privacy Policy</span> and
-      <span class="navigation-link">Terms of Service</span>.
-    </div>
+    <Checkbox id="TOS" name="acceptTOS" v-model="form.acceptTOS">
+        By creating an account you agree to our
+        <span class="navigation-link">Privacy Policy</span> and
+        <span class="navigation-link">Terms of Service</span>.
+    </Checkbox>
 
     <Button
       id="button-signup"
-      :onClick="() => Redirect(closeModal)"
+      :onClick="register"
       text="Sign Up"
       :disabled="disabled"
     />
@@ -81,25 +93,33 @@
 </template>
 
 <script setup lang="ts">
+import Checkbox from "../components/Forms/Checkbox.vue";
 import TextInput from "../components/Forms/TextInput.vue";
 import Button from "../components/Buttons/Button.vue";
-import { computed, ref } from "vue";
+import { computed, ref, reactive } from "vue";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import auth from "../server/firebase";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
+const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
 
-defineProps(['closeModal']);
+const props = defineProps({
+  closeModal: {
+    type: Function,
+    default: () => null,
+  },
+});
 
-const Redirect = (func: any) => {
-  ionRouter.navigate("/home", "forward", "replace");
-  func();
-};
-
-const firstName = ref("");
-const lastName = ref("");
-const username = ref("");
-const email = ref("");
-const password = ref("");
-const confirmPassword = ref("");
+const form = reactive({
+  firstname: "",
+  lastname: "",
+  username: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  showPassword: false,
+  acceptTOS: false
+});
 
 const EmailValidator = (value: string) =>
   value.match(
@@ -107,7 +127,21 @@ const EmailValidator = (value: string) =>
   ) !== null;
 
 const emailValidated = ref(false);
-const disabled = computed(()=>!emailValidated.value || password.value === "")
+const passwordValidated = ref(false);
+const disabled = computed(() => !emailValidated.value || form.password !== '' || form.password === form.confirmPassword);
+
+const register = () => {
+  createUserWithEmailAndPassword(auth, form.email, form.password)
+    .then(() => {
+      console.log("Successfully registered!");
+      Redirect();
+      props.closeModal();
+    })
+    .catch((error) => {
+      console.log(error);
+      alert(error.message);
+    });
+};
 </script>
 
 <script lang="ts">
@@ -145,7 +179,7 @@ export default {
   cursor: pointer;
 }
 
-.text-input {
+.text-input-bottom-margin {
   margin-bottom: 20px;
 }
 
@@ -156,5 +190,9 @@ export default {
 #button-signup {
   --width: 100%;
   margin-top: 30px;
+}
+
+#TOS {
+  margin: 20px 0 0px;
 }
 </style>
