@@ -41,8 +41,8 @@
       placeholder="Enter Email"
       helperText="Please enter a valid email address"
       validate
-      :validator="EmailValidator"
-      v-model:modelValid="emailValidated"
+      :validator="validators.email"
+      v-model:modelValid="validations.email"
       v-model:modelValue="form.email"
     />
 
@@ -56,8 +56,8 @@
       v-model:modelValue="form.password"
       :hide="!form.showPassword"
       validate
-      :validator="(value: string) => value.length >= 6"
-      v-model:modelValid="passwordValidated"
+      :validator="validators.password"
+      v-model:modelValid="validations.password"
       helper-text="Password must be at least 6 characters!"
     />
 
@@ -71,8 +71,8 @@
       v-model:modelValue="form.confirmPassword"
       :hide="!form.showPassword"
       validate
-      :validator="(value: string) => form.password === value"
-      v-model:modelValid="passwordValidated"
+      :validator="validators.confirmPassword"
+      v-model:modelValid="validations.confirmPassword"
       helper-text="Passwords must match!"
     />
     <Checkbox name="showPassword" label="Show Password" v-model="form.showPassword" />
@@ -93,10 +93,11 @@
 </template>
 
 <script setup lang="ts">
+import {EmailValidator} from '../utils';
 import Checkbox from "../components/Forms/Checkbox.vue";
 import TextInput from "../components/Forms/TextInput.vue";
 import Button from "../components/Buttons/Button.vue";
-import { computed, ref, reactive } from "vue";
+import { computed, reactive } from "vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../server/firebase";
 import { useIonRouter } from "@ionic/vue";
@@ -121,14 +122,22 @@ const form = reactive({
   acceptTOS: false
 });
 
-const EmailValidator = (value: string) =>
-  value.match(
-    /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-  ) !== null;
+const validators = reactive({
+  email: EmailValidator,
+  password: (value: string) => value.length >= 6,
+  confirmPassword: (value: string) => form.password === value
+});
 
-const emailValidated = ref(false);
-const passwordValidated = ref(false);
-const disabled = computed(() => !emailValidated.value || form.password !== '' || form.password === form.confirmPassword);
+const validations = reactive({
+  email: false,
+  password: false,
+  confirmPassword: false
+});
+
+const requirements = () => [form.firstname, form.lastname, form.username, form.email, form.password, form.confirmPassword].map(value => value !== '').reduce((acc, value) => acc && value);
+const validity = () => validations.confirmPassword && validations.email && validations.password;
+
+const disabled = computed(() => !(requirements() && validity() && form.acceptTOS));
 
 const register = () => {
   createUserWithEmailAndPassword(auth, form.email, form.password)

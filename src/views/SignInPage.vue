@@ -10,8 +10,8 @@
       placeholder="Enter Email"
       helperText="Please enter a valid email address"
       validate
-      :validator="EmailValidator"
-      v-model:modelValid="emailValidated"
+      :validator="validators.email"
+      v-model:modelValid="validations.email"
       v-model:modelValue="form.email"
     />
 
@@ -37,6 +37,7 @@
 </template>
 
 <script setup lang="ts">
+import {EmailValidator} from '../utils';
 import Checkbox from "../components/Forms/Checkbox.vue";
 import TextInput from "../components/Forms/TextInput.vue";
 import Button from "../components/Buttons/Button.vue";
@@ -61,13 +62,15 @@ const form = reactive({
   showPassword: false
 });
 
-const EmailValidator = (value: string) =>
-  value.match(
-    /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-  ) !== null;
+const validators = reactive({
+  email: EmailValidator
+});
 
-const emailValidated = ref(false);
-const disabled = computed(()=>!emailValidated.value || form.email === "" || form.password === '');
+const validations = reactive({
+  email: false
+});
+
+const disabled = computed(()=>!validations.email || form.email === "" || form.password === '');
 
 const errorMessage = ref('');
 const Login = () => {

@@ -75,9 +75,7 @@ const props = defineProps({
 });
 
 const input = ref();
-const valid = computed(() =>
-  !!props.validate ? props.validator(props.modelValue) : true
-);
+const valid = ref(false);
 const allowValidation = computed(
   () => !!props.validate && props.modelValue !== ""
 );
@@ -90,6 +88,7 @@ const value = computed({
   },
   set(value: string) {
     _value.value = value;
+    valid.value = !!props.validate ? props.validator(value) : true
     emit("update:modelValue", value);
     emit("update:modelValid", valid.value);
     emit("input", props.modelValue);
