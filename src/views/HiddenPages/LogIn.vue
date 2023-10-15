@@ -21,18 +21,24 @@
 </template>
 
 <script lang="ts" setup>
-import PageLayout from "../components/PageLayout.vue";
-import GoogleButton from "../components/Buttons/GoogleButton.vue";
-import ButtonModal from "../components/Buttons/ButtonModal.vue";
-import SignInPage from "./SignInPage.vue";
-import SignUpPage from "./SignUpPage.vue";
-import ImgLogo from "../components/Logo/ImgLogo.vue";
+import { PageLayout } from "../../layout";
+import { GoogleButton, ButtonModal } from "../../components/Buttons";
+import { SignInPage, SignUpPage } from ".";
+import { ImgLogo } from "../../components/Logo";
 </script>
 
 <script lang="ts">
 
 export default {
   name: "LogIn",
+  routeInfo: {
+      filename: 'LogIn',
+    path: "/login",
+    meta: {
+      requiresAuth: false,
+      requiresInternet: false,
+    },
+  }
 };
 </script>
 
@@ -44,8 +50,7 @@ export default {
 }
 
 #logo {
-  --width: 250px;
-  min-height: 250px;
+  --width: 240px;
 }
 
 .main-content {

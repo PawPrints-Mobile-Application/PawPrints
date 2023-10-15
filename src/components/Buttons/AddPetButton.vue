@@ -8,13 +8,9 @@
     </section>
 </template>
 
-<script setup lang="ts"></script>
-
-<script lang="ts">
-export default {
-  name: "AddPetButton",
-};
+<script setup lang="ts">
 </script>
+
 <style scoped>
 .add-pet-button-container {
     display: flex;
@@ -56,9 +52,6 @@ export default {
 
 #button-line-1 {
   transform: rotateZ(90deg);
-}
-
-#button-line-2 {
 }
 
 .add-pet-button:active {

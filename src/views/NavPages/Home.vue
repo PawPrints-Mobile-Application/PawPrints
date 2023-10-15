@@ -1,15 +1,18 @@
 <template>
   <page-layout id="home-page">
     <template #pageHeader>
-      <h1 id="home-header-title" class="page-header-title">Hello Hooman!</h1>
-      <ImgLogo id="home-header-logo" class="page-header-icon"/>
+      <h1 id="home-header-title">Hello Hooman!</h1>
+      <ImgLogo id="home-header-logo"/>
     </template>
     <template #pageContent>
       <section class="facts-preview-card-container">
         <FactsPreviewCard />
       </section>
       <section class="dog-cards-container">
-        <section :style="{height: `${dogs.length > 0 ? 0 : '100%' }`}" class="add-button">
+        <section
+          :style="{ height: `${dogs.length > 0 ? 0 : '100%'}` }"
+          class="add-button"
+        >
           <AddPetButton />
         </section>
         <section v-show="dogs.length > 0" v-for="dog in dogs" class="dog-cards">
@@ -21,18 +24,31 @@
 </template>
 
 <script lang="ts" setup>
-import ImgLogo from '../components/Logo/ImgLogo.vue';
-import PageLayout from '../components/PageLayout.vue';
-import FactsPreviewCard from '../components/Cards/FactsPreviewCard.vue';
-import AddPetButton from '../components/Buttons/AddPetButton.vue';
-import {dogs} from '../server/data';
-import DogCard from '../components/Cards/DogCard.vue';
+import { PageLayout } from "../../layout";
+import { FactsPreviewCard, DogCard } from "../../components/Cards";
+import { ImgLogo } from "../../components/Logo";
+import { AddPetButton } from "../../components/Buttons";
+
+import { dogs } from "../../server/data";
 </script>
 
 <script lang="ts">
-  export default {
-    name: "Home"
-  }
+import { homeFilled, homeOutline } from "../../assets/icons";
+export default {
+  name: "Home",
+  routeInfo: {
+    filename: 'Home',
+    path: "/home",
+    meta: {
+      requiresAuth: false,
+      requiresInternet: false,
+    },
+    icon: {
+      default: homeOutline,
+      active: homeFilled,
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -42,8 +58,8 @@ import DogCard from '../components/Cards/DogCard.vue';
 }
 
 #home-header-logo {
---min-width: 80px;
---width: 80px;
+  --min-width: 80px;
+  --width: 80px;
 }
 
 .facts-preview-card-container {
@@ -61,7 +77,7 @@ import DogCard from '../components/Cards/DogCard.vue';
 }
 
 .add-button {
-  width: 100% ;
+  width: 100%;
   min-height: 100px;
   display: flex;
   flex-flow: column nowrap;
@@ -70,6 +86,5 @@ import DogCard from '../components/Cards/DogCard.vue';
 
 .dog-cards {
   width: 100%;
-
 }
 </style>

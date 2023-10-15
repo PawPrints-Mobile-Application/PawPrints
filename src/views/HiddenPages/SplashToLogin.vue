@@ -1,45 +1,32 @@
 <template>
   <page-layout id="splash-screen-page" :class="{ 'show-content': showContent }">
-    <template #pageContent>
-      <ImgLogo id="logo" :class="{ 'show-thumbnail': showThumbnail }" />
-      <ion-spinner
-        class="login-loading"
-        v-show="!showContent && showLoading"
-        :class="{ 'show-loading': showLoading }"
-        name="lines"
-        color="primary"
-      />
+    <section class="page-content">
+      <ImgLogo id="logo" />
       <section class="main-content">
         <h1 id="main-content-title">PawPrints</h1>
         <ButtonModal text="Sign In" />
         <ButtonModal text="Sign Up" />
         <GoogleButton />
       </section>
-    </template>
+    </section>
   </page-layout>
 </template>
 
 <script lang="ts" setup>
-import PageLayout from "../components/PageLayout.vue";
-import GoogleButton from "../components/Buttons/GoogleButton.vue";
-import ButtonModal from "../components/Buttons/ButtonModal.vue";
-import ImgLogo from "../components/Logo/ImgLogo.vue";
+import { PageLayout } from '../../layout';
+import { GoogleButton, ButtonModal } from '../../components/Buttons';
+import { ImgLogo } from '../../components/Logo';
+
 import { onMounted, ref } from "vue";
 
-import { IonSpinner, useIonRouter } from "@ionic/vue";
+import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
-setTimeout(() => ionRouter.navigate("/login", "forward", "replace"), 4000);
 
-const showThumbnail = ref(false);
-const showLoading = ref(false);
 const showContent = ref(false);
 const ShowContent = () => {
   setTimeout(() => {
-    showThumbnail.value = true;
-    setTimeout(() => {
-      showLoading.value = true;
-      setTimeout(() => (showContent.value = true), 1000);
-    }, 500);
+    showContent.value = true;
+    setTimeout(() => ionRouter.navigate("/login", "forward", "replace"), 2000);
   }, 1000);
 };
 
@@ -49,15 +36,18 @@ onMounted(() => ShowContent());
 <script lang="ts">
 export default {
   name: "SplashToLogin",
+  routeInfo: {
+    filename: 'SplashToLogin',
+    path: '/splashtologin',
+    meta: {
+      requiresAuth: false,
+      requiresInternet: false
+    }
+  }
 };
 </script>
 
 <style scoped>
-:root {
-  --start-up-delay: 5s;
-  --show-content-delay: 11.5s;
-}
-
 #splash-screen-page {
   height: 100%;
   background-color: var(--ion-color-tertiary);
@@ -66,17 +56,8 @@ export default {
 }
 
 #logo {
-  --width: 100px;
-  opacity: 0;
-
-  transition: opacity 250ms ease-out, width 500ms ease-in, height 450ms ease-out,
-    background-color 500ms ease 1500ms;
-}
-
-.show-thumbnail {
   --background-color: var(--ion-color-primary);
-  --width: 250px !important;
-  opacity: 1 !important;
+  --width: 240px;
 }
 
 #logo::before {
@@ -96,27 +77,6 @@ export default {
   border-radius: 0;
 }
 
-.login-loading {
-  position: absolute;
-  bottom: 25%;
-  width: 80px;
-  height: 80px;
-  opacity: 0;
-  transition: all 500ms ease-out;
-}
-
-.show-loading {
-  opacity: 1 !important;
-}
-
-.show-loading + .main-content {
-  height: 200px !important;
-}
-
-#main-content-title {
-  font-weight: bold;
-}
-
 .main-content {
   width: 100%;
   height: 0;
@@ -129,7 +89,12 @@ export default {
 }
 
 .show-content .main-content {
+  height: 200px;
   opacity: 1 !important;
+}
+
+#main-content-title {
+  font-weight: bold;
 }
 
 .button-modal {

@@ -1,11 +1,11 @@
 <template>
-  <ion-page class="main-page" :class="class" :id="`${id}`">
+  <ion-page class="main-page" :class="class" :id="id">
     <header v-show="showHeader" class="page-header-container" :id="`page-header-container-${id}`">
       <slot name="pageHeader" :id="`page-header-${id}`" />
     </header>
     <main class="page-content-container" :id="`page-content-container-${id}`">
-      <slot v-if="useDefaultSlot" :id="`page-content-${id}`"  />
-      <slot v-else name="pageContent" :id="`page-content-${id}`" />
+      <slot v-if="useDefaultSlot" class="page-content"/>
+      <slot v-else name="pageContent" class="page-content"/>
     </main>
   </ion-page>
 </template>
@@ -16,7 +16,7 @@ import { IonPage } from "@ionic/vue";
 const slots = useSlots();
 
 const showHeader = !!slots.pageHeader;
-const useDefaultSlot = !slots.pageContent;
+const useDefaultSlot = !slots.pageContent || !!slots.default;
 </script>
 
 <script lang="ts">
@@ -104,5 +104,14 @@ export default {
 .page-header-icon {
   height: var(--page-header-icon-height);
   width: var(--page-header-icon-width);
+}
+
+.page-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
 }
 </style>

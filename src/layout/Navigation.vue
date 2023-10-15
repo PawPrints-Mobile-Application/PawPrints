@@ -12,10 +12,9 @@
           layout="icon-start"
         >
           <ion-icon
-            :icon="route.icons[route.path === currentRoute ? 0 : 1]"
+            :icon="route.path === currentRoute ? route.icon.active : route.icon.default"
             :color="route.path === currentRoute ? 'tertiary' : 'secondary'"
           />
-          <!-- <ion-label>{{ route.name }}</ion-label> -->
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
@@ -31,7 +30,7 @@ import {
   IonTabButton,
   IonIcon,
 } from "@ionic/vue";
-import { navPages } from "../views/index";
+import navPages from "../views/NavPages";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useIonRouter, useBackButton } from "@ionic/vue";

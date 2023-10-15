@@ -19,12 +19,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
-
+const auth = getAuth(app);
 
 const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const removeListener = onAuthStateChanged(
-      getAuth(),
+      auth,
       (user) => {
         removeListener();
         resolve(user);
@@ -34,9 +34,8 @@ const getCurrentUser = () => {
   });
 };
 
-
-const auth = getAuth(app);
-
-export {getCurrentUser}
+export {
+  getCurrentUser
+}
 
 export default auth;

@@ -1,7 +1,7 @@
 import Navigation from './Navigation.vue';
-import Modal from './Modals/Modal.vue';
+import PageLayout from './PageLayout.vue';
 
 export {
     Navigation,
-    Modal
+    PageLayout
 }

@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import { Navigation } from './components/index';
-import { hiddenPages, navPages } from './views';
-import {getCurrentUser} from './server/firebase';
+import { Navigation } from './layout/index';
+import navPages from './views/NavPages';
+import hiddenPages from './views/HiddenPages';
 
 var routes: Array<RouteRecordRaw> = [
   {
@@ -25,9 +25,9 @@ var routes: Array<RouteRecordRaw> = [
 ];
 
 const addRoutes = () => {
-  navPages.forEach((navPage) => routes[1].children?.push({ path: navPage.name, component: () => import(`./views/${navPage.name}.vue`)}));
+  navPages.forEach(navPage => routes[1].children?.push({ path: navPage.path, component: () => import(`./views/NavPages/${navPage.filename}.vue`)}));
 
-  hiddenPages.forEach(hiddenPage => routes.push({ path: hiddenPage.path, component: () => import(`./views/${hiddenPage.name}.vue`)}))
+  hiddenPages.forEach(hiddenPage => routes.push({ path: hiddenPage.path, component: () => import(`./views/HiddenPages/${hiddenPage.filename}.vue`)}))
 
   return createRouter({
     // Use: createWebHistory(process.env.BASE_URL) in your app
@@ -38,30 +38,28 @@ const addRoutes = () => {
 
 const router = addRoutes();
 
-router.beforeEach(async (to, from, next) => {
-  from;
-  const currentUser = await getCurrentUser();
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (currentUser) {
-      next();
-    }
-    else {
-      alert('Please Login first to access the page!');
-      next('/login')
-    }
-  }
-  else if (to.path === '/login'){
-    if (currentUser) {
-      next('/home');
-    }
-    else {
-      next();
-    }
-  }
-  else{
-    next();
-  }
-})
-
-
+// router.beforeEach(async (to, from, next) => {
+//   from;
+//   const currentUser = await getCurrentUser();
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     if (currentUser) {
+//       next();
+//     }
+//     else {
+//       alert('Please Login first to access the page!');
+//       next('/login')
+//     }
+//   }
+//   else if (to.path === '/login'){
+//     if (currentUser) {
+//       next('/home');
+//     }
+//     else {
+//       next();
+//     }
+//   }
+//   else{
+//     next();
+//   }
+// });
 export default router;

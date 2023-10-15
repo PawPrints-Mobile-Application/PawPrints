@@ -93,13 +93,13 @@
 </template>
 
 <script setup lang="ts">
-import {EmailValidator} from '../utils';
-import Checkbox from "../components/Forms/Checkbox.vue";
-import TextInput from "../components/Forms/TextInput.vue";
-import Button from "../components/Buttons/Button.vue";
+import { Checkbox, TextInput } from '../../components/Forms';
+import Button from '../../components/Buttons';
+
 import { computed, reactive } from "vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import auth from "../server/firebase";
+import auth from "../../server/firebase";
+import {EmailValidator} from '../../utils';
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
@@ -156,6 +156,14 @@ const register = () => {
 <script lang="ts">
 export default {
   name: "SignUpPage",
+  routeInfo: {
+      filename: 'SignUpPage',
+    path: '/signup',
+    meta: {
+      requiresAuth: false,
+      requiresInternet: false
+    }
+  }
 };
 </script>
 <style scoped>

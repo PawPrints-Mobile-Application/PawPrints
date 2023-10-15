@@ -24,11 +24,8 @@ import '@ionic/vue/css/display.css';
 import './theme/variables.css';
 import './theme/customs.css';
 import './theme/fonts.css';
-import PageLayout from './components/PageLayout.vue';
 
 const app = createApp(App).use(IonicVue).use(router);
-
-app.component("PageLayout", PageLayout);
 
 router.isReady().then(() => {
   app.mount('#app');
