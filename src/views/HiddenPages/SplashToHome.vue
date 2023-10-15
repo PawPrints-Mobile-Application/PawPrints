@@ -55,8 +55,12 @@ export default {
 }
 
 .page-content {
+  display: flex;
+  flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: flex-end;
+  width: 100%;
+  height: 100%;
 }
 
 .logo-wrapper {

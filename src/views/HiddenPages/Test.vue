@@ -30,7 +30,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 article {
   height: 100%;
   outline: 2px solid black;

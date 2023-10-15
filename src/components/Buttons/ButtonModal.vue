@@ -1,6 +1,6 @@
 <template>
   <section class="button-modal" :id="id">
-    <Button color="tertiary" :id="`button-${id}`" class="button-modal-button" :text="text"
+    <Button :id="`button-${id}`" class="button-modal-button" :text="text"
       />
     <Modal
       :id="`modal-${id}`"
@@ -39,12 +39,9 @@ defineProps([
     "onSubmit",
     "design",
     "title",
-    "class",
+    "buttonClass",
+    "modalClass"
   ]);
 </script>
 <style scoped>
-.button-modal-button {
-  --width: var(--button-width);
-  min-width: var(--button-min-width);
-}
 </style>

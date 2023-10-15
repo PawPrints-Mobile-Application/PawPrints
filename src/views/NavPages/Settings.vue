@@ -1,5 +1,6 @@
 <template>
   <page-layout id="settings-page">
+    {{ !!currentUser ? `${currentUser.displayName}` : 'placeholder' }}
     <ButtonSignOut />
   </page-layout>
 </template>
@@ -7,6 +8,14 @@
 <script lang="ts" setup>
 import { PageLayout } from '../../layout';
 import { ButtonSignOut } from '../../components/Buttons';
+import { ref } from 'vue';
+import auth from '../../server/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+
+const currentUser = ref();
+onAuthStateChanged(auth, (user) => {
+  currentUser.value = user;
+});
 </script>
 
 <script lang="ts">

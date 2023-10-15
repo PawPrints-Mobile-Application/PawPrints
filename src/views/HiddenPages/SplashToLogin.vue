@@ -4,6 +4,7 @@
       <ImgLogo id="logo" />
       <section class="main-content">
         <h1 id="main-content-title">PawPrints</h1>
+        <GuestButton />
         <ButtonModal text="Sign In" />
         <ButtonModal text="Sign Up" />
         <GoogleButton />
@@ -14,7 +15,7 @@
 
 <script lang="ts" setup>
 import { PageLayout } from '../../layout';
-import { GoogleButton, ButtonModal } from '../../components/Buttons';
+import { GoogleButton, ButtonModal, GuestButton } from '../../components/Buttons';
 import { ImgLogo } from '../../components/Logo';
 
 import { onMounted, ref } from "vue";
@@ -85,20 +86,22 @@ export default {
   justify-content: center;
   align-items: center;
   flex-flow: column nowrap;
+  gap: 20px;
   transition: height 1s ease-in-out, opacity 1s ease-in-out 1s;
 }
 
 .show-content .main-content {
-  height: 200px;
+  height: 350px;
   opacity: 1 !important;
 }
 
 #main-content-title {
   font-weight: bold;
+  margin: 0;
 }
 
-.button-modal {
-  --button-width: 200px;
-  margin: 10px;
+.guest-signin, .button-modal {
+  --width: 200px;
+  --height: 50px;
 }
 </style>

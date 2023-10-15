@@ -4,6 +4,7 @@
       <ImgLogo id="logo" />
       <section class="main-content">
         <h1 id="main-content-title">PawPrints</h1>
+        <GuestButton />
         <ButtonModal :design="1" id="signin" text="Sign In">
           <template #modalContent="{ closeModal }">
             <SignInPage :closeModal="closeModal" />
@@ -22,7 +23,7 @@
 
 <script lang="ts" setup>
 import { PageLayout } from "../../layout";
-import { GoogleButton, ButtonModal } from "../../components/Buttons";
+import { GoogleButton, ButtonModal, GuestButton } from "../../components/Buttons";
 import { SignInPage, SignUpPage } from ".";
 import { ImgLogo } from "../../components/Logo";
 </script>
@@ -56,19 +57,21 @@ export default {
 .main-content {
   width: 100%;
   opacity: 1;
-  height: 200px;
+  height: 350px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-flow: column nowrap;
+  gap: 20px;
 }
 
 #main-content-title {
   font-weight: bold;
+  margin: 0;
 }
 
-.button-modal {
-  --button-width: 200px;
-  margin: 10px;
+.guest-signin, .button-modal {
+  --width: 200px;
+  --height: 50px;
 }
 </style>

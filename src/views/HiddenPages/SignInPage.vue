@@ -129,6 +129,7 @@ export default {
 
 #button-signin {
   --width: 100%;
+  --height: 40px;
   margin-top: 20px;
 }
 </style>

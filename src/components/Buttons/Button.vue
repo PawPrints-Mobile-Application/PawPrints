@@ -22,21 +22,14 @@ defineProps({
 const emit = defineEmits(['click'])
 </script>
 <style scoped>
-:root {
-  --width: max-content;
-  --height: max-content;
-  --icon-size: 40px;
-  --padding: 0;
-
-}
-
 .button {
+  --icon-size: 40px;
+
   position: relative;
-  width: var(--width);
-  height: var(--height);
-  min-width: 20px;
-  min-height: 20px;
-  padding: 10px;
+  min-width: var(--width);
+  min-height: var(--height);
+  padding: var(--padding);
+  margin: var(--margin);
   border-radius: 10px;
   background-color: var(--ion-color-tertiary);
   transition: all 10ms ease;

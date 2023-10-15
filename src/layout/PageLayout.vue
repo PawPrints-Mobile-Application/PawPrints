@@ -51,9 +51,16 @@ export default {
   justify-content: var(--page-content-justify-content);
   align-items: center;
 }
-</style>
 
-<style>
+.page-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
 .main-page {
   position: absolute !important;
   --main-page-padding-top: var(--content-padding-top);
@@ -104,14 +111,5 @@ export default {
 .page-header-icon {
   height: var(--page-header-icon-height);
   width: var(--page-header-icon-width);
-}
-
-.page-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
 }
 </style>

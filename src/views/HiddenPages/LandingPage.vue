@@ -1,7 +1,6 @@
 <template>
   <page-layout id="splash-screen-page">
     <section class="page-content">
-      <!-- <div class="logo-wrapper"><ImgLogo id="logo"/></div> -->
       <div class="logo-wrapper"><ImgLogo id="logo" :class="{ 'show-thumbnail': show.thumbnail }" /></div>
       <ion-spinner
         class="login-loading"
@@ -16,11 +15,12 @@
 
 <script setup lang="ts">
 import { PageLayout } from "../../layout";
-import { getCurrentUser } from "../../server/firebase";
 import { ImgLogo } from "../../components/Logo";
 import { SplashToHome, SplashToLogin } from ".";
 
-import { onBeforeMount, onMounted, reactive, watch, ref } from "vue";
+import auth from '../../server/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { onMounted, reactive, watch, ref } from "vue";
 import { IonSpinner, useIonRouter } from "@ionic/vue";
 
 const state = reactive({
@@ -29,8 +29,8 @@ const state = reactive({
 });
 const user = ref();
 
-onBeforeMount(async () => {
-  user.value = await getCurrentUser();
+onAuthStateChanged(auth, (currentUser) => {
+  user.value = currentUser;
 });
 
 const ionRouter = useIonRouter();
@@ -89,6 +89,13 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-content {
+  display: flex;
+  flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
 }
