@@ -1,23 +1,12 @@
 <template>
-    <section :id="id" class="dog-card">
-        <img src="" alt="">
-    </section>
 </template>
 <script setup lang="ts">
 
 </script>
 
 <script lang="ts">
-import { Dog } from '../../server/data';
 export default {
-    name: 'DogCard',
-    props: {
-        id: String,
-        dog: {
-            type: Dog,
-            required: true,
-        }
-    }
+    name: 'DogCard'
 }
 </script>
 <style scoped>
@@ -27,4 +16,4 @@ export default {
         background-color: var(--ion-color-secondary);
         border-radius: 20px;
     }
-</style>
+</style>../../server/sqlite

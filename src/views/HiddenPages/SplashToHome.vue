@@ -89,8 +89,8 @@ export default {
 }
 
 .background-grow #logo::before {
-  width: 1500px;
-  height: 1500px;
+  width: 2000px;
+  height: 2000px;
   border-radius: 0;
 }
 

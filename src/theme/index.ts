@@ -10,7 +10,7 @@ const light = "light";
 const dark = "dark";
 const medium = "medium";
 
-const Colors = {
+const Colors: Color = {
   primary: primary,
   secondary: secondary,
   tertiary: tertiary,
@@ -36,6 +36,52 @@ const colors : Array<string> = [
   medium,
 ];
 
+type Color = {
+  primary: string,
+  secondary: string,
+  tertiary: string,
+  success: string,
+  warning: string,
+  danger: string,
+  light: string,
+  dark: string,
+  medium: string
+}
+
+class Light implements Color {
+  primary = primary;
+  secondary = secondary;
+  tertiary = tertiary;
+
+  success = success;
+  warning = warning;
+  danger = danger;
+
+  light = light;
+  dark = dark;
+  medium = medium;
+}
+
+class Dark implements Color {
+  primary = primary;
+  secondary = secondary;
+  tertiary = tertiary;
+
+  success = success;
+  warning = warning;
+  danger = danger;
+
+  light = light;
+  dark = dark;
+  medium = medium;
+}
+
+type Theme = Light | Dark;
+
+export type {
+  Theme
+}
+
 export {
   primary,
   secondary,
@@ -47,7 +93,10 @@ export {
   dark,
   medium,
 
-  colors
+  colors,
+
+  Light,
+  Dark
 };
 
 export default Colors;

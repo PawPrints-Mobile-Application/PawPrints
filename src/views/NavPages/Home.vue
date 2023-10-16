@@ -10,14 +10,13 @@
       </section>
       <section class="dog-cards-container">
         <section
-          :style="{ height: `${dogs.length > 0 ? 0 : '100%'}` }"
           class="add-button"
         >
           <AddPetButton />
         </section>
-        <section v-show="dogs.length > 0" v-for="dog in dogs" class="dog-cards">
+        <!-- <section v-show="dogs.length > 0" v-for="dog in dogs" class="dog-cards">
           <DogCard :dog="dog" />
-        </section>
+        </section> -->
       </section>
     </template>
   </page-layout>
@@ -25,11 +24,11 @@
 
 <script lang="ts" setup>
 import { PageLayout } from "../../layout";
-import { FactsPreviewCard, DogCard } from "../../components/Cards";
+import { FactsPreviewCard } from "../../components/Cards";
 import { ImgLogo } from "../../components/Logo";
 import { AddPetButton } from "../../components/Buttons";
 
-import { dogs } from "../../server/data";
+// import { dogs } from "../../server/data";
 </script>
 
 <script lang="ts">
@@ -88,3 +87,4 @@ export default {
   width: 100%;
 }
 </style>
+../../server/sqlite
