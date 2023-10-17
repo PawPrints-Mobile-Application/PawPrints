@@ -1,7 +1,9 @@
+import { GetDocument } from "../firebase";
+
 const SignupValidator = {
   username: {
     count: 8,
-    validator: (value: string) => value.length >= 8
+    validator: (value: string) => value.length >= 8,
   },
   email: (value: string) =>
     value.match(
@@ -9,11 +11,16 @@ const SignupValidator = {
     ) !== null,
   password: {
     count: 8,
-    validator: (value: string) => value.length >= 8
-  }
+    validator: (value: string) => value.length >= 8,
+  },
 };
 
+const SigninValidator = {
+  email: async (email: string) => {
+    const temp = (await GetDocument("Accounts", email)).exists();
+    console.log(temp);
+    return temp;
+  },
+};
 
-export {
-    SignupValidator
-}
+export { SignupValidator, SigninValidator };

@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -35,12 +35,21 @@ const getCurrentUser = () => {
   });
 };
 
-const db = getFirestore(app)
+const db = getFirestore(app);
+
+const SetDocument = async (collection: string, document: string, data: any) => {
+  await setDoc(doc(db, `${collection}/${document}`), data).then(() => console.log(`${document} saved to Firestore Database.`));
+};
+
+const GetDocument = async (collection: string, document: string) => await getDoc(doc(db, `${collection}/${document}`));
 
 export {
   app,
   getCurrentUser,
-  db
+  db,
+
+  SetDocument,
+  GetDocument
 }
 
 export default auth;

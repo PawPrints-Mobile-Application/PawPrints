@@ -8,10 +8,6 @@
       id="email"
       name="email"
       placeholder="Enter Email"
-      helperText="Please enter a valid email address"
-      validate
-      :validator="SignupValidator.email"
-      v-model:modelValid="validations.email"
       v-model:modelValue="form.email"
     />
 
@@ -40,10 +36,11 @@
 import { Checkbox, TextInput } from '../../components/Forms';
 import Button from '../../components/Buttons';
 
+import {SigninUser} from '../../server/authentication';
+
 import { computed, reactive, ref } from "vue";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../../server/firebase";
-import { SignupValidator} from '../../server/rulesets';
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
@@ -61,18 +58,14 @@ const form = reactive({
   showPassword: false
 });
 
-const validations = reactive({
-  email: false
-});
-
-const disabled = computed(()=>!validations.email || form.email === "" || form.password === '');
+const disabled = computed(()=> form.email === "" || form.password === '');
 
 const errorMessage = ref('');
 const Login = () => {
-  signInWithEmailAndPassword(auth, form.email, form.password).then(() => {
-    console.log('Successfully Logged In!');
-    Redirect();
-    props.closeModal();
+  signInWithEmailAndPassword(auth, form.email, form.password).then(async (userCredential) => {
+      await SigninUser(userCredential.user);
+      Redirect();
+      props.closeModal();
   }).catch(error => {
     console.log(error);
     switch(error.code) {
@@ -84,6 +77,9 @@ const Login = () => {
         break;
       case 'auth/wrong-password':
       errorMessage.value = 'Wrong Password';
+        break;
+      case 'auth/network-request-failed':
+        errorMessage.value = 'No Internet Connection';
         break;
       default:
       errorMessage.value = 'incorrect Email or Password';

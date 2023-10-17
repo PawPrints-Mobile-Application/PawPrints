@@ -19,7 +19,10 @@
         v-model="value"
         :placeholder="focused ? placeholder : ''"
         :onFocus="() => (focused = true)"
-        :onBlur="() => (focused = false)"
+        :onBlur="() => {
+          focused = false;
+          emit('blur', value);
+        }"
       />
       <ion-icon
         class="text-input-icon"
@@ -90,12 +93,12 @@ const value = computed({
     _value.value = value;
     valid.value = !!props.validate ? props.validator(value) : true
     emit("update:modelValue", value);
+    emit("input", value);
     emit("update:modelValid", valid.value);
-    emit("input", props.modelValue);
   },
 });
 
-const emit = defineEmits(["input", "update:modelValid", "update:modelValue"]);
+const emit = defineEmits(["input", "update:modelValid", "update:modelValue", "blur"]);
 </script>
 
 <style scoped>

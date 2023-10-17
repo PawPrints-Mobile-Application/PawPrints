@@ -99,9 +99,4 @@ export default {
   font-weight: bold;
   margin: 0;
 }
-
-.guest-signin, .button-modal {
-  --width: 200px;
-  --height: 50px;
-}
 </style>

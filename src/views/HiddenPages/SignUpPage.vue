@@ -45,7 +45,7 @@
       placeholder="Enter Email"
       helperText="Please enter a valid email address"
       validate
-      :validator="(value: string) => SignupValidator.email(value) && runtimeEmailValidator"
+      :validator="SignupValidator.email"
       v-model:modelValid="validations.email"
       v-model:modelValue="form.email"
     />
@@ -90,7 +90,7 @@
     <Button
       id="button-signup"
       :onClick="register"
-      text="Sign Up"
+      :text="processingRequest ? 'Sign Up' : 'Processing...'"
       :disabled="disabled"
     />
   </section>
@@ -100,11 +100,10 @@
 import { Checkbox, TextInput } from '../../components/Forms';
 import Button from '../../components/Buttons';
 
-import { InsertData as RegisterAccount, ReadDataByEmail } from '../../server/models/Temps/Accounts';
-import { InsertData as LogToHistory } from '../../server/models/Temps/LoginHistory'
+import { SignupUser } from '../../server/authentication';
 
-import { computed, reactive } from "vue";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { computed, reactive, ref } from "vue";
+import { createUserWithEmailAndPassword} from "firebase/auth";
 import auth from "../../server/firebase";
 import { SignupValidator} from '../../server/rulesets';
 import { useIonRouter } from "@ionic/vue";
@@ -139,43 +138,17 @@ const validations = reactive({
   confirmPassword: false
 });
 
-const runtimeEmailValidator = computed(async () => (await ReadDataByEmail(form.email)).length > 0);
-
 const requirements = () => [form.firstName, form.lastName, form.username, form.email, form.password, form.confirmPassword].map(value => value !== '').reduce((acc, value) => acc && value);
 const validity = () => validations.confirmPassword && validations.email && validations.password;
 
-const disabled = computed(() => !(requirements() && validity() && form.acceptTOS));
+const processingRequest = ref(true);
+const disabled = computed(() => !(requirements() && validity() && form.acceptTOS && processingRequest.value));
 
 const register = async () => {
+  processingRequest.value = false;
   createUserWithEmailAndPassword(auth, form.email, form.password)
-    .then(async () => {
-      const DTCreated = new Date().toLocaleString();
-      const userID = auth.currentUser?.uid;
-      console.log("Successfully registered to Firebase!");
-
-      // Save data to local storage
-      window.localStorage.setItem('auth', `${userID}`);
-      console.log(`${userID} saved to local storage.`);
-
-      // Save Data to local database
-      await RegisterAccount({
-        uid: userID,
-        firstName: form.firstName,
-        lastName: form.lastName,
-        email: form.email,
-        password: form.password,
-        accountType: 1,
-        DTCreated: DTCreated
-      }).then(() => console.log(`${userID} has been registered to local database.`));
-
-      // Updates the Login History
-      await LogToHistory({
-        DTSignin: DTCreated,
-        DTSignout: '',
-        uid: userID
-      }).then(() => console.log(`Login History has been updated`));
-
-      // Redirection Process
+    .then(async (userCredential) => {
+      await SignupUser(form, userCredential.user);
       Redirect();
       props.closeModal();
     })

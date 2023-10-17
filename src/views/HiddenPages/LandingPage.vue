@@ -27,10 +27,10 @@ const state = reactive({
   doneAnimation: false,
   readyRedirect: false,
 });
-const user = ref();
 
+const user = ref();
 onAuthStateChanged(auth, (currentUser) => {
-  user.value = currentUser;
+  user.value = localStorage.getItem('auth') === 'true' || !!currentUser;
 });
 
 const ionRouter = useIonRouter();
@@ -38,7 +38,7 @@ const Redirect = () => {
   show.loading = false;
   setTimeout(() => {
     ionRouter.navigate(
-      `/${!!user.value ? SplashToHome.name : SplashToLogin.name}`,
+      `/${user.value ? SplashToHome.name : SplashToLogin.name}`,
       "forward",
       "replace"
     );
