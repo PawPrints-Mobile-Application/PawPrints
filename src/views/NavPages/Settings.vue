@@ -1,6 +1,6 @@
 <template>
   <page-layout id="settings-page">
-    {{ !!currentUser ? `${currentUser.displayName}` : 'placeholder' }}
+    {{ !!currentUser ? `${currentUser.uid}` : 'placeholder' }}
     <ButtonSignOut />
   </page-layout>
 </template>
@@ -14,6 +14,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 
 const currentUser = ref();
 onAuthStateChanged(auth, (user) => {
+  console.log(user);
   currentUser.value = user;
 });
 </script>

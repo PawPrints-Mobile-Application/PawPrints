@@ -1,22 +1,19 @@
-import cacheModels, { CreateDB as CreateCacheDB } from "./Cache";
-import userModels, { CreateDB as CreateUserDB } from "./User";
-import dogModels, { CreateDB as CreateDogDB } from "./Dog";
+import cacheModels from "./Temps";
+import userModels from "./User";
+import dogModels from "./Dog";
+import { ConnectDB, CreateTable, DeleteTable } from "../sqlite";
 
-const models = cacheModels.concat(userModels, dogModels);
-const CreateDBs = async () => {
-  await CreateCacheDB();
-  await CreateUserDB();
-  await CreateDogDB();
-};
+const models = [cacheModels].concat(userModels, dogModels);
+const CreateDB = async () =>
+  models.forEach(async (model) =>
+  await ConnectDB(model.name, async (db) =>
+      model.models.forEach(async (each) => {
+        await CreateTable(db, each.name, each.modelColumn);
+        // await DeleteTable(db, each.name);
+      })
+    )
+  );
 
-export {
-  userModels,
-  cacheModels,
-  dogModels,
-  CreateDBs,
-  CreateCacheDB,
-  CreateUserDB,
-  CreateDogDB,
-};
+export { userModels, cacheModels, dogModels, CreateDB };
 
 export default models;

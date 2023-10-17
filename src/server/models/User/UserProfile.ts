@@ -1,13 +1,18 @@
-import { ConnectDB, DisconnectDB, InsertRowData, ReadRowData, UpdateRowData, DeleteRowData } from "../../sqlite";
+import { ConnectDB, InsertRowData, ReadRowData, UpdateRowData, DeleteRowData } from "../../sqlite";
 
-type Subscription = 'Free'| 'Pawmium';
+const Enum = {
+    subscription: {
+        0: 'Free',
+        1: 'Pawmium'
+    }
+};
 interface Props {
     uid: string,
     firstName: string,
     lastName: string,
     email: string,
     password: string,
-    subscription: Subscription,
+    subscription: number,
 };
 
 const modelColumn = `
@@ -16,7 +21,7 @@ firstName TEXT,
 lastName TEXT,
 email TEXT,
 password TEXT,
-subscription TEXT
+subscription INTEGER
 `;
 
 const ConvertToMap = (props: Props) => {
@@ -34,16 +39,10 @@ const InsertData = async (props: Props) => {
     const map = ConvertToMap(props);
     const keys = Array.from(map.keys()).join(', ');
     const values = Array.from(map.values()).join(', ');
-    const { sqlite, db } = await ConnectDB("User");
-    InsertRowData(db, "UserProfile", keys, values);
-    await DisconnectDB(sqlite, 'User');
+    await ConnectDB("User", async (db) => await InsertRowData(db, "UserProfile", keys, values));
 };
-const ReadData = async (userID: string) => {
-    const { sqlite, db } = await ConnectDB("User");
-    ReadRowData(db, "UserProfile", `uid = '${userID}'`);
-    await DisconnectDB(sqlite, 'User');
-};
-const UpdateData = async (userID: string, props: Props) => {
+const ReadData = async (userID: string) => await ConnectDB("User", async (db) => await ReadRowData(db, "UserProfile", `uid = '${userID}'`));
+const UpdateData = async (props: Props) => {
     const identifierKey = 'uid';
     let data = '';
     const map = ConvertToMap(props);
@@ -51,15 +50,9 @@ const UpdateData = async (userID: string, props: Props) => {
         if (identifierKey === key) return;
         data = `${key} = '${value}, '` + data;
     });
-    const { sqlite, db } = await ConnectDB("User");
-    UpdateRowData(db, "UserProfile", data, `${identifierKey} = '${userID}'`);
-    await DisconnectDB(sqlite, 'User');
+    await ConnectDB("User", async (db) => await UpdateRowData(db, "UserProfile", data, `${identifierKey} = '${props[identifierKey]}'`));
 };
-const DeleteData = async (userID: string) => {
-    const { sqlite, db } = await ConnectDB("User");
-    DeleteRowData(db, "UserProfile", `uid = '${userID}'`);
-    await DisconnectDB(sqlite, 'User');
-};
+const DeleteData = async (userID: string) => await ConnectDB("User", async (db) => await DeleteRowData(db, "UserProfile", `uid = '${userID}'`));
 
 export type {
     Props
@@ -71,7 +64,9 @@ export {
     InsertData,
     ReadData,
     UpdateData,
-    DeleteData
+    DeleteData,
+
+    Enum
 };
 
 export default {

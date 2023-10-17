@@ -6,30 +6,34 @@
       class="text-input text-input-bottom-margin"
       type="text"
       label="First Name"
-      id="firstname"
-      name="firstname"
+      id="firstName"
+      name="firstName"
       placeholder="Enter First Name"
-      v-model:modelValue="form.firstname"
+      v-model:modelValue="form.firstName"
     />
 
     <TextInput
       class="text-input text-input-bottom-margin"
       type="text"
       label="Last Name"
-      id="lastname"
-      name="lastname"
+      id="lastName"
+      name="lastName"
       placeholder="Enter Last Name"
-      v-model:modelValue="form.lastname"
+      v-model:modelValue="form.lastName"
     />
 
     <TextInput
-      class="text-input text-input-bottom-margin"
+      class="text-input"
       type="text"
       label="Username"
       id="username"
       name="username"
       placeholder="Enter Username"
+      validate
+      :validator="SignupValidator.username.validator"
+      v-model:modelValid="validations.username"
       v-model:modelValue="form.username"
+      :helper-text="`Password must be at least ${SignupValidator.username.count} characters!`"
     />
 
     <TextInput
@@ -41,7 +45,7 @@
       placeholder="Enter Email"
       helperText="Please enter a valid email address"
       validate
-      :validator="validators.email"
+      :validator="(value: string) => SignupValidator.email(value) && runtimeEmailValidator"
       v-model:modelValid="validations.email"
       v-model:modelValue="form.email"
     />
@@ -56,9 +60,9 @@
       v-model:modelValue="form.password"
       :hide="!form.showPassword"
       validate
-      :validator="validators.password"
+      :validator="SignupValidator.password.validator"
       v-model:modelValid="validations.password"
-      helper-text="Password must be at least 6 characters!"
+      :helper-text="`Password must be at least ${SignupValidator.password.count} characters!`"
     />
 
     <TextInput
@@ -71,7 +75,7 @@
       v-model:modelValue="form.confirmPassword"
       :hide="!form.showPassword"
       validate
-      :validator="validators.confirmPassword"
+      :validator="(value: string) => form.password === value"
       v-model:modelValid="validations.confirmPassword"
       helper-text="Passwords must match!"
     />
@@ -96,13 +100,19 @@
 import { Checkbox, TextInput } from '../../components/Forms';
 import Button from '../../components/Buttons';
 
+import { InsertData as RegisterAccount, ReadDataByEmail } from '../../server/models/Temps/Accounts';
+import { InsertData as LogToHistory } from '../../server/models/Temps/LoginHistory'
+
 import { computed, reactive } from "vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../../server/firebase";
-import {EmailValidator} from '../../utils';
+import { SignupValidator} from '../../server/rulesets';
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
-const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
+const Redirect = () => {
+  console.log('Redirecting to Home Page...');
+  ionRouter.navigate("/home", "forward", "replace");
+}
 
 const props = defineProps({
   closeModal: {
@@ -112,8 +122,8 @@ const props = defineProps({
 });
 
 const form = reactive({
-  firstname: "",
-  lastname: "",
+  firstName: "",
+  lastName: "",
   username: "",
   email: "",
   password: "",
@@ -122,33 +132,71 @@ const form = reactive({
   acceptTOS: false
 });
 
-const validators = reactive({
-  email: EmailValidator,
-  password: (value: string) => value.length >= 6,
-  confirmPassword: (value: string) => form.password === value
-});
-
 const validations = reactive({
+  username: false,
   email: false,
   password: false,
   confirmPassword: false
 });
 
-const requirements = () => [form.firstname, form.lastname, form.username, form.email, form.password, form.confirmPassword].map(value => value !== '').reduce((acc, value) => acc && value);
+const runtimeEmailValidator = computed(async () => (await ReadDataByEmail(form.email)).length > 0);
+
+const requirements = () => [form.firstName, form.lastName, form.username, form.email, form.password, form.confirmPassword].map(value => value !== '').reduce((acc, value) => acc && value);
 const validity = () => validations.confirmPassword && validations.email && validations.password;
 
 const disabled = computed(() => !(requirements() && validity() && form.acceptTOS));
 
-const register = () => {
+const register = async () => {
   createUserWithEmailAndPassword(auth, form.email, form.password)
-    .then(() => {
-      console.log("Successfully registered!");
+    .then(async () => {
+      const DTCreated = new Date().toLocaleString();
+      const userID = auth.currentUser?.uid;
+      console.log("Successfully registered to Firebase!");
+
+      // Save data to local storage
+      window.localStorage.setItem('auth', `${userID}`);
+      console.log(`${userID} saved to local storage.`);
+
+      // Save Data to local database
+      await RegisterAccount({
+        uid: userID,
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: form.email,
+        password: form.password,
+        accountType: 1,
+        DTCreated: DTCreated
+      }).then(() => console.log(`${userID} has been registered to local database.`));
+
+      // Updates the Login History
+      await LogToHistory({
+        DTSignin: DTCreated,
+        DTSignout: '',
+        uid: userID
+      }).then(() => console.log(`Login History has been updated`));
+
+      // Redirection Process
       Redirect();
       props.closeModal();
     })
     .catch((error) => {
-      console.log(error);
-      alert(error.message);
+     switch (error.code) {
+        case 'auth/email-already-in-use':
+          console.log(`Email address ${form.email} already in use.`);
+          break;
+        case 'auth/invalid-email':
+          console.log(`Email address ${form.email} is invalid.`);
+          break;
+        case 'auth/operation-not-allowed':
+          console.log(`Error during sign up.`);
+          break;
+        case 'auth/weak-password':
+          console.log('Password is not strong enough. Add additional characters including special characters and numbers.');
+          break;
+        default:
+          console.log(error.message);
+          break;
+      }
     });
 };
 </script>

@@ -10,7 +10,7 @@
       placeholder="Enter Email"
       helperText="Please enter a valid email address"
       validate
-      :validator="validators.email"
+      :validator="SignupValidator.email"
       v-model:modelValid="validations.email"
       v-model:modelValue="form.email"
     />
@@ -43,7 +43,7 @@ import Button from '../../components/Buttons';
 import { computed, reactive, ref } from "vue";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../../server/firebase";
-import { EmailValidator } from '../../utils';
+import { SignupValidator} from '../../server/rulesets';
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
@@ -59,10 +59,6 @@ const form = reactive({
   email:  '',
   password: '',
   showPassword: false
-});
-
-const validators = reactive({
-  email: EmailValidator
 });
 
 const validations = reactive({

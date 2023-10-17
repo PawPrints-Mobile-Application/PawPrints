@@ -76,11 +76,10 @@ class Dark implements Color {
   medium = medium;
 }
 
-type Theme = Light | Dark;
-
-export type {
-  Theme
-}
+const Theme = {
+  'Light': new Light(),
+  'Dark': new Dark()
+};
 
 export {
   primary,
@@ -95,6 +94,7 @@ export {
 
   colors,
 
+  Theme,
   Light,
   Dark
 };

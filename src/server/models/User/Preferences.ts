@@ -1,23 +1,35 @@
-import { ConnectDB, DisconnectDB, InsertRowData, ReadRowData, UpdateRowData, DeleteRowData } from "../../sqlite";
+import { ConnectDB, InsertRowData, ReadRowData, UpdateRowData, DeleteRowData } from "../../sqlite";
 import { Theme } from "../../../theme";
 
-type Length = 'Meter' |  'Feet';
-type Weight = 'Kilogram' | 'Pound';
-type Temperature = 'Celsius' | 'Fahrenheit';
+const Enum = {
+    length: {
+        0: 'Meter',
+        1: 'Feet',
+    },
+    weight: {
+        0: 'Kilogram',
+        1: 'Pound'
+    },
+    temperature: {
+        0: 'Celsius',
+        1: 'Fahrenheit'
+    },
+    theme: Theme
+};
 interface Props {
     uid: string,
-    theme: Theme,
-    length: Length,
-    weight: Weight,
-    temperature: Temperature
+    theme: string,
+    length: number,
+    weight: number,
+    temperature: number
 };
 
 const modelColumn = `
 uid TEXT PRIMARY KEY NOT NULL,
 theme TEXT,
-length TEXT,
-weight TEXT,
-temperature TEXT
+length INTEGER,
+weight INTEGER,
+temperature INTEGER
 `;
 
 const ConvertToMap = (props: Props) => {
@@ -34,16 +46,10 @@ const InsertData = async (props: Props) => {
     const map = ConvertToMap(props);
     const keys = Array.from(map.keys()).join(', ');
     const values = Array.from(map.values()).join(', ');
-    const { sqlite, db } = await ConnectDB("User");
-    InsertRowData(db, "Preferences", keys, values);
-    await DisconnectDB(sqlite, 'User');
+    await ConnectDB("User", async (db) => await InsertRowData(db, "Preferences", keys, values));
 };
-const ReadData = async (userID: string) => {
-    const { sqlite, db } = await ConnectDB("User");
-    ReadRowData(db, "Preferences", `uid = '${userID}'`);
-    await DisconnectDB(sqlite, 'User');
-};
-const UpdateData = async (userID: string, props: Props) => {
+const ReadData = async (userID: string) => await ConnectDB("User", async (db) => await ReadRowData(db, "Preferences", `uid = '${userID}'`));
+const UpdateData = async (props: Props) => {
     const identifierKey = 'uid';
     let data = '';
     const map = ConvertToMap(props);
@@ -51,15 +57,9 @@ const UpdateData = async (userID: string, props: Props) => {
         if (identifierKey === key) return;
         data = `${key} = '${value}, '` + data;
     });
-    const { sqlite, db } = await ConnectDB("User");
-    UpdateRowData(db, "Preferences", data, `${identifierKey} = '${userID}'`);
-    await DisconnectDB(sqlite, 'User');
+    await ConnectDB("User", async (db) => await UpdateRowData(db, "Preferences", data, `${identifierKey} = '${props[identifierKey]}'`));
 };
-const DeleteData = async (userID: string) => {
-    const { sqlite, db } = await ConnectDB("User");
-    DeleteRowData(db, "Preferences", `uid = '${userID}'`);
-    await DisconnectDB(sqlite, 'User');
-};
+const DeleteData = async (userID: string) => await ConnectDB("User", async (db) => await DeleteRowData(db, "Preferences", `uid = '${userID}'`));
 
 export type {
     Props
@@ -71,7 +71,9 @@ export {
     InsertData,
     ReadData,
     UpdateData,
-    DeleteData
+    DeleteData,
+
+    Enum
 };
 
 export default {
