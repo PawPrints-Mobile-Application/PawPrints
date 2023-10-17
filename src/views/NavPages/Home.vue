@@ -8,15 +8,9 @@
       <section class="facts-preview-card-container">
         <FactsPreviewCard />
       </section>
-      <section class="dog-cards-container">
-        <section
-          class="add-button"
-        >
-          <AddPetButton />
-        </section>
-        <!-- <section v-show="dogs.length > 0" v-for="dog in dogs" class="dog-cards">
-          <DogCard :dog="dog" />
-        </section> -->
+      <section class="dog-cards-container" :style="{justifyContent: conditions.empty ? 'center' : 'flex-start'}">
+        <AddPetButton v-show="conditions.empty" @click="FetchData" />
+        <DogCard v-show="!conditions.empty" v-for="dog in rawDogs" :dog="dog" />
       </section>
     </template>
   </page-layout>
@@ -24,11 +18,45 @@
 
 <script lang="ts" setup>
 import { PageLayout } from "../../layout";
-import { FactsPreviewCard } from "../../components/Cards";
+import { FactsPreviewCard, DogCard } from "../../components/Cards";
 import { ImgLogo } from "../../components/Logo";
 import { AddPetButton } from "../../components/Buttons";
+import { AuthState } from "../../server/authentication";
+import { onIonViewDidEnter, onIonViewWillEnter } from "@ionic/vue";
+import { computed, reactive, ref, watch } from "vue";
+import { DeleteAllData, Props as dogProps, GetAllData } from "../../server/sqlite/models/DogProfile";
 
-// import { dogs } from "../../server/data";
+
+
+const rawDogs = ref<Array<any>>();
+
+const conditions = reactive({
+  empty: true
+});
+
+const EmptyEvaluator = () => rawDogs.value?.length === 0;
+
+// Light Functions, preferrably async functions only
+onIonViewWillEnter(async () => {
+  if (localStorage.getItem('auth') === AuthState[1]) {
+    // await DeleteAllData();
+    await FetchData();
+    console.log(rawDogs.value);
+  }
+  else if (localStorage.getItem('auth') === AuthState[2]) {
+
+  }
+});
+
+const FetchData = async () => rawDogs.value = (await GetAllData()).values;
+
+watch(EmptyEvaluator, () => {console.log('RawDogs Changed'); conditions.empty = EmptyEvaluator()})
+
+// Heavy Functions
+onIonViewDidEnter(() => {
+  conditions.empty = EmptyEvaluator();
+  console.log(rawDogs.value?.length, conditions.empty);
+});
 </script>
 
 <script lang="ts">
@@ -39,7 +67,7 @@ export default {
     filename: 'Home',
     path: "/home",
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
       requiresInternet: false,
     },
     icon: {
@@ -52,8 +80,10 @@ export default {
 
 <style scoped>
 #home-header-title {
-  display: inline-block;
   text-align: left;
+  font-family: Poppins;
+  font-weight: 700;
+  font-size: var(--fs4);
 }
 
 #home-header-logo {
@@ -71,7 +101,6 @@ export default {
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: flex-start;
   align-items: center;
 }
 
@@ -87,4 +116,3 @@ export default {
   width: 100%;
 }
 </style>
-../../server/sqlite

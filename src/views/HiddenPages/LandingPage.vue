@@ -19,9 +19,11 @@ import { ImgLogo } from "../../components/Logo";
 import { SplashToHome, SplashToLogin } from ".";
 
 import auth from '../../server/firebase';
+import { AuthState } from "../../server/authentication";
 import { onAuthStateChanged } from 'firebase/auth';
-import { onMounted, reactive, watch, ref } from "vue";
-import { IonSpinner, useIonRouter } from "@ionic/vue";
+import { reactive, watch, ref } from "vue";
+import { IonSpinner, onIonViewDidEnter, useIonRouter } from "@ionic/vue";
+import { CreateDB } from "../../server/sqlite/models";
 
 const state = reactive({
   doneAnimation: false,
@@ -30,7 +32,7 @@ const state = reactive({
 
 const user = ref();
 onAuthStateChanged(auth, (currentUser) => {
-  user.value = localStorage.getItem('auth') === 'true' || !!currentUser;
+  user.value = localStorage.getItem('auth') !== AuthState[0] || !!currentUser;
 });
 
 const ionRouter = useIonRouter();
@@ -48,7 +50,8 @@ const Redirect = () => {
 watch(user, () => (state.readyRedirect = true));
 watch(() => state.doneAnimation && state.readyRedirect, Redirect);
 
-onMounted(() => {
+onIonViewDidEnter(() => {
+  CreateDB();
   setTimeout(() => {
     show.thumbnail = true;
     setTimeout(() => {

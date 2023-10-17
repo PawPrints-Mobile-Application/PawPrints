@@ -28,7 +28,6 @@ import "./theme/fonts.css";
 import { Capacitor } from "@capacitor/core";
 import { CapacitorSQLite, SQLiteConnection } from "@capacitor-community/sqlite";
 import { JeepSqlite } from "jeep-sqlite/dist/components/jeep-sqlite";
-import { CreateDB } from "./server/models";
 
 customElements.define("jeep-sqlite", JeepSqlite);
 console.log(`after customElements.define`);
@@ -49,8 +48,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       // Initialize the Web store
       await sqlite.initWebStore();
       console.log(`after initWebStore`);
-    }
-    await CreateDB();
+    };
 
     const app = createApp(App).use(IonicVue).use(router);
     router.isReady().then(() => {

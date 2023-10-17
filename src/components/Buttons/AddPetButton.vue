@@ -1,33 +1,31 @@
 <template>
-    <section class="add-pet-button-container">
-        <button class="add-pet-button">
-            <div id="button-line-1" class="button-line" />
-            <div id="button-line-2" class="button-line" />
-        </button>
-        <div class="add-pet-button-text">Add Pet</div>
-    </section>
+  <button class="add-pet-button" @click="AddDogProfile">
+      <div id="button-line-1" class="button-line" />
+      <div id="button-line-2" class="button-line" />
+  </button>
 </template>
 
 <script setup lang="ts">
+// import { onMounted } from 'vue';
+import { InsertData } from '../../server/sqlite/models/DogProfile';
+
+const AddDogProfile = () => {
+  InsertData({
+  pid: Date.now(),
+  name: 'Troy',
+  birthday: new Date().toLocaleDateString(),
+  breed: 'Shih Tzu',
+  color: 'white',
+  inoutdoor: 0,
+  fixing: 0
+});
+console.log('Troy Profile Added!');
+}
+
+// onMounted(AddDogProfile);
 </script>
 
 <style scoped>
-.add-pet-button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-flow: column nowrap;
-}
-
-.add-pet-button-text {
-    text-align: center;
-    font-family: Rubik;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 30px;
-}
-
 .add-pet-button {
   --size: 45px;
   width: var(--size);
