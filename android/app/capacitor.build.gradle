@@ -15,7 +15,6 @@ dependencies {
     implementation project(':capacitor-keyboard')
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.8.1'
 
 }
 

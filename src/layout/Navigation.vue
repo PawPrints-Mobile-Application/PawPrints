@@ -13,7 +13,7 @@
         >
           <ion-icon
             :icon="route.path === currentRoute ? route.icon.active : route.icon.default"
-            :color="route.path === currentRoute ? 'tertiary' : 'secondary'"
+            :color="route.path === currentRoute ? 'tertiary' : 'black'"
           />
         </ion-tab-button>
       </ion-tab-bar>

@@ -16,7 +16,7 @@ export default {
 <style scoped>
 .facts-preview-card {
   width: 100%;
-  background-color: var(--ion-color-quarter-tint);
+  background-color: var(--ion-color-secondary-tint);
   border-radius: 15px;
   padding: 15px 10px;
   display: flex;

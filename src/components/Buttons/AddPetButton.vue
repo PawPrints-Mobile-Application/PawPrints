@@ -1,5 +1,8 @@
 <template>
-  <button class="add-pet-button" @click="AddDogProfile">
+  <button class="add-pet-button" @click="async () => {
+    await AddDogProfile();
+    emit('click', onClick);
+  }">
       <div id="button-line-1" class="button-line" />
       <div id="button-line-2" class="button-line" />
   </button>
@@ -9,8 +12,8 @@
 // import { onMounted } from 'vue';
 import { InsertData } from '../../server/sqlite/models/DogProfile';
 
-const AddDogProfile = () => {
-  InsertData({
+const AddDogProfile = async () => {
+  await InsertData({
   pid: Date.now(),
   name: 'Troy',
   birthday: new Date().toLocaleDateString(),
@@ -23,6 +26,7 @@ console.log('Troy Profile Added!');
 }
 
 // onMounted(AddDogProfile);
+const emit = defineEmits(['click']);
 </script>
 
 <style scoped>

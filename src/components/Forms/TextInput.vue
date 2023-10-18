@@ -135,7 +135,7 @@ const emit = defineEmits(["input", "update:modelValid", "update:modelValue", "bl
   align-items: center;
   width: 100%;
   border-radius: 5px;
-  background-color: var(--ion-color-quarter);
+  background-color: var(--ion-color-secondary);
 }
 
 .text-input-input {
@@ -150,7 +150,7 @@ const emit = defineEmits(["input", "update:modelValid", "update:modelValue", "bl
 }
 
 .focused .text-input-wrapper {
-  background-color: var(--ion-color-quarter-shade);
+  background-color: var(--ion-color-secondary-shade);
 }
 
 .text-input-icon {

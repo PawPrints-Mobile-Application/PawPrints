@@ -5,30 +5,64 @@
 </template>
 
 <script setup lang="ts">
-import { IonApp, IonRouterOutlet } from "@ionic/vue";
+import { IonApp, IonRouterOutlet, toastController } from "@ionic/vue";
 import { SplashScreen } from "@capacitor/splash-screen";
-import { onMounted, onUnmounted } from "vue";
+import { onBeforeMount, onMounted, onUnmounted } from "vue";
+import {
+  globeOutline as networkOffline,
+  wifiOutline as networkOnline,
+} from "ionicons/icons";
 
-onMounted(() => {
-  SplashScreen.show();
-  setTimeout(() => {
-    SplashScreen.hide();
-  }, 0);
+onBeforeMount(() => {
+  sessionStorage.setItem("appInitialized", "false");
+}),
+  onMounted(async () => {
+    SplashScreen.show();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 0);
 
-  SetConnectivity(navigator.onLine ? 'online' : 'offline');
-  window.addEventListener('online', () => SetConnectivity('online'));
-  window.addEventListener('offline', () => SetConnectivity('offline'));
-});
+    window.addEventListener("online", async () => await SetConnectivity(true));
+    window.addEventListener(
+      "offline",
+      async () => await SetConnectivity(false)
+    );
+    await SetConnectivity(navigator.onLine);
+    sessionStorage.setItem("appInitialized", "true");
+  });
 
 onUnmounted(() => {
-  window.removeEventListener('online', () => SetConnectivity('online'));
-  window.removeEventListener('offline', () => SetConnectivity('offline'));
-})
+  window.removeEventListener("online", async () => await SetConnectivity(true));
+  window.removeEventListener(
+    "offline",
+    async () => await SetConnectivity(false)
+  );
+});
 
 // CONNECTIVITY EVENT LISTENER
-const SetConnectivity = (temp: 'online' | 'offline') => {
-  window.localStorage.setItem('connectivity', temp);
-  console.log(`Connectivity set to ${temp}!`);
+const SetConnectivity = async (isNetOnline: boolean) => {
+  const conn = isNetOnline ? "online" : "offline";
+  sessionStorage.setItem("networkConnectivity", conn);
+  if (sessionStorage.getItem("appInitialized") === "true" || !isNetOnline)
+    ConnectivityToast(isNetOnline);
+};
+
+const ConnectivityToast = async (isNetOnline: boolean) => {
+  const conn = isNetOnline ? "online" : "offline";
+  const toast = await toastController.create({
+    cssClass: "toast-connectivity",
+    message: `Network ${conn}`,
+    duration: 2000,
+    position: "top",
+    icon: isNetOnline ? networkOnline : networkOffline,
+    buttons: [
+      {
+        text: "X",
+        role: "cancel",
+      },
+    ],
+  });
+  return toast.present();
 };
 </script>
 
@@ -38,4 +72,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+ion-toast.toast-connectivity {
+  --background: var(--ion-color-danger);
+}
+</style>

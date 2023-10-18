@@ -3,13 +3,13 @@
 </template>
 <script setup lang="ts">
 import { Button } from '.';
-import {SigninUser} from '../../server/authentication';
+import { SigninProps } from '../../server/authentication/SigninUser';
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
 
 const GuestSignIn = async () => {
-  await SigninUser({
+  await SigninProps({
     uid: new Date().toLocaleString(),
     displayName: 'Guest',
     email: 'none'

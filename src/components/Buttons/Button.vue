@@ -24,7 +24,7 @@ const emit = defineEmits(['click'])
 <style scoped>
 .button {
   --width: 200px;
-  --height: 50px;
+  --height: 40px;
   --icon-size: 40px;
 
   position: relative;

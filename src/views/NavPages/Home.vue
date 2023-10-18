@@ -1,62 +1,80 @@
 <template>
   <page-layout id="home-page">
     <template #pageHeader>
-      <h1 id="home-header-title">Hello Hooman!</h1>
-      <ImgLogo id="home-header-logo"/>
+      <h1 id="home-header-title">Henlo, Hooman!</h1>
+      <ImgLogo v-if="conditions.empty" id="home-header-logo" />
+      <AddPetButton v-else @click="FetchDogs" />
     </template>
     <template #pageContent>
       <section class="facts-preview-card-container">
-        <FactsPreviewCard />
+        <FactsPreviewCard @click="async () => await DeleteAllDogs()" />
       </section>
-      <section class="dog-cards-container" :style="{justifyContent: conditions.empty ? 'center' : 'flex-start'}">
-        <AddPetButton v-show="conditions.empty" @click="FetchData" />
-        <DogCard v-show="!conditions.empty" v-for="dog in rawDogs" :dog="dog" />
+      <section class="dog-cards-container">
+        <AddPetButton v-show="conditions.empty" :onClick="async () => await ReloadPage()" />
+        <DogCard
+          v-show="!conditions.empty"
+          v-for="dog in rawDogs"
+          :dog="dog"
+          :name="dog.name"
+          :icon="dogIcon"
+          :age="'4 years and 10 months old'"
+        />
       </section>
     </template>
   </page-layout>
 </template>
 
 <script lang="ts" setup>
+import { Logo as dogIcon } from "../../assets/images";
 import { PageLayout } from "../../layout";
 import { FactsPreviewCard, DogCard } from "../../components/Cards";
 import { ImgLogo } from "../../components/Logo";
 import { AddPetButton } from "../../components/Buttons";
 import { AuthState } from "../../server/authentication";
 import { onIonViewDidEnter, onIonViewWillEnter } from "@ionic/vue";
-import { computed, reactive, ref, watch } from "vue";
-import { DeleteAllData, Props as dogProps, GetAllData } from "../../server/sqlite/models/DogProfile";
-
-
+import { reactive, ref } from "vue";
+import {
+  GetAllData,
+  DeleteAllData,
+} from "../../server/sqlite/models/DogProfile";
 
 const rawDogs = ref<Array<any>>();
 
 const conditions = reactive({
-  empty: true
+  empty: true,
 });
 
-const EmptyEvaluator = () => rawDogs.value?.length === 0;
+const EmptyEvaluator = () => rawDogs.value?.length === 0 || !rawDogs.value;
 
 // Light Functions, preferrably async functions only
 onIonViewWillEnter(async () => {
-  if (localStorage.getItem('auth') === AuthState[1]) {
-    // await DeleteAllData();
-    await FetchData();
-    console.log(rawDogs.value);
-  }
-  else if (localStorage.getItem('auth') === AuthState[2]) {
-
-  }
+  
 });
-
-const FetchData = async () => rawDogs.value = (await GetAllData()).values;
-
-watch(EmptyEvaluator, () => {console.log('RawDogs Changed'); conditions.empty = EmptyEvaluator()})
 
 // Heavy Functions
-onIonViewDidEnter(() => {
-  conditions.empty = EmptyEvaluator();
-  console.log(rawDogs.value?.length, conditions.empty);
+onIonViewDidEnter(async () => {
+  await ReloadPage();
+  console.log(rawDogs.value?.length);
 });
+
+// Page Manipulator
+const ReloadPage = async () => {
+  if (localStorage.getItem("auth") === AuthState[1]) {
+    await FetchDogs();
+  } else if (localStorage.getItem("auth") === AuthState[2]) {
+  }
+  conditions.empty = EmptyEvaluator();
+};
+
+// Data Manipulator
+const DeleteAllDogs = async () => {
+  await DeleteAllData();
+  await ReloadPage();
+};
+
+const FetchDogs = async () => {
+  rawDogs.value = (await GetAllData()).values;
+};
 </script>
 
 <script lang="ts">
@@ -64,7 +82,7 @@ import { homeFilled, homeOutline } from "../../assets/icons";
 export default {
   name: "Home",
   routeInfo: {
-    filename: 'Home',
+    filename: "Home",
     path: "/home",
     meta: {
       requiresAuth: true,
@@ -79,6 +97,14 @@ export default {
 </script>
 
 <style scoped>
+#home-page {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+}
+#home-page::-webkit-scrollbar {
+  display: none;
+}
+
 #home-header-title {
   text-align: left;
   font-family: Poppins;
@@ -98,10 +124,11 @@ export default {
 
 .dog-cards-container {
   width: 100%;
-  height: 100%;
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row wrap;
+  justify-content: center;
   align-items: center;
+  gap: 10px;
 }
 
 .add-button {
