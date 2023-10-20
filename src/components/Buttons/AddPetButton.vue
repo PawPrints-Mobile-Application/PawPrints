@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-// import { onMounted } from 'vue';
 import { InsertData } from '../../server/sqlite/models/DogProfile';
 
 const AddDogProfile = async () => {
@@ -25,17 +24,16 @@ const AddDogProfile = async () => {
 console.log('Troy Profile Added!');
 }
 
-// onMounted(AddDogProfile);
 const emit = defineEmits(['click']);
 </script>
 
 <style scoped>
 .add-pet-button {
-  --size: 45px;
+  --size: 35px;
   width: var(--size);
   height: var(--size);
   background-color: var(--ion-color-tertiary);
-  border-radius: 12px;
+  border-radius: 8px;
 
   display: flex;
   justify-content: center;

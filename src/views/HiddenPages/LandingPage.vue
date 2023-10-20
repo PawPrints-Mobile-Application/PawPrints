@@ -1,15 +1,13 @@
 <template>
-  <page-layout id="splash-screen-page">
-    <section class="page-content">
-      <div class="logo-wrapper"><ImgLogo id="logo" :class="{ 'show-thumbnail': show.thumbnail }" /></div>
+  <page-layout>
+      <div class="logo-wrapper"><ImgLogo id="logo" :class="{ 'show-thumbnail': show.thumbnail, 'show-background' : state.background  }" /></div>
       <ion-spinner
         class="login-loading"
         v-show="show.thumbnail"
-        :class="{ 'show-loading': show.loading }"
-        name="lines"
+        :class="{ 'show-loading': show.loading && !state.background }"
+        name="crescent"
         color="primary"
       />
-    </section>
   </page-layout>
 </template>
 
@@ -19,7 +17,7 @@ import { ImgLogo } from "../../components/Logo";
 import { SplashToHome, SplashToLogin } from ".";
 
 import auth from '../../server/firebase';
-import { AuthState } from "../../server/authentication";
+import { AuthType } from "../../server/authentication";
 import { onAuthStateChanged } from 'firebase/auth';
 import { reactive, watch, ref } from "vue";
 import { IonSpinner, onIonViewDidEnter, useIonRouter } from "@ionic/vue";
@@ -28,23 +26,24 @@ import { CreateDB } from "../../server/sqlite/models";
 const state = reactive({
   doneAnimation: false,
   readyRedirect: false,
+  background: false
 });
 
 const user = ref();
 onAuthStateChanged(auth, (currentUser) => {
-  user.value = localStorage.getItem('auth') !== AuthState[0] || !!currentUser;
+  user.value = localStorage.getItem('authType') !== AuthType[0] || !!currentUser;
 });
 
 const ionRouter = useIonRouter();
 const Redirect = () => {
-  show.loading = false;
+  state.background = true;
   setTimeout(() => {
     ionRouter.navigate(
       `/${user.value ? SplashToHome.name : SplashToLogin.name}`,
       "forward",
       "replace"
     );
-  }, 500);
+  }, 1000);
 };
 
 watch(user, () => (state.readyRedirect = true));
@@ -54,10 +53,10 @@ onIonViewDidEnter(() => {
   CreateDB();
   setTimeout(() => {
     show.thumbnail = true;
+    show.loading = true;
     setTimeout(() => {
       state.doneAnimation = true;
-      show.loading = true;
-    }, 500);
+    }, 1000);
   }, 1000);
 });
 
@@ -81,24 +80,20 @@ export default {
 };
 </script>
 <style scoped>
-#splash-screen-page {
-  height: 100%;
-  background-color: var(--ion-color-tertiary);
+.page-layout {
+  --padding-side: 0 !important;
+  --background-color: var(--ion-color-tertiary);
   --page-content-justify-content: center;
   transition: all 0.5s ease-in;
 }
 
 .logo-wrapper {
+  z-index: 2;
+  position: absolute;
+  bottom: 0;
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.page-content {
-  display: flex;
-  flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
 }
@@ -111,9 +106,12 @@ export default {
 }
 
 .show-thumbnail {
-  --background-color: var(--ion-color-primary);
   --width: 240px !important;
   opacity: 1 !important;
+}
+
+.show-background {
+  --background-color: var(--ion-color-primary);
 }
 
 #logo::before {
@@ -129,14 +127,16 @@ export default {
 
 .login-loading {
   position: absolute;
-  bottom: 100px;
-  width: 80px;
-  height: 80px;
+  --loading-size: 0px;
+  top: calc(50% - var(--loading-size)/2);
+  width: var(--loading-size);
+  height: var(--loading-size);
   opacity: 0;
-  transition: all 500ms ease-out;
+  transition: all 500ms ease-in;
 }
 
 .show-loading {
+  --loading-size: 280px;
   opacity: 1;
 }
 </style>

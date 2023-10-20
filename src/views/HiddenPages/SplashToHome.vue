@@ -1,9 +1,8 @@
 <template>
-  <page-layout id="splash-screen-page" :class="{ 'background-grow': animation.backgroundGrow }">
-    <section class="page-content">
-      <div class="logo-wrapper" :class="{'turn-small': animation.turnSmall}"><ImgLogo id="logo"/></div>
-      
-    </section>
+  <page-layout>
+    <div class="logo-wrapper" :class="{ 'logo-out': logoOut, 'background-grow' : backgroundGrow }">
+      <ImgLogo id="logo" />
+    </div>
   </page-layout>
 </template>
 
@@ -11,24 +10,21 @@
 import { PageLayout } from '../../layout';
 import { ImgLogo } from '../../components/Logo';
 
-import { onMounted, reactive } from "vue";
+import { onMounted, ref } from "vue";
 
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 
-const animation = reactive({
-  backgroundGrow: false,
-  turnSmall: false
-});
-
+const backgroundGrow = ref(false);
+const logoOut = ref(false);
 onMounted(() => {
   setTimeout(() => {
-    animation.backgroundGrow = true
+    backgroundGrow.value = true;
     setTimeout(() => {
-      animation.turnSmall = true
-      setTimeout(() => ionRouter.navigate("/home", "forward", "replace"), 1500);
-    }, 500);
-  }, 1000);
+      logoOut.value = true;
+      setTimeout(() => ionRouter.navigate("/home", "forward", "replace"), 900);
+    }, 200);
+  }, 300);
 });
 </script>
 
@@ -47,34 +43,28 @@ export default {
 </script>
 
 <style scoped>
-#splash-screen-page {
-  height: 100%;
-  background-color: var(--ion-color-tertiary);
+.page-layout {
+  --padding-side: 0 !important;
+  --background-color: var(--ion-color-tertiary);
   --page-content-justify-content: center;
-  transition: all 0.5s ease-in;
-}
-
-.page-content {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  align-items: flex-end;
-  width: 100%;
-  height: 100%;
+  transition: all 500ms ease-in;
 }
 
 .logo-wrapper {
+  position: absolute;
+  bottom: 0;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 1000ms ease-out 200ms;
+  transition: all 500ms ease-in;
 }
 
 #logo {
   --background-color: var(--ion-color-primary);
   --width: 240px;
+  transition: all 800ms ease-in 1000ms;
 }
 
 #logo::before {
@@ -85,7 +75,7 @@ export default {
   height: 10px;
   border-radius: 100%;
   z-index: -1;
-  transition: all 800ms ease-in 200ms;
+  transition: all 800ms ease-in;
 }
 
 .background-grow #logo::before {
@@ -94,13 +84,7 @@ export default {
   border-radius: 0;
 }
 
-.turn-small {
-  width: 80px;
-  height: 80px;
-  margin-top: 5px;
-}
-
-.turn-small #logo {
-  --width: max-content;
+.logo-out {
+  transform: translateY(-500px);
 }
 </style>

@@ -1,9 +1,9 @@
-import { AuthState } from ".";
+import { AuthType } from ".";
 
 export default async () => {
-    console.log(`${window.localStorage.getItem('username')} has disconnected!`);
-    window.localStorage.setItem('auth', AuthState[0]);
-    window.localStorage.setItem('userID', '');
-    window.localStorage.setItem('username', '');
-    window.localStorage.setItem('email', '');
+    console.log(`${window.localStorage.getItem('authUsername')} has disconnected!`);
+    window.localStorage.setItem('authType', AuthType[0]);
+    window.localStorage.setItem('authID', '');
+    window.localStorage.setItem('authUsername', '');
+    window.localStorage.setItem('authEmail', '');
   };

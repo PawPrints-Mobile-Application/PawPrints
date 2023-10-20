@@ -1,11 +1,24 @@
 <template>
   <page-layout id="maps-page">
-    Maps
+    <template #pageHeader>
+        <Searchbox id="search" v-model="searchLocation" :onReturn="() => console.log(searchLocation)"/>
+    </template>
+    <template #pageContent>
+      <section id="background-placeholder" :style="{'width': `${appDimesions.width}px`, 'height': `${appDimesions.height}px`}" />
+    </template>
   </page-layout>
 </template>
 
 <script lang="ts" setup>
-import { PageLayout } from '../../layout';
+import { Searchbox } from "../../components/Forms";
+import { PageLayout } from "../../layout";
+import { ref } from "vue";
+
+const searchLocation = ref('');
+const appDimesions = {
+  width: window.innerWidth,
+  height: window.innerHeight
+}
 </script>
 
 <script lang="ts">
@@ -28,4 +41,7 @@ import { mapsFilled, mapsOutline } from '../../assets/icons';
 </script>
 
 <style scoped>
+#background-placeholder {
+  background-color: var(--ion-color-primary-shade);
+}
 </style>

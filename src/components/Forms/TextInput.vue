@@ -4,10 +4,10 @@
     :class="{ focused: focused, 'has-value': modelValue !== '' }"
   >
     <label
-      v-show="!!label"
+      v-show="!!label && labelEffects === 'move'"
       class="text-input-label"
       :for="name"
-      @click="input.focus()"
+      @click="focus"
       >{{ label }}</label
     >
     <div class="text-input-wrapper">
@@ -17,8 +17,11 @@
         :name="name"
         :type="hide ? type : 'text'"
         v-model="value"
-        :placeholder="focused ? placeholder : ''"
-        :onFocus="() => (focused = true)"
+        :placeholder="focused || labelEffects === 'hide' ? placeholder : ''"
+        :onFocus="() => {
+          focused = true;
+          emit('focus', value);
+        }"
         :onBlur="() => {
           focused = false;
           emit('blur', value);
@@ -56,7 +59,7 @@ const props = defineProps({
   placeholder: String,
   type: {
     type: String,
-    default: "text",
+    required: true,
     validator: (value: string) => ["text", "email", "password"].includes(value),
   },
   validator: {
@@ -75,9 +78,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  labelEffects: {
+    type: String,
+    default: 'move',
+    validator: (value: string) => ['move', 'hide'].includes(value)
+  }
 });
 
 const input = ref();
+const focus = () => input.value.focus();
 const valid = ref(false);
 const allowValidation = computed(
   () => !!props.validate && props.modelValue !== ""
@@ -98,11 +107,17 @@ const value = computed({
   },
 });
 
-const emit = defineEmits(["input", "update:modelValid", "update:modelValue", "blur"]);
+const emit = defineEmits(["input", "update:modelValid", "update:modelValue", "blur", 'focus']);
+
+defineExpose({focus});
 </script>
 
 <style scoped>
 .text-input {
+  --background-color: var(--ion-color-secondary);
+  --background-color-after: var(--ion-color-secondary-shade);
+  --border-radius: 5px;
+
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -134,8 +149,8 @@ const emit = defineEmits(["input", "update:modelValid", "update:modelValue", "bl
   justify-content: center;
   align-items: center;
   width: 100%;
-  border-radius: 5px;
-  background-color: var(--ion-color-secondary);
+  border-radius: var(--border-radius);
+  background-color: var(--background-color);
 }
 
 .text-input-input {
@@ -150,7 +165,7 @@ const emit = defineEmits(["input", "update:modelValid", "update:modelValue", "bl
 }
 
 .focused .text-input-wrapper {
-  background-color: var(--ion-color-secondary-shade);
+  background-color: var(--background-color-after);
 }
 
 .text-input-icon {

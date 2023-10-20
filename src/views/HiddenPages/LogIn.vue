@@ -1,7 +1,6 @@
 <template>
-  <page-layout id="login-page">
-    <template #pageContent>
-      <ImgLogo id="logo" />
+  <page-layout>
+      <div class="logo-wrapper"><ImgLogo id="logo" /></div>
       <section class="main-content">
         <h1 id="main-content-title">PawPrints</h1>
         <GuestButton />
@@ -17,7 +16,6 @@
         </ButtonModal>
         <GoogleButton />
       </section>
-    </template>
   </page-layout>
 </template>
 
@@ -44,17 +42,29 @@ export default {
 </script>
 
 <style scoped>
-#login-page {
-  height: 100%;
-  background-color: var(--ion-color-primary);
+.page-layout {
   --page-content-justify-content: center;
+  transition: all 500ms ease-in;
+}
+
+.logo-wrapper {
+  position: absolute;
+  bottom: 30%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #logo {
+  --background-color: var(--ion-color-primary);
   --width: 240px;
 }
 
 .main-content {
+  position: absolute;
+  top: 35%;
   width: 100%;
   opacity: 1;
   height: 350px;

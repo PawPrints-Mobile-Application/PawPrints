@@ -1,34 +1,39 @@
 <template>
-  <page-layout id="settings-page">
+  <page-layout>
     <template #pageContent>
       <section class="profile-container">
-        <img class="profile-picture" :src="profilePicture">
+        <img class="profile-picture" :src="profilePicture" />
         <h1 class="profile-text profile-username">{{ username }}</h1>
         <h2 class="profile-text profile-email">{{ email }}</h2>
       </section>
       <section class="settings-card-container">
-        <SettingsCard v-for="info in settingsInfo" :label="info.label" :icon="info.icon" @click="info.handler" />
+        <SettingsCard
+          v-for="info in settingsInfo"
+          :label="info.label"
+          :icon="info.icon"
+          @click="info.handler"
+        />
       </section>
       <section class="buttons-container">
         <ButtonSignOut />
       </section>
-      </template>
+    </template>
   </page-layout>
 </template>
 
 <script lang="ts" setup>
-import { PageLayout } from '../../layout';
-import { ButtonSignOut } from '../../components/Buttons';
-import { ref, computed } from 'vue';
-import auth from '../../server/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { SettingsCard } from '../../components/Cards';
-import { personCircleOutline } from 'ionicons/icons';
-import { settingsCardIcons } from '../../assets/icons'
+import { PageLayout } from "../../layout";
+import { ButtonSignOut } from "../../components/Buttons";
+import { ref } from "vue";
+import auth from "../../server/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { SettingsCard } from "../../components/Cards";
+import { personCircleOutline } from "ionicons/icons";
+import { settingsCardIcons } from "../../assets/icons";
 
 const profilePicture = ref(personCircleOutline);
-const username = computed(() => localStorage.getItem('username'));
-const email = computed(() => localStorage.getItem('username'));
+const username = localStorage.getItem("authUsername");
+const email = localStorage.getItem("authEmail");
 const currentUser = ref();
 onAuthStateChanged(auth, (user) => {
   console.log(user);
@@ -37,34 +42,34 @@ onAuthStateChanged(auth, (user) => {
 
 const settingsInfo = [
   {
-    label: 'Profile',
+    label: "Profile",
     icon: settingsCardIcons.settingsProfile,
-    handler: () => console.log('Profile clicked')
+    handler: () => console.log("Profile clicked"),
   },
   {
-    label: 'Preferences',
+    label: "Preferences",
     icon: settingsCardIcons.settingsPreferences,
-    handler: () => console.log('Preferences clicked')
+    handler: () => console.log("Preferences clicked"),
   },
   {
-    label: 'Subscriptions',
+    label: "Subscriptions",
     icon: settingsCardIcons.settingsSubscriptions,
-    handler: () => console.log('Subscriptions clicked')
+    handler: () => console.log("Subscriptions clicked"),
   },
   {
-    label: 'About',
+    label: "About",
     icon: settingsCardIcons.settingsAbout,
-    handler: () => console.log('About clicked')
+    handler: () => console.log("About clicked"),
   },
-]
+];
 </script>
 
 <script lang="ts">
-import {settingsFilled, settingsOutline} from '../../assets/icons';
-  export default {
-    name: "Settings",
+import { settingsFilled, settingsOutline } from "../../assets/icons";
+export default {
+  name: "Settings",
   routeInfo: {
-    filename: 'Settings',
+    filename: "Settings",
     path: "/settings",
     meta: {
       requiresAuth: false,
@@ -72,18 +77,13 @@ import {settingsFilled, settingsOutline} from '../../assets/icons';
     },
     icon: {
       default: settingsOutline,
-      active: settingsFilled
-    } 
-  }
-  }
+      active: settingsFilled,
+    },
+  },
+};
 </script>
 
 <style scoped>
-#settings-page {
-  padding: 20px 0 0;
-  overflow-y: scroll;
-}
-
 .profile-picture {
   --size: 150px;
   width: var(--size);
@@ -104,12 +104,13 @@ import {settingsFilled, settingsOutline} from '../../assets/icons';
 }
 
 .settings-card-container {
-  padding: 20px 0;
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
+  margin: 20px 0;
 }
+
 </style>

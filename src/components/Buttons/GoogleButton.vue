@@ -1,9 +1,9 @@
 <template>
-    <IconButton class="button-google" :icon="logoGoogle" background-color="primary" color="tertiary" :on-click="SignInWithGoogle"/>
+    <IconButton class="button-google" :icon="icon" @click="SignInWithGoogle"/>
 </template>
 <script setup lang="ts">
 import IconButton from './IconButton.vue';
-import { logoGoogle } from "ionicons/icons";
+import { logoGoogle as icon } from "ionicons/icons";
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import auth from '../../server/firebase';
 import { useIonRouter } from "@ionic/vue";
@@ -23,11 +23,8 @@ const SignInWithGoogle = () => {
 </script>
 <style scoped>
 .button-google {
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    min-height: 50px !important;
-    outline: 2px solid var(--ion-color-secondary);
-    border-radius: 10px;
-    font-size: 30px;
+  background-color: var(--ion-color-tertiary);
+  --size: var(--fs6);
+  --padding: 7px;
 }
-    
 </style>

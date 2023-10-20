@@ -33,7 +33,7 @@
       :validator="SignupValidator.username.validator"
       v-model:modelValid="validations.username"
       v-model:modelValue="form.username"
-      :helper-text="`Password must be at least ${SignupValidator.username.count} characters!`"
+      :helper-text="SignupValidator.username.helperText"
     />
 
     <TextInput
@@ -62,7 +62,7 @@
       validate
       :validator="SignupValidator.password.validator"
       v-model:modelValid="validations.password"
-      :helper-text="`Password must be at least ${SignupValidator.password.count} characters!`"
+      :helper-text="SignupValidator.password.helperText"
     />
 
     <TextInput

@@ -77,7 +77,7 @@ const emit = defineEmits(["input", "update:modelValue"]);
   justify-content: center;
   align-items: center;
   border-radius: var(--border-radius);
-  background-color: var(--ion-color-quarter);
+  background-color: var(--ion-color-secondary);
 }
 
 .focused .checkbox-container {

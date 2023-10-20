@@ -1,16 +1,22 @@
 <template>
-  <page-layout id="home-page">
+  <page-layout>
     <template #pageHeader>
-      <h1 id="home-header-title">Henlo, Hooman!</h1>
-      <ImgLogo v-if="conditions.empty" id="home-header-logo" />
-      <AddPetButton v-else @click="FetchDogs" />
+      <section class="header">
+        <Searchbox id="search" v-model="searchDog" :onReturn="() => console.log(searchDog)" @focus="() => state.searchFocus = true" @blur="() => state.searchFocus = false" collapse/>
+        <h3 v-show="!state.searchFocus" id="auth-greetings">{{ authGreetings }}</h3>
+      <AddPetButton @click="FetchDogs" v-show="!state.searchFocus && !conditions.empty" />
+      </section>
     </template>
     <template #pageContent>
       <section class="facts-preview-card-container">
         <FactsPreviewCard @click="async () => await DeleteAllDogs()" />
       </section>
+      <h1 id="dog-cards-title">My Dogs</h1>
       <section class="dog-cards-container">
-        <AddPetButton v-show="conditions.empty" :onClick="async () => await ReloadPage()" />
+        <section v-show="conditions.empty" class="add-dog-container">
+          <AddPetButton :onClick="async () => await ReloadPage()" />
+            <p id="add-dog-text">Add Dog</p>
+        </section>
         <DogCard
           v-show="!conditions.empty"
           v-for="dog in rawDogs"
@@ -25,12 +31,12 @@
 </template>
 
 <script lang="ts" setup>
-import { Logo as dogIcon } from "../../assets/images";
+import { Searchbox } from "../../components/Forms";
 import { PageLayout } from "../../layout";
+import { Logo as dogIcon } from "../../assets/images";
 import { FactsPreviewCard, DogCard } from "../../components/Cards";
-import { ImgLogo } from "../../components/Logo";
 import { AddPetButton } from "../../components/Buttons";
-import { AuthState } from "../../server/authentication";
+import { AuthType } from "../../server/authentication";
 import { onIonViewDidEnter, onIonViewWillEnter } from "@ionic/vue";
 import { reactive, ref } from "vue";
 import {
@@ -38,7 +44,12 @@ import {
   DeleteAllData,
 } from "../../server/sqlite/models/DogProfile";
 
+const authGreetings = `Henlo, ${localStorage.getItem('authUsername') === 'Guest' ? 'Hooman' : localStorage.getItem('authUsername')}`;
 const rawDogs = ref<Array<any>>();
+const searchDog = ref('');
+const state = reactive({
+  searchFocus: false
+});
 
 const conditions = reactive({
   empty: true,
@@ -59,9 +70,9 @@ onIonViewDidEnter(async () => {
 
 // Page Manipulator
 const ReloadPage = async () => {
-  if (localStorage.getItem("auth") === AuthState[1]) {
+  if (localStorage.getItem("authType") === AuthType[1]) {
     await FetchDogs();
-  } else if (localStorage.getItem("auth") === AuthState[2]) {
+  } else if (localStorage.getItem("authType") === AuthType[2]) {
   }
   conditions.empty = EmptyEvaluator();
 };
@@ -97,22 +108,35 @@ export default {
 </script>
 
 <style scoped>
-#home-page {
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-}
-#home-page::-webkit-scrollbar {
-  display: none;
+.page-layout {
+  --header-height: 50px;
 }
 
-#home-header-title {
+.header {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+#search {
+  --radius: 10px;
+  --radius-after: 30px;
+  --height: 43px;
+  --width: 43px;
+}
+
+#auth-greetings {
   text-align: left;
   font-family: Poppins;
   font-weight: 700;
-  font-size: var(--fs4);
+  font-size: var(--fs3);
+  margin: 0;
 }
 
-#home-header-logo {
+#header-logo {
   --min-width: 80px;
   --width: 80px;
 }
@@ -126,9 +150,24 @@ export default {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   gap: 10px;
+}
+
+#dog-cards-title {
+  font-family: Poppins;
+  font-size: var(--fs4);
+  margin: 0 0 10px;
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+.add-dog-container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .add-button {
@@ -137,6 +176,14 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+}
+
+#add-dog-text {
+  text-align: center;
+  font-family: Rubik;
+  font-size: var(--fs1);
+  font-weight: 400;
+  margin: 10px;
 }
 
 .dog-cards {

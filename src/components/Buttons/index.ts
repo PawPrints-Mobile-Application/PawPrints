@@ -7,6 +7,7 @@ import ForwardButton from "./ForwardButton.vue";
 import GoogleButton from "./GoogleButton.vue";
 import IconButton from "./IconButton.vue";
 import GuestButton from "./GuestButton.vue";
+import SearchButton from "./SearchButton.vue";
 
 export {
   AddPetButton,
@@ -17,7 +18,8 @@ export {
   ForwardButton,
   GoogleButton,
   IconButton,
-  GuestButton
+  GuestButton,
+  SearchButton
 };
 
 export default Button;

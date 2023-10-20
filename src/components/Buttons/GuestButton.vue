@@ -18,8 +18,4 @@ const GuestSignIn = async () => {
 }
 </script>
 <style scoped>
-.guest-signin {
-  --width: 200px;
-  --height: 50px;
-}
 </style>
