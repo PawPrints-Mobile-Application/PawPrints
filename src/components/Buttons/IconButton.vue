@@ -26,8 +26,10 @@ const emit = defineEmits(['click']);
 <style scoped>
 
 .icon-button {
+  --color: var(--ion-color-primary);
   --padding: 3px 5px 3px 3px;
   --border-radius: 10px;
+  --margin: 10px 0;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -35,7 +37,7 @@ const emit = defineEmits(['click']);
   align-items: center;
   padding: var(--padding);
   border-radius: var(--border-radius);
-  margin: 10px 0;
+  margin: var(--margin);
   background-color: var(--ion-color-tertiary);
 }
 
@@ -45,6 +47,6 @@ const emit = defineEmits(['click']);
 
 .icon-button ion-icon#icon {
   font-size: var(--size);
-  color: var(--ion-color-primary);
+  color: var(--color);
 }
 </style>

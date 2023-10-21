@@ -1,3 +1,4 @@
-import ModalVue from "./Modal.vue";
+import Modal from "./Modal.vue";
+import Popup from "./Popup.vue";
 
-export default ModalVue;
+export {Modal, Popup}

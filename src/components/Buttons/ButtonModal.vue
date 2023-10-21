@@ -1,7 +1,6 @@
 <template>
   <section class="button-modal" :id="id">
-    <Button :id="`button-${id}`" class="button-modal-button" :text="text"
-      />
+    <Button :id="`button-${id}`" class="button-modal-button" :text="text" />
     <Modal
       :id="`modal-${id}`"
       class="button-modal-modal"
@@ -27,21 +26,20 @@
 
 <script setup lang="ts">
 import Button from "./Button.vue";
-import Modal from "../Modals/Modal.vue";
+import { Modal } from "../Modals";
 defineProps([
-    "id",
-    "allowModalButtons",
-    "expand",
-    "color",
-    "text",
-    "onClick",
-    "maxPages",
-    "onSubmit",
-    "design",
-    "title",
-    "buttonClass",
-    "modalClass"
-  ]);
+  "id",
+  "allowModalButtons",
+  "expand",
+  "color",
+  "text",
+  "onClick",
+  "maxPages",
+  "onSubmit",
+  "design",
+  "title",
+  "buttonClass",
+  "modalClass",
+]);
 </script>
-<style scoped>
-</style>
+<style scoped></style>

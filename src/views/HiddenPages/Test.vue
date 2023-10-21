@@ -1,14 +1,21 @@
 <template>
   <page-layout>
-    <Searchbox v-model="value" :onReturn="() => console.log(value)" />
+    <TextInput
+      type="text"
+      label="Text"
+      name="text"
+    />
+    <br>
+    <DateInput v-model="value" />
   </page-layout>
 </template>
 <script setup lang="ts">
 import { PageLayout } from '../../layout';
-import Searchbox from '../../components/Forms/Searchbox.vue';
+import DateInput from '../../components/Forms/DateInput.vue';
+import { TextInput } from '../../components/Forms';
 import { ref } from 'vue';
 
-const value = ref('');
+const value = ref('2023-10-22');
 </script>
 <script lang="ts">
 export default {
@@ -24,4 +31,7 @@ export default {
 };
 </script>
 <style scoped>
+.page-layout {
+  --padding-side: 10px;
+}
 </style>

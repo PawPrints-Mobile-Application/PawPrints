@@ -60,7 +60,7 @@ const props = defineProps({
   type: {
     type: String,
     required: true,
-    validator: (value: string) => ["text", "email", "password"].includes(value),
+    validator: (value: string) => ["text", "email", "password", 'date'].includes(value),
   },
   validator: {
     type: Function,
