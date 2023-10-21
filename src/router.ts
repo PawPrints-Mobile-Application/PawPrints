@@ -27,10 +27,9 @@ const addRoutes = () => {
   pages.forEach((page) => {
     const isNavigation = page.path.indexOf("NavPages") !== -1;
     const target = isNavigation ? routes[1].children! : routes;
-    console.log(page.filename);
     target.push({
       path: page.path,
-      component: () => import(page.filename),
+      component: () => import(page.filename /* @vite-ignore */),
     });
   });
 
