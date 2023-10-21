@@ -1,8 +1,10 @@
-import { ConnectDB, InsertRowData, ReadRowData, UpdateRowData, DeleteRowData } from "..";
+import { CreateTable as MakeTable, InsertRowData, ReadRowData, UpdateRowData, DeleteRowData } from "../..";
 
-const name = 'DogProfile';
+const dbName = 'Guest';
+const modelName = 'DogProfile';
 const columns = `
-pid INTEGER PRIMARY KEY UNIQUE NOT NULL,
+pid TEXT PRIMARY KEY UNIQUE NOT NULL,
+uid TEXT ,
 name TEXT,
 birthday TEXT,
 breed TEXT,
@@ -23,7 +25,8 @@ const Enum = {
     }
 };
 interface Props {
-    pid: number,
+    pid: string,
+    uid: string,
     name: string,
     birthday: string,
     breed: string,
@@ -35,6 +38,7 @@ interface Props {
 const ConvertToMap = (props: Props) => {
     const temp = new Map();
     temp.set('pid', props.pid);
+    temp.set('uid', props.pid);
     temp.set('name', props.name);
     temp.set('birthday', props.birthday);
     temp.set('breed', props.breed);
@@ -44,36 +48,44 @@ const ConvertToMap = (props: Props) => {
     return temp;
 }
 
+const CreateTable = async () => {
+    await MakeTable(dbName, modelName, columns);
+}
+
 const InsertData = async (props: Props) => {
     const map = ConvertToMap(props);
     const keys = Array.from(map.keys());
     const values = Array.from(map.values());
-    await ConnectDB((db) => InsertRowData(db, name, {keys, values}));
+    await InsertRowData(dbName, modelName, {keys, values});
 };
 
-const GetAllData = async () => await ConnectDB((db) => ReadRowData(db, name));
+const GetAllData = async () => await ReadRowData(dbName, modelName);
 
-const GetData = async (petID: string) => await ConnectDB((db) => ReadRowData(db, name, {key: 'petID', value: petID}));
+const GetData = async (pid: string) => await ReadRowData(dbName, modelName, {key: 'pid', value: pid});
 
 const UpdateData = async (props: Props) => {
     const identifierKey = 'pid';
     const map = ConvertToMap(props);
     const keys = Array.from(map.keys());
     const values = Array.from(map.values());
-    await ConnectDB((db) => UpdateRowData(db, name, {keys, values}, {key: identifierKey, value: props[identifierKey]}));
+    await UpdateRowData(dbName, modelName, {keys, values}, {key: identifierKey, value: props[identifierKey]});
 };
 
-const DeleteAllData = async () => await ConnectDB((db) => DeleteRowData(db, name));
+const DeleteAllData = async () => {
+    await DeleteRowData(dbName, modelName);
+}
 
-const DeleteData = async (petID: string) => await ConnectDB((db) => DeleteRowData(db, name, {key: 'petID', value: petID}));
+const DeleteData = async (pid: string) => {
+    await DeleteRowData(dbName, modelName, {key: 'pid', value: pid});
+}
 
 export type {
     Props
 };
 
 export {
-    columns,
     ConvertToMap,
+    CreateTable,
     InsertData,
     GetData,
     GetAllData,
@@ -85,6 +97,6 @@ export {
 };
 
 export default {
-    name: name,
+    name: modelName,
     columns: columns
 };

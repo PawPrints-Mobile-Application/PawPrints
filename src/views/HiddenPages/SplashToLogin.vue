@@ -5,21 +5,18 @@
     </div>
     <section class="main-content">
       <h1 id="main-content-title">PawPrints</h1>
-      <GuestButton />
-      <ButtonModal text="Sign In" />
-      <ButtonModal text="Sign Up" />
-      <GoogleButton />
+      <Button text="Guest" />
+      <Button text="Sign In" />
+      <Button text="Sign Up" />
+      <IconButton class="button-google" :icon="icon" />
     </section>
   </page-layout>
 </template>
 
 <script lang="ts" setup>
 import { PageLayout } from "../../layout";
-import {
-  GoogleButton,
-  ButtonModal,
-  GuestButton,
-} from "../../components/Buttons";
+import { logoGoogle as icon } from "ionicons/icons";
+import { Button, IconButton } from "../../components/Buttons";
 import { ImgLogo } from "../../components/Logo";
 
 import { onMounted, ref } from "vue";
@@ -33,7 +30,7 @@ const ShowContent = () => {
   setTimeout(() => {
     logoMove.value = true;
     showContent.value = true;
-    setTimeout(() => ionRouter.navigate("/login", "forward", "replace"), 1500);
+    setTimeout(() => ionRouter.navigate("/login", "forward", "replace"), 900);
   }, 300);
 };
 
@@ -109,7 +106,7 @@ export default {
   align-items: center;
   flex-flow: column nowrap;
   gap: 20px;
-  transition: opacity 1s ease-in-out 500ms;
+  transition: opacity 500ms ease-in-out 500ms;
 }
 
 .show-content .main-content {
@@ -120,5 +117,11 @@ export default {
 #main-content-title {
   font-weight: bold;
   margin: 0;
+}
+
+.button-google {
+  background-color: var(--ion-color-tertiary);
+  --size: var(--fs6);
+  --padding: 7px;
 }
 </style>

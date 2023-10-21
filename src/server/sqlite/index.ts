@@ -1,28 +1,33 @@
 import {
   CapacitorSQLite,
   SQLiteConnection,
-  SQLiteDBConnection,
 } from "@capacitor-community/sqlite";
 
 // ============================== DATABASE CONNECTION =============================
 const ConnectDB = async (
-  callback: (db: SQLiteDBConnection) => Promise<any>
+  dbName: string,
+  query: string,
+  values: Array<any> | false = false
 ) => {
   const sqlite = new SQLiteConnection(CapacitorSQLite);
   const ret = await sqlite.checkConnectionsConsistency();
-  const isConn = (await sqlite.isConnection("Guest", false)).result;
+  const isConn = (await sqlite.isConnection(dbName, false)).result;
   const db =
     ret.result && isConn
-      ? await sqlite.retrieveConnection("Guest", false)
-      : await sqlite.createConnection(
-          "Guest",
-          false,
-          "no-encryption",
-          1,
-          false
-        );
+      ? await sqlite.retrieveConnection(dbName, false)
+      : await sqlite.createConnection(dbName, false, "no-encryption", 1, false);
   await db.open();
-  const response = await callback(db);
+  let response;
+  if (!!values) {
+    response = await db.query(query, values);
+  } else {
+    response = await db.query(query);
+  }
+  const log = false;
+  if (sessionStorage.getItem('dev-mode') === 'debug' || log) {
+    if(!!response.values) {console.log('Query Processing: ' + response);}
+    console.log(await db.getTableList());
+  }
   await db.close();
   return response;
 };
@@ -30,31 +35,27 @@ const ConnectDB = async (
 // ============================== TABLE MANIPULATION =============================
 // ============================== CREATE ==============================
 const CreateTable = async (
-  db: SQLiteDBConnection,
+  dbName: string,
   tableName: string,
   columns: string
-) => {
-  console.log(`Table Initialized: ${tableName}`);
-  return await db.query(`CREATE TABLE IF NOT EXISTS ${tableName} (${columns});`);
-}
+) => ConnectDB(dbName, `CREATE TABLE IF NOT EXISTS ${tableName} (${columns});`);
 
-const DeleteTable = async (db: SQLiteDBConnection, tableName: string) => {
-  console.log(`Table Deleted: ${tableName}`);
-  return await db.execute(`DROP TABLE IF EXISTS ${tableName};`);
-}
+const DeleteTable = async (dbName: string, tableName: string) =>
+  ConnectDB(dbName, `DROP TABLE IF EXISTS ${tableName};`);
 
 // ============================== ROW DATA MANIPULATION =============================
 // ============================== INSERT ==============================
 const InsertRowData = async (
-  db: SQLiteDBConnection,
+  dbName: string,
   tableName: string,
   data: {
-    keys: Array<string>,
-    values: Array<any>
+    keys: Array<string>;
+    values: Array<any>;
   }
-) => 
-  await db.query(
-    `INSERT INTO ${tableName} (${data.keys.join(', ')}) VALUES (${"?,".repeat(
+) =>
+  ConnectDB(
+    dbName,
+    `INSERT INTO ${tableName} (${data.keys.join(", ")}) VALUES (${"?,".repeat(
       data.values.length - 1
     )}?);`,
     data.values
@@ -62,47 +63,66 @@ const InsertRowData = async (
 
 // ============================== READ ==============================
 const ReadRowData = async (
-  db: SQLiteDBConnection,
+  dbName: string,
   tableName: string,
-  identifier: {
-    key: string,
-    value: string | number
-  } |undefined =undefined
-) => !!identifier ? await db.query(
-  `SELECT * FROM ${tableName} ${!!identifier ? `WHERE ${identifier?.key} = ?` : ""};`,[identifier?.value]) : await db.query(`SELECT * FROM ${tableName};`);
+  identifier:
+    | {
+        key: string;
+        value: string | number;
+      }
+    | undefined = undefined
+) =>
+  ConnectDB(
+    dbName,
+    !!identifier
+      ? `SELECT * FROM ${tableName} ${
+          !!identifier ? `WHERE ${identifier?.key} = ?` : ""
+        };`
+      : `SELECT * FROM ${tableName};`,
+    !!identifier && [identifier?.value]
+  );
 
 // ============================== UPDATE ==============================
 const UpdateRowData = async (
-  db: SQLiteDBConnection,
+  dbName: string,
   tableName: string,
   data: {
-    keys: Array<string>,
-    values: Array<any>
+    keys: Array<string>;
+    values: Array<any>;
   },
   identifier: {
-    key: string,
-    value: any
+    key: string;
+    value: any;
   }
 ) =>
-  await db.query(
-    `UPDATE ${tableName} SET ${data.keys.join(
-      " = ?, "
-    )} WHERE ${identifier.key} = ?;`,
+  ConnectDB(
+    dbName,
+    `UPDATE ${tableName} SET ${data.keys.join(" = ?, ")} = ? WHERE ${identifier.key} = ?;`,
     [...data.values, identifier.value]
   );
 
 // ============================== DELETE ==============================
 const DeleteRowData = async (
-  db: SQLiteDBConnection,
+  dbName: string,
   tableName: string,
-  identifier: {
-    key: string,
-    value: string | number
-  } |undefined =undefined
-) => !!identifier ? await db.query(`DELETE FROM ${tableName} ${!!identifier ? `WHERE ${identifier?.key} = ?` : ""};`,[identifier?.value]) : await db.query(`DELETE FROM ${tableName};`);
+  identifier:
+    | {
+        key: string;
+        value: string | number;
+      }
+    | undefined = undefined
+) =>
+  ConnectDB(
+    dbName,
+    !!identifier
+      ? `DELETE FROM ${tableName} ${
+          !!identifier ? `WHERE ${identifier?.key} = ?` : ""
+        };`
+      : `DELETE FROM ${tableName};`,
+    !!identifier && [identifier?.value]
+  );
 
 export {
-  ConnectDB,
   CreateTable,
   DeleteTable,
 

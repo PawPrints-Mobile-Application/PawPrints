@@ -1,6 +1,7 @@
 <template>
   <section class="checkbox" :class="{ focused: focused }">
     <div class="checkbox-container" :class="{ checked: value }">
+      <div>
       <input
         class="checkbox-input"
         type="checkbox"
@@ -12,10 +13,11 @@
         :disabled="disabled"
       />
       <span class="checkbox-custom" @click="() => (value = false)" />
+      </div>
     </div>
     <label class="checkbox-label" v-show="!!label || $slots.default" :for="name">
-      <slot v-if="!!$slots.default" />
-      <span v-else>{{ label }}</span>
+      <slot v-if="!!$slots.default" @click="() => (value = !value)" />
+      <span v-else @click="() => (value = !value)">{{ label }}</span>
     </label>
   </section>
 </template>
@@ -74,10 +76,21 @@ const emit = defineEmits(["input", "update:modelValue"]);
 
 .checkbox-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   border-radius: var(--border-radius);
   background-color: var(--ion-color-secondary);
+  --input-size: calc(var(--size) - 1px);
+  --circle-size: calc(var(--size) - 5px);
+  width: var(--size);
+  height: var(--size);
+  overflow: hidden;
+}
+
+.checkbox-container div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .focused .checkbox-container {
@@ -85,23 +98,22 @@ const emit = defineEmits(["input", "update:modelValue"]);
 }
 
 .checkbox-input {
-  width: calc(var(--size) - 1px);
-  height: calc(var(--size) - 1px);
+  width: var(--input-size);
+  height: var(--input-size);
   opacity: 0;
 }
 
 .checkbox-custom {
-  display: none;
-  position: absolute;
-  width: calc(var(--size) - 5px);
-  height: calc(var(--size) - 5px);
+  position: relative;
+  width: var(--circle-size);
+  height: var(--circle-size);
   border-radius: 10px;
   background-color: var(--ion-color-black);
   opacity: 0.5;
 }
 
 .checked .checkbox-custom {
-  display: block;
+  transform: translateX(calc(0px - (var(--input-size) + var(--circle-size))/2));
 }
 
 .checkbox-label {

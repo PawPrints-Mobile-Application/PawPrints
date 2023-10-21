@@ -4,12 +4,12 @@
       <section class="main-content">
         <h1 id="main-content-title">PawPrints</h1>
         <GuestButton />
-        <ButtonModal :design="1" id="signin" text="Sign In">
+        <ButtonModal :design="1" id="signin" text="Sign In" title="Sign In">
           <template #modalContent="{ closeModal }">
             <SignInPage :closeModal="closeModal" />
           </template>
         </ButtonModal>
-        <ButtonModal :design="1" id="signup" text="Sign Up">
+        <ButtonModal :design="1" id="signup" text="Sign Up" title="Sign Up">
           <template #modalContent="{ closeModal }">
             <SignUpPage :closeModal="closeModal" />
           </template>

@@ -1,6 +1,5 @@
 <template>
   <form class="signin-content" method="POST" @submit.prevent="Login">
-    <h1 class="content-title">SIGN IN</h1>
     <TextInput
       class="text-input"
       type="email"
@@ -22,21 +21,23 @@
       :hide="!form.showPassword"
     />
 
-    <Checkbox name="checkbox" label="Show Password" v-model="form.showPassword" />
-
-    <Button
-      id="button-signin"
-      text="Sign In"
-      :disabled="disabled"
+    <Checkbox
+      name="checkbox"
+      label="Show Password"
+      v-model="form.showPassword"
     />
+
+    <Button id="button-signin"
+      :text="!processingRequest ? 'Sign In' : 'Processing...'"
+      :disabled="disabled"/>
   </form>
 </template>
 
 <script setup lang="ts">
-import { Checkbox, TextInput } from '../../components/Forms';
-import Button from '../../components/Buttons';
+import { Checkbox, TextInput } from "../../components/Forms";
+import Button from "../../components/Buttons";
 
-import {SigninUser} from '../../server/authentication';
+import { SigninUser } from "../../server/authentication";
 
 import { computed, reactive, ref } from "vue";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -48,60 +49,70 @@ const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
 const props = defineProps({
   closeModal: {
     type: Function,
-    default: () => null
-  }
+    default: () => null,
+  },
 });
 
 const form = reactive({
-  email:  '',
-  password: '',
-  showPassword: false
+  email: "",
+  password: "",
+  showPassword: false,
 });
 
-const disabled = computed(()=> form.email === "" || form.password === '');
+const processingRequest = ref(false);
+const disabled = computed(() => form.email === "" || form.password === "" ||
+      processingRequest.value);
 
-const errorMessage = ref('');
 const Login = () => {
-  signInWithEmailAndPassword(auth, form.email, form.password).then(async (userCredential) => {
-      await SigninUser(userCredential.user);
-      Redirect();
-      props.closeModal();
-  }).catch(error => {
-    console.log(error);
-    switch(error.code) {
-      case 'auth/invalid-email':
-      errorMessage.value = 'Invalid email';
-        break;
-      case 'auth/user-not-found':
-      errorMessage.value = 'User Not Found';
-        break;
-      case 'auth/wrong-password':
-      errorMessage.value = 'Wrong Password';
-        break;
-      case 'auth/network-request-failed':
-        errorMessage.value = 'No Internet Connection';
-        break;
-      default:
-      errorMessage.value = 'incorrect Email or Password';
-        break;
-    };
-    alert(errorMessage.value);
-  })
+  processingRequest.value = true;
+  signInWithEmailAndPassword(auth, form.email, form.password)
+    .then(async (userCredential) => {
+      await SigninUser(
+        userCredential.user,
+        new Date().toLocaleDateString(),
+        new Date().toLocaleTimeString()
+      ).then(() => {
+        Redirect();
+        props.closeModal();
+      });
+    })
+    .catch((error) => {
+      let errorMessage;
+      switch (error.code) {
+        case "auth/invalid-email":
+          errorMessage = "Invalid email";
+          break;
+        case "auth/user-not-found":
+          errorMessage = "User Not Found";
+          break;
+        case "auth/wrong-password":
+          errorMessage = "Wrong Password";
+          break;
+        case "auth/network-request-failed":
+          console.log("Network request failed.");
+          break;
+        default:
+          errorMessage = "incorrect Email or Password";
+          break;
+      }
+      console.log(error.code);
+      alert(errorMessage);
+    });
 };
 </script>
 
 <script lang="ts">
 export default {
-  name: 'SignInPage',
+  name: "SignInPage",
   routeInfo: {
-      filename: 'SignInPage',
+    filename: "SignInPage",
     path: "/signin",
     meta: {
       requiresAuth: false,
       requiresInternet: false,
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

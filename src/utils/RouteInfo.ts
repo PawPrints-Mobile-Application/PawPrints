@@ -1,5 +1,3 @@
-
-
 export default class RouteInfo {
     component: any;
     name: string;

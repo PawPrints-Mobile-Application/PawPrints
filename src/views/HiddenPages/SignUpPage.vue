@@ -1,7 +1,5 @@
 <template>
-  <section class="signin-content">
-    <h1 class="content-title">SIGN UP</h1>
-
+  <form class="signup-content" method="POST" @submit.prevent="Register">
     <TextInput
       class="text-input text-input-bottom-margin"
       type="text"
@@ -79,39 +77,43 @@
       v-model:modelValid="validations.confirmPassword"
       helper-text="Passwords must match!"
     />
-    <Checkbox name="showPassword" label="Show Password" v-model="form.showPassword" />
+    <Checkbox
+      name="showPassword"
+      label="Show Password"
+      v-model="form.showPassword"
+    />
 
     <Checkbox id="TOS" name="acceptTOS" v-model="form.acceptTOS">
-        By creating an account you agree to our
-        <span class="navigation-link">Privacy Policy</span> and
-        <span class="navigation-link">Terms of Service</span>.
+      By creating an account you agree to our
+      <span class="navigation-link">Privacy Policy</span> and
+      <span class="navigation-link">Terms of Service</span>.
     </Checkbox>
 
     <Button
       id="button-signup"
-      :onClick="register"
-      :text="processingRequest ? 'Sign Up' : 'Processing...'"
+      :text="!processingRequest ? 'Sign Up' : 'Processing...'"
       :disabled="disabled"
     />
-  </section>
+  </form>
 </template>
 
 <script setup lang="ts">
-import { Checkbox, TextInput } from '../../components/Forms';
-import Button from '../../components/Buttons';
+import { Checkbox, TextInput } from "../../components/Forms";
+import Button from "../../components/Buttons";
 
-import { SignupUser } from '../../server/authentication';
+import { SignupUser } from "../../server/authentication";
+import "crypto";
 
 import { computed, reactive, ref } from "vue";
-import { createUserWithEmailAndPassword} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../../server/firebase";
-import { SignupValidator} from '../../server/rulesets';
+import { SignupValidator } from "../../server/rulesets";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Redirect = () => {
-  console.log('Redirecting to Home Page...');
+  console.log("Redirecting to Home Page...");
   ionRouter.navigate("/home", "forward", "replace");
-}
+};
 
 const props = defineProps({
   closeModal: {
@@ -128,48 +130,81 @@ const form = reactive({
   password: "",
   confirmPassword: "",
   showPassword: false,
-  acceptTOS: false
+  acceptTOS: false,
 });
 
 const validations = reactive({
   username: false,
   email: false,
   password: false,
-  confirmPassword: false
+  confirmPassword: false,
 });
 
-const requirements = () => [form.firstName, form.lastName, form.username, form.email, form.password, form.confirmPassword].map(value => value !== '').reduce((acc, value) => acc && value);
-const validity = () => validations.confirmPassword && validations.email && validations.password;
+const requirements = () =>
+  [
+    form.firstName,
+    form.lastName,
+    form.username,
+    form.email,
+    form.password,
+    form.confirmPassword,
+  ]
+    .map((value) => value !== "")
+    .reduce((acc, value) => acc && value);
+const validity = () =>
+  validations.confirmPassword && validations.email && validations.password;
 
-const processingRequest = ref(true);
-const disabled = computed(() => !(requirements() && validity() && form.acceptTOS && processingRequest.value));
+const processingRequest = ref(false);
+const disabled = computed(
+  () =>
+    !(
+      requirements() &&
+      validity() &&
+      form.acceptTOS &&
+      !processingRequest.value
+    )
+);
 
-const register = async () => {
-  processingRequest.value = false;
+const Register = async () => {
+  processingRequest.value = true;
   createUserWithEmailAndPassword(auth, form.email, form.password)
-    .then(async (userCredential) => {
-      await SignupUser(form, userCredential.user);
-      Redirect();
-      props.closeModal();
-    })
+    .then((userCredential) =>
+      SignupUser(
+        form,
+        userCredential.user,
+        1,
+        new Date().toLocaleDateString(),
+        new Date().toLocaleTimeString(),
+      ).then(() => {
+        Redirect();
+        props.closeModal();
+      })
+    )
     .catch((error) => {
-     switch (error.code) {
-        case 'auth/email-already-in-use':
-          console.log(`Email address ${form.email} already in use.`);
+      let errorMessage;
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          errorMessage = `Email address ${form.email} already in use.`;
           break;
-        case 'auth/invalid-email':
-          console.log(`Email address ${form.email} is invalid.`);
+        case "auth/invalid-email":
+          errorMessage = `Email address ${form.email} is invalid.`;
           break;
-        case 'auth/operation-not-allowed':
-          console.log(`Error during sign up.`);
+        case "auth/operation-not-allowed":
+          errorMessage = `Error during sign up.`;
           break;
-        case 'auth/weak-password':
-          console.log('Password is not strong enough. Add additional characters including special characters and numbers.');
+        case "auth/weak-password":
+          errorMessage =
+            "Password is not strong enough. Add additional characters including special characters and numbers.";
+          break;
+        case "auth/network-request-failed":
+          errorMessage = "Network request failed.";
           break;
         default:
-          console.log(error.message);
+          errorMessage = error.message;
           break;
       }
+      console.log(error.code);
+      alert(errorMessage);
     });
 };
 </script>
@@ -178,20 +213,20 @@ const register = async () => {
 export default {
   name: "SignUpPage",
   routeInfo: {
-      filename: 'SignUpPage',
-    path: '/signup',
+    filename: "SignUpPage",
+    path: "/signup",
     meta: {
       requiresAuth: false,
-      requiresInternet: false
-    }
-  }
+      requiresInternet: false,
+    },
+  },
 };
 </script>
 <style scoped>
 .signin-content {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
 }

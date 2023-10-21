@@ -1,9 +1,14 @@
-import DogProfile from "./DogProfile";
-import { ConnectDB, CreateTable } from "..";
+import {CreateTable as AccountsInit} from "./Cache/Accounts";
+import {CreateTable as LoginHistoryInit} from "./Cache/LoginHistory";
 
-const models = [DogProfile];
-const CreateDB = () => models.forEach(async (model) => await ConnectDB((db) => CreateTable(db, model.name, model.columns)));
+import {CreateTable as DogProfileInit} from "./User/DogProfile";
+import {CreateTable as UserProfileInit} from "./User/UserProfile";
+import {CreateTable as PreferencesInit} from "./User/Preferences";
 
-export { DogProfile, CreateDB };
+const CreateDB = () => {
+    return new Promise((resolve, reject) => {
+        AccountsInit().then(LoginHistoryInit).then(DogProfileInit).then(UserProfileInit).then(PreferencesInit).then(resolve).catch(reject);
+    })
+}
 
-export default models;
+export default CreateDB;

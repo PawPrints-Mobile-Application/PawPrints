@@ -50,6 +50,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       console.log(`after initWebStore`);
     };
 
+    sessionStorage.setItem('dev-mode', 'prod');
     const app = createApp(App).use(IonicVue).use(router);
     router.isReady().then(() => {
       app.mount("#app");

@@ -1,13 +1,21 @@
 <template>
   <page-layout>
-      <div class="logo-wrapper"><ImgLogo id="logo" :class="{ 'show-thumbnail': show.thumbnail, 'show-background' : state.background  }" /></div>
-      <ion-spinner
-        class="login-loading"
-        v-show="show.thumbnail"
-        :class="{ 'show-loading': show.loading && !state.background }"
-        name="crescent"
-        color="primary"
+    <div class="logo-wrapper">
+      <ImgLogo
+        id="logo"
+        :class="{
+          'show-thumbnail': show.thumbnail,
+          'show-background': state.background,
+        }"
       />
+    </div>
+    <ion-spinner
+      class="login-loading"
+      v-show="show.thumbnail"
+      :class="{ 'show-loading': show.loading && !state.background }"
+      name="crescent"
+      color="primary"
+    />
   </page-layout>
 </template>
 
@@ -16,22 +24,24 @@ import { PageLayout } from "../../layout";
 import { ImgLogo } from "../../components/Logo";
 import { SplashToHome, SplashToLogin } from ".";
 
-import auth from '../../server/firebase';
+import auth from "../../server/firebase";
 import { AuthType } from "../../server/authentication";
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged } from "firebase/auth";
 import { reactive, watch, ref } from "vue";
 import { IonSpinner, onIonViewDidEnter, useIonRouter } from "@ionic/vue";
-import { CreateDB } from "../../server/sqlite/models";
+
+import CreateDB from "../../server/sqlite/models";
 
 const state = reactive({
   doneAnimation: false,
   readyRedirect: false,
-  background: false
+  background: false,
 });
 
 const user = ref();
 onAuthStateChanged(auth, (currentUser) => {
-  user.value = localStorage.getItem('authType') !== AuthType[0] || !!currentUser;
+  user.value =
+    localStorage.getItem("authType") !== AuthType[0] || !!currentUser;
 });
 
 const ionRouter = useIonRouter();
@@ -50,13 +60,12 @@ watch(user, () => (state.readyRedirect = true));
 watch(() => state.doneAnimation && state.readyRedirect, Redirect);
 
 onIonViewDidEnter(() => {
-  CreateDB();
-  setTimeout(() => {
+  setTimeout(async () => {
     show.thumbnail = true;
     show.loading = true;
-    setTimeout(() => {
+    CreateDB().then(() => setTimeout(() => {
       state.doneAnimation = true;
-    }, 1000);
+    }, 1000))
   }, 1000);
 });
 
@@ -128,7 +137,7 @@ export default {
 .login-loading {
   position: absolute;
   --loading-size: 0px;
-  top: calc(50% - var(--loading-size)/2);
+  top: calc(50% - var(--loading-size) / 2);
   width: var(--loading-size);
   height: var(--loading-size);
   opacity: 0;

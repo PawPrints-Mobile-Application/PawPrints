@@ -1,4 +1,5 @@
 import RouteInfo from "./RouteInfo";
+import * as Hash from "./Hash";
 
 const GetScreenSize = () => {
   const width = window.innerWidth;
@@ -8,6 +9,7 @@ const GetScreenSize = () => {
 
 export {
   RouteInfo,
+  Hash,
 
   GetScreenSize
 }

@@ -14,34 +14,13 @@
       },
       "oauth_client": [
         {
-          "client_id": "831211374802-sm16u9hvi3borf82ocpkhkmc7os3aug8.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB_gEy9x_YU1TUiweu94poyvkFg_L2zhAc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "831211374802-sm16u9hvi3borf82ocpkhkmc7os3aug8.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:831211374802:android:cee0f52d847fc03c72450b",
-        "android_client_info": {
-          "package_name": "com.pawprints.pawprints"
-        }
-      },
-      "oauth_client": [
+          "client_id": "831211374802-diqabq77c8lc1s4sdden39full482ibb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pawprints",
+            "certificate_hash": "d44560f91c3f60c9b1f18a550677baa1e69da988"
+          }
+        },
         {
           "client_id": "831211374802-sm16u9hvi3borf82ocpkhkmc7os3aug8.apps.googleusercontent.com",
           "client_type": 3

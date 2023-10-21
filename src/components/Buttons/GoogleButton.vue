@@ -13,9 +13,7 @@ const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
 const SignInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-        .then(() => {
-            Redirect();
-        })
+        .then(Redirect)
         .catch(error => {
             console.log(error.message);
         })

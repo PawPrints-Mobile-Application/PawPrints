@@ -2,20 +2,32 @@
   <page-layout>
     <template #pageHeader>
       <section class="header">
-        <Searchbox id="search" v-model="searchDog" :onReturn="() => console.log(searchDog)" @focus="() => state.searchFocus = true" @blur="() => state.searchFocus = false" collapse/>
-        <h3 v-show="!state.searchFocus" id="auth-greetings">{{ authGreetings }}</h3>
-      <AddPetButton @click="FetchDogs" v-show="!state.searchFocus && !conditions.empty" />
+        <Searchbox
+          id="search"
+          v-model="searchDog"
+          :onReturn="() => console.log(searchDog)"
+          @focus="() => (state.searchFocus = true)"
+          @blur="() => (state.searchFocus = false)"
+          collapse
+        />
+        <h3 v-show="!state.searchFocus" id="auth-greetings">
+          {{ authGreetings }}
+        </h3>
+        <AddPetButton
+          @click="AddDogProfile"
+          v-show="!state.searchFocus && !conditions.empty"
+        />
       </section>
     </template>
     <template #pageContent>
       <section class="facts-preview-card-container">
-        <FactsPreviewCard @click="async () => await DeleteAllDogs()" />
+        <FactsPreviewCard @click="DeleteAllDogs" />
       </section>
       <h1 id="dog-cards-title">My Dogs</h1>
       <section class="dog-cards-container">
         <section v-show="conditions.empty" class="add-dog-container">
-          <AddPetButton :onClick="async () => await ReloadPage()" />
-            <p id="add-dog-text">Add Dog</p>
+          <AddPetButton @Click="AddDogProfile" />
+          <p id="add-dog-text">Add Dog</p>
         </section>
         <DogCard
           v-show="!conditions.empty"
@@ -42,49 +54,70 @@ import { reactive, ref } from "vue";
 import {
   GetAllData,
   DeleteAllData,
-} from "../../server/sqlite/models/DogProfile";
+  InsertData,
+} from "../../server/sqlite/models/User/DogProfile";
 
-const authGreetings = `Henlo, ${localStorage.getItem('authUsername') === 'Guest' ? 'Hooman' : localStorage.getItem('authUsername')}`;
+const authGreetings = `Henlo, ${
+  localStorage.getItem("authUsername") === "Guest"
+    ? "Hooman"
+    : localStorage.getItem("authUsername")
+}`;
 const rawDogs = ref<Array<any>>();
-const searchDog = ref('');
+const searchDog = ref("");
 const state = reactive({
-  searchFocus: false
+  searchFocus: false,
 });
 
 const conditions = reactive({
   empty: true,
 });
 
-const EmptyEvaluator = () => rawDogs.value?.length === 0 || !rawDogs.value;
-
 // Light Functions, preferrably async functions only
-onIonViewWillEnter(async () => {
-  
-});
+onIonViewWillEnter(async () => {});
 
 // Heavy Functions
-onIonViewDidEnter(async () => {
-  await ReloadPage();
-  console.log(rawDogs.value?.length);
+onIonViewDidEnter(() => {
+  ReloadPage();
 });
 
 // Page Manipulator
-const ReloadPage = async () => {
+const ReloadPage = () => {
   if (localStorage.getItem("authType") === AuthType[1]) {
-    await FetchDogs();
+    FetchDogs();
   } else if (localStorage.getItem("authType") === AuthType[2]) {
   }
-  conditions.empty = EmptyEvaluator();
 };
 
 // Data Manipulator
-const DeleteAllDogs = async () => {
-  await DeleteAllData();
-  await ReloadPage();
+const DeleteAllDogs = () => {
+  DeleteAllData()
+    .then(FetchDogs)
+    .then(() => {
+      console.log("All Dogs in the database has been deleted.");
+    });
 };
 
-const FetchDogs = async () => {
-  rawDogs.value = (await GetAllData()).values;
+const FetchDogs = () => {
+  GetAllData().then((data) => {
+    rawDogs.value = data.values;
+    conditions.empty = rawDogs.value?.length === 0 || !rawDogs.value;
+  });
+};
+
+// Fake
+const AddDogProfile = () => {
+  InsertData({
+    pid: Date.now().toString(),
+    uid: localStorage.getItem("authID")!,
+    name: "Troy",
+    birthday: new Date().toLocaleDateString(),
+    breed: "Shih Tzu",
+    color: "white",
+    inoutdoor: 0,
+    fixing: 0,
+  })
+    .then(FetchDogs)
+    .then(() => console.log("Troy Profile Added!"));
 };
 </script>
 
@@ -190,3 +223,4 @@ export default {
   width: 100%;
 }
 </style>
+../../server/sqlite/models/User/DogProfile

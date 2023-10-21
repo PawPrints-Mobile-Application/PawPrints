@@ -1,31 +1,9 @@
 <template>
-  <button class="add-pet-button" @click="async () => {
-    await AddDogProfile();
-    emit('click', onClick);
-  }">
-      <div id="button-line-1" class="button-line" />
-      <div id="button-line-2" class="button-line" />
+  <button class="add-pet-button">
+    <div id="button-line-1" class="button-line" />
+    <div id="button-line-2" class="button-line" />
   </button>
 </template>
-
-<script setup lang="ts">
-import { InsertData } from '../../server/sqlite/models/DogProfile';
-
-const AddDogProfile = async () => {
-  await InsertData({
-  pid: Date.now(),
-  name: 'Troy',
-  birthday: new Date().toLocaleDateString(),
-  breed: 'Shih Tzu',
-  color: 'white',
-  inoutdoor: 0,
-  fixing: 0
-});
-console.log('Troy Profile Added!');
-}
-
-const emit = defineEmits(['click']);
-</script>
 
 <style scoped>
 .add-pet-button {
@@ -58,3 +36,4 @@ const emit = defineEmits(['click']);
   background-color: var(--ion-color-tertiary-shade);
 }
 </style>
+../../server/sqlite/models/User/DogProfile

@@ -15,21 +15,18 @@ import {
 
 onBeforeMount(() => {
   sessionStorage.setItem("appInitialized", "false");
-}),
-  onMounted(async () => {
-    SplashScreen.show();
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 0);
+});
+onMounted(async () => {
+  SplashScreen.show();
+  setTimeout(() => {
+    SplashScreen.hide();
+  }, 0);
 
-    window.addEventListener("online", async () => await SetConnectivity(true));
-    window.addEventListener(
-      "offline",
-      async () => await SetConnectivity(false)
-    );
-    await SetConnectivity(navigator.onLine);
-    sessionStorage.setItem("appInitialized", "true");
-  });
+  window.addEventListener("online", async () => await SetConnectivity(true));
+  window.addEventListener("offline", async () => await SetConnectivity(false));
+  await SetConnectivity(navigator.onLine);
+  sessionStorage.setItem("appInitialized", "true");
+});
 
 onUnmounted(() => {
   window.removeEventListener("online", async () => await SetConnectivity(true));
@@ -42,7 +39,7 @@ onUnmounted(() => {
 // CONNECTIVITY EVENT LISTENER
 const SetConnectivity = async (isNetOnline: boolean) => {
   const conn = isNetOnline ? "online" : "offline";
-  sessionStorage.setItem("networkConnectivity", conn);
+  sessionStorage.setItem("network", conn);
   if (sessionStorage.getItem("appInitialized") === "true" || !isNetOnline)
     ConnectivityToast(isNetOnline);
 };
