@@ -4,8 +4,8 @@ const reservedUsernames = ['Guest'];
 
 const SignupValidator = {
   username: {
-    validator: (value: string) => value.length >= 4 && value.length < 10 && !reservedUsernames.includes(value),
-    helperText: 'Password must be 4 to 10 characters!'
+    validator: (value: string) => value.length >= 4 && value.length < 20 && !reservedUsernames.includes(value),
+    helperText: 'Password must be 4 to 20 characters!'
   },
   email: (value: string) =>
     value.match(

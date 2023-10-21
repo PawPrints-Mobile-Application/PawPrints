@@ -211,10 +211,10 @@ const Register = async () => {
 
 <script lang="ts">
 export default {
-  name: "SignUpPage",
+  name: "SignupTemplate",
   routeInfo: {
-    filename: "SignUpPage",
-    path: "/signup",
+    filename: "SignupTemplate",
+    path: "/user/signup",
     meta: {
       requiresAuth: false,
       requiresInternet: false,
@@ -253,11 +253,11 @@ export default {
 }
 
 .text-input-bottom-margin {
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 }
 
 #email {
-  margin-bottom: 3px;
+  /* margin-bottom: 3px; */
 }
 
 #button-signup {

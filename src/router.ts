@@ -1,40 +1,45 @@
-import { createRouter, createWebHistory } from '@ionic/vue-router';
-import { RouteRecordRaw } from 'vue-router';
-import { Navigation } from './layout/index';
-import navPages from './views/NavPages';
-import hiddenPages from './views/HiddenPages';
+import { createRouter, createWebHistory } from "@ionic/vue-router";
+import { RouteRecordRaw } from "vue-router";
+import { Navigation } from "./layout/index";
+import pages from "./views";
 
 var routes: Array<RouteRecordRaw> = [
   {
-    path: '',
-    redirect: '/landingpage',
+    path: "",
+    redirect: "/landingpage",
   },
   {
-    path: '/',
+    path: "/",
     component: Navigation,
     children: [
       {
-        path: '',
-        redirect: '/home',
-      }
+        path: "",
+        redirect: "/home",
+      },
     ],
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
 ];
 
 const addRoutes = () => {
-  navPages.forEach(navPage => routes[1].children?.push({ path: navPage.path, component: () => import(`./views/NavPages/${navPage.filename}.vue`)}));
-
-  hiddenPages.forEach(hiddenPage => routes.push({ path: hiddenPage.path, component: () => import(`./views/HiddenPages/${hiddenPage.filename}.vue`)}))
+  pages.forEach((page) => {
+    const isNavigation = page.path.indexOf("NavPages") !== -1;
+    const target = isNavigation ? routes[1].children! : routes;
+    console.log(page.filename);
+    target.push({
+      path: page.path,
+      component: () => import(page.filename),
+    });
+  });
 
   return createRouter({
     // Use: createWebHistory(process.env.BASE_URL) in your app
     history: createWebHistory(),
     routes,
   });
-}
+};
 
 const router = addRoutes();
 

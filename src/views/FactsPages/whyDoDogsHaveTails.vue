@@ -10,5 +10,19 @@
 <script setup lang="ts">
 
 </script>
+
+<script lang="ts">
+export default {
+  name: "whyDoDogsHaveTails",
+  routeInfo: {
+    filename: "whyDoDogsHaveTails",
+    path: "/facts/why-do-dogs-have-tails",
+    meta: {
+      requiresAuth: false,
+      requiresInternet: false,
+    },
+  },
+};
+</script>
 <style scoped>
 </style>

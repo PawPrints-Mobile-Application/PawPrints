@@ -6,12 +6,12 @@
         <GuestButton />
         <ButtonModal :design="1" id="signin" text="Sign In" title="Sign In">
           <template #modalContent="{ closeModal }">
-            <SignInPage :closeModal="closeModal" />
+            <SigninTemplate :closeModal="closeModal" />
           </template>
         </ButtonModal>
         <ButtonModal :design="1" id="signup" text="Sign Up" title="Sign Up">
           <template #modalContent="{ closeModal }">
-            <SignUpPage :closeModal="closeModal" />
+            <SignupTemplate :closeModal="closeModal" />
           </template>
         </ButtonModal>
         <GoogleButton />
@@ -22,16 +22,16 @@
 <script lang="ts" setup>
 import { PageLayout } from "../../layout";
 import { GoogleButton, ButtonModal, GuestButton } from "../../components/Buttons";
-import { SignInPage, SignUpPage } from ".";
+import { SigninTemplate, SignupTemplate } from "../PageTemplates";
 import { ImgLogo } from "../../components/Logo";
 </script>
 
 <script lang="ts">
 
 export default {
-  name: "LogIn",
+  name: "Login",
   routeInfo: {
-      filename: 'LogIn',
+      filename: 'Login',
     path: "/login",
     meta: {
       requiresAuth: false,

@@ -1,23 +1,25 @@
-import LandingPage from "./LandingPage.vue";
-import LogIn from "./LogIn.vue";
-import SignInPage from "./SignInPage.vue";
-import SignUpPage from "./SignUpPage.vue";
-import SplashToLogin from "./SplashToLogin.vue";
-import SplashToHome from "./SplashToHome.vue";
-
-import Test from "./Test.vue";
-
 import { RouteInfo } from "../../utils";
 
-const hiddenPages = [
-  LandingPage,
-  LogIn,
-  SignInPage,
-  SignUpPage,
-  SplashToLogin,
-  SplashToHome, 
-  Test
-].map(page => new RouteInfo(page));
-export { LandingPage, LogIn, SignInPage, SignUpPage, SplashToLogin, SplashToHome, Test, hiddenPages };
+import LandingPage from "./LandingPage.vue";
+import Login from "./Login.vue";
+import SplashToLogin from "./SplashToLogin.vue";
+import SplashToHome from "./SplashToHome.vue";
+import Test from "./Test.vue";
 
-export default hiddenPages;
+const name = "HiddenPages";
+const path = "./views/HiddenPages/";
+
+const pages: RouteInfo[] = [
+  LandingPage,
+  Login,
+  SplashToLogin,
+  SplashToHome,
+  Test,
+].map((page) => new RouteInfo(page, path));
+export { LandingPage, Login, SplashToLogin, SplashToHome, Test };
+
+export default {
+  name: name,
+  pages: pages,
+  path: path,
+};

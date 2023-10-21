@@ -103,10 +103,10 @@ const Login = () => {
 
 <script lang="ts">
 export default {
-  name: "SignInPage",
+  name: "SigninTemplate",
   routeInfo: {
-    filename: "SignInPage",
-    path: "/signin",
+    filename: "SigninTemplate",
+    path: "/user/signin",
     meta: {
       requiresAuth: false,
       requiresInternet: false,
