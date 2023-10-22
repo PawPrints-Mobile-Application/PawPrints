@@ -7,16 +7,32 @@
       placeholder="Doggo Name"
       label="Doggo Name"
     />
+    <DateInput v-model="form.birthday" label="Birthday" name="birthday" />
+    <DropdownInput v-model="form.breed" label="Doggo Breed" name="breed" :values="constants.breeds" default-disabled="" placeholder="Choose a breed" />
+    <TextInput
+      type="text"
+      name="color"
+      v-model:model-value="form.color"
+      placeholder="Colour"
+      label="Colour"
+    />
   </form>
 </template>
 
 <script setup lang="ts">
-import { TextInput } from "../../../components/Forms";
+import { TextInput, DateInput, DropdownInput } from "../../../components/Forms";
 import { reactive } from "vue";
 
 const form = reactive({
-  name: "",
+  name: '',
+  birthday: '',
+  breed: '',
+  color: '',
 });
+
+const constants = {
+  breeds: ['1', '2']
+}
 
 const Submit = () => {};
 </script>

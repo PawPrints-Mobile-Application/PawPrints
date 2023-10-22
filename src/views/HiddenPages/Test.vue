@@ -1,27 +1,26 @@
 <template>
   <page-layout>
-    <TextInput
-      type="text"
+    <DropdownInput
+      :values="[1, 2, 3, 4]"
+      :defaultDisabled="-1"
       label="Text"
       name="text"
+      v-model:model-value="test"
     />
-    <br>
-    <DateInput v-model="value" />
   </page-layout>
 </template>
 <script setup lang="ts">
-import { PageLayout } from '../../layout';
-import DateInput from '../../components/Forms/DateInput.vue';
-import { TextInput } from '../../components/Forms';
-import { ref } from 'vue';
+import { PageLayout } from "../../layout";
+import { DropdownInput } from "../../components/Forms";
+import { ref } from "vue";
 
-const value = ref('2023-10-22');
+const test = ref(-1);
 </script>
 <script lang="ts">
 export default {
   name: "Test",
   routeInfo: {
-    filename: 'Test',
+    filename: "Test",
     path: "/test",
     meta: {
       requiresAuth: false,

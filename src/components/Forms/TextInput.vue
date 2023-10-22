@@ -14,6 +14,7 @@
       <input
         ref="input"
         class="text-input-input"
+        :id="name"
         :name="name"
         :type="hide ? type : 'text'"
         v-model="value"

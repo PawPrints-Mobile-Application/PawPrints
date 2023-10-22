@@ -40,5 +40,6 @@ const emit = defineEmits(['update:modelValue']);
 
     .content {
         z-index: 3;
+        width: 100%;
     }
 </style>
