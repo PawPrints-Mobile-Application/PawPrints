@@ -68,7 +68,7 @@ const input = ref();
 const props = defineProps({
   modelValue: {
     type: String,
-    required: true
+    required: true,
   },
   name: {
     type: String,
@@ -82,7 +82,13 @@ const props = defineProps({
 
 const value = computed({
   get() {
-    if (props.modelValue === '') {return `${new Date().getFullYear()}-${TwoCharactersFormat(new Date().getMonth()+1)}-${TwoCharactersFormat(new Date().getDate())}`}
+    if (props.modelValue === "") {
+      const temp = `${new Date().getFullYear()}-${TwoCharactersFormat(
+        new Date().getMonth() + 1
+      )}-${TwoCharactersFormat(new Date().getDate())}`;
+      emit("update:modelValue", temp);
+      return temp;
+    }
     return props.modelValue;
   },
   set(value) {

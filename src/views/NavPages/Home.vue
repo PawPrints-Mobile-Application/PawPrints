@@ -13,10 +13,7 @@
         <h3 v-show="!state.searchFocus" id="auth-greetings">
           {{ authGreetings }}
         </h3>
-        <AddPetButton
-          @click="AddDogProfile"
-          v-show="!state.searchFocus && !conditions.empty"
-        />
+        <AddPetButton v-show="!state.searchFocus && !conditions.empty"/>
       </section>
     </template>
     <template #pageContent>
@@ -26,7 +23,7 @@
       <h1 id="dog-cards-title">My Dogs</h1>
       <section class="dog-cards-container">
         <section v-show="conditions.empty" class="add-dog-container">
-          <AddPetButton @Click="AddDogProfile" />
+          <AddPetButton/>
           <p id="add-dog-text">Add Dog</p>
         </section>
         <DogCard
@@ -54,7 +51,6 @@ import { reactive, ref } from "vue";
 import {
   GetAllData,
   DeleteAllData,
-  InsertData,
 } from "../../server/sqlite/models/User/DogProfile";
 
 const authGreetings = `Henlo, ${
@@ -102,22 +98,6 @@ const FetchDogs = () => {
     rawDogs.value = data.values;
     conditions.empty = rawDogs.value?.length === 0 || !rawDogs.value;
   });
-};
-
-// Fake
-const AddDogProfile = () => {
-  InsertData({
-    pid: Date.now().toString(),
-    uid: localStorage.getItem("authID")!,
-    name: "Troy",
-    birthday: new Date().toLocaleDateString(),
-    breed: "Shih Tzu",
-    color: "white",
-    inoutdoor: 0,
-    fixing: 0,
-  })
-    .then(FetchDogs)
-    .then(() => console.log("Troy Profile Added!"));
 };
 </script>
 

@@ -9,7 +9,7 @@
       :design="design ? design : 0"
       :title="title"
       :max-pages="maxPages"
-      :onSubmit="onSubmit"
+      @submit="onSubmit"
     >
       <template #modalSlot="{ page, closeModal }">
         <slot

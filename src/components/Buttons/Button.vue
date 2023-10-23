@@ -1,5 +1,5 @@
 <template>
-  <button :disabled="!!disabled" class="button" :class="`button-${type}`" @click="emit('click', onClick)" :style="[`${!['text', 'icon'].includes(state) && `flex-direction: ${state}`}`]">
+  <button :disabled="!!disabled" class="button" :class="`button-${type}`" @click="emit('click')" :style="[`${!['text', 'icon'].includes(state) && `flex-direction: ${state}`}`]">
     <p v-show="text && state !== 'icon'" id="button-text">{{ text }}</p>
     <img v-show="icon && state !== 'text'" id="button-icon" :src="icon" />
   </button>

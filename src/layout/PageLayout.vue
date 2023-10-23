@@ -42,7 +42,6 @@ const showHeader = !!slots.pageHeader;
 }
 
 .layout-wrapper {
-  /* outline: 2px solid black; */
   width: 100%;
 }
 

@@ -25,7 +25,7 @@ var routes: Array<RouteRecordRaw> = [
 
 const addRoutes = () => {
   pages.forEach((page) => {
-    const isNavigation = page.path.indexOf("NavPages") !== -1;
+    const isNavigation = page.filename.indexOf("NavPages") !== -1;
     const target = isNavigation ? routes[1].children! : routes;
     target.push({
       path: page.path,

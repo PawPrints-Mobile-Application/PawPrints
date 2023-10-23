@@ -1,136 +1,154 @@
 <template>
-  <ion-modal ref="modal" :trigger="trigger">
-    <div class="modal">
-      <section class="modal-header" v-show="design === 1">
-        <BackButton type="0" id="header-back-button" class="header-back-button" :onClick="closeModal" background-color="primary"/>
-        <div id="header-title" v-show="title">{{ title?.toUpperCase() }}</div>
-      </section>
-      <main class="modal-content">
-        <slot name="modalSlot" :closeModal="closeModal" :page="page" :max="maxPages" />
+  <ion-modal class="modal" ref="modal" :trigger="trigger">
+    <ion-header
+      class="layout-wrapper header ion-no-border"
+      v-show="!hideHeader"
+    >
+      <BackButton v-show="!hideHeaderBack" @click="CloseModal" />
+      <div id="title" v-show="title">{{ title?.toUpperCase() }}</div>
+    </ion-header>
+    <ion-content class="layout-wrapper main" >
+      <main>
+        <slot
+          name="modalSlot"
+          :closeModal="CloseModal"
+          :page="page"
+          :max="maxPages"
+        />
       </main>
-      <section class="modal-footer" v-show="design === 0">
-        <BackButton type="1" filled id="footer-back-button" class="footer-back-button" :onClick="() => page === 1 ? closeModal() : Add(-1, maxPages)" color="primary" background-color="tertiary"/>
-        <ForwardButton v-show="!(page === maxPages && onSubmit === defaultFunction)" type="1" filled id="footer-forward-button" class="footer-forward-button" :onClick="() => page === maxPages ? onSubmit() : Add(1, maxPages)" color="primary" background-color="tertiary"/>
-      </section>
-    </div>
+    </ion-content>
+    <ion-footer
+      class="layout-wrapper footer ion-no-border"
+      v-show="!hideFooter"
+    >
+      <BackButton
+        v-show="!hideFooterBack"
+        @click="() => (page === 1 ? CloseModal() : Back())"
+      />
+      <ForwardButton
+        v-show="!hideFooterSubmit"
+        @click="() => (page === maxPages ? Submit() : Next())"
+      />
+    </ion-footer>
   </ion-modal>
 </template>
 
 <script setup lang="ts">
-import BackButton from '../Buttons/BackButton.vue';
+import BackButton from "../Buttons/BackButton.vue";
 import ForwardButton from "../Buttons/ForwardButton.vue";
 import {
   IonModal,
-  modalController
+  IonHeader,
+  IonContent,
+  IonFooter,
+  modalController,
 } from "@ionic/vue";
 
 import { ref } from "vue";
 const page = ref(1);
 
-const Add = (i : number, max: number) => page.value = Math.max(1, Math.min(max, i + page.value));
+const Add = (i: number, max: number) =>
+  (page.value = Math.max(1, Math.min(max, i + page.value)));
 
-const closeModal = () => modalController.dismiss();
-</script>
+const Back = () => {
+  Add(-1, props.maxPages);
+  emit('back');
+}
 
-<script lang="ts">
-const defaultFunction = () => null;
-export default {
-  name: "Modal",
-  props: {
-    design: {
-      type: Number,
-      default: 0
-    },
-    title: String,
-    trigger: String,
-    allowButtons: { type: Boolean, default: true },
-    closeButton: { type: Boolean, default: true },
-    prevButton: Boolean,
-    nextButton: Boolean,
-    maxPages: {
-      type: Number,
-      default: 1
-    },
-    onSubmit: {
-      type: Function,
-      default: defaultFunction
-    },
-    id: {
-      type: String,
-      required: true
-    }
-  }
-};
+const Next = () => {
+  Add(1, props.maxPages);
+  emit('next');
+}
+
+const CloseModal = () => {
+  modalController.dismiss();
+  setTimeout(() => emit('close'), 200)
+}
+
+const Submit = () => {
+  emit('submit');
+}
+
+const props = defineProps({
+  title: String,
+  trigger: String,
+  maxPages: {
+    type: Number,
+    default: 1,
+  },
+  hideHeaderBack: Boolean,
+  hideHeader: Boolean,
+  hideFooter: Boolean,
+  hideFooterBack: Boolean,
+  hideFooterSubmit: Boolean
+});
+
+const emit = defineEmits(['submit', 'close', 'back', 'next']);
 </script>
 
 <style scoped>
 .modal {
-  overflow: hidden scroll;
-  --icon-size: 40px;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  flex-flow: column nowrap;
-  padding: 0;
+  overflow-y: scroll;
   min-width: 320px;
-  background-color: var(--ion-color-primary);
-  --modal-header-height: 70px;
+  --header-height: 50px;
+  --main-height: 0px;
+  --footer-height: 50px;
+  --padding-side: 15px;
+  --header-padding-top: 20;
+  --header-padding-bottom: 0;
+  --footer-padding-top: 20;
+  --footer-padding-bottom: 0;
 }
 
-.modal-header {
+.layout-wrapper {
   width: 100%;
-  position: absolute;
-  height: var(--modal-header-height);
+  padding-left: var(--padding-side);
+  padding-right: var(--padding-side);
+  background-color: var(--ion-color-primary);
+}
+
+.main {
+  --padding-start: var(--padding-side);
+  --padding-end: var(--padding-side);
+}
+
+main {
   display: flex;
-  z-index: 99;
-  top: 0;
-  background-color: inherit;
-  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: var(--main-height);
+}
+
+.header {
   display: flex;
+  flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  padding-top: 10px;
+  height: var(--header-height);
+  --padding-top: var(--header-padding-top);
+  --padding-bottom: var(--header-padding-bottom);
 }
 
-
-.header-back-button {
+.header .back-button {
   position: absolute;
-  left: calc(var(--content-padding-left) / 2);
-  font-size: var(--icon-size);
+  left: var(--padding-side);
 }
 
-#header-title {
+.header #title {
   font-weight: 700;
-  font-size: 3rem;
+  font-size: var(--fs4);
   font-family: var(--font-family-Rubik);
 }
 
-
-.modal-content {
+.footer {
   display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
   align-items: center;
-  justify-content: flex-start;
-  flex-flow: column wrap;
-  height: max-content;
-  padding: 0
-    var(--content-padding-right) var(--content-padding-down)
-    var(--content-padding-left);
-  overflow: hidden scroll;
-  width: 100%;
-  margin-top: var(--modal-header-height);
-}
-
-.modal-footer {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  padding: 10px;
-  background-color: inherit;
-}
-
-.footer-forward-button, .footer-back-button {
-  font-size: 35px;
+  height: var(--footer-height);
+  --padding-top: var(--footer-padding-top);
+  --padding-bottom: var(--footer-padding-bottom);
 }
 </style>

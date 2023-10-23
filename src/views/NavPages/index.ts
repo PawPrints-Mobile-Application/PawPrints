@@ -11,7 +11,7 @@ const path = "./views/NavPages/";
 const pages: RouteInfo[] = [Home, Facts, Maps, Settings].map(
   (page) => new RouteInfo(page, path)
 );
-export { Home, Facts, Maps, Settings };
+export { Home, Facts, Maps, Settings, pages };
 
 export default {
   name: name,

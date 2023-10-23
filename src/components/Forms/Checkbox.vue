@@ -94,7 +94,7 @@ const emit = defineEmits(["input", "update:modelValue"]);
 }
 
 .focused .checkbox-container {
-  outline: 1px solid black;
+  background-color: var(--ion-color-secondary-shade);
 }
 
 .checkbox-input {

@@ -1,20 +1,12 @@
 <template>
   <page-layout>
-    <DropdownInput
-      :values="[1, 2, 3, 4]"
-      :defaultDisabled="-1"
-      label="Text"
-      name="text"
-      v-model:model-value="test"
-    />
+    <AddPetButton />
   </page-layout>
 </template>
 <script setup lang="ts">
 import { PageLayout } from "../../layout";
-import { DropdownInput } from "../../components/Forms";
-import { ref } from "vue";
+import { AddPetButton } from "../../components/Buttons";
 
-const test = ref(-1);
 </script>
 <script lang="ts">
 export default {

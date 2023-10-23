@@ -1,36 +1,33 @@
 <template>
-  <form class="signin-content" method="POST" @submit.prevent="Login">
-    <TextInput
-      class="text-input"
-      type="email"
-      label="Email"
-      id="email"
-      name="email"
-      placeholder="Enter Email"
-      v-model:modelValue="form.email"
-    />
+  <TextInput
+    class="text-input"
+    type="email"
+    label="Email"
+    id="email"
+    name="email"
+    placeholder="Enter Email"
+    v-model:modelValue="form.email"
+  />
 
-    <TextInput
-      class="text-input"
-      type="password"
-      label="Password"
-      id="password"
-      name="password"
-      placeholder="Enter Password"
-      v-model:modelValue="form.password"
-      :hide="!form.showPassword"
-    />
+  <TextInput
+    class="text-input"
+    type="password"
+    label="Password"
+    id="password"
+    name="password"
+    placeholder="Enter Password"
+    v-model:modelValue="form.password"
+    :hide="!form.showPassword"
+  />
 
-    <Checkbox
-      name="checkbox"
-      label="Show Password"
-      v-model="form.showPassword"
-    />
+  <Checkbox name="checkbox" label="Show Password" v-model="form.showPassword" />
 
-    <Button id="button-signin"
-      :text="!processingRequest ? 'Sign In' : 'Processing...'"
-      :disabled="disabled"/>
-  </form>
+  <Button
+    id="button-signin"
+    :text="!processingRequest ? 'Sign In' : 'Processing...'"
+    @click="Login"
+    :disabled="disabled"
+  />
 </template>
 
 <script setup lang="ts">
@@ -60,8 +57,9 @@ const form = reactive({
 });
 
 const processingRequest = ref(false);
-const disabled = computed(() => form.email === "" || form.password === "" ||
-      processingRequest.value);
+const disabled = computed(
+  () => form.email === "" || form.password === "" || processingRequest.value
+);
 
 const Login = () => {
   processingRequest.value = true;
