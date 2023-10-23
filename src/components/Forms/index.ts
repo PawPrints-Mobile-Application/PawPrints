@@ -5,4 +5,11 @@ import CalendarBox from "./CalendarBox.vue";
 import DropdownInput from "./DropdownInput.vue";
 import DateInput from "./DateInput.vue";
 
-export { Checkbox, TextInput, Searchbox, CalendarBox, DropdownInput, DateInput };
+export {
+  Checkbox,
+  TextInput,
+  Searchbox,
+  CalendarBox,
+  DropdownInput,
+  DateInput,
+};

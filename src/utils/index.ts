@@ -1,5 +1,6 @@
 import RouteInfo from "./RouteInfo";
 import * as Hash from "./Hash";
+import Validator from "./Validator";
 
 const GetScreenSize = () => {
   const width = window.innerWidth;
@@ -10,6 +11,7 @@ const GetScreenSize = () => {
 export {
   RouteInfo,
   Hash,
+  Validator,
 
   GetScreenSize
 }

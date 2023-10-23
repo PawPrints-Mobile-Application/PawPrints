@@ -7,7 +7,7 @@
       <BackButton v-show="!hideHeaderBack" @click="CloseModal" />
       <div id="title" v-show="title">{{ title?.toUpperCase() }}</div>
     </ion-header>
-    <ion-content class="layout-wrapper main" >
+    <ion-content class="layout-wrapper main">
       <main>
         <slot
           name="modalSlot"
@@ -52,22 +52,22 @@ const Add = (i: number, max: number) =>
 
 const Back = () => {
   Add(-1, props.maxPages);
-  emit('back');
-}
+  emit("back");
+};
 
 const Next = () => {
   Add(1, props.maxPages);
-  emit('next');
-}
+  emit("next");
+};
 
 const CloseModal = () => {
   modalController.dismiss();
-  setTimeout(() => emit('close'), 200)
-}
+  setTimeout(() => emit("close"), 200);
+};
 
 const Submit = () => {
-  emit('submit');
-}
+  emit("submit");
+};
 
 const props = defineProps({
   title: String,
@@ -80,10 +80,10 @@ const props = defineProps({
   hideHeader: Boolean,
   hideFooter: Boolean,
   hideFooterBack: Boolean,
-  hideFooterSubmit: Boolean
+  hideFooterSubmit: Boolean,
 });
 
-const emit = defineEmits(['submit', 'close', 'back', 'next']);
+const emit = defineEmits(["submit", "close", "back", "next"]);
 </script>
 
 <style scoped>
@@ -150,5 +150,16 @@ main {
   height: var(--footer-height);
   --padding-top: var(--footer-padding-top);
   --padding-bottom: var(--footer-padding-bottom);
+}
+</style>
+
+<style>
+
+.template-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

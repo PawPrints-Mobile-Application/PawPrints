@@ -1,183 +1,305 @@
 <template>
   <section
-    class="text-input"
-    :class="{ focused: focused, 'has-value': modelValue !== '' }"
+    class="input-wrapper"
+    :class="{
+      focused: state.focused,
+      taken: value !== '',
+      animated: animated,
+      touched: state.touched,
+      required: props.required,
+
+      strong: state.strength === 1,
+      medium: state.strength === 0,
+      weak: state.strength === -1,
+    }"
   >
-    <label
-      v-show="!!label && labelEffects === 'move'"
-      class="text-input-label"
-      :for="name"
-      @click="focus"
-      >{{ label }}</label
-    >
-    <div class="text-input-wrapper">
+    <label v-show="!hideLabel" :for="id">{{ label }}</label>
+    <div class="content" @click="() => input.focus()">
+      <ion-icon v-show="!!icon" id="icon" class="icon" :icon="icon" />
       <input
         ref="input"
-        class="text-input-input"
-        :id="name"
-        :name="name"
-        :type="hide ? type : 'text'"
+        :id="id"
+        :type="state.isPassword && !show ? type : 'text'"
+        @focus="Focus"
+        @blur="Blur"
         v-model="value"
-        :placeholder="focused || labelEffects === 'hide' ? placeholder : ''"
-        :onFocus="() => {
-          focused = true;
-          emit('focus', value);
-        }"
-        :onBlur="() => {
-          focused = false;
-          emit('blur', value);
-        }"
+        :placeholder="GetPlaceholder()"
       />
       <ion-icon
-        class="text-input-icon"
-        v-show="allowValidation"
-        :icon="valid ? validIcon : invalidIcon"
-        :color="valid ? 'success' : 'danger'"
+        v-show="
+          (value !== '' && !!validators) ||
+          (value === '' && props.required && state.touched)
+        "
+        id="indicator"
+        class="icon"
+        :icon="GetIcon()"
       />
     </div>
-    <div
-      class="text-input-helper"
-      :class="{ 'opacity-0': !(!!helperText && allowValidation && !valid) }"
+    <ul
+      v-show="!!validators && !hideHelper"
+      class="helper-container"
+      :class="{ 'always-show': alwaysShowHelper }"
     >
-      {{ helperText }}
-    </div>
+      <li
+        v-for="(validator, id) in validators"
+        :style="{
+          color: `var(--ion-color-${
+            valids[id] ? 'success' : validator.intensity
+          })`,
+        }"
+      >
+        {{ validator.helperText }}
+      </li>
+    </ul>
   </section>
 </template>
 
 <script setup lang="ts">
+import { computed, reactive, ref } from "vue";
 import {
-  shieldCheckmark as validIcon,
-  warning as invalidIcon,
+  checkmarkDoneCircle as validationSuccess,
+  closeCircle as validationWarning,
+  shieldCheckmark as passwordStrong,
+  checkmarkCircle as passwordMedium,
+  alertCircle as passwordWeak,
+  calendar,
+  chevronExpand as expand,
+  alert as required,
 } from "ionicons/icons";
 import { IonIcon } from "@ionic/vue";
-import { ref, computed } from "vue";
+import { Validator } from "../../utils";
+
+const input = ref();
 const props = defineProps({
-  name: {
+  label: String,
+  id: {
     type: String,
     required: true,
   },
-  label: String,
-  placeholder: String,
   type: {
     type: String,
-    required: true,
-    validator: (value: string) => ["text", "email", "password", 'date'].includes(value),
+    default: "text",
+    validators: (value: string) =>
+      ["text", "password", "email"].includes(value),
   },
-  validator: {
-    type: Function,
-    default: () => true,
-  },
-  helperText: String,
-  validate: Boolean,
+  required: Boolean,
+  icon: String,
+  validators: Array<Validator>,
+  placeholder: String,
   modelValue: {
     type: String,
-    default: '',
-    required: true
+    required: true,
   },
   modelValid: Boolean,
-  hide: {
+
+  // Actions
+  hideLabel: Boolean,
+  animated: {
+    type: Boolean,
+    default: true,
+  },
+
+  // Only works on passwords
+  show: {
     type: Boolean,
     default: false,
   },
-  labelEffects: {
-    type: String,
-    default: 'move',
-    validator: (value: string) => ['move', 'hide'].includes(value)
-  }
+  alwaysShowHelper: Boolean,
+  hideHelper: Boolean,
 });
 
-const input = ref();
-const focus = () => input.value.focus();
 const valid = ref(false);
-const allowValidation = computed(
-  () => !!props.validate && props.modelValue !== ""
-);
-
-const focused = ref(false);
-const _value = ref(props.modelValue);
+const valids = ref(Array(props.validators?.length).fill(false));
 const value = computed({
   get() {
-    return _value.value;
+    return props.modelValue;
   },
-  set(value: string) {
-    _value.value = value;
-    valid.value = !!props.validate ? props.validator(value) : true
+  set(value) {
+    if (!!props.validators) {
+      valids.value = props.validators?.map((func) => func.callback(value));
+      valid.value = valids.value.reduce((acc, val) => acc && val);
+      let temp: null | Boolean = null;
+      valids.value.forEach((value, id) => {
+        if (props.validators![id].intensity === "danger") return;
+        temp = !!temp ? temp && value : value;
+      });
+      state.strength = valid.value ? 1 : !!temp ? 0 : -1;
+      emit("validate", state.strength);
+      emit("update:modelValid", valid.value);
+    }
     emit("update:modelValue", value);
-    emit("input", value);
-    emit("update:modelValid", valid.value);
   },
 });
 
-const emit = defineEmits(["input", "update:modelValid", "update:modelValue", "blur", 'focus']);
+const emit = defineEmits([
+  "update:modelValue",
+  "validate",
+  "update:modelValid",
+]);
 
-defineExpose({focus});
+const icons = {
+  validation: {
+    success: validationSuccess,
+    warning: validationWarning,
+  },
+  passwordStrength: {
+    strong: passwordStrong,
+    medium: passwordMedium,
+    weak: passwordWeak,
+  },
+  calendar: calendar,
+  expand: expand,
+  icon: props.icon,
+  required: required,
+};
+const GetIcon = () => {
+  if (
+    value.value === "" &&
+    !!props.required
+  ) return icons.required;
+  if (!props.validators) return '';
+
+  let temp = "";
+  if (state.strength == 1) {
+    temp =
+      props.type === "password"
+        ? icons.passwordStrength.strong
+        : icons.validation.success;
+  } else if (state.strength === 0) {
+    temp = icons.passwordStrength.medium;
+  } else {
+    temp =
+      props.type === "password"
+        ? icons.passwordStrength.strong
+        : icons.validation.warning;
+  }
+
+  return temp;
+};
+
+const state = reactive({
+  focused: false,
+  touched: false,
+  icon: "",
+  isPassword: props.type === "password",
+  helper: false,
+  strength: -2,
+});
+
+const Focus = () => {
+  state.focused = true;
+  state.touched = true;
+};
+
+const Blur = () => {
+  state.focused = false;
+};
+
+const GetPlaceholder = () =>
+  state.focused ? (!props.placeholder ? props.label : props.placeholder) : "";
 </script>
 
 <style scoped>
-.text-input {
-  --background-color: var(--ion-color-secondary);
-  --background-color-after: var(--ion-color-secondary-shade);
-  --border-radius: 5px;
+.input-wrapper {
+  --width: 98%;
+  --padding-inline: 20px;
+  --validation-color: none;
 
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
+  width: var(--width);
+  height: var(--height);
+  min-height: 50px;
 
   font-family: Rubik;
   font-size: 14px;
   font-weight: 400;
 }
 
-.text-input-label {
-  position: relative;
-  transform: translate(20px, 32px);
-  transition: all 200ms ease-out;
-  padding: 5px 0;
-  overflow-x: visible;
+label {
+  position: absolute;
 }
 
-.focused .text-input-label,
-.has-value .text-input-label {
-  transform: translate(0, 0);
+.animated label {
+  transform: translate(calc(var(--padding-inline) + 2px), 29px);
+  transition: all 150ms ease-out;
+}
+
+.input-wrapper:not(.animated) label,
+.taken label,
+.focused label {
   font-weight: 700;
+  transform: translate(0, 0);
 }
 
-.text-input-wrapper {
+.content {
+  --icon-size: 30px;
+
+  width: 100%;
+  height: 35px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  border-radius: var(--border-radius);
-  background-color: var(--background-color);
+  background-color: var(--ion-color-secondary);
+  gap: 5px;
+  border-radius: 10px;
+  padding-inline: var(--padding-inline);
+  margin-top: 20px;
+  outline: 2px solid var(--validation-color);
 }
 
-.text-input-input {
-  width: 100%;
-  padding: 10px 20px;
-  border: none;
+.valid,
+.strong {
+  --validation-color: var(--ion-color-success);
+}
+
+.medium {
+  --validation-color: var(--ion-color-warning);
+}
+
+.invalid,
+.weak,
+.required.touched:not(.taken):not(.focused) {
+  --validation-color: var(--ion-color-danger);
+}
+
+.focused .content {
+  background-color: var(--ion-color-secondary-shade);
+}
+
+.icon {
+  min-width: var(--icon-size);
+  min-height: var(--icon-size);
+  border-radius: 7px;
+}
+
+input {
   background: none;
+  border: none;
+  width: 100%;
 }
 
-.focused .text-input-input {
+.focused input {
   outline: none;
 }
 
-.focused .text-input-wrapper {
-  background-color: var(--background-color-after);
+#indicator {
+  color: var(--validation-color);
 }
 
-.text-input-icon {
-  overflow: hidden;
-  font-size: 30px;
-  margin: 0px 20px 0 0;
+.helper-container {
+  margin-top: 0;
+  margin-inline: auto;
+  width: inherit;
+  opacity: 0;
 }
 
-.text-input-helper {
-  padding: 5px var(--padding);
-  color: var(--ion-color-danger);
-  opacity: 0.7;
+.invalid .helper-container,
+.medium .helper-container,
+.weak .helper-container {
+  opacity: 1;
+}
+
+.always-show {
+  opacity: 1 !important;
 }
 </style>

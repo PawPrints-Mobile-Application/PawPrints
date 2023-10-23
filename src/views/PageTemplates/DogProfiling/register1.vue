@@ -1,28 +1,28 @@
 <template>
-  <section class="wrapper">
-    <TextInput
-      type="text"
-      name="name"
-      v-model:model-value="name"
-      placeholder="Doggo Name"
-      label="Doggo Name"
-    />
-    <DateInput v-model="birthday" label="Birthday" name="birthday" />
-    <DropdownInput
-      v-model="breed"
-      label="Doggo Breed"
-      name="breed"
-      :values="constants.breeds"
-      default-disabled=""
-      placeholder="Choose a breed"
-    />
-    <TextInput
-      type="text"
-      name="color"
-      v-model:model-value="color"
-      placeholder="Colour"
-      label="Colour"
-    />
+  <section class="template-wrapper">
+  <TextInput
+    type="text"
+    name="name"
+    v-model:model-value="name"
+    placeholder="Doggo Name"
+    label="Doggo Name"
+  />
+  <DateInput v-model="birthday" label="Birthday" name="birthday" />
+  <DropdownInput
+    v-model="breed"
+    label="Doggo Breed"
+    name="breed"
+    :values="constants.breeds"
+    default-disabled=""
+    placeholder="Choose a breed"
+  />
+  <TextInput
+    type="text"
+    name="color"
+    v-model:model-value="color"
+    placeholder="Colour"
+    label="Colour"
+  />
   </section>
 </template>
 
@@ -111,11 +111,4 @@ export default {
 };
 </script>
 <style scoped>
-.wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 </style>

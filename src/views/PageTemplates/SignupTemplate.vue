@@ -1,99 +1,75 @@
 <template>
-  <TextInput
-    class="text-input text-input-bottom-margin"
-    type="text"
-    label="First Name"
-    id="firstName"
-    name="firstName"
-    placeholder="Enter First Name"
-    v-model:modelValue="form.firstName"
-  />
+  <section class="template-wrapper">
+    <TextInput
+      type="text"
+      label="First Name"
+      id="firstName"
+      placeholder="Enter First Name"
+      v-model:modelValue="form.firstName"
+    />
 
-  <TextInput
-    class="text-input text-input-bottom-margin"
-    type="text"
-    label="Last Name"
-    id="lastName"
-    name="lastName"
-    placeholder="Enter Last Name"
-    v-model:modelValue="form.lastName"
-  />
+    <TextInput
+      type="text"
+      label="Last Name"
+      id="lastName"
+      name="lastName"
+      placeholder="Enter Last Name"
+      v-model:modelValue="form.lastName"
+    />
 
-  <TextInput
-    class="text-input"
-    type="text"
-    label="Username"
-    id="username"
-    name="username"
-    placeholder="Enter Username"
-    validate
-    :validator="SignupValidator.username.validator"
-    v-model:modelValid="validations.username"
-    v-model:modelValue="form.username"
-    :helper-text="SignupValidator.username.helperText"
-  />
+    <TextInput
+      type="text"
+      label="Username"
+      id="username"
+      placeholder="Enter Username"
+      required
+      v-model:modelValid="validations.username"
+      v-model:modelValue="form.username"
+      :validators="SignupValidator.username"
+    />
 
-  <TextInput
-    class="text-input"
-    type="email"
-    label="Email"
-    id="email"
-    name="email"
-    placeholder="Enter Email"
-    helperText="Please enter a valid email address"
-    validate
-    :validator="SignupValidator.email"
-    v-model:modelValid="validations.email"
-    v-model:modelValue="form.email"
-  />
+    <TextInput
+      type="email"
+      label="Email"
+      id="email"
+      placeholder="Enter Email"
+      required
+      v-model:modelValid="validations.email"
+      v-model:modelValue="form.email"
+      :validators="SignupValidator.email"
+    />
 
-  <TextInput
-    class="text-input"
-    type="password"
-    label="Password"
-    id="password"
-    name="password"
-    placeholder="Enter Password"
-    v-model:modelValue="form.password"
-    :hide="!form.showPassword"
-    validate
-    :validator="SignupValidator.password.validator"
-    v-model:modelValid="validations.password"
-    :helper-text="SignupValidator.password.helperText"
-  />
+    <TextInput
+      type="password"
+      label="Password"
+      id="password"
+      placeholder="Enter Password"
+      required
+      v-model:modelValid="validations.password"
+      v-model:modelValue="form.password"
+      :validators="SignupValidator.password"
+      :show="form.showPassword"
+    />
 
-  <TextInput
-    class="text-input"
-    type="password"
-    label="Confirm Password"
-    id="confirmPassword"
-    name="confirmPassword"
-    placeholder="Confirm Password"
-    v-model:modelValue="form.confirmPassword"
-    :hide="!form.showPassword"
-    validate
-    :validator="(value: string) => form.password === value"
-    v-model:modelValid="validations.confirmPassword"
-    helper-text="Passwords must match!"
-  />
-  <Checkbox
-    name="showPassword"
-    label="Show Password"
-    v-model="form.showPassword"
-  />
+    <Checkbox
+      name="showPassword"
+      label="Show Password"
+      v-model="form.showPassword"
+    />
 
-  <Checkbox id="TOS" name="acceptTOS" v-model="form.acceptTOS">
-    By creating an account you agree to our
-    <span class="navigation-link">Privacy Policy</span> and
-    <span class="navigation-link">Terms of Service</span>.
-  </Checkbox>
+    <Checkbox id="TOS" name="acceptTOS" v-model="form.acceptTOS">
+      By creating an account you agree to our
+      <span class="navigation-link">Privacy Policy</span> and
+      <span class="navigation-link">Terms of Service</span>.
+    </Checkbox>
 
-  <Button
-    id="button-signup"
-    :text="!processingRequest ? 'Sign Up' : 'Processing...'"
-    @click="Register"
-    :disabled="disabled"
-  />
+    <Button
+      id="button-signup"
+      :text="!processingRequest ? 'Sign Up' : 'Processing...'"
+      @click="Register"
+      :disabled="disabled"
+    />
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -173,7 +149,7 @@ const Register = async () => {
         userCredential.user,
         1,
         new Date().toLocaleDateString(),
-        new Date().toLocaleTimeString(),
+        new Date().toLocaleTimeString()
       ).then(() => {
         Redirect();
         props.closeModal();

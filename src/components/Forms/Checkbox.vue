@@ -4,18 +4,18 @@
       <div>
       <input
         class="checkbox-input"
+        :id="id"
         type="checkbox"
-        :name="name"
-        :checked="checked"
         v-model="value"
         :onFocus="() => (focused = true)"
         :onBlur="() => (focused = false)"
         :disabled="disabled"
+        :checked="!!checked"
       />
       <span class="checkbox-custom" @click="() => (value = false)" />
       </div>
     </div>
-    <label class="checkbox-label" v-show="!!label || $slots.default" :for="name">
+    <label class="checkbox-label" v-show="!!label || $slots.default" :for="id">
       <slot v-if="!!$slots.default" @click="() => (value = !value)" />
       <span v-else @click="() => (value = !value)">{{ label }}</span>
     </label>
@@ -25,15 +25,12 @@
 import { computed, ref } from "vue";
 
 const props = defineProps({
-  name: {
+  label: String,
+  id: {
     type: String,
     required: true,
   },
-  label: String,
-  checked: {
-    type: Boolean,
-    default: false,
-  },
+  checked: Boolean,
   disabled: {
     type: Boolean,
     default: false,
