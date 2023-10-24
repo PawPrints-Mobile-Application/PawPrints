@@ -52,7 +52,7 @@
     />
 
     <Checkbox
-      name="showPassword"
+      id="show-password"
       label="Show Password"
       v-model="form.showPassword"
     />
@@ -198,29 +198,6 @@ export default {
 };
 </script>
 <style scoped>
-.signin-content {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-}
-
-.content-title {
-  font-size: 3rem;
-  font-weight: 600;
-}
-
-.content-text {
-  text-align: justify;
-  font-family: Rubik;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  margin-top: 10px;
-}
-
 .navigation-link {
   text-decoration: underline;
   font-weight: 500;
@@ -230,10 +207,6 @@ export default {
 #button-signup {
   --width: 100%;
   --height: 40px;
-  margin-top: 30px;
-}
-
-#TOS {
-  margin: 20px 0 0px;
+  margin-top: 20px;
 }
 </style>

@@ -71,8 +71,7 @@ import { IonIcon } from "@ionic/vue";
 const props = defineProps({
   modelValue: {
     type: String,
-    required: true,
-    validator: (value: string) => value.match(/^\d{4}-\d{2}-\d{2}$/) !== null,
+    required: true
   },
 });
 const emit = defineEmits(["update:modelValue"]);
@@ -166,7 +165,6 @@ const SetDate = (cell: number) => {
   form.month = calendar.month + 1;
   form.date = calendar.cells[cell];
   const temp = arrayToString(form.year, form.month, form.date);
-  console.log(temp);
   emit("update:modelValue", temp);
 };
 </script>
@@ -223,7 +221,7 @@ const SetDate = (cell: number) => {
 
 #calendar-month {
   z-index: 1;
-  width: 110px;
+  width: 112px;
   appearance: none;
   -webkit-appearance: none;
   text-align: left;
@@ -231,9 +229,9 @@ const SetDate = (cell: number) => {
 
 #calendar-year {
   z-index: 0;
-  width: 50px;
+  width: 60px;
   text-align: right;
-  transform: translateY(2px);
+  transform: translateY(1px);
 }
 
 #calendar-month option {

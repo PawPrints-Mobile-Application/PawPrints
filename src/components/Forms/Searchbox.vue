@@ -6,10 +6,10 @@
   >
     <SearchButton @click="() => (showInput ? Return() : Expand())" />
     <TextInput
+      id="search"
       ref="input"
-      name="search"
-      type="text"
       v-model="value"
+      hide-label
       @input="(value) => emit('update:modelValue', value)"
       v-on:keyup.enter="Return"
       placeholder="Search"
@@ -30,10 +30,12 @@ const showInput = computed(() => state.value || !props.collapse);
 const Return = () => emit("return", value);
 const Expand = () => {
   state.value = true;
-  input.value.focus();
+  if (props.collapse) emit("expand");
+  input.value.ForceFocus();
 };
 const Collapse = () => {
   state.value = false;
+  if (props.collapse) emit("collapse");
   emit("blur", value);
 };
 
@@ -50,7 +52,14 @@ const props = defineProps({
   },
 });
 const value = ref(props.modelValue);
-const emit = defineEmits(["update:modelValue", "return", "blur", "focus"]);
+const emit = defineEmits([
+  "update:modelValue",
+  "return",
+  "blur",
+  "focus",
+  "expand",
+  "collapse",
+]);
 </script>
 
 <style scoped>
@@ -75,12 +84,14 @@ const emit = defineEmits(["update:modelValue", "return", "blur", "focus"]);
 
 .text-input {
   --border-radius: var(--radius);
+  display: none;
   width: 0px;
   transition: all 500ms ease-out;
 }
 
 .show-input,
 .show-input .text-input {
+  display: flex;
   --border-radius: var(--radius-after);
   border-radius: var(--radius-after);
   padding: 0px 10px;

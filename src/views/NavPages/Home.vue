@@ -6,14 +6,14 @@
           id="search"
           v-model="searchDog"
           :onReturn="() => console.log(searchDog)"
-          @focus="() => (state.searchFocus = true)"
-          @blur="() => (state.searchFocus = false)"
+          @expand="() => (state.searchExpand = true)"
+          @blur="() => (state.searchExpand = false)"
           collapse
         />
-        <h3 v-show="!state.searchFocus" id="auth-greetings">
+        <h3 v-show="!state.searchExpand" id="auth-greetings">
           {{ authGreetings }}
         </h3>
-        <AddPetButton v-show="!state.searchFocus && !conditions.empty"/>
+        <AddPetButton v-show="!state.searchExpand && !conditions.empty"/>
       </section>
     </template>
     <template #pageContent>
@@ -61,7 +61,7 @@ const authGreetings = `Henlo, ${
 const rawDogs = ref<Array<any>>();
 const searchDog = ref("");
 const state = reactive({
-  searchFocus: false,
+  searchExpand: false,
 });
 
 const conditions = reactive({
@@ -203,4 +203,3 @@ export default {
   width: 100%;
 }
 </style>
-../../server/sqlite/models/User/DogProfile

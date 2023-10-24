@@ -1,43 +1,58 @@
 <template>
   <page-layout>
-      <div class="logo-wrapper"><ImgLogo id="logo" /></div>
-      <section class="main-content">
-        <h1 id="main-content-title">PawPrints</h1>
-        <GuestButton />
-        <ButtonModal :design="1" id="signin" text="Sign In" title="Sign In">
-          <template #modalContent="{ closeModal }">
-            <SigninTemplate :closeModal="closeModal" />
-          </template>
-        </ButtonModal>
-        <ButtonModal :design="1" id="signup" text="Sign Up" title="Sign Up">
-          <template #modalContent="{ closeModal }">
-            <SignupTemplate :closeModal="closeModal" />
-          </template>
-        </ButtonModal>
-        <GoogleButton />
-      </section>
+    <div class="logo-wrapper"><ImgLogo id="logo" /></div>
+    <section class="main-content">
+      <h1 id="main-content-title">PawPrints</h1>
+      <GuestButton />
+      <ButtonModal
+        id="signin"
+        text="Sign In"
+        title="Sign In"
+        height="300px"
+        hide-footer
+      >
+        <template #modalContent="{ closeModal }">
+          <SigninTemplate :closeModal="closeModal" />
+        </template>
+      </ButtonModal>
+      <ButtonModal
+        id="signup"
+        text="Sign Up"
+        title="Sign Up"
+        height="630px"
+        hide-footer
+      >
+        <template #modalContent="{ closeModal }">
+          <SignupTemplate :closeModal="closeModal" />
+        </template>
+      </ButtonModal>
+      <GoogleButton />
+    </section>
   </page-layout>
 </template>
 
 <script lang="ts" setup>
 import { PageLayout } from "../../layout";
-import { GoogleButton, ButtonModal, GuestButton } from "../../components/Buttons";
+import {
+  GoogleButton,
+  ButtonModal,
+  GuestButton,
+} from "../../components/Buttons";
 import { SigninTemplate, SignupTemplate } from "../PageTemplates";
 import { ImgLogo } from "../../components/Logo";
 </script>
 
 <script lang="ts">
-
 export default {
   name: "Login",
   routeInfo: {
-      filename: 'Login',
+    filename: "Login",
     path: "/login",
     meta: {
       requiresAuth: false,
       requiresInternet: false,
     },
-  }
+  },
 };
 </script>
 

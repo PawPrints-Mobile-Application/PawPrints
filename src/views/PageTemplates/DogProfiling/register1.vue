@@ -1,28 +1,27 @@
 <template>
   <section class="template-wrapper">
-  <TextInput
-    type="text"
-    name="name"
-    v-model:model-value="name"
-    placeholder="Doggo Name"
-    label="Doggo Name"
-  />
-  <DateInput v-model="birthday" label="Birthday" name="birthday" />
-  <DropdownInput
-    v-model="breed"
-    label="Doggo Breed"
-    name="breed"
-    :values="constants.breeds"
-    default-disabled=""
-    placeholder="Choose a breed"
-  />
-  <TextInput
-    type="text"
-    name="color"
-    v-model:model-value="color"
-    placeholder="Colour"
-    label="Colour"
-  />
+    <TextInput
+      type="text"
+      id="name"
+      v-model:model-value="name"
+      placeholder="Doggo Name"
+      label="Doggo Name"
+    />
+    <DateInput v-model="birthday" label="Birthday" id="birthday" />
+    <DropdownInput
+      v-model="breed"
+      label="Doggo Breed"
+      id="breed"
+      :options="constants.breeds"
+      placeholder="Choose a breed"
+    />
+    <TextInput
+      type="text"
+      id="color"
+      v-model:model-value="color"
+      placeholder="Colour"
+      label="Colour"
+    />
   </section>
 </template>
 
@@ -33,22 +32,22 @@ import { computed } from "vue";
 const props = defineProps({
   modelName: {
     type: String,
-    default: '',
+    default: "",
     required: true,
   },
   modelBirthday: {
     type: String,
-    default: '',
+    default: "",
     required: true,
   },
   modelBreed: {
     type: String,
-    default: '',
+    default: "",
     required: true,
   },
   modelColor: {
     type: String,
-    default: '',
+    default: "",
     required: true,
   },
 });
@@ -111,4 +110,8 @@ export default {
 };
 </script>
 <style scoped>
+.template-wrapper {
+  height: 100%;
+  justify-content: space-evenly;
+}
 </style>

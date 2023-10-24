@@ -1,6 +1,6 @@
 <template>
-    <section class="popup" v-if="modelValue">
-      <div id="backdrop" @click="() => emit('update:modelValue', false)" />
+    <section class="popup" v-if="modelValue === !reversed">
+      <div id="backdrop" @click="() => emit('update:modelValue', !!reversed)" />
         <div class="content">
             <slot />
         </div>
@@ -12,7 +12,8 @@ defineProps({
         type: Boolean,
         default: false,
         required: true
-    }
+    },
+    reversed: Boolean
 });
 const emit = defineEmits(['update:modelValue']);
 </script>
