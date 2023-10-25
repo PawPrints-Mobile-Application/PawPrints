@@ -13,7 +13,7 @@
         <h3 v-show="!state.searchExpand" id="auth-greetings">
           {{ authGreetings }}
         </h3>
-        <AddPetButton v-show="!state.searchExpand && !conditions.empty"/>
+        <AddPetButton id="header-button" v-show="!state.searchExpand && !conditions.empty"/>
       </section>
     </template>
     <template #pageContent>
@@ -23,7 +23,7 @@
       <h1 id="dog-cards-title">My Dogs</h1>
       <section class="dog-cards-container">
         <section v-show="conditions.empty" class="add-dog-container">
-          <AddPetButton/>
+          <AddPetButton id="body-button"/>
           <p id="add-dog-text">Add Dog</p>
         </section>
         <DogCard

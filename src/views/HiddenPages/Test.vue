@@ -1,6 +1,6 @@
 <template>
   <page-layout>
-    <AddPetButton />
+    <AddPetButton id="test" />
     <TextInput
       id="text"
       label="Label"
@@ -20,11 +20,23 @@
     />
 
     <Checkbox label="Checkbox" id="checkbox" :checked="true" />
+    <ClickInput
+      label="Label"
+      type="checkbox"
+      id="label"
+      v-model="radio"
+      :options="['1', '2', '3', '4', '5', '6', '7', '8', '9']"
+    />
   </page-layout>
 </template>
 <script setup lang="ts">
 import { PageLayout } from "../../layout";
-import { TextInput, Checkbox, DateInput } from "../../components/Forms";
+import {
+  TextInput,
+  Checkbox,
+  DateInput,
+  ClickInput,
+} from "../../components/Forms";
 import { AddPetButton } from "../../components/Buttons";
 import { ref } from "vue";
 import { Validator } from "../../utils";
@@ -35,6 +47,7 @@ const validators = [
 ];
 
 const value = ref("");
+const radio = ref("");
 </script>
 <script lang="ts">
 export default {

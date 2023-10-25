@@ -1,11 +1,11 @@
 <template>
   <section class="add-pet-button-wrapper">
-    <button class="add-pet-button" id="add-pet">
+    <button class="add-pet-button" :id="`add-pet-${id}`">
       <div id="button-line-1" class="button-line" />
       <div id="button-line-2" class="button-line" />
     </button>
     <Modal
-      trigger="add-pet"
+      :trigger="`add-pet-${id}`"
       title="Doggo Profile"
       :max-pages="pages.length"
       @submit="Submit"
@@ -53,6 +53,13 @@ const form = reactive({
 const Submit = () => {
   console.log("submit");
 };
+
+defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+});
 </script>
 
 <style scoped>

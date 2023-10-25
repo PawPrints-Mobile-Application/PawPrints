@@ -4,6 +4,7 @@ import Searchbox from "./Searchbox.vue";
 import CalendarBox from "./CalendarBox.vue";
 import DateInput from "./DateInput.vue";
 import DropdownInput from "../../components/Forms/DropdownInput.vue";
+import ClickInput from "../../components/Forms/ClickInput.vue";
 
 export {
   Checkbox,
@@ -12,4 +13,5 @@ export {
   CalendarBox,
   DateInput,
   DropdownInput,
+  ClickInput
 };
