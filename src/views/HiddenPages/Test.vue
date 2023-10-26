@@ -20,12 +20,13 @@
     />
 
     <Checkbox label="Checkbox" id="checkbox" :checked="true" />
-    <ClickInput
+    <RadioInput
       label="Label"
       type="checkbox"
       id="label"
       v-model="radio"
-      :options="['1', '2', '3', '4', '5', '6', '7', '8', '9']"
+      :options="['1', '2', '3', '4', '5', '6', '7', '8', '9'].reverse()"
+      allowOthers
     />
   </page-layout>
 </template>
@@ -35,7 +36,7 @@ import {
   TextInput,
   Checkbox,
   DateInput,
-  ClickInput,
+  RadioInput,
 } from "../../components/Forms";
 import { AddPetButton } from "../../components/Buttons";
 import { ref } from "vue";

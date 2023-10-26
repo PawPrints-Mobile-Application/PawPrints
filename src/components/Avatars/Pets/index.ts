@@ -1,4 +1,4 @@
-import Default from "./default.vue";
+import Default from "./Default.vue";
 
 export {
     Default

@@ -63,9 +63,11 @@ onIonViewDidEnter(() => {
   setTimeout(async () => {
     show.thumbnail = true;
     show.loading = true;
-    CreateDB().then(() => setTimeout(() => {
-      state.doneAnimation = true;
-    }, 1000))
+    CreateDB().then(() =>
+      setTimeout(() => {
+        state.doneAnimation = true;
+      }, 1000)
+    );
   }, 1000);
 });
 

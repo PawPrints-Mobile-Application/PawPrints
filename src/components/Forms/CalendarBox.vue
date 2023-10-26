@@ -2,30 +2,30 @@
   <section class="calendar-box">
     <header id="calendar-nav">
       <BackButton class="button" @click="() => MoveMonth(-1)" />
-        <div class="labels" :class="{'focused' : calendar.focused}">
-      <select
-        id="calendar-month"
-        name="calendar-month"
-        class="calendar-label"
-        v-model="calendar.month"
-        @change="RefreshCalendar"
-        @focus="() => calendar.focused = true"
-        @blur="() => calendar.focused = false"
-      >
-        <option v-for="(month, id) in constants.months" :value="id">
-          {{ month }}
-        </option>
-      </select>
-      <input
-        type="number"
-        class="calendar-label"
-        id="calendar-year"
-        v-model="calendar.year"
-        @input="RefreshCalendar"
-        @focus="() => calendar.focused = true"
-        @blur="() => calendar.focused = false"
-      />
-        </div>
+      <div class="labels" :class="{ focused: calendar.focused }">
+        <select
+          id="calendar-month"
+          name="calendar-month"
+          class="calendar-label"
+          v-model="calendar.month"
+          @change="RefreshCalendar"
+          @focus="() => (calendar.focused = true)"
+          @blur="() => (calendar.focused = false)"
+        >
+          <option v-for="(month, id) in constants.months" :value="id">
+            {{ month }}
+          </option>
+        </select>
+        <input
+          type="number"
+          class="calendar-label"
+          id="calendar-year"
+          v-model="calendar.year"
+          @input="RefreshCalendar"
+          @focus="() => (calendar.focused = true)"
+          @blur="() => (calendar.focused = false)"
+        />
+      </div>
       <ForwardButton class="button" @click="() => MoveMonth(1)" />
     </header>
 
@@ -71,17 +71,23 @@ import { IonIcon } from "@ionic/vue";
 const props = defineProps({
   modelValue: {
     type: String,
-    required: true
+    required: true,
   },
 });
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "click"]);
 
 // FORMATTER
 const TwoCharactersFormat = (value: number) =>
   value < 10 ? `0${value}` : value;
 const stringToArray = (value: string) => {
   let temp = value;
-  if (temp === '') {return [new Date().getFullYear(), new Date().getMonth(), new Date().getDate()] }
+  if (temp === "") {
+    return [
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      new Date().getDate(),
+    ];
+  }
   return value.split("-").map((el: string) => parseInt(el));
 };
 const arrayToString = (year: number, month: number, date: number) =>
@@ -129,7 +135,7 @@ const calendar = reactive({
   month: form.month - 1,
   year: form.year,
   cells: getCalendarCells(form.month - 1, form.year),
-  focused: false
+  focused: false,
 });
 
 // Calendar Methods
@@ -166,6 +172,7 @@ const SetDate = (cell: number) => {
   form.date = calendar.cells[cell];
   const temp = arrayToString(form.year, form.month, form.date);
   emit("update:modelValue", temp);
+  emit("click");
 };
 </script>
 

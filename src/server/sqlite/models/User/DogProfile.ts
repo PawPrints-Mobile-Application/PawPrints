@@ -15,9 +15,9 @@ fixing INTEGER
 
 const Enum = {
     fixing: {
-        0: 'None',
-        1: 'Neutered',
-        2: 'Spayed',
+        0: 'none',
+        1: 'neutered',
+        2: 'spayed',
     },
     inoudoor: {
         0: 'indoor',

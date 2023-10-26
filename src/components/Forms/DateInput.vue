@@ -17,7 +17,9 @@
         @click="toggleOptions"
       />
     <Popup v-model="state.collapsed" reversed>
-        <CalendarBox v-model="value" />
+      <template #content="{reverseValue}">
+        <CalendarBox v-model="value" @click="() => reverseValue()" />
+      </template>
     </Popup>
     </section>
   </template>

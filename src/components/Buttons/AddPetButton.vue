@@ -22,7 +22,10 @@
           v-model:model-breed="form.breed"
           v-model:model-color="form.color"
         />
-        <register2 v-else-if="page === 2" />
+        <register2 v-else-if="page === 2" 
+          v-model:model-inoutdoors="form.inoutdoors"
+          v-model:model-fixing="form.fixing"
+          />
       </template>
     </Modal>
   </section>
@@ -33,6 +36,7 @@ import { reactive } from "vue";
 import { Default as PetAvatar } from "../../components/Avatars/Pets";
 import { register1, register2 } from "../../views/PageTemplates/DogProfiling";
 import { Modal } from "../Modals";
+import { InsertData } from "../../server/sqlite/models/User/DogProfile";
 
 const pages = [register1, register2];
 
@@ -41,6 +45,8 @@ const ClearForm = () => {
   form.birthday = "";
   form.breed = "";
   form.color = "";
+  form.inoutdoors = "";
+  form.fixing = "";
 };
 
 const form = reactive({
@@ -48,10 +54,22 @@ const form = reactive({
   birthday: "",
   breed: "",
   color: "",
+  inoutdoors: '',
+  fixing: '',
 });
 
 const Submit = () => {
-  console.log("submit");
+  console.log(form);
+  InsertData({
+    pid: `${localStorage.getItem('authID')}${new Date().getUTCDate()}`,
+    uid: localStorage.getItem('authID')!,
+    name: form.name,
+    birthday: form.birthday,
+    breed: form.breed,
+    color: form.color,
+    inoutdoor: form.inoutdoors === 'outdoors' ? 1 : 0,
+    fixing: form.fixing === 'none' ? 0 : (form.fixing === 'spayed' ? 2 : 1),
+  });
 };
 
 defineProps({
