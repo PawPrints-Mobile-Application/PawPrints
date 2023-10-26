@@ -21,6 +21,27 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    
+        // Renaming APK name
+        applicationVariants.all{
+            variant ->
+                variant.outputs.each{
+                    output->
+                        // While building via Android Studio
+                        // project.ext { appName = 'PawPrints' }
+                        // def formattedDate = new Date().format('yyyy-MM-dd-HH-mm-ss')
+                        // def newName = output.outputFile.name
+                        // newName = newName.replace("app-", "$project.ext.appName-")
+
+                        // // newName = newName.replace("-release", "-release-" + formattedDate)
+                        // newName = newName.replace("-debug", "-debug-" + formattedDate)
+
+                        // While building via capacitor
+                        def newName = 'app-debug.apk' 
+
+                        output.outputFileName  = newName
+                }
+        }
     }
 }
 
@@ -40,9 +61,12 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+    implementation 'com.google.firebase:firebase-analytics'
 }
 
 apply from: 'capacitor.build.gradle'
+apply plugin: 'com.google.gms.google-services'
 
 try {
     def servicesJSON = file('google-services.json')

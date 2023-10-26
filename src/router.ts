@@ -1,34 +1,69 @@
-import { createRouter, createWebHistory } from '@ionic/vue-router';
-import { RouteRecordRaw } from 'vue-router';
-import { Tab, routes as routesList } from './components/index.ts';
+import { createRouter, createWebHistory } from "@ionic/vue-router";
+import { RouteRecordRaw } from "vue-router";
+import { Navigation } from "./layout/index";
+import pages from "./views";
 
 var routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    redirect: '/home',
+    path: "",
+    redirect: "/landingpage",
   },
   {
-    path: '/',
-    component: Tab,
+    path: "/",
+    component: Navigation,
     children: [
       {
-        path: '',
-        redirect: '/home',
-      }
+        path: "",
+        redirect: "/home",
+      },
     ],
+    meta: {
+      requiresAuth: true,
+    },
   },
 ];
 
 const addRoutes = () => {
-  routesList.forEach((route) => routes[1].children?.push({ path: route.name, component: () => import(`./pages/${route.name}Page.vue`)}));
+  pages.forEach((page) => {
+    const isNavigation = page.filename.indexOf("NavPages") !== -1;
+    const target = isNavigation ? routes[1].children! : routes;
+    target.push({
+      path: page.path,
+      component: () => import(page.filename /* @vite-ignore */),
+    });
+  });
 
   return createRouter({
     // Use: createWebHistory(process.env.BASE_URL) in your app
     history: createWebHistory(),
     routes,
   });
-}
+};
 
 const router = addRoutes();
 
+// router.beforeEach(async (to, from, next) => {
+//   from;
+//   const currentUser = await getCurrentUser();
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     if (currentUser) {
+//       next();
+//     }
+//     else {
+//       alert('Please Login first to access the page!');
+//       next('/login')
+//     }
+//   }
+//   else if (to.path === '/login'){
+//     if (currentUser) {
+//       next('/home');
+//     }
+//     else {
+//       next();
+//     }
+//   }
+//   else{
+//     next();
+//   }
+// });
 export default router;

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "831211374802",
+    "project_id": "pawprints-d1eb8",
+    "storage_bucket": "pawprints-d1eb8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831211374802:android:976b4f486a3769e572450b",
+        "android_client_info": {
+          "package_name": "com.pawprints"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831211374802-diqabq77c8lc1s4sdden39full482ibb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pawprints",
+            "certificate_hash": "d44560f91c3f60c9b1f18a550677baa1e69da988"
+          }
+        },
+        {
+          "client_id": "831211374802-sm16u9hvi3borf82ocpkhkmc7os3aug8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_gEy9x_YU1TUiweu94poyvkFg_L2zhAc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831211374802-sm16u9hvi3borf82ocpkhkmc7os3aug8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

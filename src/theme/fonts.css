@@ -1,0 +1,25 @@
+:root {
+    --font-size-0: 1rem;
+    --font-size-1: 1.2rem;
+    --font-size-2: 1.7rem;
+    --font-size-3: 2rem;
+    --font-size-4: 2.5rem;
+    --font-size-5: 3rem;
+    --font-size-6: 3.5rem;
+    --font-size-7: 4rem;
+    --font-size-8: 4.5rem;
+    --font-size-9: 5rem;
+    --font-size-10: 5.5rem;
+
+    --fs0: var(--font-size-0);
+    --fs1: var(--font-size-1);
+    --fs2: var(--font-size-2);
+    --fs3: var(--font-size-3);
+    --fs4: var(--font-size-4);
+    --fs5: var(--font-size-5);
+    --fs6: var(--font-size-6);
+    --fs7: var(--font-size-7);
+    --fs8: var(--font-size-8);
+    --fs9: var(--font-size-9);
+    --fs10: var(--font-size-10);
+}
