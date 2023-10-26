@@ -157,8 +157,6 @@ main {
 
 .template-wrapper {
   width: 100%;
-  height: 90%;
-  margin: 2% 0 8%;
   display: flex;
   flex-direction: column;
   justify-content: center;

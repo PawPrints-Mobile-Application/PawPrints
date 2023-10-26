@@ -1,168 +1,178 @@
 <template>
-    <section class="date-input" :class="{ focused: state.focused }">
-      <TextInput
-        :id="id"
-        :label="label"
-        type="date"
-        :required="required"
-        v-model:model-value="value"
-        :hideLabel="hideLabel"
-        :animated="animated"
-        @focus="Focus"
-        @blur="Blur"
-        :disabled="!!disallowInput"
+  <section
+    class="date-input"
+    :class="{ focused: state.focused, touched: state.touched }"
+  >
+    <label
+      id="label"
+      :for="name"
+      @click="
+        () => {
+          focus();
+          input.focus();
+        }
+      "
+      @blur="() => (state.focused = false)"
+      >{{ label }}</label
+    >
+    <div class="input-wrapper">
+      <input
+        id="input"
+        ref="input"
+        :name="name"
+        :type="state.touched ? 'date' : 'text'"
+        v-model="value"
+        @focus="focus"
+        @blur="() => (state.focused = false)"
       />
-      <ion-icon
-        :icon="state.collapsed ? expand : collapse"
-        @click="toggleOptions"
+      <IconButton
+        id="toggler"
+        :icon="icon"
+        @click="
+          () => {
+            state.calendar = !state.calendar;
+          }
+        "
+        @focus="focus"
+        @blur="() => (state.focused = false)"
       />
-    <Popup v-model="state.collapsed" reversed>
-      <template #content="{reverseValue}">
-        <CalendarBox v-model="value" @click="() => reverseValue()" />
-      </template>
-    </Popup>
-    </section>
-  </template>
-  
-  <script setup lang="ts">
-  import { TextInput, CalendarBox } from ".";
-  import { computed, reactive } from "vue";
-  import { IonIcon } from "@ionic/vue";
-  import {
-    calendar as expand,
-    calendarClear as collapse,
-  } from "ionicons/icons";
+    </div>
+  </section>
+  <Popup v-model="state.calendar">
+    <CalendarBox v-model="value" />
+  </Popup>
+</template>
+
+<script setup lang="ts">
+import { CalendarBox } from ".";
 import { Popup } from "../Modals";
-  
-  const props = defineProps({
-    label: String,
-    id: {
-      type: String,
-      required: true,
-    },
-    required: Boolean,
-    modelValue: {
-      type: String,
-      required: true,
-    },
-  
-    // Actions
-    hideLabel: Boolean,
-    animated: {
-      type: Boolean,
-      default: true,
-    },
-    disallowInput: Boolean,
-  });
-  
-  const toggleOptions = () => (state.collapsed = !state.collapsed);
-  
-  const value = computed({
-    get() {
-      return props.modelValue;
-    },
-    set(value) {
-      emit("update:modelValue", value);
-    },
-  });
-  
-  const emit = defineEmits(["update:modelValue"]);
-  
-  const state = reactive({
-    focused: false,
-    touched: false,
-    collapsed: true,
-  });
-  
-  const Focus = () => {
-    state.focused = true;
-    state.touched = true;
-  };
-  
-  const Blur = () => state.focused = false;
-  </script>
-  
-  <style scoped>
-  .date-input {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    align-items: end;
-    width: 100%;
-    font-family: Rubik;
-    font-size: 14px;
-    font-weight: 400;
-  }
-  
-  .text-input {
-    width: calc(100% - 33px);
-    margin-right: 33px;
-    z-index: 1;
-  }
-  
-  ion-icon {
-    position: absolute;
-    width: 40px;
-    height: 35px;
-    background-color: var(--ion-color-secondary);
-    border-radius: 6px;
-    z-index: 2;
-    color: var(--ion-color-tertiary);
-  }
-  
-  .focused ion-icon {
-    background-color: var(--ion-color-secondary-shade);
-  }
-  
-  .backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .choices {
-    --height: 0px;
-    transform: translateY(calc(var(--height) * 5.9));
-    position: absolute;
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-flow: column nowrap;
-    height: calc(var(--height) * 6);
-    overflow-y: scroll;
-    border-radius: 0 0 8px 8px;
-    transition: all 100ms ease-out;
-  }
-  
-  .show-options {
-    --height: 30px;
-  }
-  
-  .show-options .option {
-    opacity: 1;
-  }
-  
-  .option {
-    opacity: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: var(--height);
-    background-color: var(--ion-color-secondary);
-    transition: all 75ms ease-out 50ms;
-  }
-  
-  div.option {
-    background-color: var(--ion-color-secondary-shade);
-    color: var(--ion-color-primary);
-  }
-  
-  .option.select {
-    background-color: var(--ion-color-secondary-shade);
-  }
-  </style>
-  
+import { IconButton } from "../Buttons";
+import { calendar as icon } from "ionicons/icons";
+import { reactive, computed, ref } from "vue";
+
+const state = reactive({
+  calendar: false,
+  focused: false,
+  touched: false,
+});
+
+const focus = () => {
+  state.focused = true;
+  state.touched = true;
+};
+
+const TwoCharactersFormat = (value: number) =>
+  value < 10 ? `0${value}` : value;
+
+const input = ref();
+const props = defineProps({
+  modelValue: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  label: {
+    type: String,
+    required: true,
+  },
+});
+
+const value = computed({
+  get() {
+    if (props.modelValue === "") {
+      const temp = `${new Date().getFullYear()}-${TwoCharactersFormat(
+        new Date().getMonth() + 1
+      )}-${TwoCharactersFormat(new Date().getDate())}`;
+      emit("update:modelValue", temp);
+      return temp;
+    }
+    return props.modelValue;
+  },
+  set(value) {
+    emit("update:modelValue", value);
+  },
+});
+const emit = defineEmits(["update:modelValue"]);
+</script>
+
+<style scoped>
+.date-input {
+  width: 100%;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  font-family: Rubik;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+#label {
+  width: 100%;
+  text-align: start;
+  transform: translate(20px, 32px);
+  transition: all 200ms ease-out;
+  padding: 5px 0;
+  overflow-x: visible;
+}
+
+.touched #label,
+.focused #label {
+  transform: translate(0, 0);
+  font-weight: 700;
+}
+
+.input-wrapper {
+  width: 100%;
+  border-radius: 5px;
+  background-color: var(--ion-color-secondary);
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 10px 10px 20px;
+}
+
+#input {
+  opacity: 0;
+  width: 100%;
+  border: none;
+  background: none;
+  border-radius: 5px;
+}
+
+.touched #input,
+.focused #input {
+  opacity: 1;
+}
+
+#input:focus {
+  outline: none;
+}
+
+.focused .input-wrapper {
+  background-color: var(--ion-color-secondary-shade);
+}
+
+#input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+#toggler {
+  position: absolute;
+  width: 50px;
+  --padding: 0;
+  --margin: 0;
+  --size: var(--fs5);
+  background-color: var(--ion-color-secondary);
+  --color: var(--ion-color-primary);
+}
+
+.focused #toggler {
+  background-color: var(--ion-color-secondary-shade);
+}
+</style>

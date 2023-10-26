@@ -10,7 +10,7 @@ const SignupValidator = {
         value.length >= 4 &&
         value.length < 20 &&
         !reservedUsernames.includes(value),
-      "Username must be 4 to 20 characters!",
+      "Password must be 4 to 20 characters!",
       "warning"
     ),
   ],

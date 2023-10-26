@@ -1,17 +1,15 @@
 <template>
-  <section class="button-modal">
-    <Button :id="`button-${id}`" :text="text" />
+  <section class="button-modal" :id="id">
+    <Button :id="`button-${id}`" class="button-modal-button" :text="text" />
     <Modal
+      :id="`modal-${id}`"
+      class="button-modal-modal"
       :trigger="`button-${id}`"
+      :allow-buttons="allowModalButtons"
+      :design="design ? design : 0"
       :title="title"
       :max-pages="maxPages"
-      @submit="() => emit('submit')"
-      :hideHeaderBack="hideHeaderBack"
-      :hideHeader="hideHeader"
-      :hideFooter="hideFooter"
-      :hideFooterBack="hideFooterBack"
-      :hideFooterSubmit="hideFooterSubmit"
-      :style="{ '--main-height': !!height ? height : 'auto' }"
+      @submit="onSubmit"
     >
       <template #modalSlot="{ page, closeModal }">
         <slot
@@ -29,26 +27,19 @@
 <script setup lang="ts">
 import Button from "./Button.vue";
 import { Modal } from "../Modals";
-defineProps({
-  title: String,
-  id: String,
-  maxPages: {
-    type: Number,
-    default: 1,
-  },
-  text: {
-    type: String,
-    required: true
-  },
-  height: String,
-  hideHeaderBack: Boolean,
-  hideHeader: Boolean,
-  hideFooter: Boolean,
-  hideFooterBack: Boolean,
-  hideFooterSubmit: Boolean,
-});
-
-const emit = defineEmits(["submit"]);
+defineProps([
+  "id",
+  "allowModalButtons",
+  "expand",
+  "color",
+  "text",
+  "onClick",
+  "maxPages",
+  "onSubmit",
+  "design",
+  "title",
+  "buttonClass",
+  "modalClass",
+]);
 </script>
-<style scoped>
-</style>
+<style scoped></style>

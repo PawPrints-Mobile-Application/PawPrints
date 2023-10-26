@@ -171,6 +171,7 @@ const SetDate = (cell: number) => {
   form.month = calendar.month + 1;
   form.date = calendar.cells[cell];
   const temp = arrayToString(form.year, form.month, form.date);
+  console.log(temp);
   emit("update:modelValue", temp);
   emit("click");
 };
@@ -228,7 +229,7 @@ const SetDate = (cell: number) => {
 
 #calendar-month {
   z-index: 1;
-  width: 112px;
+  width: 110px;
   appearance: none;
   -webkit-appearance: none;
   text-align: left;
@@ -236,9 +237,9 @@ const SetDate = (cell: number) => {
 
 #calendar-year {
   z-index: 0;
-  width: 60px;
+  width: 50px;
   text-align: right;
-  transform: translateY(1px);
+  transform: translateY(2px);
 }
 
 #calendar-month option {

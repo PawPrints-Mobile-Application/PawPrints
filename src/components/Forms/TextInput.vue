@@ -1,11 +1,10 @@
 <template>
   <section
-    class="text-input"
+    class="input-wrapper"
     :class="{
       focused: state.focused,
       taken: value !== '',
       animated: animated,
-      'hide-label': !!hideLabel,
       touched: state.touched,
       required: props.required,
 
@@ -15,22 +14,16 @@
     }"
   >
     <label v-show="!hideLabel" :for="id">{{ label }}</label>
-    <div class="content" @click="ForceFocus">
+    <div class="content" @click="() => input.focus()">
       <ion-icon v-show="!!icon" id="icon" class="icon" :icon="icon" />
       <input
         ref="input"
         :id="id"
-        @input="() => console.log(state.isPassword)"
-        :type="
-          (state.isPassword && !show) || (!state.focused && value === '')
-            ? 'text'
-            : type
-        "
+        :type="state.isPassword && !show ? type : 'text'"
         @focus="Focus"
         @blur="Blur"
         v-model="value"
         :placeholder="GetPlaceholder()"
-        :disabled="!!disabled"
       />
       <ion-icon
         v-show="
@@ -87,7 +80,7 @@ const props = defineProps({
     type: String,
     default: "text",
     validators: (value: string) =>
-      ["text", "password", "email", "date"].includes(value),
+      ["text", "password", "email"].includes(value),
   },
   required: Boolean,
   icon: String,
@@ -100,7 +93,6 @@ const props = defineProps({
   modelValid: Boolean,
 
   // Actions
-  disabled: Boolean,
   hideLabel: Boolean,
   animated: {
     type: Boolean,
@@ -135,7 +127,6 @@ const value = computed({
       emit("validate", state.strength);
       emit("update:modelValid", valid.value);
     }
-    emit("input", value);
     emit("update:modelValue", value);
   },
 });
@@ -144,9 +135,6 @@ const emit = defineEmits([
   "update:modelValue",
   "validate",
   "update:modelValid",
-  "focus",
-  "blur",
-  "input",
 ]);
 
 const icons = {
@@ -165,8 +153,11 @@ const icons = {
   required: required,
 };
 const GetIcon = () => {
-  if (value.value === "" && !!props.required) return icons.required;
-  if (!props.validators) return "";
+  if (
+    value.value === "" &&
+    !!props.required
+  ) return icons.required;
+  if (!props.validators) return '';
 
   let temp = "";
   if (state.strength == 1) {
@@ -198,37 +189,25 @@ const state = reactive({
 const Focus = () => {
   state.focused = true;
   state.touched = true;
-  emit("focus");
 };
-
-const ForceFocus = () => input.value.focus();
 
 const Blur = () => {
   state.focused = false;
-  emit("blur");
 };
 
 const GetPlaceholder = () =>
-  state.focused || props.hideLabel
-    ? !props.placeholder
-      ? props.label
-      : props.placeholder
-    : "";
-
-defineExpose({ ForceFocus });
+  state.focused ? (!props.placeholder ? props.label : props.placeholder) : "";
 </script>
 
 <style scoped>
-.text-input {
-  --border-radius: 6px;
-  --width: 100%;
-  --height: max-content;
+.input-wrapper {
+  --width: 98%;
   --padding-inline: 20px;
   --validation-color: none;
 
   width: var(--width);
   height: var(--height);
-  min-height: 35px;
+  min-height: 50px;
 
   font-family: Rubik;
   font-size: 14px;
@@ -244,7 +223,7 @@ label {
   transition: all 150ms ease-out;
 }
 
-.text-input:not(.animated) label,
+.input-wrapper:not(.animated) label,
 .taken label,
 .focused label {
   font-weight: 700;
@@ -262,13 +241,10 @@ label {
   align-items: center;
   background-color: var(--ion-color-secondary);
   gap: 5px;
-  border-radius: var(--border-radius);
+  border-radius: 10px;
   padding-inline: var(--padding-inline);
-  outline: 2px solid var(--validation-color);
-}
-
-.text-input:not(.hide-label) .content {
   margin-top: 20px;
+  outline: 2px solid var(--validation-color);
 }
 
 .valid,
@@ -306,10 +282,6 @@ input {
   outline: none;
 }
 
-input::-webkit-calendar-picker-indicator {
-  display: none;
-}
-
 #indicator {
   color: var(--validation-color);
 }
@@ -319,8 +291,6 @@ input::-webkit-calendar-picker-indicator {
   margin-inline: auto;
   width: inherit;
   opacity: 0;
-  font-size: var(--fs1);
-  margin-top: 5px;
 }
 
 .invalid .helper-container,

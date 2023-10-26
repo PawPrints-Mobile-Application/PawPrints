@@ -1,36 +1,34 @@
 <template>
   <section class="template-wrapper">
-    <div class="form-wrapper">
-      <TextInput
-        type="email"
-        label="Email"
-        id="email"
-        placeholder="Enter Email"
-        v-model:modelValue="form.email"
-      />
+  <TextInput
+    type="email"
+    label="Email"
+    id="email"
+    placeholder="Enter Email"
+    v-model:modelValue="form.email"
+  />
 
-      <TextInput
-        type="password"
-        label="Password"
-        id="password"
-        placeholder="Enter Password"
-        v-model:modelValue="form.password"
-        :hide="form.showPassword"
-      />
+  <TextInput
+    type="password"
+    label="Password"
+    id="password"
+    placeholder="Enter Password"
+    v-model:modelValue="form.password"
+    :hide="form.showPassword"
+  />
 
-      <Checkbox
-        id="checkbox"
-        label="Show Password"
-        v-model="form.showPassword"
-      />
+  <Checkbox
+    name="checkbox"
+    label="Show Password"
+    v-model="form.showPassword"
+  />
 
-      <Button
-        id="button-signin"
-        :text="!processingRequest ? 'Sign In' : 'Processing...'"
-        @click="Login"
-        :disabled="disabled"
-      />
-    </div>
+  <Button
+    id="button-signin"
+    :text="!processingRequest ? 'Sign In' : 'Processing...'"
+    @click="Login"
+    :disabled="disabled"
+  />
   </section>
 </template>
 
@@ -118,11 +116,18 @@ export default {
 </script>
 
 <style scoped>
-.form-wrapper {
-  width: 100%;
-  height: 300px;
+.signin-content {
   display: flex;
-  flex-direction: column;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.content-title {
+  font-size: 3rem;
+  font-weight: 600;
 }
 
 #button-signin {
