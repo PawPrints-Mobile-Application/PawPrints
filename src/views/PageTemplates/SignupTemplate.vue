@@ -77,7 +77,6 @@ import { Checkbox, TextInput } from "../../components/Forms";
 import Button from "../../components/Buttons";
 
 import { SignupUser } from "../../server/authentication";
-import "crypto";
 
 import { computed, reactive, ref } from "vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
