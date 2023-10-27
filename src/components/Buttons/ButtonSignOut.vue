@@ -11,7 +11,7 @@ import Button from './Button.vue';
 import { useIonRouter } from "@ionic/vue";
 import {SignoutUser} from '../../server/authentication';
 const ionRouter = useIonRouter();
-const Redirect = () => ionRouter.navigate("/login", "forward", "replace");
+const Redirect = () => ionRouter.navigate("/auth", "forward", "replace");
 
 const SignOut = async () => SignoutUser().then(Redirect);
 </script>

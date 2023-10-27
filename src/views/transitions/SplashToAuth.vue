@@ -30,7 +30,7 @@ const ShowContent = () => {
   setTimeout(() => {
     logoMove.value = true;
     showContent.value = true;
-    setTimeout(() => ionRouter.navigate("/login", "forward", "replace"), 900);
+    setTimeout(() => ionRouter.navigate("/auth", "forward", "replace"), 900);
   }, 300);
 };
 
@@ -39,15 +39,7 @@ onMounted(() => ShowContent());
 
 <script lang="ts">
 export default {
-  name: "SplashToLogin",
-  routeInfo: {
-    filename: "SplashToLogin",
-    path: "/splashtologin",
-    meta: {
-      requiresAuth: false,
-      requiresInternet: false,
-    },
-  },
+  name: "SplashToAuth",
 };
 </script>
 

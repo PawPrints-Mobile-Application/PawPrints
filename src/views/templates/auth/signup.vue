@@ -73,15 +73,15 @@
 </template>
 
 <script setup lang="ts">
-import { Checkbox, TextInput } from "../../components/Forms";
-import Button from "../../components/Buttons";
+import { Checkbox, TextInput } from "../../../components/Forms";
+import Button from "../../../components/Buttons";
 
-import { SignupUser } from "../../server/authentication";
+import { SignupUser } from "../../../server/authentication";
 
 import { computed, reactive, ref } from "vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import auth from "../../server/firebase";
-import { SignupValidator } from "../../server/rulesets";
+import auth from "../../../server/firebase";
+import { SignupValidator } from "../../../server/rulesets";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Redirect = () => {
@@ -186,14 +186,6 @@ const Register = async () => {
 <script lang="ts">
 export default {
   name: "SignupTemplate",
-  routeInfo: {
-    filename: "SignupTemplate",
-    path: "/user/signup",
-    meta: {
-      requiresAuth: false,
-      requiresInternet: false,
-    },
-  },
 };
 </script>
 <style scoped>

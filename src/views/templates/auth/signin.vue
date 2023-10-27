@@ -35,14 +35,14 @@
 </template>
 
 <script setup lang="ts">
-import { Checkbox, TextInput } from "../../components/Forms";
-import Button from "../../components/Buttons";
+import { Checkbox, TextInput } from "../../../components/Forms";
+import Button from "../../../components/Buttons";
 
-import { SigninUser } from "../../server/authentication";
+import { SigninUser } from "../../../server/authentication";
 
 import { computed, reactive, ref } from "vue";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from "../../server/firebase";
+import auth from "../../../server/firebase";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
@@ -106,14 +106,6 @@ const Login = () => {
 <script lang="ts">
 export default {
   name: "SigninTemplate",
-  routeInfo: {
-    filename: "SigninTemplate",
-    path: "/user/signin",
-    meta: {
-      requiresAuth: false,
-      requiresInternet: false,
-    },
-  },
 };
 </script>
 

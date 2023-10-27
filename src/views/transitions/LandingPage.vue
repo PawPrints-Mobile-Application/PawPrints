@@ -22,7 +22,6 @@
 <script setup lang="ts">
 import { PageLayout } from "../../layout";
 import { ImgLogo } from "../../components/Logo";
-import { SplashToHome, SplashToLogin } from ".";
 
 import auth from "../../server/firebase";
 import { AuthType } from "../../server/authentication";
@@ -49,7 +48,7 @@ const Redirect = () => {
   state.background = true;
   setTimeout(() => {
     ionRouter.navigate(
-      `/${user.value ? SplashToHome.name : SplashToLogin.name}`,
+      `/${user.value ? 'splashtohome' : 'splashtoauth'}`,
       "forward",
       "replace"
     );

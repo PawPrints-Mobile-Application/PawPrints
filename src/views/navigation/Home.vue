@@ -13,7 +13,10 @@
         <h3 v-show="!state.searchExpand" id="auth-greetings">
           {{ authGreetings }}
         </h3>
-        <AddPetButton id="header-button" v-show="!state.searchExpand && !conditions.empty"/>
+        <AddPetButton
+          id="header-button"
+          v-show="!state.searchExpand && !conditions.empty"
+        />
       </section>
     </template>
     <template #pageContent>
@@ -23,7 +26,7 @@
       <h1 id="dog-cards-title">My Dogs</h1>
       <section class="dog-cards-container">
         <section v-show="conditions.empty" class="add-dog-container">
-          <AddPetButton id="body-button"/>
+          <AddPetButton id="body-button" />
           <p id="add-dog-text">Add Dog</p>
         </section>
         <DogCard
@@ -102,21 +105,8 @@ const FetchDogs = () => {
 </script>
 
 <script lang="ts">
-import { homeFilled, homeOutline } from "../../assets/icons";
 export default {
   name: "Home",
-  routeInfo: {
-    filename: "Home",
-    path: "/home",
-    meta: {
-      requiresAuth: true,
-      requiresInternet: false,
-    },
-    icon: {
-      default: homeOutline,
-      active: homeFilled,
-    },
-  },
 };
 </script>
 

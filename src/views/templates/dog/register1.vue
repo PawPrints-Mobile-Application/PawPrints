@@ -99,14 +99,6 @@ const constants = {
 <script lang="ts">
 export default {
   name: "register1",
-  routeInfo: {
-    filename: "register1",
-    path: "/dog/register/page1",
-    meta: {
-      requiresAuth: false,
-      requiresInternet: false,
-    },
-  },
 };
 </script>
 <style scoped>

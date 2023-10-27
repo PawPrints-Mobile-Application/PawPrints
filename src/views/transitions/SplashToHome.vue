@@ -1,14 +1,17 @@
 <template>
   <page-layout>
-    <div class="logo-wrapper" :class="{ 'logo-out': logoOut, 'background-grow' : backgroundGrow }">
+    <div
+      class="logo-wrapper"
+      :class="{ 'logo-out': logoOut, 'background-grow': backgroundGrow }"
+    >
       <ImgLogo id="logo" />
     </div>
   </page-layout>
 </template>
 
 <script lang="ts" setup>
-import { PageLayout } from '../../layout';
-import { ImgLogo } from '../../components/Logo';
+import { PageLayout } from "../../layout";
+import { ImgLogo } from "../../components/Logo";
 
 import { onMounted, ref } from "vue";
 
@@ -31,14 +34,6 @@ onMounted(() => {
 <script lang="ts">
 export default {
   name: "SplashToHome",
-  routeInfo: {
-    filename: 'SplashToHome',
-    path: '/splashtohome',
-    meta: {
-      requiresAuth: false,
-      requiresInternet: false
-    }
-  }
 };
 </script>
 

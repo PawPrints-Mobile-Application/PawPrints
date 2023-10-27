@@ -13,30 +13,17 @@
 
 <script lang="ts" setup>
 import { PageLayout } from "../../layout";
-import { facts0 } from "../../views/FactsPages";
+import facts0 from "./facts/whyDoDogsHaveTails.vue";
 import { onIonViewDidEnter } from "@ionic/vue";
-import { GetAllUsers } from '../../server/sqlite/models/Cache/Accounts'
+import { GetAllUsers } from "../../server/sqlite/models/Cache/Accounts";
 
 const pageContent = facts0;
-onIonViewDidEnter(() => GetAllUsers().then(value => console.log(value)));
+onIonViewDidEnter(() => GetAllUsers().then((value) => console.log(value)));
 </script>
 
 <script lang="ts">
-import { factsFilled, factsOutline } from "../../assets/icons";
 export default {
   name: "Facts",
-  routeInfo: {
-    filename: "Facts",
-    path: "/facts",
-    meta: {
-      requiresAuth: false,
-      requiresInternet: false,
-    },
-    icon: {
-      default: factsOutline,
-      active: factsFilled,
-    },
-  },
 };
 </script>
 
@@ -87,3 +74,4 @@ export default {
   min-height: 150px;
 }
 </style>
+../FactsPages../FactsPages../facts

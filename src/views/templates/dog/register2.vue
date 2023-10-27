@@ -43,14 +43,6 @@ const emit = defineEmits(["update:modelInoutdoors", "update:modelFixing"]);
 <script lang="ts">
 export default {
   name: "register2",
-  routeInfo: {
-    filename: "register2",
-    path: "/dog/register/page2",
-    meta: {
-      requiresAuth: false,
-      requiresInternet: false,
-    },
-  },
 };
 </script>
 <style scoped>

@@ -32,11 +32,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, defineAsyncComponent } from "vue";
 import { Default as PetAvatar } from "../../components/Avatars/Pets";
-import { register1, register2 } from "../../views/PageTemplates/DogProfiling";
+import { templates } from "../../views/templates";
 import { Modal } from "../Modals";
 import { InsertData } from "../../server/sqlite/models/User/DogProfile";
+
+const register1 = defineAsyncComponent(templates.register1);
+const register2 = defineAsyncComponent(templates.register2);
 
 const pages = [register1, register2];
 

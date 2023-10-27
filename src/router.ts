@@ -1,46 +1,11 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
-import { RouteRecordRaw } from "vue-router";
-import { Navigation } from "./layout/index";
-import pages from "./views";
+import routes from "./views";
 
-var routes: Array<RouteRecordRaw> = [
-  {
-    path: "",
-    redirect: "/landingpage",
-  },
-  {
-    path: "/",
-    component: Navigation,
-    children: [
-      {
-        path: "",
-        redirect: "/home",
-      },
-    ],
-    meta: {
-      requiresAuth: true,
-    },
-  },
-];
-
-const addRoutes = () => {
-  pages.forEach((page) => {
-    const isNavigation = page.filename.indexOf("NavPages") !== -1;
-    const target = isNavigation ? routes[1].children! : routes;
-    target.push({
-      path: page.path,
-      component: () => import(page.filename /* @vite-ignore */),
-    });
-  });
-
-  return createRouter({
-    // Use: createWebHistory(process.env.BASE_URL) in your app
-    history: createWebHistory(),
-    routes,
-  });
-};
-
-const router = addRoutes();
+const router = createRouter({
+  // Use: createWebHistory(process.env.BASE_URL) in your app
+  history: createWebHistory(),
+  routes,
+});
 
 // router.beforeEach(async (to, from, next) => {
 //   from;

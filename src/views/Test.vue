@@ -31,16 +31,16 @@
   </page-layout>
 </template>
 <script setup lang="ts">
-import { PageLayout } from "../../layout";
+import { PageLayout } from "../layout";
 import {
   TextInput,
   Checkbox,
   DateInput,
   RadioInput,
-} from "../../components/Forms";
-import { AddPetButton } from "../../components/Buttons";
+} from "../components/Forms";
+import { AddPetButton } from "../components/Buttons";
 import { ref } from "vue";
-import { Validator } from "../../utils";
+import { Validator } from "../utils";
 
 const validators = [
   new Validator((value: string) => value.length > 7, "Danger", "danger"),
@@ -53,14 +53,6 @@ const radio = ref("");
 <script lang="ts">
 export default {
   name: "Test",
-  routeInfo: {
-    filename: "Test",
-    path: "/test",
-    meta: {
-      requiresAuth: false,
-      requiresInternet: false,
-    },
-  },
 };
 </script>
 <style scoped>

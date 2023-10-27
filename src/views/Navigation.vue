@@ -4,16 +4,20 @@
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar class="tab-bar" slot="bottom">
         <ion-tab-button
-          v-for="page in pages"
-          :id="`tab-button-${page.name}`"
+          v-for="route in children"
+          :id="`tab-button-${route.name}`"
           class="tab-button"
-          :tab="page.name"
-          :href="page.path"
+          :tab="route.name"
+          :href="route.path"
           layout="icon-start"
         >
           <ion-icon
-            :icon="page.path === currentRoute ? page.icon.active : page.icon.default"
-            :color="page.path === currentRoute ? 'tertiary' : 'black'"
+            :icon="
+              route.path === currentRoute
+                ? route.icons.active
+                : route.icons.default
+            "
+            :color="route.path === currentRoute ? 'tertiary' : 'black'"
           />
         </ion-tab-button>
       </ion-tab-bar>
@@ -30,25 +34,25 @@ import {
   IonTabButton,
   IonIcon,
 } from "@ionic/vue";
-import {pages} from "../views/NavPages";
+import { children } from "./navigation";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useIonRouter, useBackButton } from "@ionic/vue";
-import { App } from '@capacitor/app';
+import { App } from "@capacitor/app";
 const ionRouter = useIonRouter();
 const router = useRouter();
-const currentRoute = computed(() => router.currentRoute.value.path)
+const currentRoute = computed(() => router.currentRoute.value.path);
 
 useBackButton(-1, () => {
-    if (!ionRouter.canGoBack()) {
-      App.exitApp();
-    }
-  });
+  if (!ionRouter.canGoBack()) {
+    App.exitApp();
+  }
+});
 </script>
 
 <script lang="ts">
 export default {
-  name: "Navigation"
+  name: "Navigation",
 };
 </script>
 
@@ -62,13 +66,16 @@ export default {
 }
 
 .tab-button::after {
-  content: '';
+  content: "";
   --width: calc(80vw / 4);
   --height: 40px;
   border-radius: 10px;
   width: var(--width);
   height: var(--height);
   position: absolute;
-  transform: translate(calc((-3px - var(--width) / 2)),calc((-28px - var(--height) / 2)));
+  transform: translate(
+    calc((-3px - var(--width) / 2)),
+    calc((-28px - var(--height) / 2))
+  );
 }
 </style>
