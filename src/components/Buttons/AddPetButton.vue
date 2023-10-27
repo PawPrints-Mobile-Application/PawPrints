@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { reactive, defineAsyncComponent } from "vue";
 import { Default as PetAvatar } from "../../components/Avatars/Pets";
-import { templates } from "../../views/templates";
+import { templates } from "../../pages/templates";
 import { Modal } from "../Modals";
 import { InsertData } from "../../server/sqlite/models/User/DogProfile";
 

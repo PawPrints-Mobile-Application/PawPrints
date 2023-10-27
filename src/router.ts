@@ -1,11 +1,34 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
-import routes from "./views";
+import { RouteRecordRaw } from "vue-router";
+import {
+  navigationRoutes,
+  templateRoutes,
+  transitionRoutes,
+  routes as pageRoutes,
+} from "./pages";
 
-const router = createRouter({
-  // Use: createWebHistory(process.env.BASE_URL) in your app
-  history: createWebHistory(),
-  routes,
-});
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: "",
+    redirect: "/landingpage",
+  },
+];
+
+const router = () => {
+  routes.push({
+    path: "/",
+    component: () => import("./pages/Navigation.vue"),
+    children: navigationRoutes,
+  });
+
+  [...templateRoutes, ...transitionRoutes, ...pageRoutes].forEach(route => routes.push(route));
+
+  return createRouter({
+    // Use: createWebHistory(process.env.BASE_URL) in your app
+    history: createWebHistory(),
+    routes,
+  });
+};
 
 // router.beforeEach(async (to, from, next) => {
 //   from;
@@ -31,4 +54,4 @@ const router = createRouter({
 //     next();
 //   }
 // });
-export default router;
+export default router();

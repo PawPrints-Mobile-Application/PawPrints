@@ -2,17 +2,17 @@ import { RouteRecordRaw } from "vue-router";
 
 const children = [
   {
-    name: "landingpage",
+    name: "LandingPage",
     path: "/landingpage",
     meta: { requiresAuth: false },
   },
   {
-    name: "splashtohome",
+    name: "SplashToHome",
     path: "/splashtohome",
     meta: { requiresAuth: true },
   },
   {
-    name: "splashtologo",
+    name: "SplashToAuth",
     path: "/splashtoauth",
     meta: { requiresAuth: false },
   },
@@ -20,7 +20,7 @@ const children = [
   return {
     name: child.name,
     path: child.path,
-    component: () => import("." + child.path + ".vue"),
+    component: () => import("./" + child.name + ".vue"),
     meta: child.meta,
   };
 });
