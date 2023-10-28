@@ -12,7 +12,7 @@
           layout="icon-start"
         >
           <ion-icon
-            :icon="route.path === currentRoute ? route.icon.active : route.icon.default"
+            :icon="route.path === currentRoute ? route.icons.active : route.icons.default"
             :color="route.path === currentRoute ? 'tertiary' : 'black'"
           />
         </ion-tab-button>

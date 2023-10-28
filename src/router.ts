@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import { Navigation } from './layout/index';
-import navPages from './views/NavPages';
-import hiddenPages from './views/HiddenPages';
+import { NavPages, HiddenPages } from './views';
 
 var routes: Array<RouteRecordRaw> = [
   {
@@ -25,9 +24,11 @@ var routes: Array<RouteRecordRaw> = [
 ];
 
 const addRoutes = () => {
-  navPages.forEach(navPage => routes[1].children?.push({ path: navPage.path, component: () => import(`./views/NavPages/${navPage.filename}.vue`)}));
+  NavPages.forEach(page => routes[1].children?.push({ path: page.path, component: () => import(`./views/NavPages/${page.name}.vue`)}));
 
-  hiddenPages.forEach(hiddenPage => routes.push({ path: hiddenPage.path, component: () => import(`./views/HiddenPages/${hiddenPage.filename}.vue`)}))
+  HiddenPages.forEach(page => routes.push({ path: page.path, component: () => import(`./views/HiddenPages/${page.name}.vue`)}))
+
+  console.log(routes);
 
   return createRouter({
     // Use: createWebHistory(process.env.BASE_URL) in your app
