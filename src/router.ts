@@ -2,10 +2,10 @@ import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 import {
   navigationRoutes,
-  templateRoutes,
+  // templateRoutes,
   transitionRoutes,
-  routes as pageRoutes,
-} from "./pages";
+  routes as viewsRoutes,
+} from "./views";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,11 +17,13 @@ const routes: Array<RouteRecordRaw> = [
 const router = () => {
   routes.push({
     path: "/",
-    component: () => import("./pages/Navigation.vue"),
+    component: () => import("./views/Navigation.vue"),
     children: navigationRoutes,
   });
+  viewsRoutes.forEach(route => routes.push(route));
+  transitionRoutes.forEach(route => routes.push(route));
 
-  [...templateRoutes, ...transitionRoutes, ...pageRoutes].forEach(route => routes.push(route));
+  // templateRoutes.forEach(route => routes.push(route));
 
   return createRouter({
     // Use: createWebHistory(process.env.BASE_URL) in your app
