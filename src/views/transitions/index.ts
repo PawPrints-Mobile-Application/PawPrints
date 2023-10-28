@@ -1,6 +1,4 @@
-import { RouteRecordRaw } from "vue-router";
-
-const children = [
+const routes = [
   {
     name: "LandingPage",
     path: "/landingpage",
@@ -20,19 +18,9 @@ const children = [
   return {
     name: child.name,
     path: child.path,
-    component: () => import("./" + child.name + ".vue"),
     meta: child.meta,
+    parent: 'transitions/'
   };
 });
-
-const routes: Array<RouteRecordRaw> = children.map((child) => {
-  return {
-    path: child.path,
-    component: child.component,
-    meta: child.meta,
-  };
-});
-
-export { children };
 
 export default routes;

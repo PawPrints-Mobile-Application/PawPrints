@@ -4,7 +4,7 @@
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar class="tab-bar" slot="bottom">
         <ion-tab-button
-          v-for="route in children"
+          v-for="route in routes"
           :id="`tab-button-${route.name}`"
           class="tab-button"
           :tab="route.name"
@@ -34,7 +34,7 @@ import {
   IonTabButton,
   IonIcon,
 } from "@ionic/vue";
-import { children } from "./navigation";
+import routes from "./navigation";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useIonRouter, useBackButton } from "@ionic/vue";

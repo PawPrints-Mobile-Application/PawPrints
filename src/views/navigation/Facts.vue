@@ -5,7 +5,7 @@
     </template>
     <template #pageContent>
       <main class="facts-content">
-        <component :is="pageContent" />
+        <!-- <component :is="pageContent" /> -->
       </main>
     </template>
   </page-layout>
@@ -13,11 +13,11 @@
 
 <script lang="ts" setup>
 import { PageLayout } from "../../layout";
-import facts0 from "./facts/whyDoDogsHaveTails.vue";
+// import facts0 from "./facts/whyDoDogsHaveTails.vue";
 import { onIonViewDidEnter } from "@ionic/vue";
 import { GetAllUsers } from "../../server/sqlite/models/Cache/Accounts";
 
-const pageContent = facts0;
+// const pageContent = facts0;
 onIonViewDidEnter(() => GetAllUsers().then((value) => console.log(value)));
 </script>
 

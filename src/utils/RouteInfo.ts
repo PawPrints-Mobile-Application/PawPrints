@@ -1,24 +1,28 @@
 export default class RouteInfo {
-    component: any;
-    name: string;
-    path: string;
-    filename: string;
-    meta = {
-      requiresAuth: Boolean,
-      requiresInternet: Boolean
-    };
-    icon: {
-      default: string,
-      active: string
-    };
-  
-    public constructor(page: any, folderName: string | null = null){
-      this.component = page;
-      this.name = page.name;
-      this.path = page.routeInfo.path;
-      this.filename = (!!folderName ? `${folderName}` : '') + page.routeInfo.filename + '.vue';
-      this.meta.requiresAuth = page.routeInfo.meta.requiresAuth;
-      this.meta.requiresInternet = page.routeInfo.meta.requiresInternet;
-      this.icon = page.routeInfo.icon;
-    }
+  name: string;
+  path: string;
+  filePath: string;
+  meta: {
+    requiresAuth: boolean;
+  } = {
+    requiresAuth: false,
+  };
+  icons: {
+    default: string;
+    active: string;
+  };
+
+  public constructor(
+    name: string,
+    path: string,
+    parent: string,
+    requiresAuth: boolean = false,
+    icons: { default: string; active: string } = { default: "", active: "" }
+  ) {
+    this.name = name;
+    this.path = path;
+    this.filePath = './views/' + parent + name + '.vue';
+    this.meta.requiresAuth = requiresAuth;
+    this.icons = icons;
   }
+}

@@ -1,4 +1,3 @@
-import { RouteRecordRaw } from "vue-router";
 import {
   pawOutline as homeDefault,
   paw as homeActive,
@@ -10,7 +9,7 @@ import {
   settings as settingsActive,
 } from "ionicons/icons";
 
-const children = [
+const routes = [
   {
     name: "Home",
     icons: {
@@ -44,25 +43,9 @@ const children = [
     name: child.name,
     icons: child.icons,
     path: `/${child.name}`,
-    component: () => import("./" + child.name + ".vue"),
     meta: { requiresAuth: true },
+    parent: 'navigation/',
   };
 });
-
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: "",
-    redirect: "/home",
-  },
-  ...children.map((child) => {
-    return {
-      path: child.path,
-      component: child.component,
-      meta: child.meta,
-    };
-  }),
-];
-
-export { children };
 
 export default routes;

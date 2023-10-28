@@ -4,7 +4,7 @@ import {
   navigationRoutes,
   templateRoutes,
   transitionRoutes,
-  routes as viewsRoutes,
+  viewsRoutes,
 } from "./views";
 
 let routes: Array<RouteRecordRaw> = [
@@ -18,12 +18,33 @@ const addRoutes = () => {
   routes.push({
     path: "/",
     component: () => import("./views/Navigation.vue"),
-    children: navigationRoutes,
+    children: [
+      {
+        path: "",
+        redirect: "/home",
+      },
+      ...navigationRoutes.map((route) => {
+        return {
+          path: route.path,
+          component: () => import(`./views/navigation/${route.name}.vue`),
+        };
+      }),
+    ],
   });
-  viewsRoutes.forEach(route => routes.push(route));
-  transitionRoutes.forEach(route => routes.push(route));
 
-  templateRoutes.forEach(route => routes.push(route));
+  viewsRoutes.forEach((route) => routes.push({
+    path: route.path,
+    component: () => import(`./views/${route.name}.vue`),
+  }));
+  transitionRoutes.forEach((route) => routes.push({
+    path: route.path,
+    component: () => import(`./views/transitions/${route.name}.vue`),
+  }));
+
+  templateRoutes.forEach((route) => routes.push({
+    path: route.path,
+    component: () => import(`./views/templates/${route.name}.vue`),
+  }));
 
   console.log(routes);
 

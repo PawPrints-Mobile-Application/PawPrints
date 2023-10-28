@@ -1,29 +1,16 @@
-import { RouteRecordRaw } from "vue-router";
-
 import navigationRoutes from "./navigation";
 import templateRoutes from "./templates";
 import transitionRoutes from "./transitions";
 
-const children = [
-  {
-    name: "Auth",
-    meta: { requiresAuth: false },
-  },
-  {
-    name: "Test",
-    meta: { requiresAuth: false },
-  },
-];
-
-const routes: Array<RouteRecordRaw> = children.map((child) => {
+const routes = ["Auth", "Test"].map((child) => {
   return {
-    component: () => import("./" + child.name + ".vue"),
-    path: `/${child.name}`,
+    name: child,
+    path: `/${child}`,
+    meta: { requiresAuth: true },
+    parent: ''
   };
 });
 
-export {
-  navigationRoutes, templateRoutes, transitionRoutes, routes
-}
+export { navigationRoutes, templateRoutes, transitionRoutes, routes as viewsRoutes };
 
 export default routes;
