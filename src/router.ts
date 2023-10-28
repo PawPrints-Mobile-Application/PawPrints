@@ -7,7 +7,7 @@ import {
   routes as viewsRoutes,
 } from "./views";
 
-const routes: Array<RouteRecordRaw> = [
+let routes: Array<RouteRecordRaw> = [
   {
     path: "",
     redirect: "/landingpage",
