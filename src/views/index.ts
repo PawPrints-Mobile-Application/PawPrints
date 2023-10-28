@@ -17,7 +17,6 @@ const children = [
 
 const routes: Array<RouteRecordRaw> = children.map((child) => {
   return {
-    name: child.name,
     component: () => import("./" + child.name + ".vue"),
     path: `/${child.name}`,
   };
