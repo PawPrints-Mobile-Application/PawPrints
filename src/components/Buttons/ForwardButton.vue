@@ -10,7 +10,7 @@ const emit = defineEmits(['click']);
 
 <style scoped>
 .forward-button {
-  --size: var(--fs4);
+  --size: var(--fs1);
   --padding: 3px 3px 3px 5px;
 }
 </style>

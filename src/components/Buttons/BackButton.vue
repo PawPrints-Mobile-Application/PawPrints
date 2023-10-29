@@ -10,6 +10,6 @@ const emit = defineEmits(['click']);
 
 <style scoped>
 .back-button {
-  --size: var(--fs4);
+  --size: var(--fs1);
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <section class="button-modal">
-    <Button :id="`button-${id}`" :text="text" />
+    <TextButton :id="`button-${id}`" :label="text" />
     <Modal
       :trigger="`button-${id}`"
       :title="title"
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import Button from "./Button.vue";
+import {TextButton} from ".";
 import { Modal } from "../Modals";
 defineProps({
   title: String,
@@ -51,4 +51,9 @@ defineProps({
 const emit = defineEmits(["submit"]);
 </script>
 <style scoped>
+.text-button {
+  width: var(--width);
+  height: var(--height);
+  font-weight: var(--font-weight);
+}
 </style>

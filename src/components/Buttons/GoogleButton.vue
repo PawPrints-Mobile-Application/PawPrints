@@ -22,7 +22,7 @@ const SignInWithGoogle = () => {
 <style scoped>
 .button-google {
   background-color: var(--ion-color-tertiary);
-  --size: var(--fs6);
+  --size: var(--fs0);
   --padding: 7px;
 }
 </style>

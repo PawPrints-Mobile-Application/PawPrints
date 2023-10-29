@@ -1,5 +1,5 @@
 <template>
-  <section class="dropdown-input" :class="{ focused: state.focused }">
+  <section class="dropdown-input text font-rubik text-paragraph" :class="{ focused: state.focused }">
     <TextInput
       :id="id"
       :label="label"
@@ -122,15 +122,16 @@ const Collapse = () => {
   justify-content: flex-end;
   align-items: end;
   width: 100%;
-  font-family: Rubik;
-  font-size: 14px;
-  font-weight: 400;
+}
+
+.focused {
+  z-index: 9;
 }
 
 .text-input {
   width: calc(100% - 33px);
   margin-right: 33px;
-  z-index: 1;
+  z-index: 10;
 }
 
 ion-icon {
@@ -139,7 +140,7 @@ ion-icon {
   height: 35px;
   background-color: var(--ion-color-secondary);
   border-radius: 6px;
-  z-index: 2;
+  z-index: 11;
   color: var(--ion-color-tertiary);
 }
 
@@ -148,6 +149,7 @@ ion-icon {
 }
 
 .backdrop {
+  z-index: 8;
   position: absolute;
   top: 0;
   left: 0;
@@ -156,10 +158,11 @@ ion-icon {
 }
 
 .choices {
+  z-index: 9;
+  width: calc(100% - 33px);
   --height: 0px;
   transform: translateY(calc(var(--height) * 5.9));
   position: absolute;
-  width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;

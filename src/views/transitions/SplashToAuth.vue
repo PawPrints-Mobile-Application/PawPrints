@@ -4,10 +4,10 @@
       <ImgLogo id="logo" />
     </div>
     <section class="main-content">
-      <h1 id="main-content-title">PawPrints</h1>
-      <Button text="Guest" />
-      <Button text="Sign In" />
-      <Button text="Sign Up" />
+      <h1 class="text text-title font-poppins font-bold">PawPrints</h1>
+      <TextButton label="Guest" />
+      <TextButton label="Sign In" />
+      <TextButton label="Sign Up" />
       <IconButton class="button-google" :icon="icon" />
     </section>
   </page-layout>
@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { PageLayout } from "../../layout";
 import { logoGoogle as icon } from "ionicons/icons";
-import { Button, IconButton } from "../../components/Buttons";
+import { TextButton, IconButton } from "../../components/Buttons";
 import { ImgLogo } from "../../components/Logo";
 
 import { onMounted, ref } from "vue";
@@ -115,5 +115,14 @@ export default {
   background-color: var(--ion-color-tertiary);
   --size: var(--fs6);
   --padding: 7px;
+}
+
+.text-button {
+  width: 200px;
+  height: 40px;
+}
+
+.icon-button {
+  --size: var(--fs0);
 }
 </style>

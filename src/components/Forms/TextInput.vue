@@ -1,6 +1,6 @@
 <template>
   <section
-    class="text-input"
+    class="text-input text text-paragraph font-rubik"
     :class="{
       focused: state.focused,
       taken: value !== '',
@@ -44,7 +44,7 @@
     </div>
     <ul
       v-show="!!validators && !hideHelper"
-      class="helper-container"
+      class="helper-container text text-small "
       :class="{ 'always-show': alwaysShowHelper }"
     >
       <li
@@ -229,10 +229,6 @@ defineExpose({ ForceFocus });
   width: var(--width);
   height: var(--height);
   min-height: 35px;
-
-  font-family: Rubik;
-  font-size: 14px;
-  font-weight: 400;
 }
 
 label {
@@ -319,7 +315,6 @@ input::-webkit-calendar-picker-indicator {
   margin-inline: auto;
   width: inherit;
   opacity: 0;
-  font-size: var(--fs1);
   margin-top: 5px;
 }
 

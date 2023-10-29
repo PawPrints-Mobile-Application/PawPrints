@@ -17,6 +17,7 @@
         v-model:modelValue="form.password"
         :hide="form.showPassword"
       />
+      <br/>
 
       <Checkbox
         id="checkbox"
@@ -24,9 +25,9 @@
         v-model="form.showPassword"
       />
 
-      <Button
+      <TextButton
         id="button-signin"
-        :text="!processingRequest ? 'Sign In' : 'Processing...'"
+        :label="!processingRequest ? 'Sign In' : 'Processing...'"
         @click="Login"
         :disabled="disabled"
       />
@@ -36,7 +37,7 @@
 
 <script setup lang="ts">
 import { Checkbox, TextInput } from "../../../components/Forms";
-import Button from "../../../components/Buttons";
+import { TextButton } from "../../../components/Buttons";
 
 import { SigninUser } from "../../../server/authentication";
 
@@ -110,11 +111,16 @@ export default {
 </script>
 
 <style scoped>
+.template-wrapper {
+  justify-content: center;
+}
+
 .form-wrapper {
   width: 100%;
-  height: 300px;
+  height: 200px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 #button-signin {

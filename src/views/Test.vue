@@ -28,9 +28,11 @@
       :options="['1', '2', '3', '4', '5', '6', '7', '8', '9'].reverse()"
       allowOthers
     />
+    <TextButton label="Text" @click="() => console.log(true)" />
   </page-layout>
 </template>
 <script setup lang="ts">
+import TextButton from "../components/Buttons/TextButton.vue";
 import { PageLayout } from "../layout";
 import {
   TextInput,

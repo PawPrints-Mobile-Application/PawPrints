@@ -2,7 +2,6 @@
   <button
   class="icon-button"
     :class="['ion-activatable ion-focusable']"
-    @click="() => emit('click')"
   >
     <ion-icon id="icon" :icon="icon"/>
     <ion-ripple-effect />
@@ -21,7 +20,6 @@ defineProps({
     required: true
   }
 });
-const emit = defineEmits(['click']);
 </script>
 <style scoped>
 

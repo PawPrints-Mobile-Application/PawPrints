@@ -2,23 +2,6 @@
   <section class="template-wrapper">
     <TextInput
       type="text"
-      label="First Name"
-      id="firstName"
-      placeholder="Enter First Name"
-      v-model:modelValue="form.firstName"
-    />
-
-    <TextInput
-      type="text"
-      label="Last Name"
-      id="lastName"
-      name="lastName"
-      placeholder="Enter Last Name"
-      v-model:modelValue="form.lastName"
-    />
-
-    <TextInput
-      type="text"
       label="Username"
       id="username"
       placeholder="Enter Username"
@@ -26,6 +9,7 @@
       v-model:modelValid="validations.username"
       v-model:modelValue="form.username"
       :validators="SignupValidator.username"
+      alwaysShowHelper
     />
 
     <TextInput
@@ -37,6 +21,7 @@
       v-model:modelValid="validations.email"
       v-model:modelValue="form.email"
       :validators="SignupValidator.email"
+      alwaysShowHelper
     />
 
     <TextInput
@@ -49,6 +34,7 @@
       v-model:modelValue="form.password"
       :validators="SignupValidator.password"
       :show="form.showPassword"
+      alwaysShowHelper
     />
 
     <Checkbox
@@ -63,9 +49,9 @@
       <span class="navigation-link">Terms of Service</span>.
     </Checkbox>
 
-    <Button
+    <TextButton
       id="button-signup"
-      :text="!processingRequest ? 'Sign Up' : 'Processing...'"
+      :label="!processingRequest ? 'Sign Up' : 'Processing...'"
       @click="Register"
       :disabled="disabled"
     />
@@ -73,8 +59,8 @@
 </template>
 
 <script setup lang="ts">
+import { TextButton } from "../../../components/Buttons";
 import { Checkbox, TextInput } from "../../../components/Forms";
-import Button from "../../../components/Buttons";
 
 import { SignupUser } from "../../../server/authentication";
 
@@ -189,6 +175,10 @@ export default {
 };
 </script>
 <style scoped>
+.template-wrapper {
+  justify-content: space-between;
+}
+
 .navigation-link {
   text-decoration: underline;
   font-weight: 500;

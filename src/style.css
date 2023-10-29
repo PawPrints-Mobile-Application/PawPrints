@@ -2,8 +2,6 @@
 
 :root {
   -webkit-font-smoothing: antialiased;
-
-  font-size: 10px;
   font-family:'Poppins', 'Rubik', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
   --font-family-Rubik: 'Rubik', sans-serif;
@@ -21,9 +19,48 @@
   --content-padding: var(--content-padding-top) var(--content-padding-right) var(--content-padding-down) var(--content-padding-left);
 }
 
-#app {
+
+/* ----------------------- TEXT ----------------------- */
+.text {
+  margin: 0;
 }
 
+.text.font-bold {
+  font-weight: 700;
+}
+
+
+.text.text-title {
+  font-size: var(--fs0);
+}
+
+.text.text-heading {
+  font-size: var(--fs1);
+}
+
+.text.text-subheading {
+  font-size: var(--fs2);
+}
+
+.text.text-paragraph {
+  font-size: var(--fs3);
+}
+
+.text.text-small {
+  font-size: var(--fs4);
+}
+
+
+.text.font-poppings {
+  font-family: Poppins;
+}
+
+.text.font-rubik {
+  font-family: Rubik;
+}
+
+
+/* ----------------------- DISPLAY ----------------------- */
 .display-none {
   display: none !important;
 }
@@ -37,6 +74,7 @@
 }
 
 
+/* ----------------------- SCROLLBAR ----------------------- */
 .scroll-hidden {
   --overflow:hidden;
   -ms-overflow-style: none; /* Internet Explorer 10+ */

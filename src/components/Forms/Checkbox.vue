@@ -1,5 +1,5 @@
 <template>
-  <section class="checkbox" :class="{ focused: focused }">
+  <section class="checkbox text text-small font-rubik" :class="{ focused: focused }">
     <div class="checkbox-container" :class="{ checked: value }">
       <div>
       <input
@@ -59,9 +59,6 @@ const emit = defineEmits(["input", "update:modelValue"]);
   --border-radius: 3px;
 
   text-align: justify;
-  font-family: Rubik;
-  font-size: 12px;
-  font-weight: 400;
 
   width: 100%;
   display: flex;

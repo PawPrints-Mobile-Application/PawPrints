@@ -5,7 +5,7 @@
       v-show="!hideHeader"
     >
       <BackButton v-show="!hideHeaderBack" @click="CloseModal" />
-      <div id="title" v-show="title">{{ title?.toUpperCase() }}</div>
+      <div class="text font-rubik text-title font-bold" v-show="title">{{ title?.toUpperCase() }}</div>
     </ion-header>
     <ion-content class="layout-wrapper main">
       <main>
@@ -134,12 +134,6 @@ main {
 .header .back-button {
   position: absolute;
   left: var(--padding-side);
-}
-
-.header #title {
-  font-weight: 700;
-  font-size: var(--fs4);
-  font-family: var(--font-family-Rubik);
 }
 
 .footer {

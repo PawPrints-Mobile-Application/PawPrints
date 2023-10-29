@@ -1,5 +1,5 @@
 <template>
-  <section class="calendar-box">
+  <section class="calendar-box text font-poppins">
     <header id="calendar-nav">
       <BackButton class="button" @click="() => MoveMonth(-1)" />
       <div class="labels" :class="{ focused: calendar.focused }">
@@ -178,7 +178,9 @@ const SetDate = (cell: number) => {
 
 <style scoped>
 .calendar-box {
-  width: 100%;
+  z-index: 99;
+  margin: auto;
+  width: 90%;
   min-height: 320px;
   padding: 20px 10px;
   display: flex;
@@ -212,7 +214,7 @@ const SetDate = (cell: number) => {
 
 .calendar-label {
   color: var(--ion-color-black);
-  font-size: var(--fs3);
+  font-size: var(--fs1);
   font-weight: 700;
   border: none;
   background: none;
@@ -228,7 +230,7 @@ const SetDate = (cell: number) => {
 
 #calendar-month {
   z-index: 1;
-  width: 112px;
+  width: 132px;
   appearance: none;
   -webkit-appearance: none;
   text-align: left;
@@ -236,13 +238,14 @@ const SetDate = (cell: number) => {
 
 #calendar-year {
   z-index: 0;
-  width: 60px;
+  width: 70px;
   text-align: right;
   transform: translateY(1px);
 }
 
 #calendar-month option {
   background-color: var(--ion-color-secondary);
+  font-size: var(--fs2);
 }
 
 #calendar-month option:checked,
@@ -254,7 +257,6 @@ const SetDate = (cell: number) => {
   background-color: var(--ion-color-black);
   --size: var(--fs2);
   --border-radius: 8px;
-  margin: 0 5px;
 }
 
 /* GRID */
@@ -266,7 +268,7 @@ const SetDate = (cell: number) => {
 
 .cell {
   text-align: center;
-  font-size: var(--fs1);
+  font-size: var(--fs3);
   width: calc(100% / 7);
   height: 30px;
   font-weight: 400;

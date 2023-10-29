@@ -2,9 +2,10 @@
     <page-layout>
       <div class="logo-wrapper"><ImgLogo id="logo" /></div>
       <section class="main-content">
-        <h1 id="main-content-title">PawPrints</h1>
-        <GuestButton />
+        <h1 class="text text-title font-poppins font-bold">PawPrints</h1>
+        <GuestButton class="button" />
         <ButtonModal
+        class="button"
           id="signin"
           text="Sign In"
           title="Sign In"
@@ -16,10 +17,11 @@
           </template>
         </ButtonModal>
         <ButtonModal
+        class="button"
           id="signup"
           text="Sign Up"
           title="Sign Up"
-          height="630px"
+          height="500px"
           hide-footer
         >
           <template #modalContent="{ closeModal }">
@@ -89,6 +91,11 @@
   #main-content-title {
     font-weight: bold;
     margin: 0;
+  }
+
+  .button {
+    --width: 200px;
+    --height: 40px;
   }
   </style>
   

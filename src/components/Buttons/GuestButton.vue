@@ -1,8 +1,8 @@
 <template>
-  <Button class="guest-signin" text="Guest" @click="GuestSignIn" />
+  <TextButton class="guest-signin" label="Guest" @click="GuestSignIn" />
 </template>
 <script setup lang="ts">
-import { Button } from ".";
+import { TextButton } from ".";
 import { SigninProps } from "../../server/authentication/SigninUser";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
@@ -21,4 +21,10 @@ const GuestSignIn = async () => {
   Redirect();
 };
 </script>
-<style scoped></style>
+<style scoped>
+.text-button {
+  width: var(--width);
+  height: var(--height);
+  font-weight: var(--font-weight);
+}
+</style>
