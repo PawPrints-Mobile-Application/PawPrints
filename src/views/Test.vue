@@ -1,10 +1,12 @@
 <template>
   <page-layout>
     <AddPetButton id="test" />
-    <TextInput
+    <InputText
       id="text"
       label="Label"
-      type="text"
+      type="password"
+      placeholder="Label"
+      required
       :validators="validators"
       v-model:model-value="value"
     />
@@ -35,7 +37,7 @@
 import TextButton from "../components/Buttons/TextButton.vue";
 import { PageLayout } from "../layout";
 import {
-  TextInput,
+  InputText,
   Checkbox,
   DateInput,
   RadioInput,

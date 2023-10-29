@@ -5,3 +5,42 @@
     --fs3: 14px;
     --fs4: 12px;
 }
+
+
+.text {
+  margin: 0;
+}
+
+.text.font-bold {
+  font-weight: 700;
+}
+
+
+.text.text-title {
+  font-size: var(--fs0);
+}
+
+.text.text-heading {
+  font-size: var(--fs1);
+}
+
+.text.text-subheading {
+  font-size: var(--fs2);
+}
+
+.text.text-paragraph {
+  font-size: var(--fs3);
+}
+
+.text.text-small {
+  font-size: var(--fs4);
+}
+
+
+.text.font-poppins {
+  font-family: Poppins;
+}
+
+.text.font-rubik {
+  font-family: Rubik;
+}

@@ -5,7 +5,7 @@
     @click="() => !showInput && Expand()"
   >
     <SearchButton @click="() => (showInput ? Return() : Expand())" />
-    <TextInput
+    <InputText
       id="search"
       ref="input"
       v-model="value"
@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { TextInput } from ".";
+import { InputText } from ".";
 import { SearchButton } from "../Buttons";
 
 const showInput = computed(() => state.value || !props.collapse);

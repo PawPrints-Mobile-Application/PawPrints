@@ -19,44 +19,15 @@
   --content-padding: var(--content-padding-top) var(--content-padding-right) var(--content-padding-down) var(--content-padding-left);
 }
 
-
-/* ----------------------- TEXT ----------------------- */
-.text {
-  margin: 0;
+/* ----------------------- FLEX ----------------------- */
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.text.font-bold {
-  font-weight: 700;
-}
-
-
-.text.text-title {
-  font-size: var(--fs0);
-}
-
-.text.text-heading {
-  font-size: var(--fs1);
-}
-
-.text.text-subheading {
-  font-size: var(--fs2);
-}
-
-.text.text-paragraph {
-  font-size: var(--fs3);
-}
-
-.text.text-small {
-  font-size: var(--fs4);
-}
-
-
-.text.font-poppings {
-  font-family: Poppins;
-}
-
-.text.font-rubik {
-  font-family: Rubik;
+.flex-item {
+  flex: 1 0 0;
 }
 
 

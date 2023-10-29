@@ -1,5 +1,5 @@
 import Checkbox from "./Checkbox.vue";
-import TextInput from "./TextInput.vue";
+import InputText from "./InputText.vue";
 import Searchbox from "./Searchbox.vue";
 import CalendarBox from "./CalendarBox.vue";
 import DateInput from "./DateInput.vue";
@@ -8,7 +8,7 @@ import RadioInput from "../../components/Forms/RadioInput.vue";
 
 export {
   Checkbox,
-  TextInput,
+  InputText,
   Searchbox,
   CalendarBox,
   DateInput,

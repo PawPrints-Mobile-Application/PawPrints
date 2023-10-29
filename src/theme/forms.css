@@ -1,0 +1,101 @@
+/* FORMS */
+.forms-input {
+	--background-color-default: var(--ion-color-secondary);
+	--background-color-active: var(--ion-color-secondary-shade);
+	min-height: 30px;
+    font-family: Rubik;
+    font-size: var(--fs3);
+    min-width: 90%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* LABEL */
+.forms-input > label {
+    margin: 0;
+    min-height: 20px;
+}
+
+.forms-input[data-design='classic'] > label {
+  position: relative;
+  transform: translate(12px, 27px);
+  transition: all 100ms ease-out;
+}
+
+.forms-input[data-design='classic']:is(.focused, .taken) > label {
+  transform: translate(0,0);
+  font-weight: 700;
+}
+
+/* INPUT-CONTAINER */
+.forms-input > .input-container {
+    min-height: 30px;
+	background-color: var(--background-color-default);
+    padding-inline: 10px 5px;
+    border-radius: 6px;
+
+    display: flex;
+}
+
+.input-container > input:focus {
+    outline: none;
+}
+
+.forms-input.focused > .input-container {
+  background-color: var(--background-color-active);
+}
+
+/* outlines */
+.forms-input[data-strength='-2'] > .input-container {
+    outline: none;
+}
+.forms-input:is([data-strength='-1'], .touched.required[data-strength='-2']:not(.focused)) > .input-container {
+    outline: 2px solid var(--ion-color-danger);
+}
+.forms-input[data-strength='0'] > .input-container {
+    outline: 2px solid var(--ion-color-warning);
+}
+.forms-input[data-strength='1'] > .input-container {
+    outline: 2px solid var(--ion-color-success);
+}
+
+
+/* INPUT */
+.input-container > input {
+    flex: 1 0 0;
+    background: none;
+    border: none;
+}
+
+/* ICON-INDICATOR */
+.input-container > .icon-indicator {
+    font-size: var(--fs0);
+}
+
+/* color */
+.forms-input:is([data-strength='-1'], [data-strength='-2']) .icon-indicator {
+    color: var(--ion-color-danger);
+}
+.forms-input[data-strength='0'] .icon-indicator {
+    color: var(--ion-color-warning);
+}
+.forms-input[data-strength='1'] .icon-indicator {
+    color: var(--ion-color-success);
+}
+
+/* HELPER-CONTAINER */
+ul.helper-container {
+    font-size: var(--fs4);
+    margin: 5px 0 0;
+}
+
+ul.helper-container > li[data-strength='true']{
+    color: var(--ion-color-success);
+}
+ul.helper-container > li[data-strength='danger']{
+    color: var(--ion-color-danger);
+}
+ul.helper-container > li[data-strength='warning']{
+    color: var(--ion-color-warning);
+}

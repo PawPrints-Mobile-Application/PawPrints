@@ -1,6 +1,6 @@
 <template>
   <section class="dropdown-input text font-rubik text-paragraph" :class="{ focused: state.focused }">
-    <TextInput
+    <InputText
       :id="id"
       :label="label"
       type="text"
@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { TextInput } from ".";
+import { InputText } from ".";
 import { computed, reactive } from "vue";
 import { IonIcon } from "@ionic/vue";
 import {

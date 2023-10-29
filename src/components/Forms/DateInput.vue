@@ -1,6 +1,6 @@
 <template>
   <section class="date-input" :class="{ focused: state.focused }">
-    <TextInput
+    <InputText
       :id="id"
       :label="label"
       type="date"
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { TextInput, CalendarBox } from ".";
+import { InputText, CalendarBox } from ".";
 import { computed, reactive } from "vue";
 import { IonIcon } from "@ionic/vue";
 import { calendar as expand, calendarClear as collapse } from "ionicons/icons";
