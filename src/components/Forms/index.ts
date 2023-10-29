@@ -3,8 +3,9 @@ import InputText from "./InputText.vue";
 import Searchbox from "./Searchbox.vue";
 import CalendarBox from "./CalendarBox.vue";
 import DateInput from "./DateInput.vue";
-import DropdownInput from "../../components/Forms/DropdownInput.vue";
+import InputDropdown from "../../components/Forms/InputDropdown.vue";
 import RadioInput from "../../components/Forms/RadioInput.vue";
+import InputScroll from "./InputScroll.vue";
 
 export {
   Checkbox,
@@ -12,6 +13,7 @@ export {
   Searchbox,
   CalendarBox,
   DateInput,
-  DropdownInput,
-  RadioInput
+  InputDropdown,
+  RadioInput,
+  InputScroll
 };

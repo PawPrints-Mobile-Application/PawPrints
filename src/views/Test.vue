@@ -1,58 +1,28 @@
 <template>
   <page-layout>
-    <AddPetButton id="test" />
-    <InputText
-      id="text"
-      label="Label"
-      type="password"
-      placeholder="Label"
-      required
-      :validators="validators"
-      v-model:model-value="value"
-    />
+    <!-- <AddPetButton id="test" /> -->
 
-    <DateInput
-      id="text"
-      label="Label"
-      type="text"
-      :validators="validators"
-      v-model:model-value="value"
-      :options="['1', '2', '3', '4', '5', '6', '7', '8', '9']"
-      placeholder="Choose a text"
-    />
-
-    <Checkbox label="Checkbox" id="checkbox" :checked="true" />
-    <RadioInput
-      label="Label"
-      type="checkbox"
-      id="label"
-      v-model="radio"
-      :options="['1', '2', '3', '4', '5', '6', '7', '8', '9'].reverse()"
-      allowOthers
-    />
-    <TextButton label="Text" @click="() => console.log(true)" />
+    <InputDropdown id="dropdown" placeholder="Month" v-model:model-value="value" :options="months" required design="input-only" />
+    
   </page-layout>
 </template>
 <script setup lang="ts">
-import TextButton from "../components/Buttons/TextButton.vue";
 import { PageLayout } from "../layout";
 import {
-  InputText,
-  Checkbox,
-  DateInput,
-  RadioInput,
+  InputDropdown
 } from "../components/Forms";
-import { AddPetButton } from "../components/Buttons";
 import { ref } from "vue";
-import { Validator } from "../utils";
 
-const validators = [
-  new Validator((value: string) => value.length > 7, "Danger", "danger"),
-  new Validator((value: string) => value.length > 3, "Warning", "warning"),
-];
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+// import { Validator } from "../utils";
+
+// const validators = [
+//   new Validator((value: string) => value.length > 7, "Danger", "danger"),
+//   new Validator((value: string) => value.length > 3, "Warning", "warning"),
+// ];
 
 const value = ref("");
-const radio = ref("");
 </script>
 <script lang="ts">
 export default {
@@ -62,5 +32,9 @@ export default {
 <style scoped>
 .page-layout {
   --padding-side: 10px;
+}
+
+.input-dropdown {
+  --input-width: 80px;
 }
 </style>
