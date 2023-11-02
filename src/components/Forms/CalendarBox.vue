@@ -84,7 +84,7 @@ const stringToArray = (value: string) => {
   if (temp === "") {
     return [
       new Date().getFullYear(),
-      new Date().getMonth(),
+      new Date().getMonth() + 1,
       new Date().getDate(),
     ];
   }

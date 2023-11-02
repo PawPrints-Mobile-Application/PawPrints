@@ -6,6 +6,12 @@
         v-for="(item, key) in options"
         @click="() => SetValue(key)"
         :class="{ active: props.modelValue === item }"
+        :ref="
+          (value) => {
+            if (props.modelValue !== options[Math.min(key + 5, options.length - 1)] || !!input) return;
+            input = value;
+          }
+        "
       >
         {{ item }}
       </li>
@@ -13,8 +19,9 @@
   </section>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 
+const input = ref();
 const props = defineProps({
   label: String,
   id: {
@@ -51,7 +58,9 @@ const value = computed({
 const SetValue = (key: number) => (value.value = props.options[key]);
 
 onMounted(() => {
-  if (value.value === "" || !props.options.includes(value.value)) SetValue(props.default);
+  if (value.value === "" || !props.options.includes(value.value))
+    SetValue(props.default);
+  input.value?.scrollIntoView({ behavior: "smooth" });
 });
 
 const emit = defineEmits(["update:modelValue", "input"]);
@@ -64,6 +73,7 @@ const emit = defineEmits(["update:modelValue", "input"]);
   height: calc(var(--item-height) * var(--item-shown));
   border-radius: 6px;
   outline: 2px solid var(--ion-color-tertiary);
+  overflow-y: scroll;
 }
 .input-scroll::-webkit-scrollbar {
   display: none;

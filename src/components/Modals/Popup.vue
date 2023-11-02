@@ -16,8 +16,11 @@ const props = defineProps({
   reversed: Boolean,
 });
 
-const reverseValue = () => emit("update:modelValue", !!props.reversed);
-const emit = defineEmits(["update:modelValue"]);
+const reverseValue = () => {
+  emit("click");
+  emit("update:modelValue", !!props.reversed);
+};
+const emit = defineEmits(["update:modelValue", "click"]);
 </script>
 <style scoped>
 .popup {

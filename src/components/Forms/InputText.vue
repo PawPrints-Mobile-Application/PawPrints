@@ -1,60 +1,50 @@
 <template>
-  <section
-    class="forms-input input-text"
-    :class="{
-      focused: state.focused,
-      taken: state.taken,
-      touched: state.touched,
-      required: !!props.required,
-      disabled: !!props.disabled
-    }"
-    :data-strength="validity.strength"
-    :data-design="design"
-    @click="ForceFocus"
+  <InputWrapper
+    :label="label"
+    :id="id"
+    :design="design"
+    class="input-text"
+    :hide-label="hideLabel"
   >
-    <label :for="id" v-show="design !== 'input-only'">{{ label }}</label>
-    <div class="input-container flex-container">
-      <input
-        ref="input"
-        :id="id"
-        class="flex-item"
-        :type="
-          (type === 'password' && !show) || state.focused || state.taken
-            ? 'text'
-            : type
-        "
-        v-model="value"
-        :placeholder="GetPlaceholder()"
-        @focus="Focus"
-        @blur="Blur"
-        :disabled="!!props.disabled"
-      />
-      <ion-icon
-        class="icon-indicator"
-        v-show="state.icon !== ''"
-        :icon="state.icon"
-      />
-    </div>
-    <ul class="helper-container" v-show="design !== 'input-only'">
-      <li v-for="(text, key) in validators" :data-strength="validity.valids[key] ? 'true' : validators![key].intensity">{{ text.helperText }}</li>
-    </ul>
-  </section>
+    <RawInputText
+      ref="input"
+      :type="type"
+      :label="label"
+      :id="id"
+      :placeholder="placeholderRef"
+      :required="required"
+      v-model:modelValid="valid"
+      v-model:modelValue="value"
+      :validators="validators"
+      :hideHelper="hideHelper"
+      :design="design === 'label-inline' ? 'input-only' : design"
+      :maxLength="maxLength"
+      :disabled="disabled"
+      :show="show"
+      :icon="icon"
+      @input="(value) => emit('input', value)"
+      @focus="() => {
+        emit('focus');
+        if (design !== 'label-inline') return;
+        placeholderRef = placeholder!;
+        hideLabel = false;
+      }"
+      @blur="() => {
+        emit('blur');
+        if (design !== 'label-inline') return;
+        placeholderRef = '';
+        hideLabel = value === '';
+      }"
+      @validity="() => emit('validity')"
+      @iconClick="() => emit('iconClick')"
+    />
+  </InputWrapper>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
-import {
-  checkmarkDoneCircle as validationSuccess,
-  closeCircle as validationWarning,
-  shieldCheckmark as passwordStrong,
-  checkmarkCircle as passwordMedium,
-  alertCircle as passwordWeak,
-  calendar,
-  chevronExpand as expand,
-  alert as required,
-} from "ionicons/icons";
-import { IonIcon } from "@ionic/vue";
+import { RawInputText, InputWrapper } from ".";
 import { Validator } from "../../utils";
+import { computed, ref } from "vue";
 
 const input = ref();
 const props = defineProps({
@@ -67,7 +57,7 @@ const props = defineProps({
     type: String,
     default: "text",
     validators: (value: string) =>
-      ["text", "password", "email", "date"].includes(value),
+      ["text", "password", "email", "date", "number"].includes(value),
   },
   required: Boolean,
   validators: Array<Validator>,
@@ -80,7 +70,11 @@ const props = defineProps({
   design: {
     type: String,
     default: "classic",
-    validators: (value: string) => ["classic", "input-only"].includes(value),
+    validators: (value: string) => ["classic", "input-only", "label-inline"].includes(value),
+  },
+  maxLength: {
+    type: Number,
+    default: 9999,
   },
 
   // Actions
@@ -90,106 +84,35 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hideHelper: Boolean,
+
+  icon: String,
 });
 
-const validity = reactive({
-  valids: Array(props.validators?.length),
-  considered: false, // True when all of warning validator intensities are satisfied
-  accepted: false, // True when all of danger and warning validator intensities are satisfied
-  strength: -2,
-});
-const DataEvaluator = (value: string) => {
-  let considered = true;
-  let accepted = true;
-  props.validators?.map((validator, id) => {
-    const temp = validator.callback(value);
-    validity.valids[id] = temp;
-    accepted &&= temp;
-    if (validator.intensity === "danger") return;
-    considered &&= temp;
-  });
-
-  validity.considered = considered;
-  validity.accepted = accepted;
-  validity.strength =
-    Number(accepted) + Number(considered) + Number(state.taken) - 2;
-
-  emit("validity", validity.strength);
-};
+const placeholderRef = ref( props.design === 'label-inline' ? '' : props.placeholder);
+const hideLabel = ref(true)
 
 const value = computed({
   get() {
     return props.modelValue;
   },
   set(value) {
-    emit("input", value);
     emit("update:modelValue", value);
-    state.taken = value !== "";
-    DataEvaluator(value);
-    GetIcon();
   },
 });
 
-const icons = {
-  strong: props.type === "password" ? passwordStrong : validationSuccess,
-  medium: passwordMedium,
-  weak: props.type === "password" ? passwordWeak : validationWarning,
-  calendar: calendar,
-  expand: expand,
-  required: required,
-};
-const GetIcon = () => {
-  if (!state.taken) {
-    state.icon = state.touched && !!props.required ? icons.required : "";
-    return;
-  }
-
-  switch (validity.strength) {
-    case -1:
-      state.icon = icons.weak;
-      break;
-    case 0:
-      state.icon = icons.medium;
-      break;
-    case 1:
-      state.icon = icons.strong;
-      break;
-    default:
-      state.icon = "";
-      break;
-  }
-};
-
-const state = reactive({
-  focused: false,
-  touched: false,
-  taken: false,
-  icon: "",
+const valid = computed({
+  get() {
+    return props.modelValid;
+  },
+  set(valid) {
+    emit("update:modelValid", valid);
+  },
 });
 
-const Focus = () => {
-  state.focused = true;
-  state.touched = true;
-  if (!!props.required) {
-    state.icon = "";
-  }
-  emit("focus");
-};
-
-const ForceFocus = () => input.value.focus();
-
-const Blur = () => {
-  state.focused = false;
-  if (!!props.required) {
-    state.icon = icons.required;
-  }
-  emit("blur");
-};
-
-const GetPlaceholder = () =>
-  (!state.taken && state.focused) || props.design === "input-only"
-    ? props.placeholder
-    : "";
+const RefreshIcon = () => input.value.GetIcon();
+const SetIcon = (icon: string) => input.value.SetIcon(icon);
+const ForceFocus = () => input.value.ForceFocus();
 
 const emit = defineEmits([
   "update:modelValue",
@@ -198,7 +121,8 @@ const emit = defineEmits([
   "focus",
   "blur",
   "input",
+  "iconClick",
 ]);
 
-defineExpose({ ForceFocus });
+defineExpose({ ForceFocus, RefreshIcon, SetIcon });
 </script>

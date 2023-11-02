@@ -1,9 +1,6 @@
 <template>
-  <button
-  class="icon-button"
-    :class="['ion-activatable ion-focusable']"
-  >
-    <ion-icon id="icon" :icon="icon"/>
+  <button class="icon-button" :class="['ion-activatable ion-focusable']">
+    <ion-icon id="icon" :icon="icon" />
     <ion-ripple-effect />
   </button>
 </template>
@@ -13,16 +10,15 @@ import { IonIcon, IonRippleEffect } from "@ionic/vue";
 defineProps({
   noRipple: {
     type: Boolean,
-    default: false
+    default: false,
   },
   icon: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 </script>
 <style scoped>
-
 .icon-button {
   --color: var(--ion-color-primary);
   --padding: 3px 5px 3px 3px;
