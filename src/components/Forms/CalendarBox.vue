@@ -1,35 +1,26 @@
 <template>
-  <section class="calendar-box text font-poppins">
-    <header id="calendar-nav">
+  <section class="calendar-box">
+    <header class="calendar-nav">
       <BackButton class="button" @click="() => MoveMonth(-1)" />
-      <div class="labels" :class="{ focused: calendar.focused }">
-        <select
-          id="calendar-month"
-          name="calendar-month"
-          class="calendar-label"
-          v-model="calendar.month"
-          @change="RefreshCalendar"
-          @focus="() => (calendar.focused = true)"
-          @blur="() => (calendar.focused = false)"
-        >
-          <option v-for="(month, id) in constants.months" :value="id">
-            {{ month }}
-          </option>
-        </select>
-        <input
-          type="number"
-          class="calendar-label"
-          id="calendar-year"
-          v-model="calendar.year"
-          @input="RefreshCalendar"
-          @focus="() => (calendar.focused = true)"
-          @blur="() => (calendar.focused = false)"
-        />
-      </div>
+      <InputDropdown
+        class="month"
+        v-model:model-value="calendar.shownMonth"
+        id="month"
+        design="input-only"
+        :options="constants.months"
+        no-icon
+      />
+      <InputDropdown
+        class="year"
+        v-model:model-value="calendar.shownYear"
+        id="year"
+        design="input-only"
+        :options="GetYears()"
+        no-icon
+      />
       <ForwardButton class="button" @click="() => MoveMonth(1)" />
     </header>
-
-    <table id="calendar-grid">
+    <table class="calendar-body">
       <tr id="row-header">
         <th class="cell cell-header" v-for="day in constants.days">
           {{ day }}
@@ -47,14 +38,14 @@
           @click="() => SetDate(BaseSevenToDecimal(week, day))"
         >
           <div>
-            <span class="calendar-number">{{
-              calendar.cells[BaseSevenToDecimal(week, day)]
-            }}</span>
             <ion-icon
               v-if="IsCellSelected(week, day)"
               id="calendar-mark"
               :icon="calendarMark"
             />
+            <span class="calendar-number">{{
+              calendar.cells[BaseSevenToDecimal(week, day)]
+            }}</span>
           </div>
         </td>
       </tr>
@@ -63,6 +54,7 @@
 </template>
 
 <script setup lang="ts">
+import { InputDropdown } from ".";
 import { BackButton, ForwardButton } from "../Buttons";
 import { paw as calendarMark } from "ionicons/icons";
 import { reactive } from "vue";
@@ -121,9 +113,14 @@ const constants = {
           (_, i) => i + 1
         )
       ),
+      
 };
 const getCalendarCells = (month: number, year: number) =>
   constants.getArrayDates(month, year);
+const GetYears = () =>
+  Array.from({ length: 151 }, (_, i) =>
+    (i + new Date().getFullYear() - 70).toString()
+  );
 
 // VALUES
 const form = reactive({
@@ -132,6 +129,8 @@ const form = reactive({
   year: stringToArray(props.modelValue)[0],
 });
 const calendar = reactive({
+  shownMonth: constants.months[form.month - 1],
+  shownYear: form.year.toString(),
   month: form.month - 1,
   year: form.year,
   cells: getCalendarCells(form.month - 1, form.year),
@@ -178,128 +177,67 @@ const SetDate = (cell: number) => {
 
 <style scoped>
 .calendar-box {
-  z-index: 99;
-  margin: auto;
-  width: 90%;
+  outline: 2px solid black;
+  min-width: 280px;
   min-height: 320px;
-  padding: 20px 10px;
-  display: flex;
-  flex-flow: column;
-  justify-content: flex-start;
-  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
   background-color: var(--ion-color-secondary);
-  border-radius: 15px;
-  z-index: 4;
 }
 
-/* NAVIGATION */
-#calendar-nav {
+.calendar-nav {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid var(--ion-color-black);
-  height: 50px;
-  padding-bottom: 15px;
-}
-
-.labels {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--ion-color-secondary);
-  border-radius: 8px;
-  padding: 5px;
-}
-
-.calendar-label {
-  color: var(--ion-color-black);
-  font-size: var(--fs1);
-  font-weight: 700;
-  border: none;
-  background: none;
-}
-
-.calendar-label:focus {
-  outline: none;
-}
-
-.focused {
-  background-color: var(--ion-color-secondary-shade);
-}
-
-#calendar-month {
-  z-index: 1;
-  width: 132px;
-  appearance: none;
-  -webkit-appearance: none;
-  text-align: left;
-}
-
-#calendar-year {
-  z-index: 0;
-  width: 70px;
-  text-align: right;
-  transform: translateY(1px);
-}
-
-#calendar-month option {
-  background-color: var(--ion-color-secondary);
-  font-size: var(--fs2);
-}
-
-#calendar-month option:checked,
-#calendar-month option:hover {
-  background-color: var(--ion-color-secondary-shade);
+  padding-bottom: 5px;
 }
 
 .button {
   background-color: var(--ion-color-black);
   --size: var(--fs2);
-  --border-radius: 8px;
+  --border-radius: 6px;
 }
 
-/* GRID */
-#calendar-grid {
-  width: 100%;
+.month {
+  max-width: 100px;
+  font-weight: 700;
+}
+
+.year {
+  max-width: 50px;
+  font-weight: 700;
+}
+
+.calendar-body {
+  --body-width: 100%;
+  --cell-size: calc(var(--body-width) / 7);
+  width: var(--body-width);
   height: 100%;
-  margin-top: 18px;
 }
 
 .cell {
+  width: var(--cell-size);
+  height: 35px;
   text-align: center;
   font-size: var(--fs3);
-  width: calc(100% / 7);
-  height: 30px;
-  font-weight: 400;
 }
 
-.cell-header {
-  vertical-align: text-top;
-  font-weight: 700;
+#calendar-mark {
+  position: absolute;
+  color: var(--ion-color-tertiary);
+  font-size: 40px;
+  transform: translateY(-7px);
 }
 
-.selected {
-  font-weight: 700;
+.calendar-number {
+  position: relative;
 }
 
 .selected div {
   display: flex;
-  flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  height: 100%;
-}
-
-.calendar-number {
-  z-index: 2;
-}
-
-#calendar-mark {
-  z-index: 1;
-  position: absolute;
-  font-size: var(--fs6);
-  color: var(--ion-color-tertiary);
-  transform: translateY(-7px);
 }
 </style>

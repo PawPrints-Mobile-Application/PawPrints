@@ -2,16 +2,16 @@
   <page-layout>
     <!-- <AddPetButton id="test" /> -->
 
-    <Searchbox v-model:model-value="value"/>
+    <InputDate v-model:model-value="value" label="Date" id="date"/>
     
   </page-layout>
 </template>
 <script setup lang="ts">
 import { PageLayout } from "../layout";
-import { Searchbox } from "../components/Forms";
+import { InputDate } from "../components/Forms";
 import { ref, watch } from "vue";
 
-const value = ref("");
+const value = ref("2020-12-05");
 
 // watch(value, () => console.log(value.value));
 
