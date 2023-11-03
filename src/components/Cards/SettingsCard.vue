@@ -1,7 +1,7 @@
 <template>
   <button class="settings-card" @click="() => emit('click', onClick)">
-    <img id="icon" :src="icon" />
-    <h4 id="label">{{ label }}</h4>
+    <img :src="icon" />
+    <h4>{{ label }}</h4>
   </button>
 </template>
 <script setup lang="ts">
@@ -19,29 +19,27 @@ const emit = defineEmits(["click"]);
 </script>
 <style scoped>
 .settings-card {
-  background-color: var(--ion-color-secondary);
-  border-radius: 10px;
-  border: none;
+  flex: 1 0 120px;
   display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  width: 130px;
-  flex-grow: 1;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: var(--ion-color-secondary);
+
+  > img {
+    width: 80px;
+    aspect-ratio: 1;
+  }
+
+  > h4 {
+    margin: 0;
+    font-size: var(--fs3);
+  }
 }
 
 .settings-card:active {
   background-color: var(--ion-color-secondary-shade);
-}
-
-#icon {
-  width: 60px;
-}
-
-#label {
-  font-size: var(--fs1);
-  font-family: Poppins;
-  margin: 10px 0 0;
 }
 </style>
