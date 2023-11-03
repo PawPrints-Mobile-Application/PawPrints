@@ -38,6 +38,10 @@ export default {
 </script>
 
 <style scoped>
+.search-box {
+  width: 100%;
+}
+
 #background-placeholder {
   background-color: var(--ion-color-primary-shade);
 }

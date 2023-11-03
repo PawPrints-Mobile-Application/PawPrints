@@ -5,15 +5,16 @@
       <Searchbox
         id="search"
         v-model="searchDog"
-        @return="() => console.log(searchDog)"
+        @return="FilterDogs"
         @expand="() => (state.searchExpand = true)"
         @collapse="() => (state.searchExpand = false)"
         collapse
         collapseOnReturn
+        onInputReturn
       />
       <AddPetButton
         id="header-button"
-        v-show="!state.noDogsFound"
+        v-show="!state.noDogsFound && !state.searchExpand"
         @submit="ReloadPage"
       />
     </header>
@@ -23,7 +24,7 @@
         id="body-button"
         @submit="ReloadPage"
       />
-      <DogCard v-else v-for="dog in rawDogs" :dog="dog" />
+      <DogCard v-else v-for="dog in filteredDogs" :dog="dog" />
     </section>
   </section>
 </template>
@@ -39,11 +40,30 @@ import {
 import { AuthType } from "../../server/authentication";
 
 const rawDogs = ref<Array<any>>();
+const filteredDogs = ref<Array<any>>();
 const searchDog = ref("");
 const state = reactive({
   searchExpand: false,
   noDogsFound: false,
 });
+
+const FilterDogs = (searchString: string) => {
+  filteredDogs.value = []; // Clears the filter to render
+  // Rerender the filtered results
+  setTimeout(() => {
+    if (searchString.trim() === "") {
+      filteredDogs.value = rawDogs.value;
+      return;
+    }
+    let temp: any[] = [];
+    rawDogs.value?.forEach((value) => {
+      if (!value.name.includes(searchString)) return;
+      temp.push(value);
+    });
+    filteredDogs.value = temp;
+    console.log(temp[0]);
+  }, 10);
+};
 
 // Page Manipulator
 const ReloadPage = () => {
@@ -65,7 +85,8 @@ const ReloadPage = () => {
 const FetchDogs = () => {
   GetAllData().then((data) => {
     rawDogs.value = data.values;
-    state.noDogsFound = rawDogs.value?.length === 0 || !rawDogs.value;
+    filteredDogs.value = data.values;
+    state.noDogsFound = filteredDogs.value?.length === 0 || !filteredDogs.value;
   });
 };
 
@@ -78,8 +99,8 @@ onMounted(() => {
   width: 100%;
   min-height: 200px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   gap: 10px;
 
@@ -95,9 +116,14 @@ onMounted(() => {
     align-self: flex-start;
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 10px;
+
+    > .search-box {
+      width: 100%;
+      --border-radius: 20px;
+    }
   }
 
   > .body {
@@ -108,9 +134,5 @@ onMounted(() => {
     flex-flow: row wrap;
     gap: 10px;
   }
-}
-
-.search-box {
-  width: 100%;
 }
 </style>

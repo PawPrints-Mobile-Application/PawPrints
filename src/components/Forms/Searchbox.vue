@@ -14,6 +14,8 @@
       hideHelper
       noIcon
       design="input-only"
+      v-on:keyup.enter="Return"
+      @change="(value) => OnInputReturn(value)"
     />
   </section>
 </template>
@@ -34,13 +36,23 @@ const props = defineProps({
     default: false,
   },
   collapseOnReturn: Boolean,
+  clearOnReturn: Boolean,
+  onInputReturn: Boolean,
 });
 
 const expand = ref(!props.collapse);
+const OnInputReturn = (v: string) => {
+  value.value = v;
+  if (!props.onInputReturn) return;
+  emit("return", v);
+};
+
 const Return = () => {
   emit("return", value.value);
   if (!!props.collapseOnReturn) Collapse();
-  value.value = '';
+  if (!!props.clearOnReturn) {
+    value.value = "";
+  }
 };
 const Expand = () => {
   expand.value = true;

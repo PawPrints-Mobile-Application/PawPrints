@@ -24,18 +24,21 @@
       :show="show"
       :icon="icon"
       @input="(value) => emit('input', value)"
+      @change="(value) => emit('change', value)"
       @focus="() => {
         emit('focus');
         if (design !== 'label-inline') return;
         placeholderRef = placeholder!;
         hideLabel = false;
       }"
-      @blur="() => {
-        emit('blur');
-        if (design !== 'label-inline') return;
-        placeholderRef = '';
-        hideLabel = value === '';
-      }"
+      @blur="
+        () => {
+          emit('blur');
+          if (design !== 'label-inline') return;
+          placeholderRef = '';
+          hideLabel = value === '';
+        }
+      "
       @validity="(value) => emit('validity', value)"
       @iconClick="() => emit('iconClick')"
     />
@@ -71,7 +74,8 @@ const props = defineProps({
   design: {
     type: String,
     default: "classic",
-    validators: (value: string) => ["classic", "input-only", "label-inline"].includes(value),
+    validators: (value: string) =>
+      ["classic", "input-only", "label-inline"].includes(value),
   },
   maxLength: {
     type: Number,
@@ -91,8 +95,10 @@ const props = defineProps({
   noValidate: Boolean,
 });
 
-const placeholderRef = ref( props.design === 'label-inline' ? '' : props.placeholder);
-const hideLabel = ref(true)
+const placeholderRef = ref(
+  props.design === "label-inline" ? "" : props.placeholder
+);
+const hideLabel = ref(true);
 
 const value = computed({
   get() {
@@ -124,6 +130,7 @@ const emit = defineEmits([
   "blur",
   "input",
   "iconClick",
+  "change",
 ]);
 
 defineExpose({ ForceFocus, RefreshIcon, SetIcon });

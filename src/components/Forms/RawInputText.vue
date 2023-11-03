@@ -9,7 +9,9 @@
       disabled: !!props.disabled,
     }"
     :data-strength="validity.strength"
-    :data-show-outline="state.showIcon && design !== 'input-only' && !props.icon && !noValidate"
+    :data-show-outline="
+      state.showIcon && design !== 'input-only' && !props.icon && !noValidate
+    "
     :data-design="design"
   >
     <section class="input-main">
@@ -18,7 +20,8 @@
         :id="id"
         class="input-input"
         :type="
-          (type === 'password' && !!show) || (type !== 'password' && (state.focused || state.taken))
+          (type === 'password' && !!show) ||
+          (type !== 'password' && (state.focused || state.taken))
             ? 'text'
             : type
         "
@@ -146,6 +149,7 @@ const value = computed({
     state.taken = value !== "";
     DataEvaluator(value);
     GetIcon();
+    emit("change", value);
   },
 });
 
@@ -170,17 +174,17 @@ const icons = {
 
 const SetIcon = (icon: string) => {
   state.icon = {
-      icon: icon,
-      color: 'white'
-    };
-    state.showIcon = true;
-}
+    icon: icon,
+    color: "white",
+  };
+  state.showIcon = true;
+};
 
 const GetIcon = () => {
   if (!!props.icon) {
     state.icon = {
       icon: props.icon,
-      color: 'white'
+      color: "white",
     };
     state.showIcon = true;
     return;
@@ -200,7 +204,7 @@ const state = reactive({
   touched: false,
   taken: false,
   icon: {
-    icon: !!props.icon ? props.icon : "" ,
+    icon: !!props.icon ? props.icon : "",
     color: "white",
   },
   showIcon: false,
@@ -215,7 +219,7 @@ const Focus = () => {
 
 onMounted(() => {
   state.showIcon = false || !!props.icon;
-})
+});
 
 const ForceFocus = () => input.value.focus();
 
@@ -229,7 +233,9 @@ const Blur = () => {
 };
 
 const GetPlaceholder = () =>
-  (!state.taken && state.focused) || props.design === "input-only" || (!state.taken && !state.focused && props.design === "classic")
+  (!state.taken && state.focused) ||
+  props.design === "input-only" ||
+  (!state.taken && !state.focused && props.design === "classic")
     ? props.placeholder
     : "";
 
@@ -240,7 +246,8 @@ const emit = defineEmits([
   "focus",
   "blur",
   "input",
-  "iconClick"
+  "iconClick",
+  "change",
 ]);
 
 defineExpose({ ForceFocus, GetIcon, SetIcon });

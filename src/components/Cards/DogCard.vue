@@ -1,19 +1,19 @@
 <template>
   <button class="dog-card">
-    <img class="icon" :src="!!icon ? icon : dogIcon" />
-    <h4 class="text name">{{ name }}</h4>
-    <h5 class="text age">{{ age }}</h5>
+    <PetAvatar :background-color="data.color" />
+    <h4>{{ data.name }}</h4>
+    <h5>{{ data.age }}</h5>
   </button>
 </template>
 
 <script setup lang="ts">
-import { Logo as dogIcon } from "../../assets/images";
+import { Default as PetAvatar } from "../../components/Avatars/Pets";
 const props = defineProps({
   icon: String,
   dog: {
     type: Object,
     required: true,
-  }
+  },
 });
 
 const GetAge = (date: string) => {
@@ -60,23 +60,20 @@ const AgeToSring = (date: string) => {
   }
 
   if (temp.length === 2) {
-    return temp.join(' and ');
-  }
-  else if (temp.length === 3) {
+    return temp.join(" and ");
+  } else if (temp.length === 3) {
     return `${temp[0]}, ${temp[1]}, and ${temp[2]}`;
   }
   return temp[0];
-}
-
-const name = props.dog.name;
-const age = AgeToSring(props.dog.birthday);
-</script>
-
-<script lang="ts">
-export default {
-  name: "DogCard",
 };
+
+const data = {
+  name: props.dog.name,
+  age: AgeToSring(props.dog.birthday),
+  color: props.dog.color
+}
 </script>
+
 <style scoped>
 .dog-card {
   background-color: var(--ion-color-secondary);
@@ -87,30 +84,23 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  min-width: 120px;
-  flex: 1 0 0;
+  flex: 1 0 120px;
+
+  > h4,
+  h5, .pet-avatar {
+    font-size: var(--fs4);
+    margin: 0;
+    width: 90px;
+  }
+
+  > h4 {
+    font-size: var(--fs2);
+    font-family: Poppins;
+    font-weight: 700;
+  }
 }
 
 .dog-card:active {
   background-color: var(--ion-color-secondary-shade);
-}
-
-.icon {
-  width: 90px;
-  background-color: var(--ion-color-primary);
-  border-radius: 100%;
-}
-
-.text {
-  font-size: var(--fs2);
-  text-align: center;
-  margin: 0;
-  width: 90px;
-}
-
-.name {
-  font-size: var(--fs3);
-  font-family: Poppins;
-  font-weight: 700;
 }
 </style>

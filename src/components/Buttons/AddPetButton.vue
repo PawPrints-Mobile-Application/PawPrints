@@ -100,7 +100,7 @@ const emit = defineEmits(["submit"]);
 
 <style scoped>
 .add-pet-button {
-  --size: 35px;
+  --size: 45px;
   width: var(--size);
   height: var(--size);
   background-color: var(--ion-color-tertiary);
