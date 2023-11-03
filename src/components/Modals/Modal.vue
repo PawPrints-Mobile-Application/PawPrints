@@ -5,7 +5,9 @@
       v-show="!hideHeader"
     >
       <BackButton v-show="!hideHeaderBack" @click="CloseModal" />
-      <div class="text font-rubik text-title font-bold" v-show="title">{{ title?.toUpperCase() }}</div>
+      <div class="text font-rubik text-title font-bold" v-show="title">
+        {{ title?.toUpperCase() }}
+      </div>
     </ion-header>
     <ion-content class="layout-wrapper main">
       <main>
@@ -28,6 +30,7 @@
       <ForwardButton
         v-show="!hideFooterSubmit"
         @click="() => (page === maxPages ? Submit() : Next())"
+        :disabled="!!disableNext"
       />
     </ion-footer>
   </ion-modal>
@@ -47,8 +50,10 @@ import {
 import { ref } from "vue";
 const page = ref(1);
 
-const Add = (i: number, max: number) =>
-  (page.value = Math.max(1, Math.min(max, i + page.value)));
+const Add = (i: number, max: number) => {
+  page.value = Math.max(1, Math.min(max, i + page.value));
+  emit("update:page", page.value);
+};
 
 const Back = () => {
   Add(-1, props.maxPages);
@@ -66,7 +71,9 @@ const CloseModal = () => {
 };
 
 const Submit = () => {
+  page.value = 1;
   emit("submit");
+  CloseModal();
 };
 
 const props = defineProps({
@@ -81,9 +88,11 @@ const props = defineProps({
   hideFooter: Boolean,
   hideFooterBack: Boolean,
   hideFooterSubmit: Boolean,
+  disableNext: Boolean,
 });
 
-const emit = defineEmits(["submit", "close", "back", "next"]);
+const emit = defineEmits(["submit", "close", "back", "next", "update:page"]);
+defineExpose({ page });
 </script>
 
 <style scoped>
@@ -148,7 +157,6 @@ main {
 </style>
 
 <style>
-
 .template-wrapper {
   width: 100%;
   height: 90%;

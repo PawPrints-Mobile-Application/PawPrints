@@ -1,10 +1,15 @@
 <template>
-  <IconButton class="forward-button" @click="() => emit('click')" :icon="icon" />
+  <IconButton class="forward-button" @click="() => emit('click')" :icon="icon" :disabled="disabled" />
 </template>
 
 <script setup lang="ts">
 import IconButton from "./IconButton.vue";
 import { caretForward as icon } from "ionicons/icons";
+
+defineProps({
+  disabled: Boolean
+})
+
 const emit = defineEmits(['click']);
 </script>
 

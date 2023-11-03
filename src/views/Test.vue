@@ -1,16 +1,17 @@
 <template>
   <page-layout>
-    <AddPetButton id="test" />
+    <DogPreview />
+    <!-- <AddPetButton id="test" /> -->
     <!-- <InputToggle id="Radio" label="Radio" v-model:model-value="value" design="input-only">
     <span>yeah <a @click="() => console.log(true)">22</a> dwadwad</span>
   </InputToggle> -->
+
   </page-layout>
 </template>
 <script setup lang="ts">
 import { PageLayout } from "../layout";
-import { InputToggle } from "../components/Forms";
-import { AddPetButton } from "../components/Buttons";
 import { ref, watch } from "vue";
+import { DogPreview } from "../components/Cards";
 
 const value = ref(false);
 

@@ -2,7 +2,7 @@
   <section
     class="search-box"
     :class="{ 'show-input': expand || !collapse }"
-    @click="() => !expand && Expand()"
+    @mouseleave="Collapse"
   >
     <SearchButton @click="() => (expand ? Return() : Expand())" />
     <InputText
@@ -13,8 +13,6 @@
       v-model:modelValue="value"
       hideHelper
       noIcon
-      @click="() => (expand ? Return() : Expand())"
-      @blur="Collapse"
       design="input-only"
     />
   </section>
@@ -35,10 +33,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  collapseOnReturn: Boolean,
 });
 
 const expand = ref(!props.collapse);
-const Return = () => emit("return", value.value);
+const Return = () => {
+  emit("return", value.value);
+  if (!!props.collapseOnReturn) Collapse();
+  value.value = '';
+};
 const Expand = () => {
   expand.value = true;
   if (props.collapse) emit("expand");

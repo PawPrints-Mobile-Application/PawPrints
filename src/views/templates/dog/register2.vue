@@ -1,13 +1,13 @@
 <template>
   <section class="template-wrapper">
-    <RadioInput
+    <InputRadio
       label="Does your dog belong indoors or outdoors?"
       id="inoutdoors"
       v-model="_inoutdoors"
       :options="['Indoors', 'Outdoors']"
       @input="() => emit('update:modelInoutdoors', _inoutdoors)"
     />
-    <RadioInput
+    <InputRadio
       label="Is your pet neutered or spayed?"
       id="fixing"
       v-model="_fixing"
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { RadioInput } from "../../../components/Forms";
+import { InputRadio } from "../../../components/Forms";
 import { ref } from "vue";
 
 const props = defineProps({
@@ -46,11 +46,8 @@ export default {
 };
 </script>
 <style scoped>
-.wrapper {
-  width: 100%;
-}
-
-.radio-input {
-  margin: 20px 0;
+.template-wrapper {
+  height: 100%;
+  justify-content: space-evenly;
 }
 </style>

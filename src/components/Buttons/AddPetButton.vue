@@ -5,6 +5,7 @@
       <div id="button-line-2" class="button-line" />
     </button>
     <Modal
+    ref="modal"
       :trigger="`add-pet-${id}`"
       title="Doggo Profile"
       :max-pages="pages.length"
@@ -12,6 +13,8 @@
       @close="ClearForm"
       hide-header-back
       style-justify-content="space-around"
+      :disable-next="disabler"
+      v-model:page="currentPage"
     >
       <template #modalSlot="{ page }">
         <PetAvatar :background-color="form.color" />
@@ -22,17 +25,18 @@
           v-model:model-breed="form.breed"
           v-model:model-color="form.color"
         />
-        <register2 v-else-if="page === 2" 
+        <register2
+          v-else-if="page === 2"
           v-model:model-inoutdoors="form.inoutdoors"
           v-model:model-fixing="form.fixing"
-          />
+        />
       </template>
     </Modal>
   </section>
 </template>
 
 <script setup lang="ts">
-import { reactive, defineAsyncComponent } from "vue";
+import { reactive, defineAsyncComponent, ref, computed } from "vue";
 import { Default as PetAvatar } from "../../components/Avatars/Pets";
 import { templates } from "../../views/templates";
 import { Modal } from "../Modals";
@@ -41,7 +45,17 @@ import { InsertData } from "../../server/sqlite/models/User/DogProfile";
 const register1 = defineAsyncComponent(templates.register1);
 const register2 = defineAsyncComponent(templates.register2);
 
+const modal = ref();
 const pages = [register1, register2];
+const currentPage = ref(1);
+const disabler = computed(() => {
+  switch (currentPage.value) {
+    case 1:
+      return [form.name, form.birthday, form.breed, form.color].map(value => value === '').reduce((acc, val) => acc || val);
+    default:
+      return [form.inoutdoors, form.fixing].map(value => value === '').reduce((acc, val) => acc || val);
+  }
+})
 
 const ClearForm = () => {
   form.name = "";
@@ -57,30 +71,31 @@ const form = reactive({
   birthday: "",
   breed: "",
   color: "",
-  inoutdoors: '',
-  fixing: '',
+  inoutdoors: "",
+  fixing: "",
 });
 
 const Submit = () => {
-  console.log(form);
   InsertData({
-    pid: `${localStorage.getItem('authID')}${new Date().getUTCDate()}`,
-    uid: localStorage.getItem('authID')!,
+    pid: new Date()[Symbol.toPrimitive]("number").toString(),
+    uid: localStorage.getItem("authID")!,
     name: form.name,
     birthday: form.birthday,
     breed: form.breed,
     color: form.color,
-    inoutdoor: form.inoutdoors === 'outdoors' ? 1 : 0,
-    fixing: form.fixing === 'none' ? 0 : (form.fixing === 'spayed' ? 2 : 1),
-  });
+    inoutdoor: form.inoutdoors === "outdoors" ? 1 : 0,
+    fixing: form.fixing === "none" ? 0 : form.fixing === "spayed" ? 2 : 1,
+  }).then(() => emit("submit"));
 };
 
 defineProps({
   id: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
+
+const emit = defineEmits(["submit"]);
 </script>
 
 <style scoped>

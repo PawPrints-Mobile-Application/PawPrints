@@ -1,5 +1,5 @@
 <template>
-  <button class="icon-button" :class="['ion-activatable ion-focusable']">
+  <button class="icon-button" :class="['ion-activatable ion-focusable']" :disabled="!!disabled">
     <ion-icon id="icon" :icon="icon" />
     <ion-ripple-effect />
   </button>
@@ -16,6 +16,7 @@ defineProps({
     type: String,
     required: true,
   },
+  disabled: Boolean
 });
 </script>
 <style scoped>
@@ -37,6 +38,10 @@ defineProps({
 
 .icon-button:active {
   opacity: 0.7;
+}
+
+.icon-button:disabled {
+  opacity: 0.4;
 }
 
 .icon-button ion-icon#icon {

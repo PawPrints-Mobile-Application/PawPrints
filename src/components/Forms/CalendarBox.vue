@@ -4,7 +4,7 @@
       <BackButton class="button" @click="() => MoveMonth(-1)" />
       <InputDropdown
         class="month"
-        v-model:model-value="calendar.shownMonth"
+        v-model:model-value="shownMonth"
         id="month"
         design="input-only"
         :options="constants.months"
@@ -12,7 +12,7 @@
       />
       <InputDropdown
         class="year"
-        v-model:model-value="calendar.shownYear"
+        v-model:model-value="shownYear"
         id="year"
         design="input-only"
         :options="GetYears()"
@@ -57,7 +57,7 @@
 import { InputDropdown } from ".";
 import { BackButton, ForwardButton } from "../Buttons";
 import { paw as calendarMark } from "ionicons/icons";
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import { IonIcon } from "@ionic/vue";
 
 const props = defineProps({
@@ -113,7 +113,6 @@ const constants = {
           (_, i) => i + 1
         )
       ),
-      
 };
 const getCalendarCells = (month: number, year: number) =>
   constants.getArrayDates(month, year);
@@ -128,6 +127,29 @@ const form = reactive({
   month: stringToArray(props.modelValue)[1],
   year: stringToArray(props.modelValue)[0],
 });
+
+const shownMonth = computed({
+  get() {
+    return calendar.shownMonth;
+  },
+  set(value: string) {
+    calendar.shownMonth = value;
+    calendar.month = constants.months.indexOf(value);
+    RefreshCalendar();
+  },
+});
+
+const shownYear = computed({
+  get() {
+    return calendar.shownYear;
+  },
+  set(value: string) {
+    calendar.shownYear = value;
+    calendar.year = Number(value);
+    RefreshCalendar();
+  },
+});
+
 const calendar = reactive({
   shownMonth: constants.months[form.month - 1],
   shownYear: form.year.toString(),
@@ -166,8 +188,8 @@ const IsCellSelected = (week: number, day: number) => {
 
 // Form Changes
 const SetDate = (cell: number) => {
-  form.year = calendar.year;
   form.month = calendar.month + 1;
+  form.year = calendar.year;
   form.date = calendar.cells[cell];
   const temp = arrayToString(form.year, form.month, form.date);
   emit("update:modelValue", temp);

@@ -11,7 +11,7 @@ const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
 const GuestSignIn = async () => {
   await SigninProps(
     {
-      uid: new Date().toLocaleString(),
+      uid: new Date()[Symbol.toPrimitive]('number').toString(),
       displayName: "Guest",
       email: "none",
     },
