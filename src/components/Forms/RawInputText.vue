@@ -9,7 +9,7 @@
       disabled: !!props.disabled,
     }"
     :data-strength="validity.strength"
-    :data-show-outline="state.showIcon && design !== 'input-only' && !props.icon"
+    :data-show-outline="state.showIcon && design !== 'input-only' && !props.icon && !noValidate"
     :data-design="design"
   >
     <section class="input-main">
@@ -18,7 +18,7 @@
         :id="id"
         class="input-input"
         :type="
-          (type === 'password' && !show) || state.focused || state.taken
+          (type === 'password' && !!show) || (type !== 'password' && (state.focused || state.taken))
             ? 'text'
             : type
         "
@@ -31,7 +31,7 @@
       />
       <ion-icon
         class="input-icon"
-        v-show="state.showIcon && design !== 'input-only'"
+        v-show="state.showIcon && design !== 'input-only' && !noValidate"
         :icon="state.icon.icon"
         :color="state.icon.color"
         @click="() => emit('iconClick')"
@@ -107,6 +107,7 @@ const props = defineProps({
   hideHelper: Boolean,
 
   icon: String,
+  noValidate: Boolean,
 });
 
 const validity = reactive({

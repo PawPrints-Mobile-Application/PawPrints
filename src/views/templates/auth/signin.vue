@@ -1,28 +1,31 @@
 <template>
   <section class="template-wrapper">
     <div class="form-wrapper">
-      <TextInput
+      <InputText
         type="email"
         label="Email"
         id="email"
         placeholder="Enter Email"
         v-model:modelValue="form.email"
+        noValidate
       />
 
-      <TextInput
+      <InputText
         type="password"
         label="Password"
         id="password"
         placeholder="Enter Password"
         v-model:modelValue="form.password"
-        :hide="form.showPassword"
+        :show="form.showPassword"
+        noValidate
       />
-      <br/>
+      <br />
 
-      <Checkbox
-        id="checkbox"
-        label="Show Password"
+      <InputToggle
+        id="show-password"
+        content="Show Password"
         v-model="form.showPassword"
+        design="input-only"
       />
 
       <TextButton
@@ -36,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { Checkbox, TextInput } from "../../../components/Forms";
+import { InputText, InputToggle } from "../../../components/Forms";
 import { TextButton } from "../../../components/Buttons";
 
 import { SigninUser } from "../../../server/authentication";

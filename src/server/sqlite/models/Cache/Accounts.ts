@@ -8,8 +8,6 @@ email TEXT PRIMARY KEY UNIQUE NOT NULL,
 uid TEXT,
 username TEXT,
 password TEXT,
-firstName TEXT,
-lastName TEXT,
 accountType INTEGER,
 DTCreated TEXT
 `;
@@ -26,8 +24,6 @@ interface Props {
     uid: string | undefined,
     username: string,
     password: string,
-    firstName: string,
-    lastName: string,
     accountType: number,
     DTCreated: string
 };
@@ -38,8 +34,6 @@ const ConvertToMap = (props: Props) => {
     temp.set('uid', props.uid);
     temp.set('username', props.username);
     temp.set('password', props.password);
-    temp.set('firstName', props.firstName);
-    temp.set('lastName', props.lastName);
     temp.set('accountType', props.accountType);
     temp.set('DTCreated', props.DTCreated);
     return temp;

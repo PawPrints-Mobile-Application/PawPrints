@@ -206,7 +206,7 @@ const SetDate = (cell: number) => {
 }
 
 .year {
-  max-width: 50px;
+  max-width: 60px;
   font-weight: 700;
 }
 

@@ -1,32 +1,36 @@
 <template>
   <section class="template-wrapper">
-    <TextInput
+    <InputText
       type="text"
       id="name"
       v-model:model-value="name"
       placeholder="Doggo Name"
       label="Doggo Name"
+      hide-helper
+      no-validate
     />
-    <DateInput v-model="birthday" label="Birthday" id="birthday" />
-    <DropdownInput
+    <InputDate v-model="birthday" label="Birthday" id="birthday" />
+    <InputDropdown
       v-model="breed"
       label="Doggo Breed"
       id="breed"
       :options="constants.breeds"
       placeholder="Choose a breed"
     />
-    <TextInput
+    <InputText
       type="text"
       id="color"
       v-model:model-value="color"
       placeholder="Colour"
       label="Colour"
+      hide-helper
+      no-validate
     />
   </section>
 </template>
 
 <script setup lang="ts">
-import { TextInput, DateInput, DropdownInput } from "../../../components/Forms";
+import { InputText, InputDropdown, InputDate } from "../../../components/Forms";
 import { computed } from "vue";
 
 const props = defineProps({
@@ -105,5 +109,9 @@ export default {
 .template-wrapper {
   height: 100%;
   justify-content: space-evenly;
+}
+
+.input-text {
+  width: 100%;
 }
 </style>

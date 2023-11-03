@@ -5,12 +5,9 @@ import { CreateUser, ConvertToDTSignin } from "../sqlite/models/Cache/Accounts";
 import { Hash } from "../../utils";
 
 type Form = {
-  firstName: string;
-  lastName: string;
   username: string;
   email: string;
   password: string;
-  confirmPassword: string;
   showPassword: boolean;
   acceptTOS: boolean;
 };
@@ -53,8 +50,6 @@ export default async (
     password: newForm.password,
     uid: userID,
     username: newForm.username,
-    firstName: newForm.firstName,
-    lastName: newForm.lastName,
     accountType: accountType,
     DTCreated: DTCreated,
   }).catch((error) => console.log(error.message));

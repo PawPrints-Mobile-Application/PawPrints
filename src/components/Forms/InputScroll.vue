@@ -1,5 +1,5 @@
 <template>
-  <section class="input-scroll text text-paragraph font-rubik">
+  <section class="input-scroll text text-paragraph font-rubik" :style="{'--item-shown' : itemShown}">
     <ul class="item-container">
       <li
         class="item"
@@ -8,7 +8,7 @@
         :class="{ active: props.modelValue === item }"
         :ref="
           (value) => {
-            if (props.modelValue !== options[Math.min(key + 5, options.length - 1)] || !!input) return;
+            if (props.modelValue !== options[Math.min(key + Math.floor(itemShown / 2), options.length - 1)] || !!input) return;
             input = value;
           }
         "
@@ -44,6 +44,8 @@ const props = defineProps({
   // Actions
   disabled: Boolean,
 });
+
+const itemShown = Math.min(props.options.length,12);
 
 const value = computed({
   get() {

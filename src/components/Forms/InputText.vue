@@ -20,6 +20,7 @@
       :design="design === 'label-inline' ? 'input-only' : design"
       :maxLength="maxLength"
       :disabled="disabled"
+      :no-validate="noValidate"
       :show="show"
       :icon="icon"
       @input="(value) => emit('input', value)"
@@ -35,7 +36,7 @@
         placeholderRef = '';
         hideLabel = value === '';
       }"
-      @validity="() => emit('validity')"
+      @validity="(value) => emit('validity', value)"
       @iconClick="() => emit('iconClick')"
     />
   </InputWrapper>
@@ -87,6 +88,7 @@ const props = defineProps({
   hideHelper: Boolean,
 
   icon: String,
+  noValidate: Boolean,
 });
 
 const placeholderRef = ref( props.design === 'label-inline' ? '' : props.placeholder);

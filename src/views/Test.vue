@@ -1,21 +1,22 @@
 <template>
   <page-layout>
-    <!-- <AddPetButton id="test" /> -->
-
-    <InputDate v-model:model-value="value" label="Date" id="date"/>
-    
+    <AddPetButton id="test" />
+    <!-- <InputToggle id="Radio" label="Radio" v-model:model-value="value" design="input-only">
+    <span>yeah <a @click="() => console.log(true)">22</a> dwadwad</span>
+  </InputToggle> -->
   </page-layout>
 </template>
 <script setup lang="ts">
 import { PageLayout } from "../layout";
-import { InputDate } from "../components/Forms";
+import { InputToggle } from "../components/Forms";
+import { AddPetButton } from "../components/Buttons";
 import { ref, watch } from "vue";
 
-const value = ref("2020-12-05");
+const value = ref(false);
 
 // watch(value, () => console.log(value.value));
 
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'dwadwada'];
 </script>
 <script lang="ts">
 export default {
@@ -23,6 +24,10 @@ export default {
 };
 </script>
 <style scoped>
+a {
+  color: black;
+}
+
 .page-layout {
   --padding-side: 10px;
 }

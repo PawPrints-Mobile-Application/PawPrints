@@ -22,6 +22,21 @@ const SignupValidator = {
       "Must be 4 to 20 characters!",
       "danger"
     ),
+  ],
+  email: [
+    new Validator(
+      (value: string) =>
+        EmailFormatDetector(value),
+      "Email must be valid",
+      "danger"
+    ),
+  ],
+  password: [
+    new Validator(
+      (value: string) => StringMinMax(value, 8),
+      "Password must be at least 8 characters!",
+      "danger"
+    ),
     new Validator(
       (value: string) =>
       LowerCaseDetector(value),
@@ -45,21 +60,6 @@ const SignupValidator = {
       SpecialCharacterDetector(value),
       "Could have at least one special character!",
       "warning"
-    ),
-  ],
-  email: [
-    new Validator(
-      (value: string) =>
-        EmailFormatDetector(value),
-      "Email must be valid",
-      "danger"
-    ),
-  ],
-  password: [
-    new Validator(
-      (value: string) => StringMinMax(value, 8),
-      "Password must be at least 8 characters!",
-      "danger"
     ),
   ],
 };

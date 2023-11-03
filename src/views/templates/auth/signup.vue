@@ -1,6 +1,6 @@
 <template>
   <section class="template-wrapper">
-    <TextInput
+    <InputText
       type="text"
       label="Username"
       id="username"
@@ -9,10 +9,9 @@
       v-model:modelValid="validations.username"
       v-model:modelValue="form.username"
       :validators="SignupValidator.username"
-      alwaysShowHelper
     />
 
-    <TextInput
+    <InputText
       type="email"
       label="Email"
       id="email"
@@ -21,33 +20,32 @@
       v-model:modelValid="validations.email"
       v-model:modelValue="form.email"
       :validators="SignupValidator.email"
-      alwaysShowHelper
     />
 
-    <TextInput
+    <InputText
       type="password"
       label="Password"
       id="password"
       placeholder="Enter Password"
       required
-      v-model:modelValid="validations.password"
+      @validity="(value) => (validations.password = value > -1)"
       v-model:modelValue="form.password"
       :validators="SignupValidator.password"
       :show="form.showPassword"
-      alwaysShowHelper
     />
 
-    <Checkbox
+    <InputToggle
       id="show-password"
-      label="Show Password"
+      content="Show Password"
       v-model="form.showPassword"
+      design="input-only"
     />
 
-    <Checkbox id="TOS" name="acceptTOS" v-model="form.acceptTOS">
+    <InputToggle id="TOS" v-model="form.acceptTOS">
       By creating an account you agree to our
       <span class="navigation-link">Privacy Policy</span> and
       <span class="navigation-link">Terms of Service</span>.
-    </Checkbox>
+    </InputToggle>
 
     <TextButton
       id="button-signup"
@@ -60,7 +58,7 @@
 
 <script setup lang="ts">
 import { TextButton } from "../../../components/Buttons";
-import { Checkbox, TextInput } from "../../../components/Forms";
+import { InputText, InputToggle } from "../../../components/Forms";
 
 import { SignupUser } from "../../../server/authentication";
 
@@ -83,12 +81,9 @@ const props = defineProps({
 });
 
 const form = reactive({
-  firstName: "",
-  lastName: "",
   username: "",
   email: "",
   password: "",
-  confirmPassword: "",
   showPassword: false,
   acceptTOS: false,
 });
@@ -97,22 +92,13 @@ const validations = reactive({
   username: false,
   email: false,
   password: false,
-  confirmPassword: false,
 });
 
 const requirements = () =>
-  [
-    form.firstName,
-    form.lastName,
-    form.username,
-    form.email,
-    form.password,
-    form.confirmPassword,
-  ]
+  [form.username, form.email, form.password]
     .map((value) => value !== "")
     .reduce((acc, value) => acc && value);
-const validity = () =>
-  validations.confirmPassword && validations.email && validations.password;
+const validity = () => validations.email && validations.password;
 
 const processingRequest = ref(false);
 const disabled = computed(
@@ -189,5 +175,9 @@ export default {
   --width: 100%;
   --height: 40px;
   margin-top: 20px;
+}
+
+.input-text {
+  width: 100%;
 }
 </style>
