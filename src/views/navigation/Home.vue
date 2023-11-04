@@ -7,8 +7,8 @@
     </template>
     <template #pageContent>
       <section class="content">
-      <FactsPreview @click="DeleteAllDogs" />
-      <DogPreview />
+        <FactsPreview @click="DeleteAllDogs" />
+        <DogPreview />
       </section>
     </template>
   </page-layout>
