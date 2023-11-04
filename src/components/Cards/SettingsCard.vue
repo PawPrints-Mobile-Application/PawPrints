@@ -1,11 +1,13 @@
 <template>
-  <button class="settings-card" @click="() => emit('click', onClick)">
+  <button class="settings-card" @click="Redirect">
     <img :src="icon" />
     <h4>{{ label }}</h4>
   </button>
 </template>
 <script setup lang="ts">
-defineProps({
+import { useIonRouter } from "@ionic/vue";
+
+const props = defineProps({
   label: {
     type: String,
     required: true,
@@ -15,6 +17,12 @@ defineProps({
     required: true,
   },
 });
+
+const ionRouter = useIonRouter();
+const Redirect = () => {
+  emit("click");
+  ionRouter.navigate(`/settings/${props.label}`, "forward", "push");
+};
 const emit = defineEmits(["click"]);
 </script>
 <style scoped>

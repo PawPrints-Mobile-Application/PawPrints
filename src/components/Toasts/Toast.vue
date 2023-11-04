@@ -15,8 +15,6 @@ defineProps({
   },
   show: Boolean,
 });
-
-const emit = defineEmits(['update:show'])
 </script>
 <style scoped>
 .toast {

@@ -34,7 +34,7 @@ const GetAge = (date: string) => {
     );
     daysPassed += lastMonthDate.getDate();
   }
-  if (monthsPassed < 0) {
+  if (monthsPassed < 0 && yearsPassed < 0) {
     yearsPassed--;
     monthsPassed += 12;
   }
@@ -46,17 +46,18 @@ const GetAge = (date: string) => {
   };
 };
 
+const StringFormatter = (value: number, label: string) => `${value} ${label}${value > 1 ? 's' : ''}`;
 const AgeToSring = (date: string) => {
   const age = GetAge(date);
   let temp = [];
   if (age.years > 0) {
-    temp.push(`${age.years} years`);
+    temp.push(StringFormatter(age.years, 'year'));
   }
   if (age.months > 0) {
-    temp.push(`${age.months} months`);
+    temp.push(StringFormatter(age.months, 'month'));
   }
   if (age.days > 0) {
-    temp.push(`${age.days} days`);
+    temp.push(StringFormatter(age.days, 'day'));
   }
 
   if (temp.length === 2) {

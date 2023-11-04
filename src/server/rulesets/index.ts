@@ -1,4 +1,4 @@
-import { GetDocument } from "../firebase";
+// import { GetDocument } from "../firebase";
 import { Validator } from "../../utils";
 
 const reservedUsernames = ["Guest"];
@@ -66,12 +66,18 @@ const SignupValidator = {
 
 const SigninValidator = {
   email: [
+    // new Validator(
+    //   async (email: string) => {
+    //     const temp = (await GetDocument("Accounts", email)).exists();
+    //     console.log(temp);
+    //     return temp;
+    //   },
+    //   "Email must be valid",
+    //   "danger"
+    // ),
     new Validator(
-      async (email: string) => {
-        const temp = (await GetDocument("Accounts", email)).exists();
-        console.log(temp);
-        return temp;
-      },
+      (value: string) =>
+        EmailFormatDetector(value),
       "Email must be valid",
       "danger"
     ),

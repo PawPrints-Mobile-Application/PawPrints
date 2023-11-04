@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 import {
   navigationRoutes,
+  navigationChildren,
   templateRoutes,
   transitionRoutes,
   viewsRoutes,
@@ -29,6 +30,12 @@ const addRoutes = () => {
           component: () => import(`./views/navigation/${route.name}.vue`),
         };
       }),
+      ...navigationChildren.map(route => {
+        return {
+          path: route.path,
+          component: () => import(`./views/navigation/${route.parent}/${route.name}.vue`),
+        };
+      })
     ],
   });
 

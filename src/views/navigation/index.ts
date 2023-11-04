@@ -9,13 +9,34 @@ import {
   settings as settingsActive,
 } from "ionicons/icons";
 
-const routes = [
+type RouteInfo = {
+  name: string;
+  path: string;
+  parent: string;
+};
+
+type RouteData = {
+  name: string;
+  path: string;
+  meta: {
+    requiresAuth: boolean;
+  };
+  icons?: {
+    default: string;
+    active: string;
+  };
+};
+
+let children: RouteInfo[] = [];
+
+const routes: RouteData[] = [
   {
     name: "Home",
     icons: {
       default: homeDefault,
       active: homeActive,
     },
+    children: [],
   },
   {
     name: "Facts",
@@ -23,6 +44,7 @@ const routes = [
       default: factsDefault,
       active: factsActive,
     },
+    children: [],
   },
   {
     name: "Maps",
@@ -30,6 +52,7 @@ const routes = [
       default: mapsDefault,
       active: mapsActive,
     },
+    children: [],
   },
   {
     name: "Settings",
@@ -37,15 +60,30 @@ const routes = [
       default: settingsDefault,
       active: settingsActive,
     },
+    children: [
+      { name: "Profile" },
+      { name: "Preferences" },
+      { name: "Subscription" },
+      { name: "About" },
+    ],
   },
-].map((child) => {
+].map((route) => {
+  children = route.children.map((child) => {
+    return {
+      name: child.name,
+      parent: route.name,
+      path: '/' + route.name + '/' + child.name,
+    };
+  });
   return {
-    name: child.name,
-    icons: child.icons,
-    path: `/${child.name}`,
+    name: route.name,
+    path: `/${route.name}`,
     meta: { requiresAuth: true },
-    parent: 'navigation/',
+
+    icons: route.icons,
   };
 });
+
+export { children };
 
 export default routes;

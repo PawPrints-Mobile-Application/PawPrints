@@ -10,14 +10,14 @@
 </template>
 <script setup lang="ts">
 import { PageLayout } from "../layout";
-import { ref, watch } from "vue";
+// import { ref } from "vue";
 import { DogPreview } from "../components/Cards";
 
-const value = ref(false);
+// const value = ref(false);
 
 // watch(value, () => console.log(value.value));
 
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'dwadwada'];
+// const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'dwadwada'];
 </script>
 <script lang="ts">
 export default {

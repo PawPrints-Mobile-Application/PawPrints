@@ -24,7 +24,7 @@ defineProps({
 .pet-avatar {
   --size: 100%;
   width: var(--size);
-  height: var(--size);
+  aspect-ratio: 1;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -39,6 +39,7 @@ const showHeader = !!slots.pageHeader;
   min-width: 320px;
   padding-left: var(--padding-side);
   padding-right: var(--padding-side);
+  background-color: var(--ion-color-primary);
 }
 
 .layout-wrapper {
