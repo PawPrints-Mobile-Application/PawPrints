@@ -63,7 +63,7 @@ const routes: RouteData[] = [
     children: [
       { name: "Profile" },
       { name: "Preferences" },
-      { name: "Subscription" },
+      { name: "Subscriptions" },
       { name: "About" },
     ],
   },

@@ -13,7 +13,7 @@ const GuestSignIn = async () => {
     {
       uid: new Date()[Symbol.toPrimitive]('number').toString(),
       displayName: "Guest",
-      email: "none",
+      email: null,
     },
     new Date().toLocaleDateString(),
     new Date().toLocaleTimeString()

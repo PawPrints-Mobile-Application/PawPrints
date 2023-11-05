@@ -5,7 +5,8 @@ import SignoutUser from "./SignoutUser";
 const AuthType = {
   0: 'None',
   1: 'Guest',
-  2: 'Verified'
+  2: 'Free',
+  3: 'Pawmium'
 }
 
 export {
