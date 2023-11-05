@@ -39,7 +39,6 @@
 import { InputWrapper } from ".";
 import { ref, computed } from "vue";
 
-const selected = ref(-1);
 const props = defineProps({
   label: String,
   id: {
@@ -58,6 +57,7 @@ const props = defineProps({
   },
   hideLabel: Boolean,
   enableOthers: Boolean,
+  modelValue: String
 });
 
 const Select = (key: number) => {
@@ -71,6 +71,7 @@ const getOptions = computed(() => {
   return props.options.concat([others.value]);
 });
 
+const selected = ref(!!props.modelValue ? getOptions.value.indexOf(props.modelValue) : -1);
 const emit = defineEmits(["update:modelValue"]);
 </script>
 <style scoped>
@@ -126,7 +127,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 .option-label {
   flex: 1 0 0;
-  font-size: var(--fs3);
+  font-size: var(--fs4);
 
   > input {
     width: 100%;

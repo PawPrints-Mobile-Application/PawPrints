@@ -1,3 +1,4 @@
+import InputLabel from "./InputLabel.vue";
 import InputText from "./InputText.vue";
 import Searchbox from "./Searchbox.vue";
 import CalendarBox from "./CalendarBox.vue";
@@ -12,6 +13,7 @@ import InputCheck from "./InputCheck.vue";
 import InputToggle from "./InputToggle.vue";
 
 export {
+  InputLabel,
   InputWrapper,
   SelectDate,
   InputText,

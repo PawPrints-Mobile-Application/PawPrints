@@ -93,7 +93,7 @@ const emit = defineEmits(["update:modelValue"]);
 }
 
 .option-label {
-  font-size: var(--fs3);
+  font-size: var(--fs4);
   flex: 1 0 0;
 
   > input {
