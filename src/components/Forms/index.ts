@@ -11,6 +11,8 @@ import SelectDate from "./SelectDate.vue";
 import InputRadio from "./InputRadio.vue";
 import InputCheck from "./InputCheck.vue";
 import InputToggle from "./InputToggle.vue";
+import InputButtonPhoto from "./InputButtonPhoto.vue";
+import InputPhoto from "./InputPhoto.vue";
 
 export {
   InputLabel,
@@ -25,5 +27,7 @@ export {
   RawInputText,
   InputRadio,
   InputCheck,
-  InputToggle
+  InputToggle,
+  InputButtonPhoto,
+  InputPhoto
 };

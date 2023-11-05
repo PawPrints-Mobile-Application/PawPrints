@@ -1,19 +1,21 @@
 <template>
   <page-layout>
-    <DogPreview />
+    <!-- <DogPreview /> -->
     <!-- <AddPetButton id="test" /> -->
     <!-- <InputToggle id="Radio" label="Radio" v-model:model-value="value" design="input-only">
     <span>yeah <a @click="() => console.log(true)">22</a> dwadwad</span>
   </InputToggle> -->
-
+  <InputPhoto name="Photo" v-model:value="value" has-change-button/>
   </page-layout>
 </template>
 <script setup lang="ts">
 import { PageLayout } from "../layout";
-// import { ref } from "vue";
-import { DogPreview } from "../components/Cards";
+import InputPhoto from "../components/Forms/InputPhoto.vue";
 
-// const value = ref(false);
+import { ref } from "vue";
+// import { DogPreview } from "../components/Cards";
+
+const value = ref('');
 
 // watch(value, () => console.log(value.value));
 
