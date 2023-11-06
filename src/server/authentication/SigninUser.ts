@@ -1,41 +1,63 @@
-import { User } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import auth from "../../server/firebase";
+import { LoginUser } from "../sqlite/data/Cache/LoginHistory";
+import { Hash } from "../../utils";
 import { AuthType } from ".";
-import { LoginUser } from "../sqlite/models/Cache/LoginHistory";
 
 type Props = {
-  email: string | null;
+  email: string;
   uid: string;
-  displayName: string | null;
+  displayName: string;
+} | null;
+
+const SigninUser = async (
+  form: { email: string; password: string } | null = null,
+  hashed: Boolean = false
+) => {
+  let props: Props = null;
+  let tempUID = new Date()[Symbol.toPrimitive]("number").toString();
+  return new Promise((resolve) => {
+    if (!!form) {
+      Hash.sha256(form.password)
+        .then(async (value) => {
+          if (!hashed) {
+            form.password = Hash.ArrayBufferToString(value);
+          }
+        })
+        .then(async () =>
+          signInWithEmailAndPassword(auth, form!.email, form!.password).then(
+            (userCredential) => {
+              props = {
+                email: userCredential.user.email!,
+                uid: userCredential.user.uid,
+                displayName: userCredential.user.displayName!,
+              };
+              tempUID = props.uid;
+              console.log("Firebase Login Successful");
+              resolve(null);
+            }
+          )
+        );
+    } else resolve(null);
+  })
+    .then(() => {
+      LoginUser({
+        DSignin: new Date().toLocaleDateString(),
+        TSignin: new Date().toLocaleTimeString(),
+        uid: tempUID,
+      });
+    })
+    .then(() => {
+      console.log("Login History Update Succesful");
+      const authType = !!props ? new AuthType().free : new AuthType().guest;
+      const authUsername = !!props ? props.displayName : "Hooman";
+      const authEmail = !!props ? props.email : "Guest";
+      window.localStorage.setItem("authType", authType);
+      window.localStorage.setItem("authID", `${tempUID}`);
+      window.localStorage.setItem("authUsername", `${authUsername}`);
+      window.localStorage.setItem("authEmail", `${authEmail}`);
+      console.log(`${authUsername} has logged in.`);
+    });
 };
 
-export const SigninProps = async (
-  user: Props,
-  DSignin: string,
-  TSignin: string
-) =>
-  LoginUser({
-    DSignin: DSignin,
-    TSignin: TSignin,
-    uid: user.uid,
-  }).then(() => {
-    console.log(!!user.email ? AuthType[2] : AuthType[1]);
-    window.localStorage.setItem(
-      "authType",
-      !!user.email ? AuthType[2] : AuthType[1]
-    );
-    window.localStorage.setItem("authID", `${user.uid}`);
-    window.localStorage.setItem("authUsername", `${user.displayName}`);
-    window.localStorage.setItem("authEmail", `${user.email}`);
-    console.log(`${user.displayName} has connected!`);
-  });
-
-export default async (user: User, DSignin: string, TSignin: string) =>
-  await SigninProps(
-    {
-      uid: user.uid,
-      displayName: user.displayName,
-      email: user.email,
-    },
-    DSignin,
-    TSignin
-  );
+export default SigninUser;

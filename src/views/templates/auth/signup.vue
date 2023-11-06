@@ -31,13 +31,13 @@
       @validity="(value) => (validations.password = value > -1)"
       v-model:modelValue="form.password"
       :validators="SignupValidator.password"
-      :show="form.showPassword"
+      :show="validations.showPassword"
     />
 
     <InputToggle
       id="show-password"
       content="Show Password"
-      v-model="form.showPassword"
+      v-model="validations.showPassword"
       design="input-only"
     />
 
@@ -63,8 +63,6 @@ import { InputText, InputToggle } from "../../../components/Forms";
 import { SignupUser } from "../../../server/authentication";
 
 import { computed, reactive, ref } from "vue";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import auth from "../../../server/firebase";
 import { SignupValidator } from "../../../server/rulesets";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
@@ -84,7 +82,6 @@ const form = reactive({
   username: "",
   email: "",
   password: "",
-  showPassword: false,
   acceptTOS: false,
 });
 
@@ -92,6 +89,7 @@ const validations = reactive({
   username: false,
   email: false,
   password: false,
+  showPassword: false,
 });
 
 const requirements = () =>
@@ -113,19 +111,8 @@ const disabled = computed(
 
 const Register = async () => {
   processingRequest.value = true;
-  createUserWithEmailAndPassword(auth, form.email, form.password)
-    .then((userCredential) =>
-      SignupUser(
-        form,
-        userCredential.user,
-        1,
-        new Date().toLocaleDateString(),
-        new Date().toLocaleTimeString()
-      ).then(() => {
-        Redirect();
-        props.closeModal();
-      })
-    )
+  validations.showPassword = false;
+  SignupUser(form)
     .catch((error) => {
       let errorMessage;
       switch (error.code) {
@@ -151,7 +138,12 @@ const Register = async () => {
       }
       console.log(error.code);
       alert(errorMessage);
-    });
+    })
+    .then(() => {
+      Redirect();
+      props.closeModal();
+    })
+    .finally(() => (processingRequest.value = false));
 };
 </script>
 

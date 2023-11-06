@@ -45,8 +45,6 @@ import { TextButton } from "../../../components/Buttons";
 import { SigninUser } from "../../../server/authentication";
 
 import { computed, reactive, ref } from "vue";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from "../../../server/firebase";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
@@ -71,16 +69,10 @@ const disabled = computed(
 
 const Login = () => {
   processingRequest.value = true;
-  signInWithEmailAndPassword(auth, form.email, form.password)
-    .then(async (userCredential) => {
-      await SigninUser(
-        userCredential.user,
-        new Date().toLocaleDateString(),
-        new Date().toLocaleTimeString()
-      ).then(() => {
-        Redirect();
-        props.closeModal();
-      });
+  SigninUser(form)
+    .then(() => {
+      Redirect();
+      props.closeModal();
     })
     .catch((error) => {
       let errorMessage;
@@ -103,7 +95,8 @@ const Login = () => {
       }
       console.log(error.code);
       alert(errorMessage);
-    });
+    })
+    .finally(() => (processingRequest.value = false));
 };
 </script>
 

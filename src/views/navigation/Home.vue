@@ -18,7 +18,7 @@
 import { PageLayout } from "../../layout";
 import { FactsPreview, DogPreview } from "../../components/Cards";
 import { onIonViewDidEnter, onIonViewWillEnter } from "@ionic/vue";
-import { DeleteAllData } from "../../server/sqlite/models/User/DogProfile";
+import { DeleteAllData } from "../../server/sqlite/data/User/DogProfile";
 
 const authGreetings = `Henlo, ${
   localStorage.getItem("authUsername") === "Guest"

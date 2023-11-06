@@ -36,7 +36,7 @@ import { onMounted, reactive, ref } from "vue";
 import {
   GetAllData,
   // DeleteAllData,
-} from "../../server/sqlite/models/User/DogProfile";
+} from "../../server/sqlite/data/User/DogProfile";
 import { AuthType } from "../../server/authentication";
 
 const rawDogs = ref<Array<any>>();
@@ -67,9 +67,9 @@ const FilterDogs = (searchString: string) => {
 
 // Page Manipulator
 const ReloadPage = () => {
-  if (localStorage.getItem("authType") === AuthType[1]) {
+  if (localStorage.getItem("authType") === new AuthType().guest) {
     FetchDogs();
-  } else if (localStorage.getItem("authType") === AuthType[2]) {
+  } else if (localStorage.getItem("authType") === new AuthType().free) {
   }
 };
 

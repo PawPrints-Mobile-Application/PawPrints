@@ -1,58 +1,82 @@
-import { User, sendEmailVerification, updateProfile } from "firebase/auth";
+import {
+  sendEmailVerification,
+  updateProfile,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import auth from "../firebase";
 import { SetDocument } from "../firebase";
-import SigninUser from "./SigninUser";
-import { CreateUser, ConvertToDTSignin } from "../sqlite/models/Cache/Accounts";
+import { CreateUser, ConvertToDTSignin } from "../sqlite/data/Cache/Accounts";
 import { Hash } from "../../utils";
+import SigninUser from "./SigninUser";
 
 type Form = {
   username: string;
   email: string;
   password: string;
-  showPassword: boolean;
   acceptTOS: boolean;
 };
 
-export default async (
-  form: Form,
-  user: User,
-  accountType: number,
-  DCreated: string,
-  TCreated: string,
-) => {
-  let newForm = form;
-  Hash.sha256(form.password).then((value) => {
-    newForm.password = Hash.ArrayBufferToString(value);
+const SignupUser = async (form: Form) =>
+  Hash.sha256(form.password).then(async (value) => {
+    console.log("Password Hashed!");
+    form.password = Hash.ArrayBufferToString(value);
+    return createUserWithEmailAndPassword(auth, form.email, form.password)
+      .then(async (userCredential) => {
+        console.log("Firebase signup succesful!");
+        const user = userCredential.user;
+
+        // Firestore Verification
+        const firebaseVerification = await sendEmailVerification(user)
+          .then(() => console.log("Verification Successful"))
+          .catch((error) => console.log(error.message));
+        const firebaseProfileUpdate = await updateProfile(user, {
+          displayName: form.username,
+        })
+          .then(() => console.log("User Update Successful"))
+          .catch((error) => console.log(error.message));
+
+        const DCreated = new Date().toLocaleDateString();
+        const TCreated = new Date().toLocaleTimeString();
+        const DTCreated = ConvertToDTSignin(DCreated, TCreated);
+        const userID = user.uid;
+        // Update Firestore Database of new user
+        const firebaseDatabase = await SetDocument("Accounts", form.email, {
+          DTCreated: DTCreated,
+          email: form.email,
+          password: form.password,
+          uid: userID,
+        })
+          .then(() => console.log("Firebase Database Successful"))
+          .catch((error) => console.log(error.message));
+
+        const localDatabase = await CreateUser({
+          email: form.email,
+          password: form.password,
+          uid: userID,
+          username: form.username,
+          accountType: 1,
+          DTCreated: DTCreated,
+        })
+          .then(() => console.log("Local Database Successful"))
+          .catch((error) => console.log(error.message));
+
+        return Promise.all([
+          firebaseVerification,
+          firebaseProfileUpdate,
+          firebaseDatabase,
+          localDatabase,
+        ]).catch((error) => console.log(error.message));
+      })
+      .then(
+        async () =>
+          await SigninUser(
+            {
+              email: form.email,
+              password: form.password,
+            },
+            true
+          )
+      );
   });
 
-  // Firestore Verification
-  const firebaseVerification = await sendEmailVerification(user).catch(
-    (error) => console.log(error.message)
-  );
-  const firebaseProfileUpdate = await updateProfile(user, { displayName: newForm.username }).catch((error) =>
-    console.log(error.message)
-  );
-  console.log(
-    `${user.displayName} has been successfully registered and verified to Firebase!`
-  );
-
-  const DTCreated = ConvertToDTSignin(DCreated, TCreated);
-  const userID = user.uid;
-  // Update Firestore Database of new user
-  const firebaseDatabase = await SetDocument("Accounts", newForm.email, {
-    DTCreated: DTCreated,
-    email: newForm.email,
-    password: newForm.password,
-    uid: userID,
-  }).catch((error) => console.log(error.message));
-
-  const localDatabase = await CreateUser({
-    email: newForm.email,
-    password: newForm.password,
-    uid: userID,
-    username: newForm.username,
-    accountType: accountType,
-    DTCreated: DTCreated,
-  }).catch((error) => console.log(error.message));
-
-  Promise.all([firebaseVerification,firebaseProfileUpdate,firebaseDatabase,localDatabase]).catch((error) => console.log(error.message)).finally(async () => await SigninUser(user, DCreated, TCreated));
-};
+export default SignupUser;

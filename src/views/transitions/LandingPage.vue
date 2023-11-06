@@ -24,12 +24,11 @@ import { PageLayout } from "../../layout";
 import { ImgLogo } from "../../components/Logo";
 
 import auth from "../../server/firebase";
-import { AuthType } from "../../server/authentication";
 import { onAuthStateChanged } from "firebase/auth";
 import { reactive, watch, ref } from "vue";
 import { IonSpinner, onIonViewDidEnter, useIonRouter } from "@ionic/vue";
 
-import CreateDB from "../../server/sqlite/models";
+import CreateDB from "../../server/sqlite/data";
 
 const state = reactive({
   doneAnimation: false,
@@ -40,7 +39,7 @@ const state = reactive({
 const user = ref();
 onAuthStateChanged(auth, (currentUser) => {
   user.value =
-    localStorage.getItem("authType") !== AuthType[0] || !!currentUser;
+    localStorage.getItem("authType") !== '' || !!currentUser;
 });
 
 const ionRouter = useIonRouter();

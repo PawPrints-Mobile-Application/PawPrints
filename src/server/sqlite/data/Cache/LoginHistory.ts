@@ -1,7 +1,7 @@
 import { CreateTable as MakeTable, DeleteTable as RemoveTable, InsertRowData, ReadRowData, UpdateRowData, DeleteRowData } from "../..";
-
-const dbName = 'Guest';
-const modelName = 'LoginHistory';
+import { Props } from "../../../models/Cache/LoginHistory";
+const collectionName = 'Guest'; // TODO: change to 'Users
+const documentName = 'LoginHistory';
 const columns = `
 DTSignin TEXT PRIMARY KEY UNIQUE NOT NULL,
 DSignin TEXT,
@@ -9,15 +9,6 @@ TSignin TEXT,
 DTSignout TEXT,
 uid TEXT
 `;
-
-const Enum = {
-    
-};
-interface Props {
-    DSignin: string,
-    TSignin: string,
-    uid: string | undefined
-};
 
 const ConvertToDTSignin = (DSignin: string, TSignin: string) => `${DSignin} , ${TSignin}`;
 const ConvertToMap = (props: Props, DTSignout: string = '') => {
@@ -31,40 +22,40 @@ const ConvertToMap = (props: Props, DTSignout: string = '') => {
 }
 
 const CreateTable = async () => {
-    await MakeTable(dbName, modelName, columns);
+    await MakeTable(collectionName, documentName, columns);
 }
 
 const DeleteTable = async () => {
-    await RemoveTable(dbName, modelName);
+    await RemoveTable(collectionName, documentName);
 }
 
 const LoginUser = async (props: Props) => {
     const map = ConvertToMap(props);
     const keys = Array.from(map.keys());
     const values = Array.from(map.values());
-    await InsertRowData(dbName, modelName, {keys, values});
+    await InsertRowData(collectionName, documentName, {keys, values});
 };
 
-const GetAllLogs = async () => await ReadRowData(dbName, modelName);
+const GetAllLogs = async () => await ReadRowData(collectionName, documentName);
 
-const GetUserLogs = async (email: string) => await ReadRowData(dbName, modelName, {key: 'email', value: email});
+const GetUserLogs = async (email: string) => await ReadRowData(collectionName, documentName, {key: 'email', value: email});
 
-const GetLogsOnDate = async (DSignin: string) => await ReadRowData(dbName, modelName, {key: 'DSignin', value: DSignin});
+const GetLogsOnDate = async (DSignin: string) => await ReadRowData(collectionName, documentName, {key: 'DSignin', value: DSignin});
 
-const GetLogsOnTime = async (TSignin: string) => await ReadRowData(dbName, modelName, {key: 'TSignin', value: TSignin});
+const GetLogsOnTime = async (TSignin: string) => await ReadRowData(collectionName, documentName, {key: 'TSignin', value: TSignin});
 
-const GetLogsOnDateTime = async (DSignin: string, TSignin: string) => await ReadRowData(dbName, modelName, {key: 'DTSignin', value: ConvertToDTSignin(DSignin, TSignin)});
+const GetLogsOnDateTime = async (DSignin: string, TSignin: string) => await ReadRowData(collectionName, documentName, {key: 'DTSignin', value: ConvertToDTSignin(DSignin, TSignin)});
 
 const LogoutUser = async (DTSignout: string) => {
-    await UpdateRowData(dbName, modelName, {keys: ['DTSignout'], values: [DTSignout]}, {key: 'DTSignout', value: DTSignout});
+    await UpdateRowData(collectionName, documentName, {keys: ['DTSignout'], values: [DTSignout]}, {key: 'DTSignout', value: DTSignout});
 };
 
 const ClearLogs = async () => {
-    await DeleteRowData(dbName, modelName);
+    await DeleteRowData(collectionName, documentName);
 }
 
 const ClearLatestLog = async () => {
-    await DeleteRowData(dbName, modelName, {key: 'id', value: `(SELECT MAX(id) FROM ${modelName})`});
+    await DeleteRowData(collectionName, documentName, {key: 'id', value: `(SELECT MAX(id) FROM ${documentName})`});
 }
 
 export type {
@@ -86,11 +77,4 @@ export {
     LogoutUser,
     ClearLogs,
     ClearLatestLog,
-
-    Enum
-};
-
-export default {
-    name: modelName,
-    columns: columns
 };

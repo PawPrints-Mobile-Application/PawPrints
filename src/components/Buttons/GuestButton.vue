@@ -3,23 +3,12 @@
 </template>
 <script setup lang="ts">
 import { TextButton } from ".";
-import { SigninProps } from "../../server/authentication/SigninUser";
+import SigninUser from "../../server/authentication/SigninUser";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
 
-const GuestSignIn = async () => {
-  await SigninProps(
-    {
-      uid: new Date()[Symbol.toPrimitive]('number').toString(),
-      displayName: "Guest",
-      email: null,
-    },
-    new Date().toLocaleDateString(),
-    new Date().toLocaleTimeString()
-  );
-  Redirect();
-};
+const GuestSignIn = () => SigninUser().then(() => Redirect());
 </script>
 <style scoped>
 .text-button {

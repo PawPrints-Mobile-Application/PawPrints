@@ -1,7 +1,7 @@
 import { CreateTable as MakeTable, InsertRowData, ReadRowData, UpdateRowData, DeleteRowData } from "../..";
-
-const dbName = 'Guest';
-const modelName = 'DogProfile';
+import { Props } from "../../../models/User/DogProfile";
+const collectionName = 'Guest'; // TODO: change to 'Users
+const documentName = 'DogProfile';
 const columns = `
 pid TEXT PRIMARY KEY UNIQUE NOT NULL,
 uid TEXT ,
@@ -12,29 +12,6 @@ color TEXT,
 inoutdoor INTEGER,
 fixing INTEGER
 `;
-
-const Enum = {
-    fixing: {
-        0: 'none',
-        1: 'neutered',
-        2: 'spayed',
-    },
-    inoudoor: {
-        0: 'indoor',
-        1: 'outdoor'
-    }
-};
-interface Props {
-    pid: string,
-    uid: string,
-    name: string,
-    birthday: string,
-    breed: string,
-    color: string,
-    inoutdoor: number,
-    fixing: number
-};
-
 const ConvertToMap = (props: Props) => {
     const temp = new Map();
     temp.set('pid', props.pid);
@@ -49,39 +26,35 @@ const ConvertToMap = (props: Props) => {
 }
 
 const CreateTable = async () => {
-    await MakeTable(dbName, modelName, columns);
+    await MakeTable(collectionName, documentName, columns);
 }
 
 const InsertData = async (props: Props) => {
     const map = ConvertToMap(props);
     const keys = Array.from(map.keys());
     const values = Array.from(map.values());
-    await InsertRowData(dbName, modelName, {keys, values});
+    await InsertRowData(collectionName, documentName, {keys, values});
 };
 
-const GetAllData = async () => await ReadRowData(dbName, modelName);
+const GetAllData = async () => await ReadRowData(collectionName, documentName);
 
-const GetData = async (pid: string) => await ReadRowData(dbName, modelName, {key: 'pid', value: pid});
+const GetData = async (pid: string) => await ReadRowData(collectionName, documentName, {key: 'pid', value: pid});
 
 const UpdateData = async (props: Props) => {
     const identifierKey = 'pid';
     const map = ConvertToMap(props);
     const keys = Array.from(map.keys());
     const values = Array.from(map.values());
-    await UpdateRowData(dbName, modelName, {keys, values}, {key: identifierKey, value: props[identifierKey]});
+    await UpdateRowData(collectionName, documentName, {keys, values}, {key: identifierKey, value: props[identifierKey]});
 };
 
 const DeleteAllData = async () => {
-    await DeleteRowData(dbName, modelName);
+    await DeleteRowData(collectionName, documentName);
 }
 
 const DeleteData = async (pid: string) => {
-    await DeleteRowData(dbName, modelName, {key: 'pid', value: pid});
+    await DeleteRowData(collectionName, documentName, {key: 'pid', value: pid});
 }
-
-export type {
-    Props
-};
 
 export {
     ConvertToMap,
@@ -92,11 +65,4 @@ export {
     UpdateData,
     DeleteData,
     DeleteAllData,
-
-    Enum
-};
-
-export default {
-    name: modelName,
-    columns: columns
 };
