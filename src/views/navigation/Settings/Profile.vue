@@ -11,7 +11,7 @@
 import { SettingsLayout } from "../../../layout";
 import { InputPhoto } from "../../../components/Forms";
 import { reactive } from "vue";
-import signup from "../../templates/auth/signup.vue";
+// import signup from "../../templates/auth/signup.vue";
 
 const form = reactive({
   photo: "",

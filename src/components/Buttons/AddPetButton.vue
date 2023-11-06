@@ -5,7 +5,7 @@
       <div id="button-line-2" class="button-line" />
     </button>
     <Modal
-    ref="modal"
+      ref="modal"
       :trigger="`add-pet-${id}`"
       title="Doggo Profile"
       :max-pages="pages.length"
@@ -51,11 +51,15 @@ const currentPage = ref(1);
 const disabler = computed(() => {
   switch (currentPage.value) {
     case 1:
-      return [form.name, form.birthday, form.breed, form.color].map(value => value === '').reduce((acc, val) => acc || val);
+      return [form.name, form.birthday, form.breed, form.color]
+        .map((value) => value === "")
+        .reduce((acc, val) => acc || val);
     default:
-      return [form.inoutdoors, form.fixing].map(value => value === '').reduce((acc, val) => acc || val);
+      return [form.inoutdoors, form.fixing]
+        .map((value) => value === "")
+        .reduce((acc, val) => acc || val);
   }
-})
+});
 
 const ClearForm = () => {
   form.name = "";

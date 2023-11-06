@@ -14,8 +14,8 @@
           <ion-icon
             :icon="
               route.path === currentRoute
-                ? route.icons.active
-                : route.icons.default
+                ? route.icons!.active
+                : route.icons!.default
             "
             :color="route.path === currentRoute ? 'tertiary' : 'black'"
           />

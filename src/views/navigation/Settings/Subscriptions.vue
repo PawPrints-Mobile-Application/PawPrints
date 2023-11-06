@@ -47,13 +47,13 @@ const subscriptions = [
 
 onMounted(() => {
   switch (localStorage.getItem("authType")) {
-    case AuthType[1]:
+    case new AuthType().guest:
       current.value = 0;
       break;
-    case AuthType[2]:
+    case new AuthType().free:
       current.value = 1;
       break;
-    case AuthType[3]:
+    case new AuthType().pawmium:
       current.value = 2;
       break;
     default:

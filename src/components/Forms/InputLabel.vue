@@ -1,8 +1,8 @@
 <template>
-    <label class="input-label" :for="for">{{ label }}</label>
+    <label class="input-label" :for="id">{{ label }}</label>
 </template>
 <script setup lang="ts">
-defineProps(['for', 'label'])
+defineProps(['id', 'label'])
 </script>
 <style scoped>
 label {

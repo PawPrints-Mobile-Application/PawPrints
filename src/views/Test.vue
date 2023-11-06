@@ -5,7 +5,8 @@
     <!-- <InputToggle id="Radio" label="Radio" v-model:model-value="value" design="input-only">
     <span>yeah <a @click="() => console.log(true)">22</a> dwadwad</span>
   </InputToggle> -->
-  <InputPhoto name="Photo" v-model:value="value" has-change-button/>
+  <!-- <InputPhoto name="Photo" v-model:value="value" has-change-button/> -->
+  <input type="color">
   </page-layout>
 </template>
 <script setup lang="ts">
