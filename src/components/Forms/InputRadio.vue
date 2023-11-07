@@ -1,11 +1,6 @@
 <template>
-  <InputWrapper
-    :label="label"
-    :id="id"
-    :design="design"
-    class="input-radio"
-    :hide-label="hideLabel"
-  >
+  <section class="input-radio default-input" :id="id">
+    <InputLabel :value="label" v-show="!!label" />
     <div class="options">
       <div class="option" v-for="(option, key) in getOptions">
         <div class="option-input">
@@ -19,7 +14,7 @@
           <div class="custom-input" v-show="selected === key" />
         </div>
         <label class="option-label" :for="`${id}-${key}-${option}`">
-          <span v-if="!enableOthers || key !== getOptions.length - 1">{{
+          <span v-if="!addOthers || key !== getOptions.length - 1">{{
             option
           }}</span>
           <input
@@ -33,11 +28,11 @@
         </label>
       </div>
     </div>
-  </InputWrapper>
+  </section>
 </template>
 <script setup lang="ts">
-import { InputWrapper } from ".";
 import { ref, computed } from "vue";
+import { InputLabel } from ".";
 
 const props = defineProps({
   label: String,
@@ -45,34 +40,29 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  design: {
-    type: String,
-    default: "classic",
-    validators: (value: string) =>
-      ["classic", "input-only", "label-inline"].includes(value),
-  },
   options: {
     type: Array<String>,
     required: true,
   },
-  hideLabel: Boolean,
-  enableOthers: Boolean,
-  modelValue: String
+  addOthers: Boolean,
+  value: String,
 });
 
 const Select = (key: number) => {
   selected.value = key;
-  emit("update:modelValue", getOptions.value[selected.value]);
+  emit("update:value", getOptions.value[selected.value]);
 };
 
 const others = ref("");
 const getOptions = computed(() => {
-  if (!props.enableOthers) return props.options;
+  if (!props.addOthers) return props.options;
   return props.options.concat([others.value]);
 });
 
-const selected = ref(!!props.modelValue ? getOptions.value.indexOf(props.modelValue) : -1);
-const emit = defineEmits(["update:modelValue"]);
+const selected = ref(
+  !!props.value ? getOptions.value.indexOf(props.value) : -1
+);
+const emit = defineEmits(["update:value"]);
 </script>
 <style scoped>
 .input-radio {

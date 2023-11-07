@@ -1,5 +1,6 @@
 <template>
   <section class="input-photo" :data-shape="shape">
+    <InputLabel :value="label" v-show="!!label" />
     <section class="wrapper">
       <div>
         <img :src="value" />
@@ -23,9 +24,10 @@
 <script setup lang="ts">
 import { PawPrints } from "../../assets/images";
 import { onMounted, ref, computed, WritableComputedRef } from "vue";
-import { InputButtonPhoto } from ".";
+import { InputButtonPhoto, InputLabel } from ".";
 
 const props = defineProps({
+  label: String,
   name: {
     type: String,
     required: true,
@@ -77,9 +79,9 @@ const SetValue = (file: Blob | undefined | null = null) => {
 };
 
 onMounted(() => {
-    if (!props.value || props.value === '') {
-      _value.value = defaultPhoto.value;
-    }
+  if (!props.value || props.value === "") {
+    _value.value = defaultPhoto.value;
+  }
 });
 
 const emit = defineEmits(["update:value"]);
@@ -114,7 +116,7 @@ const emit = defineEmits(["update:value"]);
 .input-photo {
   min-width: 50px;
   --size: 100px;
-  width: var(--size);
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -135,11 +137,11 @@ const emit = defineEmits(["update:value"]);
       height: 200%;
 
       > * {
-        width: 100%;
         height: 100%;
       }
 
       > input {
+        width: 100%;
         opacity: 0;
         position: relative;
         transform: translateY(-100%);

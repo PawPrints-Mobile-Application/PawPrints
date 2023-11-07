@@ -1,11 +1,6 @@
 <template>
-  <InputWrapper
-    :label="label"
-    :id="id"
-    :design="design"
-    class="input-check"
-    :hide-label="hideLabel"
-  >
+  <section class="input-checkbox default-input">
+    <InputLabel :value="label" v-show="!!label" />
     <div class="options">
       <div class="option" v-for="(option, key) in getOptions">
         <div class="option-input">
@@ -19,7 +14,7 @@
           <div class="custom-input" v-show="selected.includes(key)" />
         </div>
         <label class="option-label" :for="`${id}-${key}-${option}`">
-          <span v-if="!enableOthers || key !== getOptions.length - 1">{{
+          <span v-if="!addOthers || key !== getOptions.length - 1">{{
             option
           }}</span>
           <input
@@ -33,31 +28,24 @@
         </label>
       </div>
     </div>
-  </InputWrapper>
+  </section>
 </template>
 <script setup lang="ts">
-import { InputWrapper } from ".";
 import { ref, computed, Ref } from "vue";
+import { InputLabel } from ".";
 
-const selected: Ref<Array<number>> = ref([]);
 const props = defineProps({
   label: String,
   id: {
     type: String,
     required: true,
   },
-  design: {
-    type: String,
-    default: "classic",
-    validators: (value: string) =>
-      ["classic", "input-only", "label-inline"].includes(value),
-  },
   options: {
     type: Array<String>,
     required: true,
   },
-  hideLabel: Boolean,
-  enableOthers: Boolean,
+  addOthers: Boolean,
+  value: Array<String>,
 });
 
 const Toggle = (key: number) => {
@@ -72,10 +60,13 @@ const Toggle = (key: number) => {
 
 const others = ref("");
 const getOptions = computed(() => {
-  if (!props.enableOthers) return props.options;
+  if (!props.addOthers) return props.options;
   return props.options.concat([others.value]);
 });
 
+const selected: Ref<Array<number>> = ref(
+  !!props.value ? props.value.map(v => getOptions.value.indexOf(v)) : []
+);
 const emit = defineEmits(["update:modelValue"]);
 </script>
 <style scoped>

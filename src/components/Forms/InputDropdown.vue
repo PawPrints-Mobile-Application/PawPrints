@@ -1,111 +1,71 @@
 <template>
-  <div class="input-dropdown">
-    <InputText
-      ref="input"
-      type="text"
-      :label="label"
-      :id="id"
+  <section class="input-dropdown default-input">
+    <InputLabel :value="label" v-show="!!label" />
+    <InputBox
+      :value="!!hideInput && value === '' ? placeholder : value"
+      @update:value="(v) => (value = v)"
+      :freeze="!!hideInput"
       :placeholder="placeholder"
-      v-model:modelValue="value"
-      hideHelper
-      :required="required"
-      :icon="icon"
       @click="
         () => {
-          if (!!noIcon) Expand();
+          if (!!hideInput) state = !state;
         }
       "
-      @icon-click="Expand"
-      :design="!noIcon ? 'classic' : 'input-only'"
-    />
-    <Popup v-model:model-value="state.expand" @click="Collapse">
+      :hideIcon="hideIcon"
+    >
+      <ButtonExpand v-model:expand="state" />
+    </InputBox>
+    <Popup v-model:model-value="state">
       <template #content="{ reverseValue }">
-        <InputScroll
-          :id="`scroll-${id}`"
-          v-model:model-value="value"
+        <InputSelect
+          v-model:value="value"
           :options="options"
-          :default="default"
-          @click="() => reverseValue()"
+          @click="reverseValue"
+          :count="count"
         />
       </template>
     </Popup>
-  </div>
+  </section>
 </template>
-
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
-import {
-  chevronExpand as iconExpand,
-  chevronCollapse as iconCollapse,
-} from "ionicons/icons";
+import { InputBox, InputSelect, InputLabel } from ".";
+import { ButtonExpand } from "../Buttons";
+import { ref, computed } from "vue";
 import Popup from "../Modals/Popup.vue";
-import { InputScroll, InputText } from ".";
 
-const input = ref();
-const icon = ref(iconExpand);
 const props = defineProps({
   label: String,
-  id: {
+  hideIcon: Boolean,
+  hideInput: Boolean,
+  placeholder: {
+    type: String,
+    default: "Select a value",
+  },
+  options: Array<String>,
+  value: {
     type: String,
     required: true,
   },
-  required: Boolean,
-  placeholder: String,
-  modelValue: {
-    type: String,
-    required: true,
+  count: {
+    type: Number,
+    default: 5,
   },
-  modelValid: Boolean,
-  design: {
-    type: String,
-    default: "classic",
-    validators: (value: string) => ["classic", "input-only", "label-inline"].includes(value),
-  },
-  default: Number,
-  options: {
-    type: Array<string>,
-    required: true,
-  },
-
-  // Actions
-  disabled: Boolean,
-  noIcon: Boolean,
 });
 
+const state = ref(false);
 const value = computed({
   get() {
-    return props.modelValue;
+    return props.value;
   },
   set(value) {
-    emit("input", value);
-    emit("update:modelValue", value);
+    emit("update:value", value);
   },
 });
 
-const state = reactive({
-  expand: false,
-});
-
-const Expand = () => {
-  state.expand = true;
-  input.value.SetIcon(iconCollapse);
-};
-
-const Collapse = () => {
-  state.expand = false;
-  input.value.SetIcon(iconExpand);
-};
-
-onMounted(() => {
-  if (!props.default) return;
-  value.value = props.options[props.default];
-});
-
-const emit = defineEmits(["update:modelValue", "focus", "blur", "input"]);
+const emit = defineEmits(["update:value"]);
 </script>
-
 <style scoped>
-.input-dropdown, .input-text  {
+.input-dropdown {
   width: 100%;
 }
 </style>
