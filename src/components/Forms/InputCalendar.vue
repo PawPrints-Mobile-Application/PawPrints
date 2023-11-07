@@ -9,6 +9,7 @@
           :options="constants.months"
           hide-icon
           hide-input
+          :count="12"
         />
         <InputDropdown
           class="year"
@@ -17,6 +18,7 @@
           :options="GetYears()"
           hide-icon
           hide-input
+          :count="15"
         />
         <ForwardButton class="button" @click="() => MoveMonth(1)" />
       </header>

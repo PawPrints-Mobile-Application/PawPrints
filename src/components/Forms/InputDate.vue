@@ -1,5 +1,6 @@
 <template>
     <section class="input-date default-input">
+    <InputLabel :value="label" v-show="!!label" />
       <InputBox
         :value="!!hideInput && value === '' ? placeholder : value"
         @update:value="(v) => (value = v)"
@@ -22,12 +23,13 @@
     </section>
   </template>
   <script setup lang="ts">
-  import { InputBox, InputCalendar } from ".";
+  import { InputBox, InputCalendar, InputLabel } from ".";
   import { ButtonCalendar } from "../Buttons";
   import { ref, computed } from "vue";
   import Popup from "../Modals/Popup.vue";
   
   const props = defineProps({
+    label: String,
     hideIcon: Boolean,
     hideInput: Boolean,
     placeholder: {

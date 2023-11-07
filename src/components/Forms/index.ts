@@ -6,6 +6,12 @@ import InputSelect from "./InputSelect.vue";
 import InputDropdown from "./InputDropdown.vue";
 import InputDate from "./InputDate.vue";
 import InputCalendar from "./InputCalendar.vue";
+import InputColorPicker from "./InputColorPicker.vue";
+import InputColor from "./InputColor.vue";
+import InputButtonPhoto from "./InputButtonPhoto.vue";
+import InputPhoto from "./InputPhoto.vue";
+import InputRadio from "./InputRadio.vue";
+import InputCheckbox from "./InputCheckbox.vue";
 
 class HelperConstructor {
   text: string;
@@ -41,6 +47,12 @@ export {
   InputDropdown,
   InputDate,
   InputCalendar,
+  InputColorPicker,
+  InputColor,
+  InputButtonPhoto,
+  InputPhoto,
+  InputRadio,
+  InputCheckbox,
 
   HelperConstructor,
   InputValidator

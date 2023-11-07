@@ -1,5 +1,6 @@
 <template>
   <section class="input-dropdown default-input">
+    <InputLabel :value="label" v-show="!!label" />
     <InputBox
       :value="!!hideInput && value === '' ? placeholder : value"
       @update:value="(v) => (value = v)"
@@ -20,19 +21,20 @@
           v-model:value="value"
           :options="options"
           @click="reverseValue"
-          :count="5"
+          :count="count"
         />
       </template>
     </Popup>
   </section>
 </template>
 <script setup lang="ts">
-import { InputBox, InputSelect } from ".";
+import { InputBox, InputSelect, InputLabel } from ".";
 import { ButtonExpand } from "../Buttons";
 import { ref, computed } from "vue";
 import Popup from "../Modals/Popup.vue";
 
 const props = defineProps({
+  label: String,
   hideIcon: Boolean,
   hideInput: Boolean,
   placeholder: {
@@ -43,6 +45,10 @@ const props = defineProps({
   value: {
     type: String,
     required: true,
+  },
+  count: {
+    type: Number,
+    default: 5,
   },
 });
 

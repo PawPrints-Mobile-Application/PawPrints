@@ -1,24 +1,24 @@
 <template>
   <page-layout>
-    <InputDate
-      label="Label"
+    <InputCheckbox
+    label="Radio"
+      id="radio"
       v-model:value="value"
-      required
+      name="photo"
       :options="months"
-      hideInput
     />
     <!-- <input type="color"> -->
   </page-layout>
 </template>
 <script setup lang="ts">
 import { PageLayout } from "../layout";
-import { InputDate } from "../components/Forms/";
+import { InputCheckbox } from "../components/Forms/";
 import { SignupValidator } from "../server/rulesets";
 
 import { ref, watch } from "vue";
 // import { DogPreview } from "../components/Cards";
 
-const value = ref("");
+const value = ref([]);
 
 watch(value, () => console.log(value.value));
 

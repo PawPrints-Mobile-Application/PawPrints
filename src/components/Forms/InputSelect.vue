@@ -60,6 +60,7 @@ onMounted(() => {
   --count: 5;
 
   outline: 2px solid var(--outline-color);
+  min-width: 100px;
   width: max-content;
   border-radius: var(--border-radius);
   padding: 0;
@@ -70,7 +71,7 @@ onMounted(() => {
   > .items {
     padding: 0;
     margin: 0;
-    width: max-content;
+    width: 100%;
     list-style-type: none;
 
     > .item {
