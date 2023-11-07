@@ -1,4 +1,3 @@
-import AddPetButton from "./AddPetButton.vue";
 import BackButton from "./BackButton.vue";
 import ButtonModal from "./ButtonModal.vue";
 import ButtonSignOut from "./ButtonSignOut.vue";
@@ -8,9 +7,9 @@ import IconButton from "./IconButton.vue";
 import GuestButton from "./GuestButton.vue";
 import SearchButton from "./SearchButton.vue";
 import TextButton from "./TextButton.vue";
+import ButtonExpand from "./ButtonExpand.vue";
 
 export {
-  AddPetButton,
   BackButton,
   ButtonModal,
   ButtonSignOut,
@@ -19,5 +18,6 @@ export {
   IconButton,
   GuestButton,
   SearchButton,
-  TextButton
+  TextButton,
+  ButtonExpand
 };

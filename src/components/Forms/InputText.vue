@@ -1,137 +1,136 @@
 <template>
-  <InputWrapper
-    :label="label"
-    :id="id"
-    :design="design"
-    class="input-text"
-    :hide-label="hideLabel"
-  >
-    <RawInputText
-      ref="input"
-      :type="type"
-      :label="label"
-      :id="id"
-      :placeholder="placeholderRef"
-      :required="required"
-      v-model:modelValid="valid"
-      v-model:modelValue="value"
-      :validators="validators"
-      :hideHelper="hideHelper"
-      :design="design === 'label-inline' ? 'input-only' : design"
-      :maxLength="maxLength"
+  <section class="input-text default-input">
+    <section class="header">
+      <InputLabel :value="label" v-show="!!label" />
+      <span
+        class="requirement"
+        v-show="!!required || (state.taken && !!validators)"
+        :data-color="validity.requirementColor"
+        >{{ validity.requirementText }}</span
+      >
+    </section>
+    <InputBox
+      v-model:value="value"
+      @input="emit('input')"
+      @change="emit('change')"
       :disabled="disabled"
-      :no-validate="noValidate"
-      :show="show"
-      :icon="icon"
-      @input="(value) => emit('input', value)"
-      @change="(value) => emit('change', value)"
-      @focus="() => {
-        emit('focus');
-        if (design !== 'label-inline') return;
-        placeholderRef = placeholder!;
-        hideLabel = false;
-      }"
-      @blur="
-        () => {
-          emit('blur');
-          if (design !== 'label-inline') return;
-          placeholderRef = '';
-          hideLabel = value === '';
-        }
-      "
-      @validity="(value) => emit('validity', value)"
-      @iconClick="() => emit('iconClick')"
+      :type="type"
+      :freeze="freeze"
     />
-  </InputWrapper>
+    <InputHelper :validators="validators" :validated="validity.values" />
+  </section>
 </template>
-
 <script setup lang="ts">
-import { RawInputText, InputWrapper } from ".";
-import { Validator } from "../../utils";
-import { computed, ref } from "vue";
+import { InputLabel, InputBox, InputHelper, InputValidator } from ".";
+import { computed, reactive } from "vue";
 
-const input = ref();
 const props = defineProps({
   label: String,
-  id: {
+  required: Boolean,
+  value: {
     type: String,
     required: true,
   },
+  disabled: Boolean,
   type: {
     type: String,
     default: "text",
-    validators: (value: string) =>
-      ["text", "password", "email", "date", "number"].includes(value),
+    validator: (value: string) =>
+      ["text", "email", "password", "color"].includes(value),
   },
-  required: Boolean,
-  validators: Array<Validator>,
-  placeholder: String,
-  modelValue: {
-    type: String,
-    required: true,
-  },
-  modelValid: Boolean,
-  design: {
-    type: String,
-    default: "classic",
-    validators: (value: string) =>
-      ["classic", "input-only", "label-inline"].includes(value),
-  },
-  maxLength: {
-    type: Number,
-    default: 9999,
-  },
-
-  // Actions
-  disabled: Boolean,
-  // Only works on passwords
-  show: {
-    type: Boolean,
-    default: false,
-  },
-  hideHelper: Boolean,
-
-  icon: String,
-  noValidate: Boolean,
+  validators: Array<InputValidator>,
+  freeze: Boolean,
 });
-
-const placeholderRef = ref(
-  props.design === "label-inline" ? "" : props.placeholder
-);
-const hideLabel = ref(true);
 
 const value = computed({
   get() {
-    return props.modelValue;
+    return props.value;
   },
   set(value) {
-    emit("update:modelValue", value);
+    state.taken = value !== "";
+    Evaluate(value);
+    emit("update:value", value);
   },
 });
 
-const valid = computed({
-  get() {
-    return props.modelValid;
-  },
-  set(valid) {
-    emit("update:modelValid", valid);
-  },
+const state = reactive({
+  taken: false,
 });
 
-const RefreshIcon = () => input.value.GetIcon();
-const SetIcon = (icon: string) => input.value.SetIcon(icon);
-const ForceFocus = () => input.value.ForceFocus();
+const validity = reactive({
+  values: new Array<boolean>(),
+  strength: -2,
+  requirementText: "Required",
+  requirementColor: "danger",
+});
+
+const Evaluate = (value: string) => {
+  if (!props.validators) return;
+  let considered = true;
+  let accepted = true;
+
+  validity.values = props.validators.map((validator) => {
+    const temp = validator.callback(value);
+    accepted &&= temp;
+    if (validator.helper.intensity === "danger") considered &&= temp;
+    return temp;
+  });
+
+  validity.strength =
+    Number(accepted) + Number(considered) + Number(state.taken) - 2;
+
+  switch (validity.strength) {
+    case 1:
+      validity.requirementText = "Accepted";
+      validity.requirementColor = "success";
+      emit("valid");
+      emit("accepted");
+      break;
+    case 0:
+      validity.requirementText = "Considered";
+      validity.requirementColor = "warning";
+      emit("considered");
+      break;
+    case -1:
+      validity.requirementText = "Invalid";
+      validity.requirementColor = "danger";
+      emit("invalid");
+      break;
+    default:
+      validity.requirementText = "Required";
+      validity.requirementColor = "danger";
+      emit("invalid");
+      break;
+  }
+
+  emit("validate", validity.strength);
+};
 
 const emit = defineEmits([
-  "update:modelValue",
-  "validity",
-  "update:modelValid",
-  "focus",
-  "blur",
+  "update:value",
   "input",
-  "iconClick",
   "change",
+  "icon:click",
+  "validate",
+  "valid",
+  "invalid",
+  "accepted",
+  "considered",
 ]);
-
-defineExpose({ ForceFocus, RefreshIcon, SetIcon });
 </script>
+<style scoped>
+.input-text {
+  display: flex;
+  flex-direction: column;
+
+  > .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > .requirement {
+      font-size: var(--fs4);
+    }
+  }
+}
+</style>

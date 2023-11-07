@@ -1,13 +1,12 @@
 <template>
-    <label class="input-label" :for="id">{{ label }}</label>
+    <label class="input-label text font-bold" :for="props.for">{{ value }}</label>
 </template>
 <script setup lang="ts">
-defineProps(['id', 'label'])
+const props = defineProps({
+    for: String,
+    value: String
+})
 </script>
 <style scoped>
-label {
-  font-family: Rubik;
-  font-size: var(--fs3);
-  font-weight: 700;
-}
+    
 </style>

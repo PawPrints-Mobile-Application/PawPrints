@@ -1,5 +1,5 @@
 // import { GetDocument } from "../firebase";
-import { Validator } from "../../utils";
+import {InputValidator} from '../../components/Forms/'
 
 const reservedUsernames = ["Guest"];
 
@@ -16,7 +16,7 @@ const SpecialCharacterDetector = (value: string) =>
 
 const SignupValidator = {
   username: [
-    new Validator(
+    new InputValidator(
       (value: string) =>
         StringMinMax(value, 4, 30) && !reservedUsernames.includes(value),
       "Must be 4 to 20 characters!",
@@ -24,7 +24,7 @@ const SignupValidator = {
     ),
   ],
   email: [
-    new Validator(
+    new InputValidator(
       (value: string) =>
         EmailFormatDetector(value),
       "Email must be valid",
@@ -32,30 +32,30 @@ const SignupValidator = {
     ),
   ],
   password: [
-    new Validator(
+    new InputValidator(
       (value: string) => StringMinMax(value, 8),
       "Password must be at least 8 characters!",
       "danger"
     ),
-    new Validator(
+    new InputValidator(
       (value: string) =>
       LowerCaseDetector(value),
       "Must have at least one lowercase letter!",
       "danger"
     ),
-    new Validator(
+    new InputValidator(
       (value: string) =>
       NumberDetector(value),
       "Must have at least one number!",
       "danger"
     ),
-    new Validator(
+    new InputValidator(
       (value: string) =>
       UpperCaseDetector(value),
       "Could have at least one uppercase letter!",
       "warning"
     ),
-    new Validator(
+    new InputValidator(
       (value: string) =>
       SpecialCharacterDetector(value),
       "Could have at least one special character!",
@@ -66,7 +66,7 @@ const SignupValidator = {
 
 const SigninValidator = {
   email: [
-    // new Validator(
+    // new InputValidator(
     //   async (email: string) => {
     //     const temp = (await GetDocument("Accounts", email)).exists();
     //     console.log(temp);
@@ -75,7 +75,7 @@ const SigninValidator = {
     //   "Email must be valid",
     //   "danger"
     // ),
-    new Validator(
+    new InputValidator(
       (value: string) =>
         EmailFormatDetector(value),
       "Email must be valid",
