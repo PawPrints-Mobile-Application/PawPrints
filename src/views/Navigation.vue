@@ -64,18 +64,4 @@ export default {
 .tab-button {
   --ripple-color: var(--ion-color-tertiary);
 }
-
-.tab-button::after {
-  content: "";
-  --width: calc(80vw / 4);
-  --height: 40px;
-  border-radius: 10px;
-  width: var(--width);
-  height: var(--height);
-  position: absolute;
-  transform: translate(
-    calc((-3px - var(--width) / 2)),
-    calc((-28px - var(--height) / 2))
-  );
-}
 </style>

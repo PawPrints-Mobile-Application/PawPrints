@@ -17,22 +17,33 @@
         <slot name="pageContent"><slot /></slot>
       </main>
     </ion-content>
+    <ion-footer
+      class="layout-wrapper footer ion-no-border"
+      v-show="showFooter"
+      :translucent="true"
+      collapse="fade"
+    >
+      <slot name="pageFooter" />
+    </ion-footer>
   </ion-page>
 </template>
 
 <script setup lang="ts">
 import { useSlots } from "vue";
-import { IonPage, IonHeader, IonContent } from "@ionic/vue";
+import { IonPage, IonHeader, IonContent, IonFooter } from "@ionic/vue";
 const slots = useSlots();
 
 const showHeader = !!slots.pageHeader;
+const showFooter = !!slots.pageFooter;
 </script>
 
 <style scoped>
 .ion-page.page-layout {
   --padding-side: 15px;
-  --header-padding-top: 20;
+  --header-padding-top: 20px;
   --header-padding-bottom: 0;
+  --footer-padding-top: 0;
+  --footer-padding-bottom: 20px;
 
   --main-justify-content: center;
   overflow-y: scroll;
@@ -54,6 +65,18 @@ const showHeader = !!slots.pageHeader;
   --padding-top: var(--header-padding-top);
   --padding-bottom: var(--header-padding-bottom);
   height: var(--header-height);
+  min-height: 60px;
+}
+
+.ion-page.page-layout .footer {
+  transform: translateY(-56px);
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  --padding-top: var(--footer-padding-top);
+  --padding-bottom: var(--footer-padding-bottom);
+  height: var(--footer-height);
   min-height: 60px;
 }
 
