@@ -1,5 +1,5 @@
 <template>
-  <section class="popup" v-if="props.modelValue === !props.reversed">
+  <section class="popup" v-if="props.value === !props.reversed">
     <div id="backdrop" @click="reverseValue" />
     <div class="content">
       <slot name="content" :reverseValue="reverseValue" />
@@ -8,7 +8,7 @@
 </template>
 <script setup lang="ts">
 const props = defineProps({
-  modelValue: {
+  value: {
     type: Boolean,
     default: false,
     required: true,
@@ -18,9 +18,9 @@ const props = defineProps({
 
 const reverseValue = () => {
   emit("click");
-  emit("update:modelValue", !!props.reversed);
+  emit("update:value", !!props.reversed);
 };
-const emit = defineEmits(["update:modelValue", "click"]);
+const emit = defineEmits(["update:value", "click"]);
 </script>
 <style scoped>
 .popup {
@@ -46,5 +46,8 @@ const emit = defineEmits(["update:modelValue", "click"]);
 
 .content {
   z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -15,7 +15,7 @@
       >
         <ButtonCalendar v-model:expand="state" />
       </InputBox>
-      <Popup v-model:model-value="state">
+      <Popup v-model:value="state">
         <template #content="{ reverseValue }">
             <InputCalendar v-model:value="value" @click="reverseValue" />
         </template>

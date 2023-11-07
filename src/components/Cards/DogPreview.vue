@@ -2,15 +2,11 @@
   <section class="dog-preview">
     <h1>My Dogs</h1>
     <header v-show="!state.noDogsFound">
-      <Searchbox
-        id="search"
-        v-model="searchDog"
+      <InputSearch
+        v-model:value="searchDog"
         @return="FilterDogs"
         @expand="() => (state.searchExpand = true)"
         @collapse="() => (state.searchExpand = false)"
-        collapse
-        collapseOnReturn
-        onInputReturn
       />
       <AddPetButton
         id="header-button"
@@ -31,7 +27,7 @@
 <script setup lang="ts">
 import { DogCard } from ".";
 import { AddPetButton } from "../Buttons";
-import { Searchbox } from "../Forms";
+import { InputSearch } from "../Forms";
 import { onMounted, reactive, ref } from "vue";
 import {
   GetAllData,

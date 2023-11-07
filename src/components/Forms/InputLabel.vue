@@ -1,5 +1,5 @@
 <template>
-  <section class="input-label">
+  <section class="input-label default-input">
     <label class="text font-bold" :for="props.for">{{ value }}</label>
     <span
       class="requirement"

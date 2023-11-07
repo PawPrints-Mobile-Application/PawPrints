@@ -4,28 +4,15 @@
       <InputText
         type="email"
         label="Email"
-        id="email"
         placeholder="Enter Email"
-        v-model:modelValue="form.email"
-        noValidate
+        v-model:value="form.email"
       />
 
       <InputText
         type="password"
         label="Password"
-        id="password"
         placeholder="Enter Password"
-        v-model:modelValue="form.password"
-        :show="form.showPassword"
-        noValidate
-      />
-      <br />
-
-      <InputToggle
-        id="show-password"
-        content="Show Password"
-        v-model="form.showPassword"
-        design="input-only"
+        v-model:value="form.password"
       />
 
       <TextButton
@@ -39,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { InputText, InputToggle } from "../../../components/Forms";
+import { InputText } from "../../../components/Forms";
 import { TextButton } from "../../../components/Buttons";
 
 import { SigninUser } from "../../../server/authentication";

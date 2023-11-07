@@ -6,8 +6,8 @@
       id="username"
       placeholder="Enter Username"
       required
-      v-model:modelValid="validations.username"
-      v-model:modelValue="form.username"
+      v-model:valid="validations.username"
+      v-model:value="form.username"
       :validators="SignupValidator.username"
     />
 
@@ -17,8 +17,8 @@
       id="email"
       placeholder="Enter Email"
       required
-      v-model:modelValid="validations.email"
-      v-model:modelValue="form.email"
+      v-model:valid="validations.email"
+      v-model:value="form.email"
       :validators="SignupValidator.email"
     />
 
@@ -28,17 +28,10 @@
       id="password"
       placeholder="Enter Password"
       required
-      @validity="(value) => (validations.password = value > -1)"
-      v-model:modelValue="form.password"
+      @validate="(value) => (validations.password = value > -1)"
+      v-model:value="form.password"
       :validators="SignupValidator.password"
       :show="validations.showPassword"
-    />
-
-    <InputToggle
-      id="show-password"
-      content="Show Password"
-      v-model="validations.showPassword"
-      design="input-only"
     />
 
     <InputToggle id="TOS" v-model="form.acceptTOS">

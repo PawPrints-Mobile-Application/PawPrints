@@ -43,8 +43,6 @@ const emit = defineEmits(["update:expand", "expand", "collapse"]);
   justify-content: center;
   align-items: center;
   height: 50px;
-  --translateYUp: -8px;
-  --translateYDown: 8px;
 
   > .background {
     border-radius: 5px;
@@ -68,10 +66,5 @@ const emit = defineEmits(["update:expand", "expand", "collapse"]);
     background-color: var(--background-color);
     transition: all 200ms ease-out;
   }
-}
-
-.expand {
-  --translateYUp: 8px;
-  --translateYDown: -8px;
 }
 </style>

@@ -2,10 +2,12 @@
   <section class="input-photo" :data-shape="shape">
     <InputLabel :value="label" v-show="!!label" />
     <section class="wrapper">
-      <div>
+      <div @click="() => {
+        if (!!hasChangeButton) showPhoto = true;
+      }">
         <img :src="value" />
         <input
-          :disabled="!!hasChangeButton"
+          v-show="!hasChangeButton"
           type="file"
           :name="name"
           @change="OnChange"
@@ -19,12 +21,19 @@
       :default="default"
       v-show="!!hasChangeButton"
     />
+    <Popup v-model:value="showPhoto">
+      <template #content>
+        <PhotoCard :value="value" />
+      </template>
+    </Popup>
   </section>
 </template>
 <script setup lang="ts">
 import { PawPrints } from "../../assets/images";
+import { PhotoCard } from "../Cards";
 import { onMounted, ref, computed, WritableComputedRef } from "vue";
 import { InputButtonPhoto, InputLabel } from ".";
+import Popup from "../Modals/Popup.vue";
 
 const props = defineProps({
   label: String,
@@ -78,6 +87,8 @@ const SetValue = (file: Blob | undefined | null = null) => {
   reader.readAsDataURL(file);
 };
 
+const showPhoto = ref(false);
+
 onMounted(() => {
   if (!props.value || props.value === "") {
     _value.value = defaultPhoto.value;
@@ -89,7 +100,7 @@ const emit = defineEmits(["update:value"]);
 <style scoped>
 [data-shape="square"] {
   > .wrapper {
-    border-radius: 5px;
+    --border-radius: 5px;
   }
 
   > .input-button-photo {
@@ -102,7 +113,7 @@ const emit = defineEmits(["update:value"]);
 
 [data-shape="circle"] {
   > .wrapper {
-    border-radius: 100%;
+    --border-radius: 100%;
   }
 
   > .input-button-photo {
@@ -123,6 +134,7 @@ const emit = defineEmits(["update:value"]);
   align-items: center;
 
   > .wrapper {
+    border-radius: var(--border-radius);
     width: var(--size);
     aspect-ratio: 1;
     overflow: hidden;
@@ -134,17 +146,17 @@ const emit = defineEmits(["update:value"]);
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 200%;
 
       > * {
-        height: 100%;
+        height: var(--size);
       }
 
       > input {
-        width: 100%;
+        border-radius: var(--border-radius);
+        width: var(--size);
+        aspect-ratio: 1;
         opacity: 0;
-        position: relative;
-        transform: translateY(-100%);
+        position: absolute;
       }
 
       > img {

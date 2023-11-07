@@ -114,10 +114,12 @@ const Evaluate = (value: string) => {
   }
 
   emit("validate", validity.strength);
+  emit("update:valid", validity.strength);
 };
 
 const emit = defineEmits([
   "update:value",
+  "update:valid",
   "input",
   "change",
   "icon:click",

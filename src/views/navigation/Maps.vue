@@ -1,10 +1,10 @@
 <template>
   <page-layout id="maps-page">
     <template #pageHeader>
-      <Searchbox
-        id="search"
-        v-model="searchLocation"
-        :onReturn="() => console.log(searchLocation)"
+      <InputSearch
+        v-model:value="searchLocation"
+        @return="(value) => console.log(value)"
+        keep-open
       />
     </template>
     <template #pageContent>
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Searchbox } from "../../components/Forms";
+import { InputSearch } from "../../components/Forms";
 import { PageLayout } from "../../layout";
 import { ref } from "vue";
 
@@ -38,8 +38,9 @@ export default {
 </script>
 
 <style scoped>
-.search-box {
-  width: 100%;
+.input-search {
+  transform: translateY(5px);
+
 }
 
 #background-placeholder {

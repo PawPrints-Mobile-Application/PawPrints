@@ -15,7 +15,7 @@
     >
       <ButtonExpand v-model:expand="state" />
     </InputBox>
-    <Popup v-model:model-value="state">
+    <Popup v-model:value="state">
       <template #content="{ reverseValue }">
         <InputSelect
           v-model:value="value"

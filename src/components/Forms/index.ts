@@ -11,6 +11,7 @@ import InputColor from "./InputColor.vue";
 import InputButtonPhoto from "./InputButtonPhoto.vue";
 import InputPhoto from "./InputPhoto.vue";
 import InputRadio from "./InputRadio.vue";
+import InputToggle from "./InputToggle.vue";
 import InputCheckbox from "./InputCheckbox.vue";
 import InputSearch from "./InputSearch.vue";
 
@@ -53,6 +54,7 @@ export {
   InputButtonPhoto,
   InputPhoto,
   InputRadio,
+  InputToggle,
   InputCheckbox,
   InputSearch,
 

@@ -1,16 +1,17 @@
 <template>
   <page-layout>
-    <InputSearch v-model:value="value"/>
+    <InputSearch v-model:value="value" keepOpen />
+    
   </page-layout>
 </template>
 <script setup lang="ts">
 import { PageLayout } from "../layout";
-import {InputSearch} from '../components/Forms'
+import { InputSearch } from "../components/Forms";
 
 import { ref } from "vue";
 // import { DogPreview } from "../components/Cards";
 
-const value = ref('');
+const value = ref("");
 
 // watch(value, () => console.log(value.value));
 
@@ -21,24 +22,4 @@ export default {
   name: "Test",
 };
 </script>
-<style scoped>
-a {
-  color: black;
-}
-
-.page-layout {
-  --padding-side: 10px;
-}
-
-.input-dropdown {
-  --input-width: 80px;
-}
-
-.input-text {
-  width: 100px;
-}
-
-.search-box {
-  width: 90%;
-}
-</style>
+<style scoped></style>

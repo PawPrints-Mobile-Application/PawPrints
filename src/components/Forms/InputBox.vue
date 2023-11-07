@@ -2,13 +2,17 @@
   <section class="input-box">
     <div class="input" @click="emit('click')">
       <input
+        ref="input"
         :type="type"
         v-model="value"
+        @blur="emit('blur')"
+        @focus="emit('focus')"
         @input="emit('input', value)"
         @change="emit('change', value)"
         :disabled="!!disabled"
         :placeholder="placeholder"
         v-if="!freeze"
+        v-on:keyup.enter="emit('return')"
       />
       <div v-else>{{ value }}</div>
     </div>
@@ -19,13 +23,14 @@
   </section>
 </template>
 <script setup lang="ts">
-import { computed, useSlots } from "vue";
+import { computed, useSlots, ref } from "vue";
 import { IonIcon } from "@ionic/vue";
 const slots = useSlots();
 const showIcon = computed(
   () => (!!props.icon || !!slots.default) && !props.hideIcon
 );
 
+const input = ref();
 const props = defineProps({
   value: String,
   disabled: Boolean,
@@ -50,13 +55,21 @@ const value = computed({
   },
 });
 
+const ForceFocus = () => input.value.focus();
+const ForceBlur = () => input.value.blur();
+
 const emit = defineEmits([
   "update:value",
   "input",
   "change",
   "icon:click",
   "click",
+  "return",
+  "focus",
+  "blur",
 ]);
+
+defineExpose({ ForceFocus, ForceBlur });
 </script>
 <style scoped>
 * {
@@ -71,6 +84,7 @@ const emit = defineEmits([
   background-color: var(--background-color);
   padding: 5px;
   width: 100%;
+  overflow: hidden;
 
   display: flex;
   justify-content: space-between;
@@ -81,9 +95,8 @@ const emit = defineEmits([
     flex: 1 0 0;
 
     * {
-      min-width: 10px;
+      width: 100%;
       height: var(--size);
-      flex: 1 0 10px;
       border: none;
       background: none;
       padding: 1px 2px;

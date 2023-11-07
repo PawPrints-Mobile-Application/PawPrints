@@ -2,29 +2,22 @@
   <section class="template-wrapper">
     <InputText
       type="text"
-      id="name"
-      v-model:model-value="name"
+      v-model:value="name"
       placeholder="Doggo Name"
       label="Doggo Name"
-      hide-helper
-      no-validate
     />
-    <InputDate v-model="birthday" label="Birthday" id="birthday" />
+    <InputDate v-model:value="birthday" label="Birthday" />
     <InputDropdown
-      v-model="breed"
+      v-model:value="breed"
       label="Doggo Breed"
-      id="breed"
       :options="constants.breeds"
       placeholder="Choose a breed"
     />
     <InputText
       type="text"
-      id="color"
-      v-model:model-value="color"
+      v-model:value="color"
       placeholder="Colour"
       label="Colour"
-      hide-helper
-      no-validate
     />
   </section>
 </template>
