@@ -1,17 +1,11 @@
 <template>
   <page-layout>
-    <!-- <DogPreview /> -->
-    <!-- <AddPetButton id="test" /> -->
-    <!-- <InputToggle id="Radio" label="Radio" v-model:model-value="value" design="input-only">
-    <span>yeah <a @click="() => console.log(true)">22</a> dwadwad</span>
-  </InputToggle> -->
-  <!-- <InputPhoto name="Photo" v-model:value="value" has-change-button/> -->
-  <input type="color">
+    <InputSearch v-model:value="value"/>
   </page-layout>
 </template>
 <script setup lang="ts">
 import { PageLayout } from "../layout";
-import InputPhoto from "../components/Forms/InputPhoto.vue";
+import {InputSearch} from '../components/Forms'
 
 import { ref } from "vue";
 // import { DogPreview } from "../components/Cards";

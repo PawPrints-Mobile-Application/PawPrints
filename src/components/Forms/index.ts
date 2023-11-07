@@ -12,6 +12,7 @@ import InputButtonPhoto from "./InputButtonPhoto.vue";
 import InputPhoto from "./InputPhoto.vue";
 import InputRadio from "./InputRadio.vue";
 import InputCheckbox from "./InputCheckbox.vue";
+import InputSearch from "./InputSearch.vue";
 
 class HelperConstructor {
   text: string;
@@ -53,6 +54,7 @@ export {
   InputPhoto,
   InputRadio,
   InputCheckbox,
+  InputSearch,
 
   HelperConstructor,
   InputValidator

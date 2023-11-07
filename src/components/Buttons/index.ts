@@ -8,6 +8,9 @@ import IconButton from "./IconButton.vue";
 import GuestButton from "./GuestButton.vue";
 import SearchButton from "./SearchButton.vue";
 import TextButton from "./TextButton.vue";
+import ButtonCalendar from "./ButtonCalendar.vue";
+import ButtonExpand from "./ButtonExpand.vue";
+import ButtonSearch from "./ButtonSearch.vue";
 
 export {
   AddPetButton,
@@ -19,5 +22,8 @@ export {
   IconButton,
   GuestButton,
   SearchButton,
-  TextButton
+  TextButton,
+  ButtonCalendar,
+  ButtonExpand,
+  ButtonSearch
 };
