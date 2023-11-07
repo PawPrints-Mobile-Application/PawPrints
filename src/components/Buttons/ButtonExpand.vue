@@ -1,5 +1,5 @@
 <template>
-  <section class="icon" :class="{ expand: expand }" @click="Click">
+  <section class="button-expand" :class="{ expand: expand }" @click="Click">
     <ion-icon id="icon-up" :icon="chevronUp" />
     <ion-icon id="icon-down" :icon="chevronDown" />
   </section>
@@ -22,7 +22,7 @@ const Click = () => {
 const emit = defineEmits(["update:expand", "expand", "collapse"]);
 </script>
 <style scoped>
-.icon {
+.button-expand {
   display: flex;
   flex-direction: column;
   justify-content: center;

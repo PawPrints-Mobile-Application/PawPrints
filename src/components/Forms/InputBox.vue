@@ -1,18 +1,19 @@
 <template>
   <section class="input-box">
-    <div class="input">
+    <div class="input" @click="emit('click')">
       <input
         :type="type"
         v-model="value"
         @input="emit('input', value)"
         @change="emit('change', value)"
         :disabled="!!disabled"
+        :placeholder="placeholder"
         v-if="!freeze"
       />
       <div v-else>{{ value }}</div>
     </div>
     <div class="icon" v-show="showIcon" @click="emit('icon:click')">
-      <IonIcon v-if="!!icon" :icon="icon" />
+      <ion-icon v-if="!!icon" :icon="icon" />
       <slot />
     </div>
   </section>
@@ -28,6 +29,7 @@ const showIcon = computed(
 const props = defineProps({
   value: String,
   disabled: Boolean,
+  placeholder: String,
   type: {
     type: String,
     default: "text",
@@ -48,7 +50,13 @@ const value = computed({
   },
 });
 
-const emit = defineEmits(["update:value", "input", "change", "icon:click"]);
+const emit = defineEmits([
+  "update:value",
+  "input",
+  "change",
+  "icon:click",
+  "click",
+]);
 </script>
 <style scoped>
 * {
@@ -73,8 +81,9 @@ const emit = defineEmits(["update:value", "input", "change", "icon:click"]);
     flex: 1 0 0;
 
     * {
+      min-width: 10px;
       height: var(--size);
-      width: 100%;
+      flex: 1 0 10px;
       border: none;
       background: none;
       padding: 1px 2px;
@@ -83,11 +92,16 @@ const emit = defineEmits(["update:value", "input", "change", "icon:click"]);
     > div {
       display: flex;
       align-items: center;
-      opacity: 0.7;
+      opacity: 0.5;
     }
 
     > input:is(:active, :focus, :hover) {
       outline: none;
+    }
+
+    > input::-ms-reveal,
+    input::-ms-clear {
+      display: none;
     }
   }
 
@@ -101,7 +115,6 @@ const emit = defineEmits(["update:value", "input", "change", "icon:click"]);
     align-items: center;
 
     > ion-icon {
-      outline: 2px solid black;
       font-size: var(--fs0);
     }
   }

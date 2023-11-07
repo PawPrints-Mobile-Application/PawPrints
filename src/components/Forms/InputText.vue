@@ -1,21 +1,28 @@
 <template>
   <section class="input-text default-input">
-    <section class="header">
-      <InputLabel :value="label" v-show="!!label" />
-      <span
-        class="requirement"
-        v-show="!!required || (state.taken && !!validators)"
-        :data-color="validity.requirementColor"
-        >{{ validity.requirementText }}</span
-      >
-    </section>
+    <InputLabel
+      :value="label"
+      v-show="!!label"
+      :show-requirement="!!required || (state.taken && !!validators)"
+      :requirement-color="validity.requirementColor"
+      :requirement-text="validity.requirementText"
+    />
     <InputBox
       v-model:value="value"
       @input="emit('input')"
       @change="emit('change')"
       :disabled="disabled"
-      :type="type"
+      :placeholder="placeholder"
+      :type="type === 'password' && state.show ? 'text' : type"
       :freeze="freeze"
+      :icon="
+        type === 'password' ? (state.show ? hideIcon : showIcon) : undefined
+      "
+      @icon:click="
+        () => {
+          if (type === 'password') state.show = !state.show;
+        }
+      "
     />
     <InputHelper :validators="validators" :validated="validity.values" />
   </section>
@@ -23,10 +30,12 @@
 <script setup lang="ts">
 import { InputLabel, InputBox, InputHelper, InputValidator } from ".";
 import { computed, reactive } from "vue";
+import { eye as showIcon, eyeOff as hideIcon } from "ionicons/icons";
 
 const props = defineProps({
   label: String,
   required: Boolean,
+  placeholder: String,
   value: {
     type: String,
     required: true,
@@ -55,6 +64,7 @@ const value = computed({
 
 const state = reactive({
   taken: false,
+  show: false,
 });
 
 const validity = reactive({
@@ -120,17 +130,8 @@ const emit = defineEmits([
 </script>
 <style scoped>
 .input-text {
+  width: 100%;
   display: flex;
   flex-direction: column;
-
-  > .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    > .requirement {
-      font-size: var(--fs4);
-    }
-  }
 }
 </style>

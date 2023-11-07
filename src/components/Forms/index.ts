@@ -3,6 +3,9 @@ import InputLabel from "./InputLabel.vue";
 import InputHelper from "./InputHelper.vue";
 import InputText from "./InputText.vue";
 import InputSelect from "./InputSelect.vue";
+import InputDropdown from "./InputDropdown.vue";
+import InputDate from "./InputDate.vue";
+import InputCalendar from "./InputCalendar.vue";
 
 class HelperConstructor {
   text: string;
@@ -35,6 +38,9 @@ export {
   InputHelper,
   InputText,
   InputSelect,
+  InputDropdown,
+  InputDate,
+  InputCalendar,
 
   HelperConstructor,
   InputValidator

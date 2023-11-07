@@ -8,6 +8,7 @@ import GuestButton from "./GuestButton.vue";
 import SearchButton from "./SearchButton.vue";
 import TextButton from "./TextButton.vue";
 import ButtonExpand from "./ButtonExpand.vue";
+import ButtonCalendar from "./ButtonCalendar.vue";
 
 export {
   BackButton,
@@ -19,5 +20,6 @@ export {
   GuestButton,
   SearchButton,
   TextButton,
-  ButtonExpand
+  ButtonExpand,
+  ButtonCalendar
 };
