@@ -13,7 +13,7 @@
       :options="constants.breeds"
       placeholder="Choose a breed"
     />
-    <InputText
+    <InputColor
       type="text"
       v-model:value="color"
       placeholder="Colour"
@@ -23,70 +23,74 @@
 </template>
 
 <script setup lang="ts">
-import { InputText, InputDropdown, InputDate } from "../../../components/Forms";
+import {
+  InputText,
+  InputDropdown,
+  InputDate,
+  InputColor,
+} from "../../../components/Forms";
 import { computed } from "vue";
 
 const props = defineProps({
-  modelName: {
+  name: {
     type: String,
-    default: "",
     required: true,
   },
-  modelBirthday: {
+  birthday: {
     type: String,
-    default: "",
     required: true,
   },
-  modelBreed: {
+  breed: {
     type: String,
-    default: "",
     required: true,
   },
-  modelColor: {
+  color: {
     type: String,
-    default: "",
     required: true,
   },
 });
 
 const name = computed({
   get() {
-    return props.modelName;
+    return props.name;
   },
   set(value) {
-    emit("update:modelName", value);
+    emit("update:name", value);
   },
 });
+
 const birthday = computed({
   get() {
-    return props.modelBirthday;
+    return props.birthday;
   },
   set(value) {
-    emit("update:modelBirthday", value);
+    emit("update:birthday", value);
   },
 });
+
 const breed = computed({
   get() {
-    return props.modelBreed;
+    return props.breed;
   },
   set(value) {
-    emit("update:modelBreed", value);
+    emit("update:breed", value);
   },
 });
+
 const color = computed({
   get() {
-    return props.modelColor;
+    return props.color;
   },
   set(value) {
-    emit("update:modelColor", value);
+    emit("update:color", value);
   },
 });
 
 const emit = defineEmits([
-  "update:modelName",
-  "update:modelBirthday",
-  "update:modelBreed",
-  "update:modelColor",
+  "update:name",
+  "update:birthday",
+  "update:breed",
+  "update:color",
 ]);
 const constants = {
   breeds: ["1", "2"],

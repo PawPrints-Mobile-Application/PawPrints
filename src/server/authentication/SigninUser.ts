@@ -16,7 +16,7 @@ const SigninUser = async (
 ) => {
   let props: Props = null;
   let tempUID = new Date()[Symbol.toPrimitive]("number").toString();
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if (!!form) {
       Hash.sha256(form.password)
         .then(async (value) => {
@@ -25,8 +25,8 @@ const SigninUser = async (
           }
         })
         .then(async () =>
-          signInWithEmailAndPassword(auth, form!.email, form!.password).then(
-            (userCredential) => {
+          signInWithEmailAndPassword(auth, form!.email, form!.password)
+            .then((userCredential) => {
               props = {
                 email: userCredential.user.email!,
                 uid: userCredential.user.uid,
@@ -35,8 +35,8 @@ const SigninUser = async (
               tempUID = props.uid;
               console.log("Firebase Login Successful");
               resolve(null);
-            }
-          )
+            })
+            .catch((error) => reject(error))
         );
     } else resolve(null);
   })

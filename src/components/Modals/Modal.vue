@@ -4,7 +4,7 @@
       class="layout-wrapper header ion-no-border"
       v-show="!hideHeader"
     >
-      <BackButton v-show="!hideHeaderBack" @click="CloseModal" />
+      <BackButton v-show="!hideHeaderBack" @click="CloseModal" :disabled="!!disableBack" />
       <div class="text font-rubik text-title font-bold" v-show="title">
         {{ title?.toUpperCase() }}
       </div>
@@ -26,6 +26,7 @@
       <BackButton
         v-show="!hideFooterBack"
         @click="() => (page === 1 ? CloseModal() : Back())"
+        :disabled="!!disableBack"
       />
       <ForwardButton
         v-show="!hideFooterSubmit"
@@ -89,6 +90,7 @@ const props = defineProps({
   hideFooterBack: Boolean,
   hideFooterSubmit: Boolean,
   disableNext: Boolean,
+  disableBack: Boolean,
 });
 
 const emit = defineEmits(["submit", "close", "back", "next", "update:page"]);

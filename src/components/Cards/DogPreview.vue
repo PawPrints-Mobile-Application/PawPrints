@@ -4,7 +4,7 @@
     <header v-show="!state.noDogsFound">
       <InputSearch
         v-model:value="searchDog"
-        @return="FilterDogs"
+        @input="FilterDogs"
         @expand="() => (state.searchExpand = true)"
         @collapse="() => (state.searchExpand = false)"
       />
@@ -57,7 +57,6 @@ const FilterDogs = (searchString: string) => {
       temp.push(value);
     });
     filteredDogs.value = temp;
-    console.log(temp[0]);
   }, 10);
 };
 

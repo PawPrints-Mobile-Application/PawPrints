@@ -3,41 +3,52 @@
     <InputRadio
       label="Does your dog belong indoors or outdoors?"
       id="inoutdoors"
-      v-model="_inoutdoors"
+      v-model:value="inoutdoors"
       :options="['Indoors', 'Outdoors']"
-      @input="() => emit('update:modelInoutdoors', _inoutdoors)"
     />
     <InputRadio
       label="Is your pet neutered or spayed?"
       id="fixing"
-      v-model="_fixing"
+      v-model:value="fixing"
       :options="['Neutered', 'Spayed', 'None']"
-      @input="() => emit('update:modelFixing', _fixing)"
     />
   </section>
 </template>
 
 <script setup lang="ts">
 import { InputRadio } from "../../../components/Forms";
-import { ref } from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
-  modelInoutdoors: {
+  inoutdoors: {
     type: String,
-    default: "",
     required: true,
   },
-  modelFixing: {
+  fixing: {
     type: String,
-    default: "",
     required: true,
   },
 });
 
-const _inoutdoors = ref(props.modelInoutdoors);
-const _fixing = ref(props.modelFixing);
+const inoutdoors = computed({
+  get() {
+    return props.inoutdoors;
+  },
+  set(value) {
+    emit("update:inoutdoors", value);
+  },
+});
 
-const emit = defineEmits(["update:modelInoutdoors", "update:modelFixing"]);
+const fixing = computed({
+  get() {
+    return props.fixing;
+  },
+  set(value) {
+    emit("update:fixing", value);
+  },
+});
+
+const emit = defineEmits(["update:inoutdoors", "update:fixing"]);
 </script>
 
 <script lang="ts">

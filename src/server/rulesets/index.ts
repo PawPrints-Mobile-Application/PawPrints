@@ -4,10 +4,7 @@ import { InputValidator } from "../../components/Forms";
 const reservedUsernames = ["Guest"];
 
 const StringMinMax = (value: string, min: number, max: number = -1) => value.length >= min && (max === -1 || value.length <= max);
-const EmailFormatDetector = (value: string) =>
-  value.match(
-    /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-  ) !== null;
+const EmailFormatDetector = (value: string) => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value);
 const UpperCaseDetector = (value: string) => /[A-Z]/.test(value);
 const LowerCaseDetector = (value: string) => /[a-z]/.test(value);
 const NumberDetector = (value: string) => /\d/.test(value);

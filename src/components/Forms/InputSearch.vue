@@ -12,7 +12,7 @@
       ref="input"
       :value="!!hideInput && value === '' ? placeholder : value"
       @update:value="(v) => (value = v)"
-      @blur="() => state = false"
+      @blur="() => (state = false)"
       :freeze="!!hideInput"
       :placeholder="placeholder"
       @click="
@@ -20,6 +20,7 @@
           if (!!hideInput) state = !state;
         }
       "
+      @change="emit('change', value)"
       @return="emit('return', value)"
     />
   </section>
@@ -61,10 +62,18 @@ const value = computed({
   },
   set(value) {
     emit("update:value", value);
+    emit("input", value);
   },
 });
 
-const emit = defineEmits(["update:value", "expand", "collapse", "return"]);
+const emit = defineEmits([
+  "update:value",
+  "expand",
+  "collapse",
+  "return",
+  "input",
+  "change",
+]);
 </script>
 <style scoped>
 .input-search {

@@ -1,7 +1,19 @@
 <template>
   <section class="template-wrapper">
-    <div class="form-wrapper">
+    <section class="message-processing" v-show="hideForm">
+      <div class="message-media">
+        <IonSpinner name="crescent" />
+        <img :src="PawPrints" />
+      </div>
+      <p class="message-text">Account Processing!</p>
+    </section>
+    <div class="form" :class="{ hide: hideForm }">
+      <NoteWarning v-show="noteWarning !== ''">
+        {{ noteWarning }}
+      </NoteWarning>
+
       <InputText
+        ref="email"
         type="email"
         label="Email"
         placeholder="Enter Email"
@@ -9,6 +21,7 @@
       />
 
       <InputText
+        ref="password"
         type="password"
         label="Password"
         placeholder="Enter Password"
@@ -28,20 +41,15 @@
 <script setup lang="ts">
 import { InputText } from "../../../components/Forms";
 import { TextButton } from "../../../components/Buttons";
+import { NoteWarning } from "../../../components/Texts";
 
 import { SigninUser } from "../../../server/authentication";
 
 import { computed, reactive, ref } from "vue";
-import { useIonRouter } from "@ionic/vue";
+import { useIonRouter, IonSpinner } from "@ionic/vue";
+import { PawPrints } from "../../../assets/images";
 const ionRouter = useIonRouter();
 const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
-
-const props = defineProps({
-  closeModal: {
-    type: Function,
-    default: () => null,
-  },
-});
 
 const form = reactive({
   email: "",
@@ -49,42 +57,71 @@ const form = reactive({
   showPassword: false,
 });
 
+const email = ref();
+const password = ref();
+
+const ClearForm = () => {
+  form.email = "";
+  form.password = "";
+  setTimeout(() => {
+    email.value.Reevaluate();
+    password.value.Reevaluate();
+  }, 100);
+};
+
 const processingRequest = ref(false);
 const disabled = computed(
   () => form.email === "" || form.password === "" || processingRequest.value
 );
 
 const Login = () => {
+  emit("processing", true);
   processingRequest.value = true;
-  SigninUser(form)
-    .then(() => {
-      Redirect();
-      props.closeModal();
-    })
-    .catch((error) => {
-      let errorMessage;
-      switch (error.code) {
-        case "auth/invalid-email":
-          errorMessage = "Invalid email";
-          break;
-        case "auth/user-not-found":
-          errorMessage = "User Not Found";
-          break;
-        case "auth/wrong-password":
-          errorMessage = "Wrong Password";
-          break;
-        case "auth/network-request-failed":
-          console.log("Network request failed.");
-          break;
-        default:
-          errorMessage = "incorrect Email or Password";
-          break;
-      }
-      console.log(error.code);
-      alert(errorMessage);
-    })
-    .finally(() => (processingRequest.value = false));
+  hideForm.value = true;
+  noteWarning.value = "";
+  setTimeout(() => {
+    SigninUser(form)
+      .catch((error) => {
+        switch (error.code) {
+          case "auth/invalid-email":
+            noteWarning.value = "Invalid email";
+            break;
+          case "auth/user-not-found":
+            noteWarning.value = "User Not Found";
+            break;
+          case "auth/wrong-password":
+            noteWarning.value = "Wrong Password";
+            break;
+          case "auth/network-request-failed":
+            noteWarning.value = "Network request failed.";
+            break;
+          default:
+            noteWarning.value = "Incorrect Email or Password";
+            break;
+        }
+        console.log(error.code);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          if (noteWarning.value !== "") {
+            ClearForm();
+            hideForm.value = false;
+            emit('fail');
+          } else {
+            Redirect();
+            emit('success');
+          }
+          processingRequest.value = false;
+          emit("processing", false);
+        }, 1000);
+      });
+  }, 1000);
 };
+
+const noteWarning = ref("");
+const hideForm = ref(false);
+
+const emit = defineEmits(["processing", "success", "fail"]);
 </script>
 
 <script lang="ts">
@@ -98,17 +135,55 @@ export default {
   justify-content: center;
 }
 
-.form-wrapper {
-  width: 100%;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
 #button-signin {
   --width: 100%;
   --height: 40px;
   margin-top: 20px;
+}
+
+.form {
+  height: 250px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  transition: all 100ms ease-out;
+}
+
+.form.hide {
+  height: 0;
+}
+
+.message-processing {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > .message-media {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    > img {
+      position: absolute;
+    }
+
+    > ion-spinner {
+      --size: 260px;
+      width: var(--size);
+      height: var(--size);
+    }
+  }
+
+  > .message-text {
+    font-family: Rubik;
+    font-weight: bold;
+    font-size: var(--fs1);
+  }
 }
 </style>

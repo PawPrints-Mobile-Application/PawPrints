@@ -1,6 +1,6 @@
 <template>
   <section class="button-modal">
-    <TextButton :id="`button-${id}`" :label="text" />
+    <TextButton :id="`button-${id}`" :label="text" :disabled="!!outerButtonDisabled" />
     <Modal
       :trigger="`button-${id}`"
       :title="title"
@@ -12,6 +12,7 @@
       :hideFooterBack="hideFooterBack"
       :hideFooterSubmit="hideFooterSubmit"
       :style="{ '--main-height': !!height ? height : 'auto' }"
+      :disableBack="!!headerButtonDisabled"
     >
       <template #modalSlot="{ page, closeModal }">
         <slot
@@ -46,6 +47,9 @@ defineProps({
   hideFooter: Boolean,
   hideFooterBack: Boolean,
   hideFooterSubmit: Boolean,
+  outerButtonDisabled: Boolean,
+  headerButtonDisabled: Boolean,
+
 });
 
 const emit = defineEmits(["submit"]);

@@ -13,7 +13,7 @@
       @change="emit('change')"
       :disabled="disabled"
       :placeholder="placeholder"
-      :type="type === 'password' && state.show ? 'text' : type"
+      :type="type === 'password' && (state.show || show) ? 'text' : type"
       :freeze="freeze"
       :icon="
         type === 'password' ? (state.show ? hideIcon : showIcon) : undefined
@@ -49,6 +49,7 @@ const props = defineProps({
   },
   validators: Array<InputValidator>,
   freeze: Boolean,
+  show: Boolean
 });
 
 const value = computed({
@@ -117,6 +118,8 @@ const Evaluate = (value: string) => {
   emit("update:valid", validity.strength);
 };
 
+const Reevaluate = () => (value.value = props.value);
+
 const emit = defineEmits([
   "update:value",
   "update:valid",
@@ -129,6 +132,8 @@ const emit = defineEmits([
   "accepted",
   "considered",
 ]);
+
+defineExpose({ Reevaluate });
 </script>
 <style scoped>
 .input-text {

@@ -1,16 +1,17 @@
 <template>
   <SettingsLayout label="MY PROFILE" target="/settings">
     <InputPhoto name="Photo" v-model:value="form.photo" has-change-button />
-    <p class="note-warning">
+    <NoteWarning>
       Note: Please do not move or delete your chosen photo since cloud photo
       support in this current build is not yet supported.
-    </p>
+    </NoteWarning>
   </SettingsLayout>
 </template>
 <script setup lang="ts">
 import { SettingsLayout } from "../../../layout";
 import { InputPhoto } from "../../../components/Forms";
 import { reactive } from "vue";
+import { NoteWarning } from '../../../components/Texts/'
 // import signup from "../../templates/auth/signup.vue";
 
 const form = reactive({
@@ -24,10 +25,4 @@ export default {
 };
 </script>
 <style scoped>
-.note-warning {
-  font-size: var(--fs4);
-  font-style: italic;
-  text-align: justify;
-  color: var(--ion-color-danger);
-}
 </style>

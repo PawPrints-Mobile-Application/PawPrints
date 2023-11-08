@@ -20,15 +20,15 @@
         <PetAvatar :background-color="form.color" />
         <register1
           v-if="page === 1"
-          v-model:model-name="form.name"
-          v-model:model-birthday="form.birthday"
-          v-model:model-breed="form.breed"
-          v-model:model-color="form.color"
+          v-model:name="form.name"
+          v-model:birthday="form.birthday"
+          v-model:breed="form.breed"
+          v-model:color="form.color"
         />
         <register2
           v-else-if="page === 2"
-          v-model:model-inoutdoors="form.inoutdoors"
-          v-model:model-fixing="form.fixing"
+          v-model:inoutdoors="form.inoutdoors"
+          v-model:fixing="form.fixing"
         />
       </template>
     </Modal>
@@ -65,7 +65,7 @@ const ClearForm = () => {
   form.name = "";
   form.birthday = "";
   form.breed = "";
-  form.color = "";
+  form.color = "#FFD80A";
   form.inoutdoors = "";
   form.fixing = "";
 };
@@ -74,7 +74,7 @@ const form = reactive({
   name: "",
   birthday: "",
   breed: "",
-  color: "",
+  color: "#FFD80A",
   inoutdoors: "",
   fixing: "",
 });

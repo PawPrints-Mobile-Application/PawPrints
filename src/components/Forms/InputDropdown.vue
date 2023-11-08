@@ -59,10 +59,11 @@ const value = computed({
   },
   set(value) {
     emit("update:value", value);
+    emit("change", value);
   },
 });
 
-const emit = defineEmits(["update:value"]);
+const emit = defineEmits(["update:value", "change"]);
 </script>
 <style scoped>
 .input-dropdown {

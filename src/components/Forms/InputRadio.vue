@@ -51,6 +51,7 @@ const props = defineProps({
 const Select = (key: number) => {
   selected.value = key;
   emit("update:value", getOptions.value[selected.value]);
+  emit("change", getOptions.value[selected.value]);
 };
 
 const others = ref("");
@@ -62,7 +63,7 @@ const getOptions = computed(() => {
 const selected = ref(
   !!props.value ? getOptions.value.indexOf(props.value) : -1
 );
-const emit = defineEmits(["update:value"]);
+const emit = defineEmits(["update:value", "change"]);
 </script>
 <style scoped>
 .input-radio {
