@@ -13,12 +13,6 @@
 
 <script lang="ts" setup>
 import { PageLayout } from "../../layout";
-// import facts0 from "./facts/whyDoDogsHaveTails.vue";
-import { onIonViewDidEnter } from "@ionic/vue";
-import { GetAllUsers } from "../../server/sqlite/data/Cache/Accounts";
-
-// const pageContent = facts0;
-onIonViewDidEnter(() => GetAllUsers().then((value: any) => console.log(value)));
 </script>
 
 <script lang="ts">

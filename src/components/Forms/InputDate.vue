@@ -34,7 +34,7 @@ const props = defineProps({
   hideInput: Boolean,
   placeholder: {
     type: String,
-    default: "Select a value",
+    default: "YYYY-MM-DD",
   },
   options: Array<String>,
   value: {

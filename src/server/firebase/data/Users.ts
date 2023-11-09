@@ -1,7 +1,7 @@
 import { SetDocument, GetDocument, DeleteDocument } from "../";
-import { Props as UserProfileProps } from "../../models/User/UserProfile";
-import { Props as PreferencesProps } from "../../models/User/Preferences";
-import { Props as DogProfileProps } from "../../models/User/DogProfile";
+import { Props as UserProfileProps } from "../../models/UserProfile";
+import { Props as PreferencesProps } from "../../models/Preferences";
+import { Props as DogProfileProps } from "../../models/DogProfile";
 const collectionName = "Users";
 
 const Set = (props: UserProfileProps) =>

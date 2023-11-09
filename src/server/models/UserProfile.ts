@@ -1,4 +1,4 @@
-import EnumConstructor from "..";
+import EnumConstructor from ".";
 
 class Subscription extends EnumConstructor {
   guest: string;
@@ -18,25 +18,21 @@ const Enums = { Subscription };
 interface Props {
   uid: string;
   email: string;
-  password: string;
-  subscription: number;
+  subscription: string;
 }
 
 class Model implements Props {
   uid: string;
   email: string;
-  password: string;
-  subscription: number;
+  subscription: string;
 
   constructor(
     uid: string,
     email: string,
-    password: string,
-    subscription: number
+    subscription: string
   ) {
     this.uid = uid;
     this.email = email;
-    this.password = password;
     this.subscription = subscription;
   }
 }

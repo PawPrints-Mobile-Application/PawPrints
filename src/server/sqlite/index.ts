@@ -1,14 +1,17 @@
-import {
-  CapacitorSQLite,
-  SQLiteConnection,
-} from "@capacitor-community/sqlite";
+import { CapacitorSQLite, SQLiteConnection } from "@capacitor-community/sqlite";
+
+const databaseName = {
+  dev: "Dev",
+  prod: "User",
+};
 
 // ============================== DATABASE CONNECTION =============================
 const ConnectDB = async (
-  dbName: string,
   query: string,
-  values: Array<any> | false = false
+  values: Array<any> | false = false,
+  consoleLog: boolean = false
 ) => {
+  const dbName = databaseName.dev;
   const sqlite = new SQLiteConnection(CapacitorSQLite);
   const ret = await sqlite.checkConnectionsConsistency();
   const isConn = (await sqlite.isConnection(dbName, false)).result;
@@ -18,14 +21,17 @@ const ConnectDB = async (
       : await sqlite.createConnection(dbName, false, "no-encryption", 1, false);
   await db.open();
   let response;
+  if (consoleLog) console.log(query);
   if (!!values) {
     response = await db.query(query, values);
   } else {
     response = await db.query(query);
   }
   const log = false;
-  if (sessionStorage.getItem('dev-mode') === 'debug' || log) {
-    if(!!response.values) {console.log('Query Processing: ' + response);}
+  if (sessionStorage.getItem("dev-mode") === "debug" || log) {
+    if (!!response.values) {
+      console.log("Query Processing: " + response);
+    }
     console.log(await db.getTableList());
   }
   await db.close();
@@ -34,19 +40,15 @@ const ConnectDB = async (
 
 // ============================== TABLE MANIPULATION =============================
 // ============================== CREATE ==============================
-const CreateTable = async (
-  dbName: string,
-  tableName: string,
-  columns: string
-) => ConnectDB(dbName, `CREATE TABLE IF NOT EXISTS ${tableName} (${columns});`);
+const CreateTable = async (tableName: string, columns: string) =>
+  ConnectDB(`CREATE TABLE IF NOT EXISTS ${tableName} (${columns});`);
 
-const DeleteTable = async (dbName: string, tableName: string) =>
-  ConnectDB(dbName, `DROP TABLE IF EXISTS ${tableName};`);
+const DeleteTable = async (tableName: string) =>
+  ConnectDB(`DROP TABLE IF EXISTS ${tableName};`);
 
 // ============================== ROW DATA MANIPULATION =============================
 // ============================== INSERT ==============================
 const InsertRowData = async (
-  dbName: string,
   tableName: string,
   data: {
     keys: Array<string>;
@@ -54,7 +56,6 @@ const InsertRowData = async (
   }
 ) =>
   ConnectDB(
-    dbName,
     `INSERT INTO ${tableName} (${data.keys.join(", ")}) VALUES (${"?,".repeat(
       data.values.length - 1
     )}?);`,
@@ -63,7 +64,6 @@ const InsertRowData = async (
 
 // ============================== READ ==============================
 const ReadRowData = async (
-  dbName: string,
   tableName: string,
   identifier:
     | {
@@ -73,7 +73,6 @@ const ReadRowData = async (
     | undefined = undefined
 ) =>
   ConnectDB(
-    dbName,
     !!identifier
       ? `SELECT * FROM ${tableName} ${
           !!identifier ? `WHERE ${identifier?.key} = ?` : ""
@@ -81,10 +80,13 @@ const ReadRowData = async (
       : `SELECT * FROM ${tableName};`,
     !!identifier && [identifier?.value]
   );
+const ReadFirstRow = async (tableName: string) =>
+  ConnectDB(`SELECT * FROM ${tableName} LIMIT 1;`);
+const ReadLatestRow = async (tableName: string) =>
+  ConnectDB(`SELECT * FROM ${tableName} ORDER BY id DESC LIMIT 1;`);
 
 // ============================== UPDATE ==============================
 const UpdateRowData = async (
-  dbName: string,
   tableName: string,
   data: {
     keys: Array<string>;
@@ -96,14 +98,40 @@ const UpdateRowData = async (
   }
 ) =>
   ConnectDB(
-    dbName,
-    `UPDATE ${tableName} SET ${data.keys.join(" = ?, ")} = ? WHERE ${identifier.key} = ?;`,
+    `UPDATE ${tableName} SET ${data.keys.join(" = ?, ")} = ? WHERE ${
+      identifier.key
+    } = ?;`,
     [...data.values, identifier.value]
+  );
+const UpdateFirstRowData = async (
+  tableName: string,
+  data: {
+    keys: Array<string>;
+    values: Array<any>;
+  }
+) =>
+  ConnectDB(
+    `UPDATE ${tableName} SET ${data.keys.join(
+      " = ?, "
+    )} = ? WHERE id = (SELECT id FROM ${tableName} LIMIT 1);`,
+    data.values
+  );
+const UpdateLatestRowData = async (
+  tableName: string,
+  data: {
+    keys: Array<string>;
+    values: Array<any>;
+  }
+) =>
+  ConnectDB(
+    `UPDATE ${tableName} SET ${data.keys.join(
+      " = ?, "
+    )} = ? WHERE id = (SELECT id FROM ${tableName} ORDER BY id DESC LIMIT 1);`,
+    data.values
   );
 
 // ============================== DELETE ==============================
 const DeleteRowData = async (
-  dbName: string,
   tableName: string,
   identifier:
     | {
@@ -113,7 +141,6 @@ const DeleteRowData = async (
     | undefined = undefined
 ) =>
   ConnectDB(
-    dbName,
     !!identifier
       ? `DELETE FROM ${tableName} ${
           !!identifier ? `WHERE ${identifier?.key} = ?` : ""
@@ -129,6 +156,10 @@ export {
   // ROW DATA MANIPULATION
   InsertRowData,
   ReadRowData,
+  ReadFirstRow,
+  ReadLatestRow,
   UpdateRowData,
+  UpdateFirstRowData,
+  UpdateLatestRowData,
   DeleteRowData,
 };

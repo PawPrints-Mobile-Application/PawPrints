@@ -1,11 +1,11 @@
-import { LogoutUser } from "../sqlite/data/Cache/LoginHistory";
 import { signOut } from "firebase/auth";
 import auth from "../firebase";
+import { DeleteUser } from "../sqlite/data/UserProfile";
 
 export default async () => {
   signOut(auth)
-    .finally(() => LogoutUser(new Date().toLocaleString()))
-    .then(() => {
+    .then(() => DeleteUser())
+    .finally(() => {
       console.log(
         `${window.localStorage.getItem("authUsername")} has disconnected!`
       );

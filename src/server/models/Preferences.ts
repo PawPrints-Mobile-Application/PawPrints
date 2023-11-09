@@ -1,4 +1,4 @@
-import EnumConstructor from "..";
+import EnumConstructor from ".";
 
 class Theme extends EnumConstructor {
     light: string;

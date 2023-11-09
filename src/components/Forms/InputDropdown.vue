@@ -20,7 +20,12 @@
         <InputSelect
           v-model:value="value"
           :options="options"
-          @click="reverseValue"
+          @click="
+            () => {
+              reverseValue();
+              emit('select', value);
+            }
+          "
           :count="count"
         />
       </template>
@@ -63,7 +68,7 @@ const value = computed({
   },
 });
 
-const emit = defineEmits(["update:value", "change"]);
+const emit = defineEmits(["update:value", "change", "select"]);
 </script>
 <style scoped>
 .input-dropdown {

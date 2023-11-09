@@ -1,62 +1,58 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../../server/firebase";
-import { LoginUser } from "../sqlite/data/Cache/LoginHistory";
-import { Hash } from "../../utils";
 import { AuthType } from ".";
+import { ChangeUser } from "../sqlite/data/UserProfile";
 
 type Props = {
   email: string;
   uid: string;
   displayName: string;
+  subscription: string;
 } | null;
 
 const SigninUser = async (
-  form: { email: string; password: string } | null = null,
-  hashed: Boolean = false
+  form: { email: string; password: string } | null = null
 ) => {
   let props: Props = null;
   let tempUID = new Date()[Symbol.toPrimitive]("number").toString();
   return new Promise((resolve, reject) => {
     if (!!form) {
-      Hash.sha256(form.password)
-        .then(async (value) => {
-          if (!hashed) {
-            form.password = Hash.ArrayBufferToString(value);
-          }
+      signInWithEmailAndPassword(auth, form!.email, form!.password)
+        .then((userCredential) => {
+          props = {
+            email: userCredential.user.email!,
+            uid: userCredential.user.uid,
+            displayName: userCredential.user.displayName!,
+            subscription: new AuthType().free,
+          };
+          tempUID = props.uid;
+          console.log("Firebase Login Successful");
+          resolve(null);
         })
-        .then(async () =>
-          signInWithEmailAndPassword(auth, form!.email, form!.password)
-            .then((userCredential) => {
-              props = {
-                email: userCredential.user.email!,
-                uid: userCredential.user.uid,
-                displayName: userCredential.user.displayName!,
-              };
-              tempUID = props.uid;
-              console.log("Firebase Login Successful");
-              resolve(null);
-            })
-            .catch((error) => reject(error))
-        );
-    } else resolve(null);
+        .catch((error) => reject(error));
+    } else {
+      resolve(null);
+      console.log("Guest Login Successful");
+    }
   })
-    .then(() => {
-      LoginUser({
-        DSignin: new Date().toLocaleDateString(),
-        TSignin: new Date().toLocaleTimeString(),
-        uid: tempUID,
-      });
+    .then(async () => {
+      if (!props) {
+        props = {
+          uid: tempUID,
+          email: "Guest",
+          displayName: "Hooman",
+          subscription: new AuthType().guest,
+        };
+      }
+
+      return await ChangeUser(props);
     })
     .then(() => {
-      console.log("Login History Update Succesful");
-      const authType = !!props ? new AuthType().free : new AuthType().guest;
-      const authUsername = !!props ? props.displayName : "Hooman";
-      const authEmail = !!props ? props.email : "Guest";
-      window.localStorage.setItem("authType", authType);
-      window.localStorage.setItem("authID", `${tempUID}`);
-      window.localStorage.setItem("authUsername", `${authUsername}`);
-      window.localStorage.setItem("authEmail", `${authEmail}`);
-      console.log(`${authUsername} has logged in.`);
+      window.localStorage.setItem("authType", props!.subscription);
+      window.localStorage.setItem("authID", `${props!.uid}`);
+      window.localStorage.setItem("authUsername", `${props!.displayName}`);
+      window.localStorage.setItem("authEmail", `${props!.email}`);
+      console.log(`${props!.displayName} has logged in.`);
     });
 };
 

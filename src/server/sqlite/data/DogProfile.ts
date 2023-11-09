@@ -1,6 +1,5 @@
-import { CreateTable as MakeTable, InsertRowData, ReadRowData, UpdateRowData, DeleteRowData } from "../..";
-import { Props } from "../../../models/User/DogProfile";
-const collectionName = 'Guest'; // TODO: change to 'Users
+import { CreateTable as MakeTable, InsertRowData, ReadRowData, UpdateRowData, DeleteRowData } from "..";
+import { Props } from "../../models/DogProfile";
 const documentName = 'DogProfile';
 const columns = `
 pid TEXT PRIMARY KEY UNIQUE NOT NULL,
@@ -26,34 +25,34 @@ const ConvertToMap = (props: Props) => {
 }
 
 const CreateTable = async () => {
-    await MakeTable(collectionName, documentName, columns);
+    await MakeTable(documentName, columns);
 }
 
 const InsertData = async (props: Props) => {
     const map = ConvertToMap(props);
     const keys = Array.from(map.keys());
     const values = Array.from(map.values());
-    await InsertRowData(collectionName, documentName, {keys, values});
+    await InsertRowData(documentName, {keys, values});
 };
 
-const GetAllData = async () => await ReadRowData(collectionName, documentName);
+const GetAllData = async () => await ReadRowData(documentName);
 
-const GetData = async (pid: string) => await ReadRowData(collectionName, documentName, {key: 'pid', value: pid});
+const GetData = async (pid: string) => await ReadRowData(documentName, {key: 'pid', value: pid});
 
 const UpdateData = async (props: Props) => {
     const identifierKey = 'pid';
     const map = ConvertToMap(props);
     const keys = Array.from(map.keys());
     const values = Array.from(map.values());
-    await UpdateRowData(collectionName, documentName, {keys, values}, {key: identifierKey, value: props[identifierKey]});
+    await UpdateRowData(documentName, {keys, values}, {key: identifierKey, value: props[identifierKey]});
 };
 
 const DeleteAllData = async () => {
-    await DeleteRowData(collectionName, documentName);
+    await DeleteRowData(documentName);
 }
 
 const DeleteData = async (pid: string) => {
-    await DeleteRowData(collectionName, documentName, {key: 'pid', value: pid});
+    await DeleteRowData(documentName, {key: 'pid', value: pid});
 }
 
 export {

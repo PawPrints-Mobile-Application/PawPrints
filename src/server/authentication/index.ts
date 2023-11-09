@@ -2,14 +2,18 @@ import SigninUser from "./SigninUser";
 import SignupUser from "./SignupUser";
 import SignoutUser from "./SignoutUser";
 
-import { Enums } from "../models/Cache/Accounts";
+import { Enums } from "../models/UserProfile";
 
-const AuthType = Enums.AccountType;
+const ConvertToDTSignin = (DSignin: string, TSignin: string) => `${DSignin} , ${TSignin}`;
+
+const AuthType = Enums.Subscription;
 
 export {
   SigninUser,
   SignupUser,
   SignoutUser,
+
+  ConvertToDTSignin,
 
   AuthType
 }

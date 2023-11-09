@@ -1,8 +1,9 @@
 <template>
   <section class="dog-preview">
     <h1>My Dogs</h1>
-    <header v-show="!state.noDogsFound">
+    <header :class="{ 'have-dogs': !state.noDogsFound }">
       <InputSearch
+        v-show="!state.noDogsFound"
         v-model:value="searchDog"
         @input="FilterDogs"
         @expand="() => (state.searchExpand = true)"
@@ -10,17 +11,12 @@
       />
       <AddPetButton
         id="header-button"
-        v-show="!state.noDogsFound && !state.searchExpand"
+        v-show="!state.searchExpand"
         @submit="ReloadPage"
       />
     </header>
-    <section class="body">
-      <AddPetButton
-        v-if="!!state.noDogsFound"
-        id="body-button"
-        @submit="ReloadPage"
-      />
-      <DogCard v-else v-for="dog in filteredDogs" :dog="dog" />
+    <section class="body" v-show="!state.noDogsFound">
+      <DogCard v-for="dog in filteredDogs" :dog="dog" />
     </section>
   </section>
 </template>
@@ -32,7 +28,7 @@ import { onMounted, reactive, ref } from "vue";
 import {
   GetAllData,
   // DeleteAllData,
-} from "../../server/sqlite/data/User/DogProfile";
+} from "../../server/sqlite/data/DogProfile";
 import { AuthType } from "../../server/authentication";
 
 const rawDogs = ref<Array<any>>();
@@ -62,9 +58,8 @@ const FilterDogs = (searchString: string) => {
 
 // Page Manipulator
 const ReloadPage = () => {
-  if (localStorage.getItem("authType") === new AuthType().guest) {
-    FetchDogs();
-  } else if (localStorage.getItem("authType") === new AuthType().free) {
+  FetchDogs();
+  if (localStorage.getItem("authType") !== new AuthType().guest) {
   }
 };
 
@@ -111,14 +106,21 @@ onMounted(() => {
     align-self: flex-start;
     width: 100%;
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    flex: 1 0 0;
     gap: 10px;
 
     > .search-box {
       width: 100%;
       --border-radius: 20px;
     }
+  }
+
+  > header.have-dogs {
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 50px;
   }
 
   > .body {

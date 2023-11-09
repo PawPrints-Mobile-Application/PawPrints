@@ -1,4 +1,4 @@
-import EnumConstructor from "..";
+import EnumConstructor from ".";
 
 class InOutdoor extends EnumConstructor {
   indoor: string;
