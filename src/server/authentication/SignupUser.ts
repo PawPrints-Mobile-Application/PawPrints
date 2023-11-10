@@ -2,12 +2,14 @@ import {
   sendEmailVerification,
   updateProfile,
   createUserWithEmailAndPassword,
+  User,
 } from "firebase/auth";
 import auth from "../firebase";
-import { SetDocument } from "../firebase";
-import SigninUser from "./SigninUser";
-import { AuthType, ConvertToDTSignin } from ".";
-import { defaultsPreferences } from "../models";
+import {
+  Set as InformationSet,
+  Enums as InformationEnums,
+  Props as InformationProps,
+} from "../models/Information";
 
 type Form = {
   username: string;
@@ -15,61 +17,53 @@ type Form = {
   password: string;
 };
 
-const SignupUser = async (form: Form) =>
-  createUserWithEmailAndPassword(auth, form.email, form.password)
-    .then(async (userCredential) => {
-      console.log("Firebase signup succesful!");
-      const user = userCredential.user;
+const FirebaseRegistration = (form: Form) =>
+  createUserWithEmailAndPassword(auth, form.email, form.password).then(
+    (userCredential) => {
+      console.log("Firebase Registration Successful!");
+      return userCredential.user;
+    }
+  );
 
-      // Firestore Verification
-      const firebaseVerification = await sendEmailVerification(user)
-        .then(() => console.log("Verification Successful"))
-        .catch((error) => console.log(error.message));
-      const firebaseProfileUpdate = await updateProfile(user, {
-        displayName: form.username,
-      })
-        .then(() => console.log("User Update Successful"))
-        .catch((error) => console.log(error.message));
+const FirebaseVerification = (user: User) =>
+  sendEmailVerification(user).then(() => {
+    console.log("Firebase Verification Successful!");
+    return user;
+  });
 
-      const DCreated = new Date().toLocaleDateString();
-      const TCreated = new Date().toLocaleTimeString();
-      const DTCreated = ConvertToDTSignin(DCreated, TCreated);
-      const userID = user.uid;
+const FirebaseProfileUpdate = (
+  user: User,
+  {
+    displayName,
+    photoURL,
+  }: {
+    displayName?: string;
+    photoURL?: string;
+  }
+) =>
+  updateProfile(user, { displayName, photoURL }).then(() => {
+    console.log("Firebase Profile Updated Successfully!");
+    return user;
+  });
 
-      const userData = {
-        uid: userID,
-        email: form.email,
-        username: form.username,
-        subscription: new AuthType().free,
-        DTCreated: DTCreated,
-      }
+const DatabaseRegistration = (user: User) => {
+  const informationProps: InformationProps = {
+    uid: user.uid,
+    email: user.email!,
+    username: user.displayName!,
+    subscription: new InformationEnums.Subscription().free,
+  };
 
-      // Update Firestore Database of new user
-      const AccountRegistry = await SetDocument("Accounts", form.email, userData)
-        .then(() => console.log("Account Registry Successful"))
-        .catch((error) => console.log(error.message));
+  const informationData = InformationSet(informationProps);
+  return Promise.all([informationData]).then(() => {
+    console.log("Database Initialization Successful!");
+    return informationProps;
+  });
+};
 
-      // Update Firestore Database of new user
-      const AccountCloud = await SetDocument("Users", userID, {
-        UserProfile: userData,
-        Preferences: defaultsPreferences
-      })
-        .then(() => console.log("Account Cloud Successful"))
-        .catch((error) => console.log(error.message));
-
-      return Promise.all([
-        firebaseVerification,
-        firebaseProfileUpdate,
-        AccountRegistry,
-        AccountCloud,
-      ]).catch((error) => console.log(error.message));
-    })
-    .then(
-      async () =>
-        await SigninUser({
-          email: form.email,
-          password: form.password,
-        })
-    );
-
-export default SignupUser;
+export {
+  FirebaseRegistration,
+  FirebaseVerification,
+  FirebaseProfileUpdate,
+  DatabaseRegistration,
+};

@@ -5,7 +5,9 @@
         <IonSpinner name="crescent" />
         <img :src="PawPrints" />
       </div>
-      <p class="message-text">Account Processing!</p>
+      <p class="message-text">
+        {{ processState }}
+      </p>
     </section>
     <div class="form" :class="{ hide: hideForm }">
       <NoteWarning v-show="noteWarning !== ''">
@@ -43,7 +45,11 @@ import { InputText } from "../../../components/Forms";
 import { TextButton } from "../../../components/Buttons";
 import { NoteWarning } from "../../../components/Texts";
 
-import { SigninUser } from "../../../server/authentication";
+import {
+  FirebaseLogin,
+  DatabaseInitialization,
+  WindowDatabaseInitialization,
+} from "../../../server/authentication";
 
 import { computed, reactive, ref } from "vue";
 import { useIonRouter, IonSpinner } from "@ionic/vue";
@@ -76,11 +82,21 @@ const disabled = computed(
 
 const Login = () => {
   emit("processing", true);
+  processState.value = "Connecting to server...";
   processingRequest.value = true;
   hideForm.value = true;
   noteWarning.value = "";
   setTimeout(() => {
-    SigninUser(form)
+    processState.value = "Account Logging in...";
+    FirebaseLogin(form)
+      .then((user) => {
+        processState.value = "Fetching Cloud Database...";
+        return DatabaseInitialization(user);
+      })
+      .then((props) => {
+        processState.value = "Preparing Application...";
+        return WindowDatabaseInitialization(props);
+      })
       .catch((error) => {
         switch (error.code) {
           case "auth/invalid-email":
@@ -99,20 +115,21 @@ const Login = () => {
             noteWarning.value = "Incorrect Email or Password";
             break;
         }
-        console.log(error.code);
+        console.log(error);
       })
       .finally(() => {
         setTimeout(() => {
           if (noteWarning.value !== "") {
             ClearForm();
             hideForm.value = false;
-            emit('fail');
+            emit("fail");
           } else {
             Redirect();
-            emit('success');
+            emit("success");
           }
           processingRequest.value = false;
           emit("processing", false);
+          processState.value = "";
         }, 1000);
       });
   }, 1000);
@@ -120,6 +137,7 @@ const Login = () => {
 
 const noteWarning = ref("");
 const hideForm = ref(false);
+const processState = ref("");
 
 const emit = defineEmits(["processing", "success", "fail"]);
 </script>

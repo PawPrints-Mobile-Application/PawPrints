@@ -4,28 +4,30 @@ import { Props as PreferencesProps } from "../../models/Preferences";
 import { Props as DogProfileProps } from "../../models/DogProfile";
 const collectionName = "Users";
 
-const SetUserData = (props: UserProfileProps) =>
-  SetDocument(collectionName, props.uid, props);
+const SetUserData = (props: {
+  UserProfile: UserProfileProps;
+  Preferences: PreferencesProps;
+}) => SetDocument(collectionName + '/' + props.UserProfile.uid, props);
 const GetUserData = () =>
-  GetDocument(collectionName, localStorage.getItem("authID")!).then((data) =>
+  GetDocument(collectionName + '/' + localStorage.getItem("authID")!).then((data) =>
     data?.data()
   );
 const DeleteUserData = () =>
-  DeleteDocument(collectionName, localStorage.getItem("authID")!);
+  DeleteDocument(collectionName + '/' + localStorage.getItem("authID")!);
 
 const SetUserProfile = (props: UserProfileProps) =>
-  SetDocument(collectionName, props.uid, props);
+  SetDocument(collectionName + '/' + props.uid, props);
 const GetUserProfile = (userID?: string) => {
   const uid = !!userID ? userID : localStorage.getItem("authID")!;
-  return GetDocument(collectionName, uid).then(
+  return GetDocument(collectionName + '/' + uid).then(
     (data) => data?.data()?.UserProfile
   );
 };
 
 const SetPreferences = (props: PreferencesProps) =>
-  SetDocument(collectionName, localStorage.getItem("authID")!, props);
+  SetDocument(collectionName + '/' + localStorage.getItem("authID")!, props);
 const GetPreferences = () =>
-  GetDocument(collectionName, localStorage.getItem("authID")!).then(
+  GetDocument(collectionName + '/' + localStorage.getItem("authID")!).then(
     (data) => data?.data()?.Preferences
   );
 
@@ -40,13 +42,13 @@ const GetDogs = () =>
 
 const SetDog = (props: DogProfileProps) =>
   SetDocument(
-    `${collectionName}/${localStorage.getItem("authID")}/Dogs`,
+    `${collectionName}/${localStorage.getItem("authID")}/Dogs` + '/' +
     props.name,
     props
   );
 const GetDog = (name: string) =>
   GetDocument(
-    `${collectionName}/${localStorage.getItem("authID")}/Dogs`,
+    `${collectionName}/${localStorage.getItem("authID")}/Dogs` + '/' +
     name
   ).then((data) => data?.data());
 

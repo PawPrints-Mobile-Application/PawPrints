@@ -29,6 +29,7 @@ import { reactive, watch, ref } from "vue";
 import { IonSpinner, onIonViewDidEnter, useIonRouter } from "@ionic/vue";
 
 import CreateDB from "../../server/sqlite/data";
+import CreateModels from "../../server/models";
 
 const state = reactive({
   doneAnimation: false,
@@ -38,8 +39,7 @@ const state = reactive({
 
 const user = ref();
 onAuthStateChanged(auth, (currentUser) => {
-  user.value =
-    localStorage.getItem("authType") !== '' || !!currentUser;
+  user.value = localStorage.getItem("authType") !== "" || !!currentUser;
 });
 
 const ionRouter = useIonRouter();
@@ -61,11 +61,13 @@ onIonViewDidEnter(() => {
   setTimeout(async () => {
     show.thumbnail = true;
     show.loading = true;
-    CreateDB().then(() =>
-      setTimeout(() => {
-        state.doneAnimation = true;
-      }, 1000)
-    );
+    CreateDB()
+      .then(CreateModels)
+      .then(() =>
+        setTimeout(() => {
+          state.doneAnimation = true;
+        }, 1000)
+      );
   }, 1000);
 });
 

@@ -3,12 +3,18 @@
 </template>
 <script setup lang="ts">
 import { TextButton } from ".";
-import SigninUser from "../../server/authentication/SigninUser";
+
+import {
+  DatabaseInitialization,
+  WindowDatabaseInitialization,
+} from "../../server/authentication";
+
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
 
-const GuestSignIn = () => SigninUser().then(() => Redirect());
+const GuestSignIn = () =>
+  DatabaseInitialization().then(WindowDatabaseInitialization).then(Redirect);
 </script>
 <style scoped>
 .text-button {

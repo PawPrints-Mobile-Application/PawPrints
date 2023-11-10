@@ -44,24 +44,24 @@ const getCurrentUser = () => {
 
 const db = getFirestore(app);
 
-const SetDocument = async (collection: string, document: string, data: any) =>
-  setDoc(doc(db, `${collection}/${document}`), data)
+const SetDocument = async (path: string, data: any) =>
+  setDoc(doc(db, path), data)
     .then((resolve) => {
       console.log(`A document is saved to Firestore Database.`);
       return resolve;
     })
     .catch((error) => console.log(error.message));
 
-const GetDocument = async (collection: string, document: string) =>
-  getDoc(doc(db, `${collection}/${document}`))
+const GetDocument = async (path: string) =>
+  getDoc(doc(db, path))
     .then((data) => {
       console.log(`A document is fetched from Firestore Database.`);
       return data;
     })
     .catch((error) => console.log(error.message));
 
-const DeleteDocument = async (collection: string, document: string) =>
-  deleteDoc(doc(db, `${collection}/${document}`))
+const DeleteDocument = async (path: string) =>
+  deleteDoc(doc(db, path))
     .then((data) => {
       console.log(`A document is fetched from Firestore Database.`);
       return data;

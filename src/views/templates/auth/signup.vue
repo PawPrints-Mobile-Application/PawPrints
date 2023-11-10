@@ -5,7 +5,9 @@
         <IonSpinner name="crescent" />
         <img :src="PawPrints" />
       </div>
-      <p class="message-text">Account Processing!</p>
+      <p class="message-text">
+        {{ processState }}
+      </p>
     </section>
     <section class="form" :class="{ hide: hideForm }">
       <NoteWarning v-show="noteWarning !== ''">
@@ -69,7 +71,13 @@ import { TextButton } from "../../../components/Buttons";
 import { InputText, InputToggle } from "../../../components/Forms";
 import { NoteWarning } from "../../../components/Texts";
 
-import { SignupUser } from "../../../server/authentication";
+import {
+  FirebaseRegistration,
+  FirebaseVerification,
+  FirebaseProfileUpdate,
+  DatabaseRegistration,
+  WindowDatabaseInitialization,
+} from "../../../server/authentication";
 
 import { computed, reactive, ref } from "vue";
 import { SignupValidator } from "../../../server/rulesets";
@@ -129,11 +137,29 @@ const disabled = computed(
 
 const Register = async () => {
   emit("processing", true);
+  processState.value = "Connecting to server...";
   processingRequest.value = true;
   hideForm.value = true;
   noteWarning.value = "";
   setTimeout(() => {
-    SignupUser(form)
+    processState.value = "Account Registration...";
+    FirebaseRegistration(form)
+      .then((user) => {
+        processState.value = "Account Verfication...";
+        return FirebaseVerification(user);
+      })
+      .then((user) => {
+        processState.value = "Account Details Initialization...";
+        return FirebaseProfileUpdate(user, { displayName: form.username });
+      })
+      .then((user) => {
+        processState.value = "Creating Cloud Database...";
+        return DatabaseRegistration(user);
+      })
+      .then((props) => {
+        processState.value = "Preparing Application...";
+        return WindowDatabaseInitialization(props);
+      })
       .catch((error) => {
         switch (error.code) {
           case "auth/email-already-in-use":
@@ -163,13 +189,14 @@ const Register = async () => {
           if (noteWarning.value !== "") {
             ClearForm();
             hideForm.value = false;
-            emit('fail');
+            emit("fail");
           } else {
             Redirect();
-            emit('success');
+            emit("success");
           }
           processingRequest.value = false;
           emit("processing", false);
+          processState.value = "";
         }, 1000);
       });
   }, 1000);
@@ -177,6 +204,7 @@ const Register = async () => {
 
 const noteWarning = ref("");
 const hideForm = ref(false);
+const processState = ref("");
 
 const emit = defineEmits(["processing", "success", "fail"]);
 </script>
