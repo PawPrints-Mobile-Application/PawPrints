@@ -7,6 +7,7 @@ import { TextButton } from ".";
 import { useIonRouter } from "@ionic/vue";
 
 import {
+  FirebaseSignout,
   DatabaseTermination,
   WindowDatabaseTermination,
 } from "../../server/authentication";
@@ -15,6 +16,9 @@ const ionRouter = useIonRouter();
 const Redirect = () => ionRouter.navigate("/auth", "forward", "replace");
 
 const SignOut = () =>
-  DatabaseTermination().then(WindowDatabaseTermination).then(Redirect);
+  FirebaseSignout()
+    .then(DatabaseTermination)
+    .then(WindowDatabaseTermination)
+    .then(Redirect);
 </script>
 <style scoped></style>

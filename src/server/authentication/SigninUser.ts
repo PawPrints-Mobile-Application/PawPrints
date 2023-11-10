@@ -30,7 +30,7 @@ const DatabaseInitialization = (user?: User) => {
 
   const informationData = !!user
     ? InformationSync(user.uid)
-    : InformationSet(informationProps);
+    : InformationSet(informationProps, false);
   return informationData.then((response: any) => {
     console.log("Database Initialization Successful!");
     return response;

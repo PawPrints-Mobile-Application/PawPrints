@@ -9,7 +9,11 @@ import {
   DatabaseInitialization,
   WindowDatabaseInitialization,
 } from "./SigninUser";
-import { DatabaseTermination, WindowDatabaseTermination } from "./SignoutUser";
+import {
+  DatabaseTermination,
+  WindowDatabaseTermination,
+  FirebaseSignout,
+} from "./SignoutUser";
 
 import { Enums } from "../models/UserProfile";
 
@@ -27,10 +31,11 @@ export {
   FirebaseLogin,
   DatabaseInitialization,
   WindowDatabaseInitialization,
-  
+
+  FirebaseSignout,
   DatabaseTermination,
   WindowDatabaseTermination,
-
+  
   ConvertToDTSignin,
   AuthType,
 };

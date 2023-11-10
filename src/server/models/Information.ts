@@ -51,12 +51,15 @@ const Clear = () => ResetTable(constants.document);
 const Get = () =>
   ReadFirstRow(constants.document).then((response) => response.values![0]);
 
-const Set = async (props: Props) => {
+const Set = async (props: Props, sync: boolean = true) => {
   const data = ObjectToMap(props);
   return InsertRowData(constants.document, {
     keys: Array.from(data.keys()),
     values: Array.from(data.values()),
-  }).then(() => SetDocument(documentPath(props.uid), props).then(() => props));
+  }).then(() => {
+    if (!sync) return props;
+    SetDocument(documentPath(props.uid), props).then(() => props)
+  });
 };
 
 const Sync = (uid?: string) =>
