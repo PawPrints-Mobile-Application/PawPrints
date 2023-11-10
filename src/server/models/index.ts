@@ -1,11 +1,6 @@
-import { defaults as defaultsPreferences } from "./Preferences";
-
-import { Initialize as InitializeInformation } from './Information'
-
-export {
-  defaultsPreferences,
-}
+import { Initialize as InitializeInformation } from './Information';
+import { Initialize as InitializeNotes } from './Notes';
 
 export default function CreateModels() {
-  return InitializeInformation();
+  return InitializeInformation().then(InitializeNotes);
 }

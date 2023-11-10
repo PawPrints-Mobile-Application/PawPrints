@@ -15,12 +15,8 @@ import {
   FirebaseSignout,
 } from "./SignoutUser";
 
-import { Enums } from "../models/UserProfile";
-
 const ConvertToDTSignin = (DSignin: string, TSignin: string) =>
   `${DSignin} , ${TSignin}`;
-
-const AuthType = Enums.Subscription;
 
 export {
   FirebaseRegistration,
@@ -37,5 +33,4 @@ export {
   WindowDatabaseTermination,
   
   ConvertToDTSignin,
-  AuthType,
 };

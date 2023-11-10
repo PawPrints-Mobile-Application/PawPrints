@@ -58,12 +58,12 @@ const Set = async (props: Props, sync: boolean = true) => {
     values: Array.from(data.values()),
   }).then(() => {
     if (!sync) return props;
-    SetDocument(documentPath(props.uid), props).then(() => props)
+    return SetDocument(documentPath(props.uid), props).then(() => props)
   });
 };
 
 const Sync = (uid?: string) =>
-  GetDocument(documentPath(uid)).then((response) => {
+  GetDocument(documentPath(uid)).then(async (response) => {
     console.log("syncing...");
     const data = ObjectToMap(response!.data()!);
     return InsertRowData(constants.document, {

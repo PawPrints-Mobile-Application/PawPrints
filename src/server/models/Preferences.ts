@@ -1,84 +1,86 @@
+import {
+  CreateTable,
+  DeleteTable as RemoveTable,
+  ResetTable,
+  InsertRowData,
+  ReadFirstRow,
+} from "../sqlite";
+import { SetDocument, GetDocument } from "../firebase";
+import ObjectToMap from "../../utils/ObectToMap";
 import EnumConstructor from "../../utils/EnumConstructor";
 
-class Theme extends EnumConstructor {
-  light: string;
-  dark: string;
+class Subscription extends EnumConstructor {
+  theme: "light" | "dark" = "light";
+  length: "meter" | "feet" = "meter";
+  weight: "kilogram" | "pound" = "kilogram";
+  temperature: "celsius" | "fahrenheit" = "celsius";
 
   constructor() {
-    super(["light", "dark"]);
-    this.light = this.values[0];
-    this.dark = this.values[1];
-  }
-}
-class Length extends EnumConstructor {
-  meter: string;
-  feet: string;
-
-  constructor() {
-    super(["meter", "feet"]);
-    this.meter = this.values[0];
-    this.feet = this.values[1];
-  }
-}
-class Weight extends EnumConstructor {
-  kilogram: string;
-  pound: string;
-
-  constructor() {
-    super(["kilogram", "pound"]);
-    this.kilogram = this.values[0];
-    this.pound = this.values[1];
-  }
-}
-class Temperature extends EnumConstructor {
-  celsius: string;
-  fahrenheit: string;
-
-  constructor() {
-    super(["celsius", "fahrenheit"]);
-    this.celsius = this.values[0];
-    this.fahrenheit = this.values[1];
+    super([
+      "light",
+      "dark",
+      "meter",
+      "feet",
+      "kilogram",
+      "pound",
+      "celsius",
+      "fahrenheit",
+    ]);
   }
 }
 
-const Enums = { Theme, Length, Weight, Temperature };
+const Enums = { Subscription };
 
-interface Props {
-  theme: string;
-  length: string;
-  weight: string;
-  temperature: string;
-}
-
-const defaults = {
-  theme: new Theme().values[0],
-  length: new Length().values[0],
-  weight: new Weight().values[0],
-  temperature: new Temperature().values[0],
+const constants = {
+  collection: "Users",
+  document: "Preferences",
+  data: `
+  theme TEXT,
+  length TEXT,
+  weight TEXT,
+  temperature TEXT
+    `,
 };
 
-class Model implements Props {
-  uid: string;
-  theme: string;
-  length: string;
-  weight: string;
-  temperature: string;
+type Props = {
+  theme: "light" | "dark";
+  length: "meter" | "feet";
+  weight: "kilogram" | "pound";
+  temperature: "celsius" | "fahrenheit";
+};
 
-  constructor(
-    uid: string,
-    theme: string,
-    length: string,
-    weight: string,
-    temperature: string
-  ) {
-    this.uid = uid;
-    this.theme = theme;
-    this.length = length;
-    this.weight = weight;
-    this.temperature = temperature;
-  }
-}
+const documentPath = (uid?: string) =>
+  `${constants.collection}/${
+    !!uid ? uid : localStorage.getItem("authID")!
+  }/Profile/${constants.document}`;
 
-export { Enums, defaults };
+const Initialize = () => CreateTable(constants.document, constants.data);
+const DeleteTable = () => RemoveTable(constants.document);
+const Clear = () => ResetTable(constants.document);
+
+const Get = () =>
+  ReadFirstRow(constants.document).then((response) => response.values![0]);
+
+const Set = async (props: Props, sync: boolean = true) => {
+  const data = ObjectToMap(props);
+  return InsertRowData(constants.document, {
+    keys: Array.from(data.keys()),
+    values: Array.from(data.values()),
+  }).then(() => {
+    if (!sync) return props;
+    SetDocument(documentPath(), props).then(() => props);
+  });
+};
+
+const Sync = (uid?: string) =>
+  GetDocument(documentPath(uid)).then(async (response) => {
+    console.log("syncing...");
+    const data = ObjectToMap(response!.data()!);
+    return InsertRowData(constants.document, {
+      keys: Array.from(data.keys()),
+      values: Array.from(data.values()),
+    }).then(Get);
+  });
+
 export type { Props };
-export default Model;
+export { Enums, Initialize, DeleteTable, Clear, Set, Get, Sync };

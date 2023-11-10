@@ -28,7 +28,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import { reactive, watch, ref } from "vue";
 import { IonSpinner, onIonViewDidEnter, useIonRouter } from "@ionic/vue";
 
-import CreateDB from "../../server/sqlite/data";
 import CreateModels from "../../server/models";
 
 const state = reactive({
@@ -61,8 +60,7 @@ onIonViewDidEnter(() => {
   setTimeout(async () => {
     show.thumbnail = true;
     show.loading = true;
-    CreateDB()
-      .then(CreateModels)
+    CreateModels()
       .then(() =>
         setTimeout(() => {
           state.doneAnimation = true;
