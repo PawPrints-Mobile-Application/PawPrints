@@ -1,30 +1,66 @@
-import { SetDocument, GetDocument, DeleteDocument } from "../";
+import { SetDocument, GetDocument, DeleteDocument, GetCollection } from "../";
 import { Props as UserProfileProps } from "../../models/UserProfile";
 import { Props as PreferencesProps } from "../../models/Preferences";
 import { Props as DogProfileProps } from "../../models/DogProfile";
 const collectionName = "Users";
 
-const Set = (props: UserProfileProps) =>
+const SetUserData = (props: UserProfileProps) =>
   SetDocument(collectionName, props.uid, props);
-const Get = (props: UserProfileProps) => GetDocument(collectionName, props.uid);
-const Delete = (props: UserProfileProps) => DeleteDocument(collectionName, props.uid);
+const GetUserData = () =>
+  GetDocument(collectionName, localStorage.getItem("authID")!).then((data) =>
+    data?.data()
+  );
+const DeleteUserData = () =>
+  DeleteDocument(collectionName, localStorage.getItem("authID")!);
+
+const SetUserProfile = (props: UserProfileProps) =>
+  SetDocument(collectionName, props.uid, props);
+const GetUserProfile = (userID?: string) => {
+  const uid = !!userID ? userID : localStorage.getItem("authID")!;
+  return GetDocument(collectionName, uid).then(
+    (data) => data?.data()?.UserProfile
+  );
+};
 
 const SetPreferences = (props: PreferencesProps) =>
-  SetDocument(collectionName, props.uid, props);
-const GetPreferences = (props: PreferencesProps) =>
-  GetDocument(collectionName, props.uid);
+  SetDocument(collectionName, localStorage.getItem("authID")!, props);
+const GetPreferences = () =>
+  GetDocument(collectionName, localStorage.getItem("authID")!).then(
+    (data) => data?.data()?.Preferences
+  );
 
-const SetDogProfile = (props: DogProfileProps) =>
-  SetDocument(collectionName, props.uid, props);
-const GetDogProfile = (props: DogProfileProps) =>
-  GetDocument(collectionName, props.uid);
+const SetDogs = (props: Array<DogProfileProps>) =>
+  Promise.all(props.map((data) => SetDog(data)));
+const GetDogsQuerySnapshot = () =>
+  GetCollection(`${collectionName}/${localStorage.getItem("authID")}/Dogs`);
+const GetDogs = () =>
+  GetCollection(
+    `${collectionName}/${localStorage.getItem("authID")}/Dogs`
+  ).then((value) => value!.values);
+
+const SetDog = (props: DogProfileProps) =>
+  SetDocument(
+    `${collectionName}/${localStorage.getItem("authID")}/Dogs`,
+    props.name,
+    props
+  );
+const GetDog = (name: string) =>
+  GetDocument(
+    `${collectionName}/${localStorage.getItem("authID")}/Dogs`,
+    name
+  ).then((data) => data?.data());
 
 export {
-  Set,
-  Get,
-  Delete,
+  SetUserData,
+  GetUserData,
+  DeleteUserData,
+  SetUserProfile,
+  GetUserProfile,
   SetPreferences,
   GetPreferences,
-  SetDogProfile,
-  GetDogProfile,
+  SetDogs,
+  GetDogsQuerySnapshot,
+  GetDogs,
+  SetDog,
+  GetDog,
 };

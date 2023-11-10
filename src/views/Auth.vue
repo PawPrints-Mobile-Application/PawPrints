@@ -36,7 +36,6 @@
           />
         </template>
       </ButtonModal>
-      <GoogleButton />
     </section>
   </page-layout>
 </template>
@@ -44,7 +43,7 @@
 <script lang="ts" setup>
 import { defineAsyncComponent, reactive } from "vue";
 import { PageLayout } from "../layout";
-import { GoogleButton, ButtonModal, GuestButton } from "../components/Buttons";
+import { ButtonModal, GuestButton } from "../components/Buttons";
 import { templates } from "./templates";
 import { ImgLogo } from "../components/Logo";
 

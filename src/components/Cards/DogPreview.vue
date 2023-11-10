@@ -24,12 +24,11 @@
 import { DogCard } from ".";
 import { AddPetButton } from "../Buttons";
 import { InputSearch } from "../Forms";
-import { onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import {
   GetAllData,
   // DeleteAllData,
 } from "../../server/sqlite/data/DogProfile";
-import { AuthType } from "../../server/authentication";
 
 const rawDogs = ref<Array<any>>();
 const filteredDogs = ref<Array<any>>();
@@ -57,11 +56,7 @@ const FilterDogs = (searchString: string) => {
 };
 
 // Page Manipulator
-const ReloadPage = () => {
-  FetchDogs();
-  if (localStorage.getItem("authType") !== new AuthType().guest) {
-  }
-};
+const ReloadPage = () => FetchDogs();
 
 // Data Manipulator
 // const DeleteAllDogs = () => {
@@ -72,17 +67,14 @@ const ReloadPage = () => {
 //     });
 // };
 
-const FetchDogs = () => {
+const FetchDogs = () =>
   GetAllData().then((data) => {
     rawDogs.value = data.values;
     filteredDogs.value = data.values;
     state.noDogsFound = filteredDogs.value?.length === 0 || !filteredDogs.value;
   });
-};
 
-onMounted(() => {
-  ReloadPage();
-});
+defineExpose({ ReloadPage });
 </script>
 <style scoped>
 .dog-preview {

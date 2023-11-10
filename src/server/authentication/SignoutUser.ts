@@ -1,10 +1,10 @@
 import { signOut } from "firebase/auth";
 import auth from "../firebase";
-import { DeleteUser } from "../sqlite/data/UserProfile";
+import { ResetDatabase } from "../sqlite";
 
 export default async () => {
   signOut(auth)
-    .then(() => DeleteUser())
+    .then(() => ResetDatabase())
     .finally(() => {
       console.log(
         `${window.localStorage.getItem("authUsername")} has disconnected!`

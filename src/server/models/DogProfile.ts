@@ -1,4 +1,4 @@
-import EnumConstructor from ".";
+import EnumConstructor from "../../utils/EnumConstructor";
 
 class InOutdoor extends EnumConstructor {
   indoor: string;
@@ -35,8 +35,8 @@ interface Props {
   birthday: string;
   breed: string;
   color: string;
-  inoutdoor: number;
-  fixing: number;
+  inoutdoor: string;
+  fixing: string;
 }
 
 class Model implements Props {
@@ -46,8 +46,8 @@ class Model implements Props {
   birthday: string;
   breed: string;
   color: string;
-  inoutdoor: number;
-  fixing: number;
+  inoutdoor: string;
+  fixing: string;
 
   constructor(
     uid: string,
@@ -55,8 +55,8 @@ class Model implements Props {
     birthday: string,
     breed: string,
     color: string,
-    inoutdoor: number,
-    fixing: number
+    inoutdoor: string,
+    fixing: string
   ) {
     this.uid = uid;
     this.pid = uid + new Date()[Symbol.toPrimitive]("number").toString();

@@ -9,7 +9,7 @@ const databaseName = {
 const ConnectDB = async (
   query: string,
   values: Array<any> | false = false,
-  consoleLog: boolean = false
+  queryLog: boolean = false
 ) => {
   const dbName = databaseName.dev;
   const sqlite = new SQLiteConnection(CapacitorSQLite);
@@ -21,18 +21,15 @@ const ConnectDB = async (
       : await sqlite.createConnection(dbName, false, "no-encryption", 1, false);
   await db.open();
   let response;
-  if (consoleLog) console.log(query);
   if (!!values) {
     response = await db.query(query, values);
   } else {
     response = await db.query(query);
   }
-  const log = false;
-  if (sessionStorage.getItem("dev-mode") === "debug" || log) {
-    if (!!response.values) {
-      console.log("Query Processing: " + response);
-    }
-    console.log(await db.getTableList());
+  const log = false || queryLog;
+  if (log) {
+    console.log("Query Processing: " + query + "Response: " + response);
+    // console.log(await db.getTableList());
   }
   await db.close();
   return response;
@@ -53,10 +50,11 @@ const InsertRowData = async (
   data: {
     keys: Array<string>;
     values: Array<any>;
-  }
+  },
+  allowReplace: boolean = false
 ) =>
   ConnectDB(
-    `INSERT INTO ${tableName} (${data.keys.join(", ")}) VALUES (${"?,".repeat(
+    `INSERT ${allowReplace ? 'OR REPLACE ' : '' }INTO ${tableName} (${data.keys.join(", ")}) VALUES (${"?,".repeat(
       data.values.length - 1
     )}?);`,
     data.values
@@ -149,9 +147,30 @@ const DeleteRowData = async (
     !!identifier && [identifier?.value]
   );
 
+// ============================== RESET ==============================
+const ResetTable = async (tableName: string) => await DeleteRowData(tableName);
+const ResetDatabase = async () => {
+  const dbName = databaseName.dev;
+  const sqlite = new SQLiteConnection(CapacitorSQLite);
+  const ret = await sqlite.checkConnectionsConsistency();
+  const isConn = (await sqlite.isConnection(dbName, false)).result;
+  const db =
+    ret.result && isConn
+      ? await sqlite.retrieveConnection(dbName, false)
+      : await sqlite.createConnection(dbName, false, "no-encryption", 1, false);
+  await db.open();
+  db.getTableList().then((tables) =>
+    tables.values?.forEach((table) => db.query(`DELETE FROM ${table};`))
+  );
+  await db.close();
+};
+
 export {
   CreateTable,
   DeleteTable,
+
+  ResetDatabase,
+  ResetTable,
 
   // ROW DATA MANIPULATION
   InsertRowData,

@@ -6,7 +6,8 @@ import {
 import auth from "../firebase";
 import { SetDocument } from "../firebase";
 import SigninUser from "./SigninUser";
-import { ConvertToDTSignin } from ".";
+import { AuthType, ConvertToDTSignin } from ".";
+import { defaultsPreferences } from "../models";
 
 type Form = {
   username: string;
@@ -34,20 +35,33 @@ const SignupUser = async (form: Form) =>
       const TCreated = new Date().toLocaleTimeString();
       const DTCreated = ConvertToDTSignin(DCreated, TCreated);
       const userID = user.uid;
-      // Update Firestore Database of new user
-      const firebaseDatabase = await SetDocument("Accounts", form.email, {
-        DTCreated: DTCreated,
-        email: form.email,
-        password: form.password,
+
+      const userData = {
         uid: userID,
+        email: form.email,
+        username: form.username,
+        subscription: new AuthType().free,
+        DTCreated: DTCreated,
+      }
+
+      // Update Firestore Database of new user
+      const AccountRegistry = await SetDocument("Accounts", form.email, userData)
+        .then(() => console.log("Account Registry Successful"))
+        .catch((error) => console.log(error.message));
+
+      // Update Firestore Database of new user
+      const AccountCloud = await SetDocument("Users", userID, {
+        UserProfile: userData,
+        Preferences: defaultsPreferences
       })
-        .then(() => console.log("Firebase Database Successful"))
+        .then(() => console.log("Account Cloud Successful"))
         .catch((error) => console.log(error.message));
 
       return Promise.all([
         firebaseVerification,
         firebaseProfileUpdate,
-        firebaseDatabase,
+        AccountRegistry,
+        AccountCloud,
       ]).catch((error) => console.log(error.message));
     })
     .then(

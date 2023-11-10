@@ -41,6 +41,7 @@ import { Default as PetAvatar } from "../../components/Avatars/Pets";
 import { templates } from "../../views/templates";
 import { Modal } from "../Modals";
 import { InsertData } from "../../server/sqlite/data/DogProfile";
+import { SetDog } from "../../server/firebase/data/Users";
 
 const register1 = defineAsyncComponent(templates.register1);
 const register2 = defineAsyncComponent(templates.register2);
@@ -80,17 +81,21 @@ const form = reactive({
 });
 
 const Submit = () => {
-  // Save Dog Locally
-  InsertData({
+  const data = {
     pid: new Date()[Symbol.toPrimitive]("number").toString(),
     uid: localStorage.getItem("authID")!,
     name: form.name,
     birthday: form.birthday,
     breed: form.breed,
     color: form.color,
-    inoutdoor: form.inoutdoors === "outdoors" ? 1 : 0,
-    fixing: form.fixing === "none" ? 0 : form.fixing === "spayed" ? 2 : 1,
-  }).then(() => emit("submit"));
+    inoutdoor: form.inoutdoors,
+    fixing: form.fixing,
+  };
+
+  // Save Dog Locally
+  InsertData(data)
+    .then(() => SetDog(data))
+    .finally(() => emit("submit"));
 };
 
 defineProps({

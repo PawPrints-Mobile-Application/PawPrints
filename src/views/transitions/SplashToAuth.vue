@@ -8,15 +8,13 @@
       <TextButton label="Guest" />
       <TextButton label="Sign In" />
       <TextButton label="Sign Up" />
-      <IconButton class="button-google" :icon="icon" />
     </section>
   </page-layout>
 </template>
 
 <script lang="ts" setup>
 import { PageLayout } from "../../layout";
-import { logoGoogle as icon } from "ionicons/icons";
-import { TextButton, IconButton } from "../../components/Buttons";
+import { TextButton } from "../../components/Buttons";
 import { ImgLogo } from "../../components/Logo";
 
 import { onMounted, ref } from "vue";

@@ -8,7 +8,7 @@
     <template #pageContent>
       <section class="content">
         <FactsPreview @click="DeleteAllDogs" />
-        <DogPreview />
+        <DogPreview ref="dogPreview" />
       </section>
     </template>
   </page-layout>
@@ -19,7 +19,9 @@ import { PageLayout } from "../../layout";
 import { FactsPreview, DogPreview } from "../../components/Cards";
 import { onIonViewDidEnter, onIonViewWillEnter } from "@ionic/vue";
 import { DeleteAllData } from "../../server/sqlite/data/DogProfile";
+import { ref } from "vue";
 
+const dogPreview = ref();
 const authGreetings = `Henlo, ${
   localStorage.getItem("authUsername") === "Guest"
     ? "Hooman"
@@ -27,7 +29,9 @@ const authGreetings = `Henlo, ${
 }`;
 
 // Light Functions, preferrably async functions only
-onIonViewWillEnter(async () => {});
+onIonViewWillEnter(async () => {
+  await dogPreview.value.ReloadPage();
+});
 
 // Heavy Functions
 onIonViewDidEnter(() => {});

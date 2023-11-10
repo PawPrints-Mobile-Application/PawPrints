@@ -50,9 +50,11 @@ const SetConnectivity = async (isNetOnline: boolean) => {
   network.value = isNetOnline ? "online" : "offline";
   network.icon = isNetOnline ? networkOnline : networkOffline;
   sessionStorage.setItem("network", network.value);
-  if (sessionStorage.getItem("networkInitialized") === "true" || !isNetOnline) {
-    showToast();
-  }
+  if (sessionStorage.getItem("networkInitialized") === "true" || !isNetOnline) showToast();
+
+  // Database Synchronization to Cloud
+  if (!isNetOnline) return;
+  
 };
 </script>
 <style scoped>

@@ -1,5 +1,4 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   getFirestore,
@@ -8,6 +7,8 @@ import {
   getDoc,
   deleteDoc,
 } from "firebase/firestore";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -24,7 +25,7 @@ const firebaseConfig = {
   measurementId: "G-MYYF4F2KTQ",
 };
 
-const app = initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
@@ -43,18 +44,56 @@ const getCurrentUser = () => {
 
 const db = getFirestore(app);
 
-const SetDocument = async (collection: string, document: string, data: any) => {
-  await setDoc(doc(db, `${collection}/${document}`), data)
-    .then(() => console.log(`${document} saved to Firestore Database.`))
+const SetDocument = async (collection: string, document: string, data: any) =>
+  setDoc(doc(db, `${collection}/${document}`), data)
+    .then((resolve) => {
+      console.log(`A document is saved to Firestore Database.`);
+      return resolve;
+    })
     .catch((error) => console.log(error.message));
-};
 
 const GetDocument = async (collection: string, document: string) =>
-  await getDoc(doc(db, `${collection}/${document}`));
+  getDoc(doc(db, `${collection}/${document}`))
+    .then((data) => {
+      console.log(`A document is fetched from Firestore Database.`);
+      return data;
+    })
+    .catch((error) => console.log(error.message));
 
 const DeleteDocument = async (collection: string, document: string) =>
-  await deleteDoc(doc(db, `${collection}/${document}`));
+  deleteDoc(doc(db, `${collection}/${document}`))
+    .then((data) => {
+      console.log(`A document is fetched from Firestore Database.`);
+      return data;
+    })
+    .catch((error) => console.log(error.message));
 
-export { app, getCurrentUser, db, SetDocument, GetDocument, DeleteDocument };
+// const GetCollection = async (coll: string) =>
+//   (await firebase.firestore().collection(coll).get()).docs.map((doc) =>
+//     doc.data()
+//   );
+
+const GetCollection = async (coll: string) =>
+  firebase
+    .firestore()
+    .collection(coll)
+    .get()
+    .then((response) => {
+      return {
+        values: response.docs.map((doc) => doc.data()),
+        fromCache: response.metadata.fromCache
+      }
+    })
+    .catch((error) => console.log(error.message));
+
+export {
+  app,
+  getCurrentUser,
+  db,
+  SetDocument,
+  GetDocument,
+  DeleteDocument,
+  GetCollection,
+};
 
 export default auth;

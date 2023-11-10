@@ -1,15 +1,15 @@
-import EnumConstructor from ".";
+import EnumConstructor from "../../utils/EnumConstructor";
 
 class Theme extends EnumConstructor {
-    light: string;
-    dark: string;
-  
-    constructor() {
-      super(["light", "dark"]);
-      this.light = this.values[0];
-      this.dark = this.values[1];
-    }
+  light: string;
+  dark: string;
+
+  constructor() {
+    super(["light", "dark"]);
+    this.light = this.values[0];
+    this.dark = this.values[1];
   }
+}
 class Length extends EnumConstructor {
   meter: string;
   feet: string;
@@ -44,26 +44,32 @@ class Temperature extends EnumConstructor {
 const Enums = { Theme, Length, Weight, Temperature };
 
 interface Props {
-    uid: string,
-    theme: string,
-    length: number,
-    weight: number,
-    temperature: number
+  theme: string;
+  length: string;
+  weight: string;
+  temperature: string;
 }
 
+const defaults = {
+  theme: new Theme().values[0],
+  length: new Length().values[0],
+  weight: new Weight().values[0],
+  temperature: new Temperature().values[0],
+};
+
 class Model implements Props {
-    uid: string;
-    theme: string;
-    length: number;
-    weight: number;
-    temperature: number;
+  uid: string;
+  theme: string;
+  length: string;
+  weight: string;
+  temperature: string;
 
   constructor(
     uid: string,
     theme: string,
-    length: number,
-    weight: number,
-    temperature: number
+    length: string,
+    weight: string,
+    temperature: string
   ) {
     this.uid = uid;
     this.theme = theme;
@@ -73,6 +79,6 @@ class Model implements Props {
   }
 }
 
-export { Enums };
+export { Enums, defaults };
 export type { Props };
 export default Model;
