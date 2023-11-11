@@ -1,5 +1,6 @@
 import RouteInfo from "./RouteInfo";
 import * as Hash from "./Hash";
+import SeedGenerator from "./SeedGenerator";
 
 const GetScreenSize = () => {
   const width = window.innerWidth;
@@ -10,6 +11,7 @@ const GetScreenSize = () => {
 export {
   RouteInfo,
   Hash,
+  SeedGenerator,
 
   GetScreenSize
 }

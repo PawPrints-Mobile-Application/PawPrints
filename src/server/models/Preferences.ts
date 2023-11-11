@@ -9,27 +9,43 @@ import { SetDocument, GetDocument } from "../firebase";
 import ObjectToMap from "../../utils/ObectToMap";
 import EnumConstructor from "../../utils/EnumConstructor";
 
-class Subscription extends EnumConstructor {
-  theme: "light" | "dark" = "light";
-  length: "meter" | "feet" = "meter";
-  weight: "kilogram" | "pound" = "kilogram";
-  temperature: "celsius" | "fahrenheit" = "celsius";
+class Theme extends EnumConstructor {
+  light: "light" = "light";
+  dark: "dark" = "dark";
 
   constructor() {
-    super([
-      "light",
-      "dark",
-      "meter",
-      "feet",
-      "kilogram",
-      "pound",
-      "celsius",
-      "fahrenheit",
-    ]);
+    super(["light", "dark"]);
   }
 }
 
-const Enums = { Subscription };
+class Length extends EnumConstructor {
+  meter: "meter" = "meter";
+  feet: "feet" = "feet";
+
+  constructor() {
+    super(["meter", "feet"]);
+  }
+}
+
+class Weight extends EnumConstructor {
+  kilogram: "kilogram" = "kilogram";
+  pound: "pound" = "pound";
+
+  constructor() {
+    super(["kilogram", "pound"]);
+  }
+}
+
+class Temperature extends EnumConstructor {
+  celsius: "celsius" = "celsius";
+  fahrenheit: "fahrenheit" = "fahrenheit";
+
+  constructor() {
+    super(["celsius", "fahrenheit"]);
+  }
+}
+
+const Enums = { Theme, Length, Weight, Temperature };
 
 const constants = {
   collection: "Users",
@@ -68,7 +84,10 @@ const Set = async (props: Props, sync: boolean = true) => {
     values: Array.from(data.values()),
   }).then(() => {
     if (!sync) return props;
-    SetDocument(documentPath(), props).then(() => props);
+    return SetDocument(
+      documentPath(localStorage.getItem("authID")!),
+      props
+    ).then(() => props);
   });
 };
 
@@ -76,10 +95,14 @@ const Sync = (uid?: string) =>
   GetDocument(documentPath(uid)).then(async (response) => {
     console.log("syncing...");
     const data = ObjectToMap(response!.data()!);
-    return InsertRowData(constants.document, {
-      keys: Array.from(data.keys()),
-      values: Array.from(data.values()),
-    }).then(Get);
+    return InsertRowData(
+      constants.document,
+      {
+        keys: Array.from(data.keys()),
+        values: Array.from(data.values()),
+      },
+      true
+    ).then(Get);
   });
 
 export type { Props };

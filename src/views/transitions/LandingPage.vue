@@ -30,6 +30,8 @@ import { IonSpinner, onIonViewDidEnter, useIonRouter } from "@ionic/vue";
 
 import CreateModels from "../../server/models";
 
+import { Sync } from "../../server/models/Notes";
+
 const state = reactive({
   doneAnimation: false,
   readyRedirect: false,
@@ -60,12 +62,11 @@ onIonViewDidEnter(() => {
   setTimeout(async () => {
     show.thumbnail = true;
     show.loading = true;
-    CreateModels()
-      .then(() =>
-        setTimeout(() => {
-          state.doneAnimation = true;
-        }, 1000)
-      );
+    CreateModels().then(() =>
+      setTimeout(() => {
+        state.doneAnimation = true;
+      }, 1000)
+    );
   }, 1000);
 });
 

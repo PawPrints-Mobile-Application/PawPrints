@@ -25,7 +25,7 @@ const constants = {
   collection: "Users",
   document: "Information",
   data: `
-    uid TEXT PRIMARY KEY NOT NULL,
+    uid TEXT PRIMARY KEY NOT NULL UNIQUE,
     email TEXT,
     username TEXT,
     subscription TEXT
@@ -58,7 +58,7 @@ const Set = async (props: Props, sync: boolean = true) => {
     values: Array.from(data.values()),
   }).then(() => {
     if (!sync) return props;
-    return SetDocument(documentPath(props.uid), props).then(() => props)
+    return SetDocument(documentPath(props.uid), props).then(() => props);
   });
 };
 
@@ -66,10 +66,14 @@ const Sync = (uid?: string) =>
   GetDocument(documentPath(uid)).then(async (response) => {
     console.log("syncing...");
     const data = ObjectToMap(response!.data()!);
-    return InsertRowData(constants.document, {
-      keys: Array.from(data.keys()),
-      values: Array.from(data.values()),
-    }).then(Get);
+    return InsertRowData(
+      constants.document,
+      {
+        keys: Array.from(data.keys()),
+        values: Array.from(data.values()),
+      },
+      true
+    ).then(Get);
   });
 
 export type { Props };

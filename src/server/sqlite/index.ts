@@ -19,6 +19,9 @@ const ConnectDB = async (
     ret.result && isConn
       ? await sqlite.retrieveConnection(dbName, false)
       : await sqlite.createConnection(dbName, false, "no-encryption", 1, false);
+  const log = false || queryLog;
+  if (log) console.log("Query Processing: " + query, "Values: " + values);
+
   await db.open();
   let response;
   if (!!values) {
@@ -26,11 +29,9 @@ const ConnectDB = async (
   } else {
     response = await db.query(query);
   }
-  const log = false || queryLog;
-  if (log) {
-    console.log("Query Processing: " + query + "Response: " + response);
-    // console.log(await db.getTableList());
-  }
+
+  if (log) console.log("Response: " + response);
+
   await db.close();
   return response;
 };
@@ -57,7 +58,7 @@ const InsertRowData = async (
     `INSERT ${allowReplace ? 'OR REPLACE ' : '' }INTO ${tableName} (${data.keys.join(", ")}) VALUES (${"?,".repeat(
       data.values.length - 1
     )}?);`,
-    data.values
+    data.values, true
   );
 
 // ============================== READ ==============================
