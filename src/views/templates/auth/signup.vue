@@ -272,7 +272,7 @@ export default {
   > .message-text {
     font-family: Rubik;
     font-weight: bold;
-    font-size: var(--fs1);
+    font-size: var(--fs2);
   }
 }
 </style>

@@ -1,10 +1,20 @@
 <template>
-  <ion-modal class="modal" ref="modal" :trigger="trigger">
+  <ion-modal
+    class="modal"
+    ref="modal"
+    :trigger="trigger"
+    @didDismiss="emit('dismiss')"
+    @didPresent="emit('present')"
+  >
     <ion-header
       class="layout-wrapper header ion-no-border"
       v-show="!hideHeader"
     >
-      <BackButton v-show="!hideHeaderBack" @click="CloseModal" :disabled="!!disableBack" />
+      <BackButton
+        v-show="!hideHeaderBack"
+        @click="CloseModal"
+        :disabled="disableBack"
+      />
       <div class="text font-rubik text-title font-bold" v-show="title">
         {{ title?.toUpperCase() }}
       </div>
@@ -26,12 +36,12 @@
       <BackButton
         v-show="!hideFooterBack"
         @click="() => (page === 1 ? CloseModal() : Back())"
-        :disabled="!!disableBack"
+        :disabled="disableBack"
       />
       <ForwardButton
         v-show="!hideFooterSubmit"
         @click="() => (page === maxPages ? Submit() : Next())"
-        :disabled="!!disableNext"
+        :disabled="disableNext"
       />
     </ion-footer>
   </ion-modal>
@@ -89,11 +99,25 @@ const props = defineProps({
   hideFooter: Boolean,
   hideFooterBack: Boolean,
   hideFooterSubmit: Boolean,
-  disableNext: Boolean,
-  disableBack: Boolean,
+  disableNext: {
+    type: Boolean,
+    default: false
+  },
+  disableBack: {
+    type: Boolean,
+    default: false
+  },
 });
 
-const emit = defineEmits(["submit", "close", "back", "next", "update:page"]);
+const emit = defineEmits([
+  "submit",
+  "close",
+  "back",
+  "next",
+  "update:page",
+  "dismiss",
+  "present",
+]);
 defineExpose({ page });
 </script>
 

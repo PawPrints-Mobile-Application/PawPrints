@@ -1,6 +1,6 @@
 import {
   CreateTable,
-  DeleteTable as RemoveTable,
+  DeleteTable,
   ResetTable,
   InsertRowData,
   ReadFirstRow,
@@ -65,33 +65,33 @@ type Props = {
   temperature: "celsius" | "fahrenheit";
 };
 
-const documentPath = (uid?: string) =>
-  `${constants.collection}/${
-    !!uid ? uid : localStorage.getItem("authID")!
-  }/Profile/${constants.document}`;
+const defaults: Props = {
+  theme: "light",
+  length: "meter",
+  weight: "kilogram",
+  temperature: "celsius",
+};
 
-const Initialize = () => CreateTable(constants.document, constants.data);
-const DeleteTable = () => RemoveTable(constants.document);
+const documentPath = (uid: string) =>
+  `${constants.collection}/${uid}/Profile/${constants.document}`;
+
+const CreateModel = () => CreateTable(constants.document, constants.data);
+const DeleteModel = () => DeleteTable(constants.document);
 const Clear = () => ResetTable(constants.document);
 
 const Get = () =>
   ReadFirstRow(constants.document).then((response) => response.values![0]);
 
-const Set = async (props: Props, sync: boolean = true) => {
+const Set = async (props: Props, uid?: string) => {
   const data = ObjectToMap(props);
+  if (!!uid) await SetDocument(documentPath(uid), props);
   return InsertRowData(constants.document, {
     keys: Array.from(data.keys()),
     values: Array.from(data.values()),
-  }).then(() => {
-    if (!sync) return props;
-    return SetDocument(
-      documentPath(localStorage.getItem("authID")!),
-      props
-    ).then(() => props);
-  });
+  }).then(() => props);
 };
 
-const Sync = (uid?: string) =>
+const Sync = async (uid: string) =>
   GetDocument(documentPath(uid)).then(async (response) => {
     console.log("syncing...");
     const data = ObjectToMap(response!.data()!);
@@ -106,4 +106,4 @@ const Sync = (uid?: string) =>
   });
 
 export type { Props };
-export { Enums, Initialize, DeleteTable, Clear, Set, Get, Sync };
+export { Enums, CreateModel, DeleteModel, Clear, Set, Get, Sync, defaults };

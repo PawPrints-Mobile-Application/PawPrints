@@ -5,11 +5,8 @@ import {
   User,
 } from "firebase/auth";
 import auth from "../firebase";
-import {
-  Set as InformationSet,
-  Enums as InformationEnums,
-  Props as InformationProps,
-} from "../models/Information";
+import { Enums as InformationEnums } from "../models/Information";
+import { InitializeModels } from "../models";
 
 type Form = {
   username: string;
@@ -46,20 +43,16 @@ const FirebaseProfileUpdate = (
     return user;
   });
 
-const DatabaseRegistration = (user: User) => {
-  const informationProps: InformationProps = {
-    uid: user.uid,
-    email: user.email!,
-    username: user.displayName!,
-    subscription: new InformationEnums.Subscription().free,
-  };
-
-  const informationData = InformationSet(informationProps);
-  return Promise.all([informationData]).then(() => {
-    console.log("Database Initialization Successful!");
-    return informationProps;
-  });
-};
+const DatabaseRegistration = async (user: User) =>
+  InitializeModels(
+    {
+      uid: user.uid,
+      email: user.email!,
+      username: user.displayName!,
+      subscription: new InformationEnums.Subscription().free,
+    },
+    user.uid
+  );
 
 export {
   FirebaseRegistration,

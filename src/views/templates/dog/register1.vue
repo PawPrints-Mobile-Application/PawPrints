@@ -6,7 +6,7 @@
       placeholder="Doggo Name"
       label="Doggo Name"
     />
-    <InputDate v-model:value="birthday" label="Birthday" />
+    <InputDate v-model:value="birthday" label="Birthday" hide-input />
     <InputDropdown
       v-model:value="breed"
       label="Doggo Breed"
@@ -29,7 +29,7 @@ import {
   InputDate,
   InputColor,
 } from "../../../components/Forms";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 
 const props = defineProps({
   name: {
@@ -91,10 +91,23 @@ const emit = defineEmits([
   "update:birthday",
   "update:breed",
   "update:color",
+  "empty",
 ]);
 const constants = {
   breeds: ["1", "2"],
 };
+
+const isEmpty = () =>
+  [name, birthday, breed, color]
+    .map((element) => element.value === "")
+    .reduce((acc, val) => acc || val);
+
+watch(
+  () => isEmpty(),
+  () => emit("empty", isEmpty())
+);
+
+defineExpose({ isEmpty });
 </script>
 
 <script lang="ts">

@@ -58,7 +58,7 @@ const InsertRowData = async (
     `INSERT ${allowReplace ? 'OR REPLACE ' : '' }INTO ${tableName} (${data.keys.join(", ")}) VALUES (${"?,".repeat(
       data.values.length - 1
     )}?);`,
-    data.values, true
+    data.values
   );
 
 // ============================== READ ==============================

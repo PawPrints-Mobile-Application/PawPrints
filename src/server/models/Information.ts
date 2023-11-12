@@ -1,6 +1,6 @@
 import {
   CreateTable,
-  DeleteTable as RemoveTable,
+  DeleteTable,
   ResetTable,
   InsertRowData,
   ReadFirstRow,
@@ -39,30 +39,35 @@ type Props = {
   subscription: "guest" | "free" | "pawmium";
 };
 
-const documentPath = (uid?: string) =>
-  `${constants.collection}/${
-    !!uid ? uid : localStorage.getItem("authID")!
-  }/Profile/${constants.document}`;
+const ToProps = (values: any): Props => {
+  return {
+    uid: values.uid,
+    email: values.email,
+    username: values.username,
+    subscription: values.subscription
+  }
+}
 
-const Initialize = () => CreateTable(constants.document, constants.data);
-const DeleteTable = () => RemoveTable(constants.document);
+const documentPath = (uid: string) =>
+  `${constants.collection}/${uid}/Profile/${constants.document}`;
+
+const CreateModel = () => CreateTable(constants.document, constants.data);
+const DeleteModel = () => DeleteTable(constants.document);
 const Clear = () => ResetTable(constants.document);
 
 const Get = () =>
-  ReadFirstRow(constants.document).then((response) => response.values![0]);
+  ReadFirstRow(constants.document).then((response) => ToProps(response.values![0]));
 
-const Set = async (props: Props, sync: boolean = true) => {
+const Set = async (props: Props, uid?: string) => {
   const data = ObjectToMap(props);
+  if (!!uid) await SetDocument(documentPath(uid), props);
   return InsertRowData(constants.document, {
     keys: Array.from(data.keys()),
     values: Array.from(data.values()),
-  }).then(() => {
-    if (!sync) return props;
-    return SetDocument(documentPath(props.uid), props).then(() => props);
-  });
+  }).then(() => props);
 };
 
-const Sync = (uid?: string) =>
+const Sync = async (uid: string) =>
   GetDocument(documentPath(uid)).then(async (response) => {
     console.log("syncing...");
     const data = ObjectToMap(response!.data()!);
@@ -77,4 +82,4 @@ const Sync = (uid?: string) =>
   });
 
 export type { Props };
-export { Enums, Initialize, DeleteTable, Clear, Set, Get, Sync };
+export { Enums, CreateModel, DeleteModel, Clear, Set, Get, Sync };

@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { InputRadio } from "../../../components/Forms";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 
 const props = defineProps({
   inoutdoors: {
@@ -48,7 +48,19 @@ const fixing = computed({
   },
 });
 
-const emit = defineEmits(["update:inoutdoors", "update:fixing"]);
+const emit = defineEmits(["update:inoutdoors", "update:fixing", "empty"]);
+
+const isEmpty = () =>
+  [inoutdoors, fixing]
+    .map((element) => element.value === "")
+    .reduce((acc, val) => acc || val);
+
+watch(
+  () => isEmpty(),
+  () => emit("empty", isEmpty())
+);
+
+defineExpose({ isEmpty });
 </script>
 
 <script lang="ts">

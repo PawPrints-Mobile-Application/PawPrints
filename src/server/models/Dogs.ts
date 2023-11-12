@@ -1,9 +1,10 @@
 import {
   CreateTable,
-  DeleteTable as RemoveTable,
+  DeleteTable,
   ResetTable,
   InsertRowData,
   ReadRowData,
+  DeleteRowData,
 } from "../sqlite";
 import { SetDocument, GetDocument, GetCollection } from "../firebase";
 import ObjectToMap from "../../utils/ObectToMap";
@@ -40,7 +41,9 @@ const constants = {
     breed TEXT,
     color TEXT,
     inoutdoor TEXT,
-    fixing TEXT
+    fixing TEXT,
+    events TEXT,
+    notes TEXT
       `,
   arraySplitter: ", ",
 };
@@ -51,8 +54,8 @@ type Props = {
   birthday: string;
   breed: string;
   color: string;
-  inoutdoor: "indoor" | "outdoor";
-  fixing: "none" | "neutered" | "spayed";
+  inoutdoor: string;
+  fixing: string;
   events: Array<string>;
   notes: Array<string>;
 };
@@ -63,8 +66,8 @@ type LocalProps = {
   birthday: string;
   breed: string;
   color: string;
-  inoutdoor: "indoor" | "outdoor";
-  fixing: "none" | "neutered" | "spayed";
+  inoutdoor: string;
+  fixing: string;
   events: string;
   notes: string;
 };
@@ -97,15 +100,14 @@ const ToLocalProps = (props: Props | DocumentData): LocalProps => {
   };
 };
 
-const CollectionPath = () =>
-  `${constants.collection}/${"ESgd5oubhOW33cYfsqZrFmhhLVf1"}/${
-    constants.document
-  }`;
+const CollectionPath = (uid: string) =>
+  `${constants.collection}/${uid}/${constants.document}`;
 
-const documentPath = (nid: string) => `${CollectionPath()}/${nid}`;
+const documentPath = (uid: string, pid: string) =>
+  `${CollectionPath(uid)}/${pid}`;
 
-const Initialize = () => CreateTable(constants.document, constants.data);
-const DeleteTable = () => RemoveTable(constants.document);
+const CreateModel = () => CreateTable(constants.document, constants.data);
+const DeleteModel = () => DeleteTable(constants.document);
 const Clear = () => ResetTable(constants.document);
 
 const GetAll = () =>
@@ -113,25 +115,26 @@ const GetAll = () =>
     response.values!.map((note) => ToProps(note))
   );
 
-const Get = (nid: string) =>
-  ReadRowData(constants.document, { key: "nid", value: nid }).then((response) =>
+const Get = (pid: string) =>
+  ReadRowData(constants.document, { key: "pid", value: pid }).then((response) =>
     ToProps(response.values![0])
   );
 
-const Add = async (props: Props, sync: boolean = true) => {
+const Add = async (props: Props, uid?: string) => {
   const localProps = ToLocalProps(props);
   const data = ObjectToMap(localProps);
+  if (!!uid) await SetDocument(documentPath(uid, props.pid), props);
   return InsertRowData(constants.document, {
     keys: Array.from(data.keys()),
     values: Array.from(data.values()),
-  }).then(() => {
-    if (!sync) return props;
-    return SetDocument(documentPath(props.pid), props).then(() => props);
-  });
+  }).then(() => props);
 };
 
-const SyncNote = (nid: string) =>
-  GetDocument(documentPath(nid)).then(async (response) => {
+const Remove = (pid: string) =>
+  DeleteRowData(constants.document, { key: "pid", value: pid });
+
+const Sync = async (uid: string, pid: string) =>
+  GetDocument(documentPath(uid, pid)).then(async (response) => {
     const documentData = response!.data()!;
     const localProps = ToLocalProps(documentData);
     const data = ObjectToMap(localProps);
@@ -142,14 +145,14 @@ const SyncNote = (nid: string) =>
         values: Array.from(data.values()),
       },
       true
-    ).then(() => Get(nid));
+    ).then(() => Get(pid));
   });
 
-const Sync = () =>
-  GetCollection(CollectionPath()).then(async (value) => {
+const SyncAll = async (uid: string) =>
+  GetCollection(CollectionPath(uid)).then(async (value) => {
     let temp = new Array<Props>();
     for (let cloudProps of value!.values) {
-      const response = await SyncNote(cloudProps.nid);
+      const response = await Sync(uid, cloudProps.pid);
       temp.push(response);
     }
     return temp;
@@ -158,12 +161,13 @@ const Sync = () =>
 export type { Props, LocalProps };
 export {
   Enums,
-  Initialize,
-  DeleteTable,
+  CreateModel,
+  DeleteModel,
   Clear,
   Add,
   GetAll,
   Get,
-  SyncNote,
+  Remove,
   Sync,
+  SyncAll,
 };

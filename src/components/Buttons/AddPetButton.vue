@@ -5,21 +5,20 @@
       <div id="button-line-2" class="button-line" />
     </button>
     <Modal
-      ref="modal"
       :trigger="`add-pet-${id}`"
       title="Doggo Profile"
       :max-pages="pages.length"
       @submit="Submit"
-      @close="ClearForm"
+      @dismiss="ClearForm"
       hide-header-back
-      style-justify-content="space-around"
-      :disable-next="disabler"
+      :disable-next="disabler[currentPage - 1]"
       v-model:page="currentPage"
     >
       <template #modalSlot="{ page }">
         <PetAvatar :background-color="form.color" />
         <register1
           v-if="page === 1"
+          @empty="(value) => (disabler[0] = value)"
           v-model:name="form.name"
           v-model:birthday="form.birthday"
           v-model:breed="form.breed"
@@ -27,6 +26,7 @@
         />
         <register2
           v-else-if="page === 2"
+          @empty="(value) => (disabler[1] = value)"
           v-model:inoutdoors="form.inoutdoors"
           v-model:fixing="form.fixing"
         />
@@ -36,40 +36,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, defineAsyncComponent, ref, computed } from "vue";
+import { reactive, ref } from "vue";
 import { Default as PetAvatar } from "../../components/Avatars/Pets";
-import { templates } from "../../views/templates";
 import { Modal } from "../Modals";
-// import { InsertData } from "../../server/sqlite/data/DogProfile";
-// import { SetDog } from "../../server/firebase/data/Users";
-
-const register1 = defineAsyncComponent(templates.register1);
-const register2 = defineAsyncComponent(templates.register2);
-
-const modal = ref();
-const pages = [register1, register2];
-const currentPage = ref(1);
-const disabler = computed(() => {
-  switch (currentPage.value) {
-    case 1:
-      return [form.name, form.birthday, form.breed, form.color]
-        .map((value) => value === "")
-        .reduce((acc, val) => acc || val);
-    default:
-      return [form.inoutdoors, form.fixing]
-        .map((value) => value === "")
-        .reduce((acc, val) => acc || val);
-  }
-});
-
-const ClearForm = () => {
-  form.name = "";
-  form.birthday = "";
-  form.breed = "";
-  form.color = "#FFD80A";
-  form.inoutdoors = "";
-  form.fixing = "";
-};
+import { Add } from "../../server/models/Dogs";
+import { SeedGenerator } from "../../utils";
+import register1 from "../../views/templates/dog/register1.vue";
+import register2 from "../../views/templates/dog/register2.vue";
 
 const form = reactive({
   name: "",
@@ -80,23 +53,37 @@ const form = reactive({
   fixing: "",
 });
 
-const Submit = () => {
-  // const data = {
-  //   pid: new Date()[Symbol.toPrimitive]("number").toString(),
-  //   uid: localStorage.getItem("authID")!,
-  //   name: form.name,
-  //   birthday: form.birthday,
-  //   breed: form.breed,
-  //   color: form.color,
-  //   inoutdoor: form.inoutdoors,
-  //   fixing: form.fixing,
-  // };
+const pages = [register1, register2];
+const currentPage = ref(1);
+const disabler = ref([true, true]);
 
-  // Save Dog Locally
-  // InsertData(data)
-  //   .then(() => SetDog(data))
-  //   .finally(() => emit("submit"));
+const ClearForm = () => {
+  disabler.value = [true, true];
+  form.name = "";
+  form.birthday = "";
+  form.breed = "";
+  form.color = "#FFD80A";
+  form.inoutdoors = "";
+  form.fixing = "";
 };
+
+const Submit = () =>
+  Add(
+    {
+      pid: SeedGenerator().toString(),
+      name: form.name,
+      birthday: form.birthday,
+      breed: form.breed,
+      color: form.color,
+      inoutdoor: form.inoutdoors,
+      fixing: form.fixing,
+      events: [],
+      notes: [],
+    },
+    localStorage.getItem("authEmail")! === "Guest"
+      ? undefined
+      : localStorage.getItem("authID")!
+  ).then(() => emit("submit"));
 
 defineProps({
   id: {

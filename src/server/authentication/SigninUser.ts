@@ -1,11 +1,20 @@
 import { User, signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../../server/firebase";
+import { SyncModels, InitializeModels } from "../models";
 import {
-  Sync as InformationSync,
-  Set as InformationSet,
   Enums as InformationEnums,
   Props as InformationProps,
 } from "../models/Information";
+import { SeedGenerator } from "../../utils";
+
+const GuestData = {
+  informationProps: {
+    uid: SeedGenerator().toString(),
+    email: "Guest",
+    username: "Hooman",
+    subscription: new InformationEnums.Subscription().guest,
+  },
+};
 
 type Form = {
   email: string;
@@ -20,18 +29,12 @@ const FirebaseLogin = (form: Form) =>
     }
   );
 
-const DatabaseInitialization = (user?: User) => {
-  const informationProps: InformationProps = {
-    uid: new Date()[Symbol.toPrimitive]("number").toString(),
-    email: "Guest",
-    username: "Hooman",
-    subscription: new InformationEnums.Subscription().guest,
-  };
+const DatabaseInitialization = async (user?: User) => {
+  const process: Promise<InformationProps> = !!user
+    ? SyncModels(user.uid)
+    : InitializeModels(GuestData.informationProps);
 
-  const informationData = !!user
-    ? InformationSync(user.uid)
-    : InformationSet(informationProps, false);
-  return informationData.then((response: any) => {
+  return process.then((response: any) => {
     console.log("Database Initialization Successful!");
     return response;
   });
@@ -39,9 +42,9 @@ const DatabaseInitialization = (user?: User) => {
 
 const WindowDatabaseInitialization = (props: InformationProps) => {
   window.localStorage.setItem("authType", props.subscription);
-  window.localStorage.setItem("authID", `${props.uid}`);
-  window.localStorage.setItem("authUsername", `${props.username}`);
-  window.localStorage.setItem("authEmail", `${props.email}`);
+  window.localStorage.setItem("authID", props.uid);
+  window.localStorage.setItem("authUsername", props.username);
+  window.localStorage.setItem("authEmail", props.email);
   console.log(`${props.username} has logged in.`);
 };
 

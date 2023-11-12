@@ -7,7 +7,7 @@
     </template>
     <template #pageContent>
       <section class="content">
-        <FactsPreview @click="DeleteAllDogs" />
+        <FactsPreview />
         <DogPreview ref="dogPreview" />
       </section>
     </template>
@@ -18,7 +18,6 @@
 import { PageLayout } from "../../layout";
 import { FactsPreview, DogPreview } from "../../components/Cards";
 import { onIonViewDidEnter, onIonViewWillEnter } from "@ionic/vue";
-import { DeleteAllData } from "../../server/sqlite/data/DogProfile";
 import { ref } from "vue";
 
 const dogPreview = ref();
@@ -35,13 +34,6 @@ onIonViewWillEnter(async () => {
 
 // Heavy Functions
 onIonViewDidEnter(() => {});
-
-// Data Manipulator
-const DeleteAllDogs = () => {
-  DeleteAllData().then(() => {
-    console.log("All Dogs in the database has been deleted.");
-  });
-};
 </script>
 
 <script lang="ts">

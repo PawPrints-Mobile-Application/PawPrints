@@ -25,10 +25,7 @@ import { DogCard } from ".";
 import { AddPetButton } from "../Buttons";
 import { InputSearch } from "../Forms";
 import { reactive, ref } from "vue";
-import {
-  GetAllData,
-  // DeleteAllData,
-} from "../../server/sqlite/data/DogProfile";
+import { GetAll } from "../../server/models/Dogs";
 
 const rawDogs = ref<Array<any>>();
 const filteredDogs = ref<Array<any>>();
@@ -68,9 +65,9 @@ const ReloadPage = () => FetchDogs();
 // };
 
 const FetchDogs = () =>
-  GetAllData().then((data) => {
-    rawDogs.value = data.values;
-    filteredDogs.value = data.values;
+GetAll().then((data) => {
+    rawDogs.value = data;
+    filteredDogs.value = data;
     state.noDogsFound = filteredDogs.value?.length === 0 || !filteredDogs.value;
   });
 
