@@ -21,7 +21,7 @@ const props = defineProps({
 const ionRouter = useIonRouter();
 const Redirect = () => {
   emit("click");
-  ionRouter.navigate(`/settings/${props.label}`, "forward", "push");
+  ionRouter.navigate(`/navigation/settings/${props.label}`, "forward", "push");
 };
 const emit = defineEmits(["click"]);
 </script>

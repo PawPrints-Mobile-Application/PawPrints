@@ -8,7 +8,7 @@
           :id="`tab-button-${route.name}`"
           class="tab-button"
           :tab="route.name"
-          :href="route.path"
+          :href="`/navigation/` + route.name"
           layout="icon-start"
         >
           <ion-icon
@@ -34,7 +34,7 @@ import {
   IonTabButton,
   IonIcon,
 } from "@ionic/vue";
-import routes from "./navigation";
+import routes from "./Navigation";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useIonRouter, useBackButton } from "@ionic/vue";

@@ -1,8 +1,8 @@
 import {
   pawOutline as homeDefault,
   paw as homeActive,
-  bulbOutline as factsDefault,
-  bulb as factsActive,
+  bulbOutline as forumsDefault,
+  bulb as forumsActive,
   mapOutline as mapsDefault,
   map as mapsActive,
   settingsOutline as settingsDefault,
@@ -39,10 +39,10 @@ const routes: RouteData[] = [
     children: [],
   },
   {
-    name: "Facts",
+    name: "Forums",
     icons: {
-      default: factsDefault,
-      active: factsActive,
+      default: forumsDefault,
+      active: forumsActive,
     },
     children: [],
   },

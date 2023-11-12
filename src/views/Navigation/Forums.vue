@@ -17,7 +17,7 @@ import { PageLayout } from "../../layout";
 
 <script lang="ts">
 export default {
-  name: "Facts",
+  name: "Forums",
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <button class="dog-card">
+  <button class="dog-card" @click="Redirect">
     <PetAvatar :background-color="data.color" />
     <h4>{{ data.name }}</h4>
     <h5>{{ data.age }}</h5>
@@ -8,6 +8,11 @@
 
 <script setup lang="ts">
 import { Default as PetAvatar } from "../../components/Avatars/Pets";
+import { useIonRouter } from '@ionic/vue';
+
+const ionRouter = useIonRouter();
+const Redirect = () => ionRouter.push(`/navigation/home/${data.name}`);
+
 const props = defineProps({
   icon: String,
   dog: {

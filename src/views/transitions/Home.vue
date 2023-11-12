@@ -25,7 +25,7 @@ onMounted(() => {
     backgroundGrow.value = true;
     setTimeout(() => {
       logoOut.value = true;
-      setTimeout(() => ionRouter.navigate("/home", "forward", "replace"), 900);
+      setTimeout(() => ionRouter.navigate("/navigation/home", "forward", "replace"), 900);
     }, 200);
   }, 300);
 });
@@ -33,7 +33,7 @@ onMounted(() => {
 
 <script lang="ts">
 export default {
-  name: "SplashToHome",
+  name: "Home",
 };
 </script>
 

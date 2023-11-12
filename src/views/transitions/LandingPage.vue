@@ -30,8 +30,6 @@ import { IonSpinner, onIonViewDidEnter, useIonRouter } from "@ionic/vue";
 
 import CreateModels from "../../server/models";
 
-import { Sync } from "../../server/models/Notes";
-
 const state = reactive({
   doneAnimation: false,
   readyRedirect: false,
@@ -48,7 +46,7 @@ const Redirect = () => {
   state.background = true;
   setTimeout(() => {
     ionRouter.navigate(
-      `/${user.value ? "splashtohome" : "splashtoauth"}`,
+      `/transitions/${user.value ? "home" : "auth"}`,
       "forward",
       "replace"
     );

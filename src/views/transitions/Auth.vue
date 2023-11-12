@@ -37,7 +37,7 @@ onMounted(() => ShowContent());
 
 <script lang="ts">
 export default {
-  name: "SplashToAuth",
+  name: "Auth",
 };
 </script>
 
