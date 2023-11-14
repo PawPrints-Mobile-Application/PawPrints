@@ -41,14 +41,13 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, reactive } from "vue";
+import { reactive } from "vue";
 import { PageLayout } from "../layout";
 import { ButtonModal, GuestButton } from "../components/Buttons";
-import { templates } from "./templates";
 import { ImgLogo } from "../components/Logo";
 
-const signin = defineAsyncComponent(templates.signin);
-const signup = defineAsyncComponent(templates.signup);
+import { signin } from "./_templates";
+import { signup } from "./_templates";
 
 const disabler = reactive({
   signin: false,

@@ -46,7 +46,7 @@ const Redirect = () => {
   state.background = true;
   setTimeout(() => {
     ionRouter.navigate(
-      `/transitions/${user.value ? "home" : "auth"}`,
+      `/transition/${user.value ? "home" : "auth"}`,
       "forward",
       "replace"
     );
@@ -76,7 +76,7 @@ const show = reactive({
 
 <script lang="ts">
 export default {
-  name: "LandingPage",
+  name: "Splash",
 };
 </script>
 <style scoped>

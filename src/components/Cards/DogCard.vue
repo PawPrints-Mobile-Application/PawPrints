@@ -11,7 +11,7 @@ import { Default as PetAvatar } from "../../components/Avatars/Pets";
 import { useIonRouter } from '@ionic/vue';
 
 const ionRouter = useIonRouter();
-const Redirect = () => ionRouter.push(`/navigation/home/${data.name}`);
+const Redirect = () => ionRouter.push(`/home/${data.name}`);
 
 const props = defineProps({
   icon: String,

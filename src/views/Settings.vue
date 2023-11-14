@@ -11,10 +11,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ProfileCard, SettingsCardPreview } from "../../components/Cards";
+import { ProfileCard, SettingsCardPreview } from "../components/Cards";
 
-import { PageLayout } from "../../layout";
-import { ButtonSignOut } from "../../components/Buttons";
+import { PageLayout } from "../layout";
+import { ButtonSignOut } from "../components/Buttons";
 </script>
 
 <script lang="ts">

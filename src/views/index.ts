@@ -1,81 +1,71 @@
-const routes = [
+import homeRecords from "./Home";
+import dogsRecords from "./Dogs";
+import forumsRecords from "./Forums";
+import settingsRecords from "./Settings";
+import transitionRecords from "./transition";
+
+import {
+  pawOutline as homeDefault,
+  paw as homeActive,
+  bulbOutline as forumsDefault,
+  bulb as forumsActive,
+  mapOutline as mapsDefault,
+  map as mapsActive,
+  settingsOutline as settingsDefault,
+  settings as settingsActive,
+} from "ionicons/icons";
+
+const navigationRecords = [
   {
-    path: "",
-    default: "/transitions",
-    children: [
-      
-    ]
+    name: "Home",
+    icons: {
+      default: homeDefault,
+      active: homeActive,
+    },
+  },
+  // {
+  //   name: "Dogs",
+  //   icons: {
+  //     default: homeDefault,
+  //     active: homeActive,
+  //   },
+  // },
+  {
+    name: "Forums",
+    icons: {
+      default: forumsDefault,
+      active: forumsActive,
+    },
   },
   {
-    path: "/transitions",
-    default: "/landingpage",
-    children: [
-      {
-        name: "LandingPage",
-        path: "/landingpage",
-      },
-      {
-        name: "SplashToAuth",
-        path: "/auth",
-      },
-      {
-        name: "SplashToHome",
-        path: "/home",
-      },
-    ],
+    name: "Maps",
+    icons: {
+      default: mapsDefault,
+      active: mapsActive,
+    },
   },
   {
-    path: "/navigation",
-    default: "/home",
-    children: [
-      {
-        name: "Home",
-        path: "/home",
-        children: [
-          {
-            name: "DogProfile",
-            path: "/:name",
-          },
-        ],
-      },
-      {
-        name: "Forums",
-        path: "/facts",
-        children: [
-          {
-            name: "DogProfile",
-            path: "/:name",
-          },
-        ],
-      },
-      {
-        name: "Maps",
-        path: "/maps",
-      },
-      {
-        name: "Settings",
-        path: "/settings",
-        children: [
-          {
-            name: "Profile",
-            path: "/profile",
-          },
-          {
-            name: "Preferences",
-            path: "/preferences",
-          },
-          {
-            name: "Subscriptions",
-            path: "/subscriptions",
-          },
-          {
-            name: "About",
-            path: "/about",
-          },
-        ],
-      },
-    ],
+    name: "Settings",
+    icons: {
+      default: settingsDefault,
+      active: settingsActive,
+    },
   },
 ];
 
-export default routes;
+const independentRoutes = [
+  { name: "PageNotFound" },
+  { name: "Test" },
+  { name: "Auth" },
+];
+
+export {
+  navigationRecords,
+  homeRecords,
+  dogsRecords,
+  forumsRecords,
+  settingsRecords,
+  transitionRecords,
+};
+
+export default independentRoutes;

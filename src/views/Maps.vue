@@ -20,8 +20,8 @@
 </template>
 
 <script lang="ts" setup>
-import { InputSearch } from "../../components/Forms";
-import { PageLayout } from "../../layout";
+import { InputSearch } from "../components/Forms";
+import { PageLayout } from "../layout";
 import { ref } from "vue";
 
 const searchLocation = ref("");

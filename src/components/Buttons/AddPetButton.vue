@@ -41,8 +41,8 @@ import { Default as PetAvatar } from "../../components/Avatars/Pets";
 import { Modal } from "../Modals";
 import { Add } from "../../server/models/Dogs";
 import { SeedGenerator } from "../../utils";
-import register1 from "../../views/templates/dog/register1.vue";
-import register2 from "../../views/templates/dog/register2.vue";
+import { register1 } from "../../views/_templates/index";
+import { register2 } from "../../views/_templates/index";
 
 const form = reactive({
   name: "",

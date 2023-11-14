@@ -25,7 +25,7 @@ onMounted(() => {
     backgroundGrow.value = true;
     setTimeout(() => {
       logoOut.value = true;
-      setTimeout(() => ionRouter.navigate("/navigation/home", "forward", "replace"), 900);
+      setTimeout(() => ionRouter.navigate("/home", "forward", "replace"), 900);
     }, 200);
   }, 300);
 });

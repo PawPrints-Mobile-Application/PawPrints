@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts" setup>
-import { PageLayout } from "../../layout";
-import { FactsPreview, DogPreview } from "../../components/Cards";
+import { PageLayout } from "../layout";
+import { FactsPreview, DogPreview } from "../components/Cards";
 import { onIonViewDidEnter, onIonViewWillEnter } from "@ionic/vue";
 import { ref } from "vue";
 

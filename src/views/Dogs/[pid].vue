@@ -4,7 +4,7 @@
   </PageLayout>
 </template>
 <script setup lang="ts">
-import { PageLayout } from '../../../layout';
+import { PageLayout } from '../../layout';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 

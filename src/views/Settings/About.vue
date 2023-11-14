@@ -15,8 +15,8 @@
   </SettingsLayout>
 </template>
 <script setup lang="ts">
-import { SettingsLayout } from "../../../layout";
-import { ImgLogo } from "../../../components/Logo";
+import { SettingsLayout } from "../../layout";
+import { ImgLogo } from "../../components/Logo";
 
 const devNames = [
   "Alliah Nhoree Galamition",

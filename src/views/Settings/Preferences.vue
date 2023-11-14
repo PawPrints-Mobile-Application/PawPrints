@@ -22,9 +22,9 @@
   </SettingsLayout>
 </template>
 <script setup lang="ts">
-import { TextButton } from "../../../components/Buttons";
-import { SettingsLayout } from "../../../layout";
-import { InputRadio, InputLabel } from "../../../components/Forms";
+import { TextButton } from "../../components/Buttons";
+import { SettingsLayout } from "../../layout";
+import { InputRadio, InputLabel } from "../../components/Forms";
 import { watch, ref } from "vue";
 
 const form = [

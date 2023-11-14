@@ -17,14 +17,14 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { SettingsLayout } from "../../../layout";
+import { SettingsLayout } from "../../layout";
 import {
   subscriptionFree,
   subscriptionPawmium,
   subscriptionGuest,
-} from "../../../assets/images/index";
-import { AuthType } from "../../../server/authentication";
-import { SubscriptionCard } from "../../../components/Cards";
+} from "../../assets/images/index";
+import { Enums } from "../../server/models/Information";
+import { SubscriptionCard } from "../../components/Cards";
 
 const current = ref(0);
 const subscriptions = [
@@ -47,13 +47,13 @@ const subscriptions = [
 
 onMounted(() => {
   switch (localStorage.getItem("authType")) {
-    case new AuthType().guest:
+    case new Enums.Subscription().guest:
       current.value = 0;
       break;
-    case new AuthType().free:
+    case new Enums.Subscription().free:
       current.value = 1;
       break;
-    case new AuthType().pawmium:
+    case new Enums.Subscription().pawmium:
       current.value = 2;
       break;
     default:

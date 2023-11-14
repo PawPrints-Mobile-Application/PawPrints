@@ -8,10 +8,10 @@
   </SettingsLayout>
 </template>
 <script setup lang="ts">
-import { SettingsLayout } from "../../../layout";
-import { InputPhoto } from "../../../components/Forms";
+import { SettingsLayout } from "../../layout";
+import { InputPhoto } from "../../components/Forms";
 import { reactive } from "vue";
-import { NoteWarning } from '../../../components/Texts/'
+import { NoteWarning } from '../../components/Texts/'
 // import signup from "../../templates/auth/signup.vue";
 
 const form = reactive({

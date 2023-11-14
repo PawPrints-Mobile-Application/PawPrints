@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { PageLayout } from "../../layout";
+import { PageLayout } from "../layout";
 </script>
 
 <script lang="ts">
