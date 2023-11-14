@@ -1,8 +1,8 @@
 <template>
-  <IconButton class="search-button" :icon="icon" />
+  <ButtonIcon class="search-button" :icon="icon" />
 </template>
 <script setup lang="ts">
-import IconButton from "./IconButton.vue";
+import ButtonIcon from "./ButtonIcon.vue";
 import { search as icon } from "ionicons/icons";
 </script>
 <style scoped>

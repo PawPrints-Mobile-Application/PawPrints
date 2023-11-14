@@ -1,7 +1,6 @@
 <template>
   <ion-modal
     class="modal"
-    ref="modal"
     :trigger="trigger"
     @didDismiss="emit('dismiss')"
     @didPresent="emit('present')"
@@ -33,12 +32,12 @@
       class="layout-wrapper footer ion-no-border"
       v-show="!hideFooter"
     >
-      <BackButton
+      <ButtonBack
         v-show="!hideFooterBack"
         @click="() => (page === 1 ? CloseModal() : Back())"
         :disabled="disableBack"
       />
-      <ForwardButton
+      <ButtonNext
         v-show="!hideFooterSubmit"
         @click="() => (page === maxPages ? Submit() : Next())"
         :disabled="disableNext"
@@ -48,8 +47,8 @@
 </template>
 
 <script setup lang="ts">
-import BackButton from "../Buttons/BackButton.vue";
-import ForwardButton from "../Buttons/ForwardButton.vue";
+import ButtonBack from "../Buttons/ButtonBack.vue";
+import ButtonNext from "../Buttons/ButtonNext.vue";
 import {
   IonModal,
   IonHeader,

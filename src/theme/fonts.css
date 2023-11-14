@@ -6,41 +6,43 @@
     --fs4: 12px;
 }
 
-
 .text {
   margin: 0;
 }
 
-.text.font-bold {
+.text.bold {
   font-weight: 700;
+}
+.text.normal {
+  font-weight: 400;
 }
 
 
-.text.text-title {
+.text.title {
   font-size: var(--fs0);
 }
 
-.text.text-heading {
+.text.heading {
   font-size: var(--fs1);
 }
 
-.text.text-subheading {
+.text.subheading {
   font-size: var(--fs2);
 }
 
-.text.text-paragraph {
+.text.paragraph {
   font-size: var(--fs3);
 }
 
-.text.text-small {
+.text.small {
   font-size: var(--fs4);
 }
 
 
-.text.font-poppins {
+.text.poppins {
   font-family: Poppins;
 }
 
-.text.font-rubik {
+.text.rubik {
   font-family: Rubik;
 }

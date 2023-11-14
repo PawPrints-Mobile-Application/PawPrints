@@ -1,4 +1,3 @@
-import FactsPreview from "./FactsPreview.vue";
 import FactsPreviewCard from "./FactsPreviewCard.vue";
 import DogPreview from "./DogPreview.vue";
 import DogCard from "./DogCard.vue";
@@ -9,7 +8,6 @@ import SubscriptionCard from "./SubscriptionCard.vue";
 import PhotoCard from "./PhotoCard.vue";
 
 export {
-  FactsPreview,
   FactsPreviewCard,
   DogPreview,
   DogCard,

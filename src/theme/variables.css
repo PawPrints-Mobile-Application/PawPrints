@@ -1,5 +1,9 @@
 :root
 {   
+	--background-color-primary: var(--ion-color-primary);
+
+
+
 	/* ================================= DEFAULTS ================================= */
 	/* primary */
     --ion-color-primary: #fefefe;

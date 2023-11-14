@@ -1,19 +1,19 @@
 <template>
-  <page-layout>
-    <template #pageContent>
-      <section class="settings">
-        <ProfileCard />
-        <SettingsCardPreview />
-        <ButtonSignOut />
-      </section>
+  <LayoutPage>
+    <template #content>
+      <ProfileCard />
+      <SettingsCardPreview />
     </template>
-  </page-layout>
+    <template #footer>
+      <ButtonSignOut />
+    </template>
+  </LayoutPage>
 </template>
 
 <script lang="ts" setup>
 import { ProfileCard, SettingsCardPreview } from "../components/Cards";
 
-import { PageLayout } from "../layout";
+import { LayoutPage } from "../layout";
 import { ButtonSignOut } from "../components/Buttons";
 </script>
 

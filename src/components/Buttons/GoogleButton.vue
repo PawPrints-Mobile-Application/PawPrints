@@ -1,8 +1,8 @@
 <template>
-  <IconButton class="button-google" :icon="icon" @click="SignInWithGoogle" />
+  <ButtonIcon class="button-google" :icon="icon" @click="SignInWithGoogle" />
 </template>
 <script setup lang="ts">
-import IconButton from "./IconButton.vue";
+import ButtonIcon from "./ButtonIcon.vue";
 import { logoGoogle as icon } from "ionicons/icons";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import auth from "../../server/firebase";

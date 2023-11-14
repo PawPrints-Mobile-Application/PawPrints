@@ -1,7 +1,7 @@
 <template>
   <section class="input-calendar">
     <header class="calendar-nav">
-      <BackButton class="button" @click="() => MoveMonth(-1)" />
+      <ButtonBack class="button" @click="() => MoveMonth(-1)" />
       <InputDropdown
         class="month"
         v-model:value="shownMonth"
@@ -20,7 +20,7 @@
         hide-input
         :count="15"
       />
-      <ForwardButton class="button" @click="() => MoveMonth(1)" />
+      <ButtonNext class="button" @click="() => MoveMonth(1)" />
     </header>
     <table class="calendar-body">
       <tr id="row-header">
@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import { InputDropdown } from ".";
-import { BackButton, ForwardButton } from "../Buttons";
+import { ButtonBack, ButtonNext } from "../Buttons";
 import { paw as calendarMark } from "ionicons/icons";
 import { reactive, computed } from "vue";
 import { IonIcon } from "@ionic/vue";

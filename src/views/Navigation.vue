@@ -1,7 +1,7 @@
 <template>
   <ion-page class="main-page">
     <ion-tabs>
-      <ion-router-outlet></ion-router-outlet>
+      <ion-router-outlet/>
       <ion-tab-bar class="tab-bar" slot="bottom">
         <ion-tab-button
           v-for="route in navigationRecords"

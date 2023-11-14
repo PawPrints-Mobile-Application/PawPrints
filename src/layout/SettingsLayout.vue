@@ -2,7 +2,7 @@
   <PageLayout id="settings-layout">
     <template #pageHeader>
       <section class="header">
-        <BackButton @click="Redirect" />
+        <ButtonBack @click="Redirect" />
         <h2>{{ label }}</h2>
       </section>
     </template>
@@ -14,7 +14,7 @@
   </PageLayout>
 </template>
 <script setup lang="ts">
-import { BackButton } from "../components/Buttons";
+import { ButtonBack } from "../components/Buttons";
 import { PageLayout } from ".";
 import { useIonRouter } from "@ionic/vue";
 

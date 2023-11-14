@@ -1,22 +1,21 @@
 <template>
-  <page-layout>
-    <template #pageHeader>
-      <h3 class="auth-greetings text text-heading font-bold">
+  <LayoutPage>
+    <template #header>
+      <TextHeading class="auth-greetings">
         {{ authGreetings }}
-      </h3>
+      </TextHeading>
     </template>
-    <template #pageContent>
-      <section class="content">
-        <FactsPreview />
-        <DogPreview ref="dogPreview" />
-      </section>
+    <template #content>
+      <FactsPreviewCard />
+      <DogPreview ref="dogPreview" />
     </template>
-  </page-layout>
+  </LayoutPage>
 </template>
 
 <script lang="ts" setup>
-import { PageLayout } from "../layout";
-import { FactsPreview, DogPreview } from "../components/Cards";
+import { LayoutPage } from "../layout";
+import { TextHeading } from "../components/Texts";
+import { FactsPreviewCard, DogPreview } from "../components/Cards";
 import { onIonViewDidEnter, onIonViewWillEnter } from "@ionic/vue";
 import { ref } from "vue";
 

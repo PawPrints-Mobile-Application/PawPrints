@@ -134,4 +134,3 @@ const emit = defineEmits(["submit"]);
   --size: 100px;
 }
 </style>
-../../server/sqlite/data/DogProfile
