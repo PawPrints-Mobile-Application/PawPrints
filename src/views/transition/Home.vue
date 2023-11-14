@@ -1,16 +1,16 @@
 <template>
-  <page-layout>
+  <LayoutPage disableScroll>
     <div
       class="logo-wrapper"
       :class="{ 'logo-out': logoOut, 'background-grow': backgroundGrow }"
     >
       <ImgLogo id="logo" />
     </div>
-  </page-layout>
+  </LayoutPage>
 </template>
 
 <script lang="ts" setup>
-import { PageLayout } from "../../layout";
+import { LayoutPage } from "../../layout";
 import { ImgLogo } from "../../components/Logo";
 
 import { onMounted, ref } from "vue";
@@ -38,8 +38,7 @@ export default {
 </script>
 
 <style scoped>
-.page-layout {
-  --padding-side: 0 !important;
+.layout-page {
   --background-color: var(--ion-color-tertiary);
   --page-content-justify-content: center;
   transition: all 500ms ease-in;

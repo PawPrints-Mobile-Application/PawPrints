@@ -9,7 +9,7 @@
       class="layout-wrapper header ion-no-border"
       v-show="!hideHeader"
     >
-      <BackButton
+      <ButtonBack
         v-show="!hideHeaderBack"
         @click="CloseModal"
         :disabled="disableBack"

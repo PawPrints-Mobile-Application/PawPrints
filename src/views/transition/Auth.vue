@@ -1,21 +1,22 @@
 <template>
-  <page-layout :class="{ 'show-content': showContent }">
+  <LayoutPage :class="{ 'show-content': showContent }" disableScroll>
     <div class="logo-wrapper" :class="{ 'logo-move': logoMove }">
       <ImgLogo id="logo" />
     </div>
     <section class="main-content">
-      <h1 class="text text-title font-poppins font-bold">PawPrints</h1>
-      <TextButton label="Guest" />
-      <TextButton label="Sign In" />
-      <TextButton label="Sign Up" />
+      <TextTitle>PawPrints</TextTitle>
+      <ButtonAuth label="Guest" />
+      <ButtonAuth label="Sign In" />
+      <ButtonAuth label="Sign Up" />
     </section>
-  </page-layout>
+  </LayoutPage>
 </template>
 
 <script lang="ts" setup>
-import { PageLayout } from "../../layout";
-import { TextButton } from "../../components/Buttons";
+import { LayoutPage } from "../../layout";
+import { ButtonAuth } from "../../components/Buttons";
 import { ImgLogo } from "../../components/Logo";
+import { TextTitle } from "../../components/Texts";
 
 import { onMounted, ref } from "vue";
 
@@ -42,8 +43,7 @@ export default {
 </script>
 
 <style scoped>
-.page-layout {
-  --padding-side: 0 !important;
+.layout-page {
   --background-color: var(--ion-color-tertiary);
   --page-content-justify-content: center;
   transition: all 500ms ease-in;

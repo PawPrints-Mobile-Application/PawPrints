@@ -1,5 +1,5 @@
 <template>
-  <page-layout>
+  <LayoutPage>
     <div class="logo-wrapper">
       <ImgLogo
         id="logo"
@@ -16,11 +16,11 @@
       name="crescent"
       color="primary"
     />
-  </page-layout>
+  </LayoutPage>
 </template>
 
 <script setup lang="ts">
-import { PageLayout } from "../../layout";
+import { LayoutPage } from "../../layout";
 import { ImgLogo } from "../../components/Logo";
 
 import auth from "../../server/firebase";
@@ -80,8 +80,7 @@ export default {
 };
 </script>
 <style scoped>
-.page-layout {
-  --padding-side: 0 !important;
+.layout-page {
   --background-color: var(--ion-color-tertiary);
   --page-content-justify-content: center;
   transition: all 0.5s ease-in;

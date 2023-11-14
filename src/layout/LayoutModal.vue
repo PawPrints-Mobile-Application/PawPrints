@@ -1,6 +1,15 @@
 <template>
-  <ion-page class="layout-modal">
-    <LayoutWrapper :noDefaultMargin="noDefaultMargin">
+  <ion-modal
+    :trigger="trigger"
+    class="layout-modal"
+    @didDismiss="emit('dismiss')"
+    @didPresent="emit('present')"
+  >
+    <LayoutWrapper
+      :noDefaultMargin="noDefaultMargin"
+      :disable-header="hideHeader"
+      :disable-footer="hideFooter"
+    >
       <template #header>
         <section class="header" :data-design="design">
           <section class="header-inner">
@@ -8,7 +17,7 @@
               type="icon"
               v-show="design === 0 && !hideBack"
               :disabled="disableBack"
-              @click="() => console.log(true)"
+              @click="Close"
             />
             <slot name="header">
               <TextHeading>{{ title }}</TextHeading>
@@ -16,8 +25,8 @@
           </section>
           <PageCounter
             v-show="design === 1"
-            :maxPages="maxPages"
-            :currentPage="currentPage"
+            :max="max"
+            :page="page"
             design="stretched"
           />
         </section>
@@ -36,6 +45,7 @@
               state="danger"
             />
             <ButtonSubmit
+              :label="buttonSubmitText"
               :type="buttonType"
               v-show="!hideSubmit && (!hideOnDisable || !disableSubmit)"
               :disabled="disableSubmit"
@@ -46,26 +56,26 @@
           <section class="footer" v-show="design === 1">
             <ButtonBack
               :type="buttonType"
-              v-show="!hideClear && (!hideOnDisable || !disableClear)"
-              :disabled="disableClear"
-              @click="emit('clear')"
-              :state="currentPage === 1 ? 'danger' : 'normal'"
+              v-show="!hideBack && (!hideOnDisable || !disableBack)"
+              :disabled="disableBack"
+              @click="page === 1 ? Close() : Back()"
+              :state="page === 1 ? 'danger' : 'normal'"
             />
             <ButtonNext
               :type="buttonType"
-              v-show="!hideSubmit && (!hideOnDisable || !disableSubmit)"
-              :disabled="disableSubmit"
-              @click="emit('submit')"
-              :state="currentPage === maxPages ? 'success' : 'normal'"
+              v-show="!hideNext && (!hideOnDisable || !disableNext)"
+              :disabled="disableNext"
+              @click="page === max ? Submit() : Next()"
+              :state="page === max ? 'success' : 'normal'"
             />
           </section>
         </slot>
       </template>
     </LayoutWrapper>
-  </ion-page>
+  </ion-modal>
 </template>
 <script setup lang="ts">
-import { IonPage } from "@ionic/vue";
+import { IonModal, modalController } from "@ionic/vue";
 import { LayoutWrapper } from ".";
 import { ref } from "vue";
 import {
@@ -82,13 +92,20 @@ const props = defineProps({
   noDefaultMargin: Boolean,
 
   // Important Props
-  title: String,
-  maxPages: {
+  trigger: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  max: {
     type: Number,
     default: 1,
     validator: (value: number) => value > 0,
   },
-  currentPage: {
+  page: {
     type: Number,
     default: 1,
     validator: (value: number) => value > 0,
@@ -101,19 +118,64 @@ const props = defineProps({
     validator: (value: string) => ["text", "icon"].includes(value),
   },
 
+  hideHeader: Boolean,
+  hideFooter: Boolean,
+
   hideBack: Boolean,
   disableBack: Boolean,
+  hideNext: Boolean,
+  disableNext: Boolean,
 
+  closeOnSubmit: Boolean,
   hideOnDisable: Boolean,
   hideClear: Boolean,
   disableClear: Boolean,
   hideSubmit: Boolean,
   disableSubmit: Boolean,
+
+  buttonSubmitText: String,
 });
 
-const design = ref(props.maxPages === 1 ? 0 : 1);
+const design = ref(props.max === 1 ? 0 : 1);
 
-const emit = defineEmits(["clear", "submit"]);
+const Add = (i: number) =>
+  emit("update:page", Math.max(1, Math.min(props.max, i + props.page)));
+
+const Reset = () => emit("update:page", 1);
+
+const Close = () => {
+  emit("close");
+  modalController.dismiss();
+  setTimeout(Reset, 100);
+};
+
+const Submit = () => {
+  emit("submit");
+  if (!!props.closeOnSubmit) Close();
+};
+
+const Back = () => {
+  emit("back");
+  Add(-1);
+};
+
+const Next = () => {
+  emit("next");
+  Add(1);
+};
+
+const emit = defineEmits([
+  "clear",
+  "submit",
+  "dismiss",
+  "present",
+  "close",
+  "back",
+  "next",
+  "update:page",
+]);
+
+defineExpose({ Reset, Close, Submit, Back, Next });
 </script>
 <style scoped>
 .layout-modal {

@@ -1,63 +1,124 @@
 <template>
   <section class="button-modal">
-    <TextButton :id="`button-${id}`" :label="text" :disabled="!!outerButtonDisabled" />
-    <Modal
-      :trigger="`button-${id}`"
+    <button :id="trigger">
+      <slot name="button"><ButtonText :label="buttonText" /></slot>
+    </button>
+
+    <LayoutModal
+      ref="modal"
+      :trigger="trigger"
       :title="title"
-      :max-pages="maxPages"
-      @submit="() => emit('submit')"
-      :hideHeaderBack="hideHeaderBack"
+      :max="max"
+      :page="page"
+      @update:page="(value: number) => emit('update:page', value)"
+      :buttonType="buttonType"
       :hideHeader="hideHeader"
       :hideFooter="hideFooter"
-      :hideFooterBack="hideFooterBack"
-      :hideFooterSubmit="hideFooterSubmit"
-      :style="{ '--main-height': !!height ? height : 'auto' }"
-      :disableBack="!!headerButtonDisabled"
+      :hideBack="hideBack"
+      :hideNext="hideNext"
+      :hideOnDisable="hideOnDisable"
+      :closeOnSubmit="closeOnSubmit"
+      :hideClear="hideClear"
+      :hideSubmit="hideSubmit"
+      :disableBack="disableBack"
+      :disableNext="disableNext"
+      :disableClear="disableClear"
+      :disableSubmit="disableSubmit"
+      :buttonSubmitText="buttonSubmitText"
+      @clear="emit('clear')"
+      @close="emit('close')"
+      @submit="emit('submit')"
+      @back="emit('back')"
+      @next="emit('next')"
+      @dismiss="emit('dismiss')"
+      @present="emit('present')"
     >
-      <template #modalSlot="{ page, closeModal }">
-        <slot
-          name="modalContent"
-          id="modal-content"
-          :page="page"
-          :closeModal="closeModal"
-          :max="maxPages"
-        />
-      </template>
-    </Modal>
+      <slot />
+    </LayoutModal>
   </section>
 </template>
 
 <script setup lang="ts">
-import {TextButton} from ".";
-import { Modal } from "../Modals";
+import { ButtonText } from ".";
+import { LayoutModal } from "../../layout";
+import { ref } from "vue";
+
+const modal = ref();
+
 defineProps({
-  title: String,
-  id: String,
-  maxPages: {
+  // Button - Modal Connection
+  trigger: {
+    type: String,
+    required: true,
+  },
+
+  // Button Props
+  buttonText: {
+    type: String,
+    default: "Modal",
+  },
+
+  // Modal Props
+  title: {
+    type: String,
+    required: true,
+  },
+  max: {
     type: Number,
     default: 1,
+    validator: (value: number) => value > 0,
   },
-  text: {
+  page: {
+    type: Number,
+    default: 1,
+    validator: (value: number) => value > 0,
+  },
+  buttonType: {
     type: String,
-    required: true
+    default: "text",
+    validator: (value: string) => ["text", "icon"].includes(value),
   },
-  height: String,
-  hideHeaderBack: Boolean,
+
   hideHeader: Boolean,
   hideFooter: Boolean,
-  hideFooterBack: Boolean,
-  hideFooterSubmit: Boolean,
-  outerButtonDisabled: Boolean,
-  headerButtonDisabled: Boolean,
 
+  hideBack: Boolean,
+  disableBack: Boolean,
+  hideNext: Boolean,
+  disableNext: Boolean,
+
+  closeOnSubmit: Boolean,
+  hideOnDisable: Boolean,
+  hideClear: Boolean,
+  disableClear: Boolean,
+  hideSubmit: Boolean,
+  disableSubmit: Boolean,
+
+  buttonSubmitText: String,
 });
 
-const emit = defineEmits(["submit"]);
+const emit = defineEmits([
+  "clear",
+  "submit",
+  "dismiss",
+  "present",
+  "close",
+  "back",
+  "next",
+  "update:page",
+]);
+
+const Reset = () => modal.value.Reset();
+const Close = () => modal.value.Close();
+const Submit = () => modal.value.Submit();
+const Back = () => modal.value.Back();
+const Next = () => modal.value.Next();
+
+defineExpose({ Reset, Close, Submit, Back, Next });
 </script>
 <style scoped>
-.text-button {
-  width: var(--width);
-  height: var(--height);
-  font-weight: var(--font-weight);
+button {
+  background: none;
+  border: none;
 }
 </style>

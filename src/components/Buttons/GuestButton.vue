@@ -1,9 +1,8 @@
 <template>
-  <TextButton class="guest-signin" label="Guest" @click="GuestSignIn" />
+  <ButtonAuth class="button-guest" label="Guest" @click="GuestSignIn" />
 </template>
 <script setup lang="ts">
-import { TextButton } from ".";
-
+import { ButtonAuth } from ".";
 import {
   DatabaseInitialization,
   WindowDatabaseInitialization,
@@ -17,9 +16,4 @@ const GuestSignIn = () =>
   DatabaseInitialization().then(WindowDatabaseInitialization).then(Redirect);
 </script>
 <style scoped>
-.text-button {
-  width: var(--width);
-  height: var(--height);
-  font-weight: var(--font-weight);
-}
 </style>

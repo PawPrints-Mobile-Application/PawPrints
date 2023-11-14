@@ -2,7 +2,7 @@
   <ButtonText
     class="button-submit"
     :state="state"
-    label="Submit"
+    :label="label"
     v-if="type === 'text'"
   />
   <ButtonIcon class="button-submit" :state="state" :icon="icon" v-else />
@@ -23,6 +23,10 @@ defineProps({
     validator: (value: string) =>
       ["normal", "danger", "success"].includes(value),
   },
+  label: {
+    type: String,
+    default: "Submit"
+  }
 });
 </script>
 <style scoped>

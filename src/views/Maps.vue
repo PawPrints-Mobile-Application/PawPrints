@@ -1,5 +1,5 @@
 <template>
-  <page-layout id="maps-page">
+  <LayoutPage id="maps-page">
     <template #pageHeader>
       <InputSearch
         v-model:value="searchLocation"
@@ -16,12 +16,12 @@
         }"
       />
     </template>
-  </page-layout>
+  </LayoutPage>
 </template>
 
 <script lang="ts" setup>
 import { InputSearch } from "../components/Forms";
-import { PageLayout } from "../layout";
+import { LayoutPage } from "../layout";
 import { ref } from "vue";
 
 const searchLocation = ref("");

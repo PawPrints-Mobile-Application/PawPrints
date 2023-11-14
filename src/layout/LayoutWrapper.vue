@@ -4,15 +4,18 @@
     :class="{
       'ion-no-border': scrollDetail.scrollTop === 0,
       'default-margin': !noDefaultMargin,
+      hide: !showHeader || disableHeader,
     }"
     :translucent="true"
     collapse="fade"
-    v-show="showHeader && !disableHeader"
   >
     <slot name="header" />
   </ion-header>
   <ion-content
     class="layout-content ion-content-scroll-host"
+    :class="{
+      'disable-scroll': !!disableScroll,
+    }"
     :fullscreen="true"
     :scroll-events="true"
     @ion-scroll="(data) => OnScroll(data.detail)"
@@ -31,10 +34,10 @@
     class="layout-footer ion-no-border"
     :class="{
       'default-margin': !noDefaultMargin,
+      hide: !showFooter || disableFooter,
     }"
     :translucent="true"
     collapse="fade"
-    v-show="showFooter && !disableFooter"
   >
     <slot name="footer" />
   </ion-footer>
@@ -61,6 +64,8 @@ defineProps({
   noDefaultMargin: Boolean,
   disableHeader: Boolean,
   disableFooter: Boolean,
+  hideScrollbar: Boolean,
+  disableScroll: Boolean,
 });
 </script>
 <style scoped>
@@ -79,6 +84,7 @@ defineProps({
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 200ms ease-out;
 }
 
 .layout-content::part(background) {
@@ -90,18 +96,31 @@ defineProps({
   min-height: 100%;
 }
 
-main {
+.disable-scroll {
+  --offset-bottom: auto !important;
+  --overflow: hidden;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.layout-content main {
   width: 100%;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  > section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-  }
+.layout-content main section {
+  flex: 1 0 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .layout-footer {
@@ -112,9 +131,15 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 200ms ease-out;
 }
 
 .default-margin {
   padding-inline: var(--default-margin);
+}
+
+.hide {
+  min-height: 0px;
+  max-height: 0px;
 }
 </style>

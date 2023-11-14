@@ -1,5 +1,5 @@
 <template>
-  <page-layout id="fact-page">
+  <LayoutPage id="fact-page">
     <template #pageHeader>
       <h2 id="label">Doin' me educate</h2>
     </template>
@@ -8,11 +8,11 @@
         <!-- <component :is="pageContent" /> -->
       </main>
     </template>
-  </page-layout>
+  </LayoutPage>
 </template>
 
 <script lang="ts" setup>
-import { PageLayout } from "../layout";
+import { LayoutPage } from "../layout";
 </script>
 
 <script lang="ts">

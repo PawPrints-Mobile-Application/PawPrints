@@ -4,6 +4,8 @@
       :noDefaultMargin="noDefaultMargin"
       :disableHeader="!showHeader"
       :disableFooter="!showFooter"
+      :hideScrollbar="hideScrollbar"
+      :disableScroll="disableScroll"
     >
       <template #header>
         <slot name="header" />
@@ -27,6 +29,8 @@ const showHeader = !!slots.header;
 const showFooter = !!slots.footer;
 defineProps({
   noDefaultMargin: Boolean,
+  hideScrollbar: Boolean,
+  disableScroll: Boolean,
 });
 </script>
 <style scoped>

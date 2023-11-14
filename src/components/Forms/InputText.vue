@@ -28,7 +28,8 @@
   </section>
 </template>
 <script setup lang="ts">
-import { InputLabel, InputBox, InputHelper, InputValidator } from ".";
+import { InputValidator } from "../../utils";
+import { InputLabel, InputBox, InputHelper } from ".";
 import { computed, reactive } from "vue";
 import { eye as showIcon, eyeOff as hideIcon } from "ionicons/icons";
 

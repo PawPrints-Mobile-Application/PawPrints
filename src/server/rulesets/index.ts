@@ -1,5 +1,5 @@
 // import { GetDocument } from "../firebase";
-import { InputValidator } from "../../components/Forms";
+import { InputValidator } from "../../utils";
 
 const reservedUsernames = ["Guest"];
 

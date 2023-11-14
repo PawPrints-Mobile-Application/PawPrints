@@ -2,12 +2,12 @@
   <section class="page-counter" :data-design="design">
     <div
       v-if="!design.includes('text')"
-      v-for="i in maxPages"
+      v-for="i in max"
       :key="i"
-      :class="{ selected: i === currentPage }"
+      :class="{ selected: i === page }"
     />
     <div v-else>
-      <TextSmall>{{ currentPage }} {{ design === "text-of" ? 'of' : '/' }} {{ maxPages }}</TextSmall>
+      <TextSmall>{{ page }} {{ design === "text-of" ? 'of' : '/' }} {{ max }}</TextSmall>
     </div>
   </section>
 </template>
@@ -15,12 +15,12 @@
 import { TextSmall } from "../Texts";
 
 defineProps({
-  maxPages: {
+  max: {
     type: Number,
     required: true,
     validator: (value: number) => value > 0,
   },
-  currentPage: {
+  page: {
     type: Number,
     required: true,
     validator: (value: number) => value > 0,

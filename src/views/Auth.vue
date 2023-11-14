@@ -1,58 +1,21 @@
 <template>
-  <page-layout>
+  <LayoutPage>
     <div class="logo-wrapper"><ImgLogo id="logo" /></div>
     <section class="main-content">
-      <h1 class="text text-title font-poppins font-bold">PawPrints</h1>
-      <GuestButton class="button" />
-      <ButtonModal
-        class="button"
-        id="signin"
-        text="Sign In"
-        title="Sign In"
-        height="300px"
-        hide-footer
-        :header-button-disabled="disabler.signin"
-      >
-        <template #modalContent="{ closeModal }">
-          <signin
-            @processing="(value) => (disabler.signin = value)"
-            @success="closeModal"
-          />
-        </template>
-      </ButtonModal>
-      <ButtonModal
-        class="button"
-        id="signup"
-        text="Sign Up"
-        title="Sign Up"
-        height="500px"
-        hide-footer
-        :header-button-disabled="disabler.signout"
-      >
-        <template #modalContent="{ closeModal }">
-          <signup
-            @processing="(value) => (disabler.signout = value)"
-            @success="closeModal"
-          />
-        </template>
-      </ButtonModal>
+      <TextTitle>PawPrints</TextTitle>
+      <GuestButton />
+      <ModalSignin />
+      <ModalSignup />
     </section>
-  </page-layout>
+  </LayoutPage>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
-import { PageLayout } from "../layout";
-import { ButtonModal, GuestButton } from "../components/Buttons";
+import { LayoutPage } from "../layout";
+import { TextTitle } from "../components/Texts";
+import { GuestButton } from "../components/Buttons";
+import { ModalSignin, ModalSignup } from "../components/Modals";
 import { ImgLogo } from "../components/Logo";
-
-import { signin } from "./_templates";
-import { signup } from "./_templates";
-
-const disabler = reactive({
-  signin: false,
-  signout: false,
-});
 </script>
 
 <script lang="ts">
@@ -93,15 +56,5 @@ export default {
   align-items: center;
   flex-flow: column nowrap;
   gap: 20px;
-}
-
-#main-content-title {
-  font-weight: bold;
-  margin: 0;
-}
-
-.button {
-  --width: 200px;
-  --height: 40px;
 }
 </style>

@@ -9,7 +9,7 @@
   width: 100%;
   font-size: var(--fs4);
   font-style: italic;
-  text-align: justify;
+  text-align: center;
   color: var(--ion-color-danger);
 }
 </style>
