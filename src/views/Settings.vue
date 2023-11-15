@@ -1,9 +1,7 @@
 <template>
-  <LayoutPage justify="flex-start" hide-scrollbar>
-    <template #content>
-      <ProfileCard />
-      <SettingsCardPreview />
-    </template>
+  <LayoutPage justify="space-around" hide-scrollbar>
+    <ProfileCard />
+    <SettingsCardPreview />
     <template #footer>
       <ButtonSignOut />
     </template>
@@ -33,6 +31,6 @@ export default {
 }
 
 .button-signout {
-  margin: 10px 0 ;
+  margin: 10px 0;
 }
 </style>

@@ -37,11 +37,11 @@ const settingsInfo = [
 </script>
 <style scoped>
 .settings-card-preview {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    flex-flow: row wrap;
-    gap: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-flow: row wrap;
+  gap: 10px;
 }
 </style>

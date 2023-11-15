@@ -8,6 +8,12 @@
       :disableFooter="!showFooter || disableFooter"
       :hideScrollbar="hideScrollbar"
       :disableScroll="disableScroll"
+      :disableHeaderOnScroll="disableHeaderOnScroll"
+      @off-scroll-top="emit('off-scroll-top')"
+      @on-scroll-top="emit('on-scroll-top')"
+      @scroll-end="emit('scroll-end')"
+      @scroll-start="emit('scroll-start')"
+      @scrolling="emit('scrolling')"
     >
       <template #header>
         <slot name="header" />
@@ -34,14 +40,23 @@ defineProps({
   justify: {
     type: String,
     default: "center",
-    validator: (value: string) => ["center", "flex-start"].includes(value),
+    validator: (value: string) => ["center", "flex-start", "space-between", "space-around", "space-evenly"].includes(value),
   },
   noDefaultMargin: Boolean,
   disableHeader: Boolean,
   disableFooter: Boolean,
   hideScrollbar: Boolean,
   disableScroll: Boolean,
+  disableHeaderOnScroll: Boolean,
 });
+
+const emit = defineEmits([
+  "scroll-start",
+  "scroll-end",
+  "scrolling",
+  "on-scroll-top",
+  "off-scroll-top",
+]);
 </script>
 <style scoped>
 .layout-page {

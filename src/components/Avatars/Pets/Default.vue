@@ -23,8 +23,11 @@ defineProps({
 <style scoped>
 .pet-avatar {
   --size: 100%;
+  --max-size: var(--size);
   width: var(--size);
-  aspect-ratio: 1;
+  height: var(--size);
+  max-width: var(--max-size);
+  max-height: var(--max-size);
   display: flex;
   justify-content: center;
   align-items: center;

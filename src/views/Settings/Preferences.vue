@@ -1,5 +1,5 @@
 <template>
-  <SettingsLayout label="MY PREFERENCES" target="/settings">
+  <LayoutSettings label="MY PREFERENCES" target="/settings">
     <InputRadio
       :label="form[0].name"
       :options="form[0].options"
@@ -19,11 +19,11 @@
       <TextButton label="Reset" />
       <TextButton label="Save" />
     </section>
-  </SettingsLayout>
+  </LayoutSettings>
 </template>
 <script setup lang="ts">
 import { TextButton } from "../../components/Buttons";
-import { SettingsLayout } from "../../layout";
+import { LayoutSettings } from "../../layout";
 import { InputRadio, InputLabel } from "../../components/Forms";
 import { watch, ref } from "vue";
 

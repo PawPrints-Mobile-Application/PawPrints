@@ -5,7 +5,10 @@
       'on-scroll-top': scrollDetail.scrollTop === 0,
       'ion-no-border': scrollDetail.scrollTop === 0,
       'default-margin': !noDefaultMargin,
-      hide: !showHeader || disableHeader,
+      hide:
+        !showHeader ||
+        !!disableHeader ||
+        (!!disableHeaderOnScroll && scrollDetail.scrollTop !== 0),
     }"
     :translucent="true"
     collapse="fade"
@@ -15,12 +18,14 @@
   <ion-content
     class="layout-content ion-content-scroll-host"
     :class="{
-        'in-anti-navigation': inAntiNavigation,
+      'in-anti-navigation': inAntiNavigation,
       'disable-scroll': !!disableScroll,
     }"
     :fullscreen="true"
     :scroll-events="true"
     @ion-scroll="(data) => OnScroll(data.detail)"
+    @ion-scroll-start="emit('scroll-start')"
+    @ion-scroll-end="emit('scroll-end')"
   >
     <main
       :class="{
@@ -55,11 +60,14 @@ const showFooter = !!slots.footer;
 const scrollDetail = reactive({
   scrolling: false,
   scrollTop: 0,
-  scrollMax: 0,
 });
 const OnScroll = (_scrollDetail: ScrollDetail) => {
   scrollDetail.scrolling = _scrollDetail.isScrolling;
   scrollDetail.scrollTop = _scrollDetail.scrollTop;
+
+  if (scrollDetail.scrolling) emit("scrolling");
+  if (scrollDetail.scrollTop === 0) emit("on-scroll-top");
+  else emit("off-scroll-top");
 };
 
 defineProps({
@@ -67,25 +75,34 @@ defineProps({
   justify: {
     type: String,
     default: "center",
-    validator: (value: string) => ["center", "flex-start"].includes(value),
+    validator: (value: string) => ["center", "flex-start", "space-between", "space-around", "space-evenly"].includes(value),
   },
   noDefaultMargin: Boolean,
   disableHeader: Boolean,
   disableFooter: Boolean,
   hideScrollbar: Boolean,
   disableScroll: Boolean,
+  disableHeaderOnScroll: Boolean,
 });
+
+const emit = defineEmits([
+  "scroll-start",
+  "scroll-end",
+  "scrolling",
+  "on-scroll-top",
+  "off-scroll-top",
+]);
 </script>
 <style scoped>
 .layout-wrapper {
-  --background-color: var(--background-color-primary);
-  --default-margin: 20px;
   height: 100%;
   width: 100%;
 }
 
 .layout-header {
-  background-color: var(--background-color);
+  --background-color: var(--background-color-primary);
+  --background-color-header: var(--background-color);
+  background-color: var(--background-color-header);
   min-height: 30px;
   max-height: 70px;
   overflow: hidden;
@@ -96,7 +113,9 @@ defineProps({
 }
 
 .layout-content::part(background) {
-  background-color: var(--background-color);
+  --background-color: var(--background-color-primary);
+  --background-color-content: var(--background-color);
+  background-color: var(--background-color-content);
   min-height: 100%;
 }
 
@@ -127,9 +146,9 @@ defineProps({
 }
 
 .layout-content main section {
+  padding-block: 10px;
   flex: 1 0 0;
   width: 100%;
-  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -137,7 +156,9 @@ defineProps({
 }
 
 .layout-footer {
-  background-color: var(--background-color);
+  --background-color: var(--background-color-primary);
+  --background-color-footer: var(--background-color);
+  background-color: var(--background-color-footer);
   min-height: 30px;
   max-height: 70px;
   overflow: hidden;
@@ -148,6 +169,7 @@ defineProps({
 }
 
 .default-margin {
+  --default-margin: 20px;
   padding-inline: var(--default-margin);
 }
 

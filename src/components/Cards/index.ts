@@ -6,6 +6,7 @@ import SettingsCardPreview from "./SettingsCardPreview.vue";
 import SettingsCard from "./SettingsCard.vue";
 import SubscriptionCard from "./SubscriptionCard.vue";
 import PhotoCard from "./PhotoCard.vue";
+import HomeCard from "./HomeCard.vue";
 
 export {
   FactsPreviewCard,
@@ -15,5 +16,6 @@ export {
   SettingsCardPreview,
   SettingsCard,
   SubscriptionCard,
-  PhotoCard
+  PhotoCard,
+  HomeCard
 };

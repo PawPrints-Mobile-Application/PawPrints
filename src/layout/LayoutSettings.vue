@@ -1,31 +1,29 @@
 <template>
-  <PageLayout id="settings-layout">
-    <template #pageHeader>
-      <section class="header">
-        <ButtonBack @click="Redirect" />
-        <h2>{{ label }}</h2>
-      </section>
+  <LayoutPage class="layout-settings" justify="flex-start">
+    <template #header>
+      <header>
+        <ButtonBack type="icon" @click="Redirect" />
+        <TextHeading>{{ label }}</TextHeading>
+      </header>
     </template>
-    <template #pageContent>
-      <section class="body">
-      <slot />
-      </section>
-    </template>
-  </PageLayout>
+    <slot />
+  </LayoutPage>
 </template>
 <script setup lang="ts">
 import { ButtonBack } from "../components/Buttons";
-import { PageLayout } from ".";
+import { LayoutPage } from ".";
 import { useIonRouter } from "@ionic/vue";
+import { TextHeading } from "../components/Texts";
 
 const props = defineProps({
   label: {
     type: String,
     required: true,
   },
-  target:  {
+  target: {
     type: String,
     required: true,
+    validator: (value: string) => value.startsWith("/"),
   },
 });
 
@@ -34,27 +32,21 @@ const Redirect = () => {
   emit("back");
   ionRouter.navigate(props.target, "back", "pop");
 };
-const emit = defineEmits(['back'])
+const emit = defineEmits(["back"]);
 </script>
 <style scoped>
-.page-layout {
-  --background-color: var(--ion-color-primary);
-}
-
-.header {
+header {
+  min-height: 50px;
+  width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
   gap: 10px;
+  transition: all 200ms ease-out;
+}
 
-  > h2 {
-    margin: 0;
-    flex: 1 0 0;
-    font-weight: 700;
-    font-family: Rubik;
-    font-size: var(--fs1);
-  }
+.button-back {
+  max-width: 40px;
 }
 
 .body {

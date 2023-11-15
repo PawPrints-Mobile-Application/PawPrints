@@ -27,6 +27,7 @@ const emit = defineEmits(["click"]);
 </script>
 <style scoped>
 .settings-card {
+  max-height: 150px;
   flex: 1 0 120px;
   display: flex;
   flex-direction: column;

@@ -1,5 +1,9 @@
 <template>
-  <SettingsLayout label="MY SUBSCRIPTION" target="/settings">
+  <LayoutSettings
+    label="MY SUBSCRIPTION"
+    target="/settings"
+    disableHeaderOnScroll
+  >
     <SubscriptionCard
       v-show="(key === 0 && current === 0) || key !== 0"
       v-for="(sub, key) in subscriptions"
@@ -13,11 +17,11 @@
       :design="Math.max(0, Math.min(1, current))"
     />
     <!-- v-show="(key === 0 && current === 0) || key !== 0" -->
-  </SettingsLayout>
+  </LayoutSettings>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { SettingsLayout } from "../../layout";
+import { LayoutSettings } from "../../layout";
 import {
   subscriptionFree,
   subscriptionPawmium,

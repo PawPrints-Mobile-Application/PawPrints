@@ -3,6 +3,6 @@ import LayoutPage from "./LayoutPage.vue";
 import LayoutModal from "./LayoutModal.vue";
 
 import PageLayout from "./PageLayout.vue";
-import SettingsLayout from "./SettingsLayout.vue";
+import LayoutSettings from "./LayoutSettings.vue";
 
-export { LayoutWrapper, LayoutPage, LayoutModal, PageLayout, SettingsLayout };
+export { LayoutWrapper, LayoutPage, LayoutModal, PageLayout, LayoutSettings };

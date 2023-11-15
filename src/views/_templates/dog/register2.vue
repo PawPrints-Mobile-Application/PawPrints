@@ -1,18 +1,16 @@
 <template>
-  <section class="template-wrapper">
-    <InputRadio
-      label="Does your dog belong indoors or outdoors?"
-      id="inoutdoors"
-      v-model:value="inoutdoors"
-      :options="['Indoors', 'Outdoors']"
-    />
-    <InputRadio
-      label="Is your pet neutered or spayed?"
-      id="fixing"
-      v-model:value="fixing"
-      :options="['Neutered', 'Spayed', 'None']"
-    />
-  </section>
+  <InputRadio
+    label="Does your dog belong indoors or outdoors?"
+    id="inoutdoors"
+    v-model:value="inoutdoors"
+    :options="['Indoors', 'Outdoors']"
+  />
+  <InputRadio
+    label="Is your pet neutered or spayed?"
+    id="fixing"
+    v-model:value="fixing"
+    :options="['Neutered', 'Spayed', 'None']"
+  />
 </template>
 
 <script setup lang="ts">
@@ -69,8 +67,4 @@ export default {
 };
 </script>
 <style scoped>
-.template-wrapper {
-  height: 100%;
-  justify-content: space-evenly;
-}
 </style>

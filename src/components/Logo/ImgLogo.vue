@@ -7,11 +7,13 @@
 import { Logo } from "../../assets/images";
 </script>
 <style scoped>
-.logo {
+.img-logo {
   --scale: 125%;
   --size: 200px;
   --width: var(--size);
   --height: var(--size);
+  --background-color: none;
+  background-color: var(--background-color);
   width: var(--width);
   height: var(--height);
   overflow: hidden;
@@ -24,7 +26,7 @@ import { Logo } from "../../assets/images";
 
 img {
   transform: scale(var(--scale));
-  width: var(--width);
-  height: var(--height);
+  width: 95%;
+  height: 95%;
 }
 </style>

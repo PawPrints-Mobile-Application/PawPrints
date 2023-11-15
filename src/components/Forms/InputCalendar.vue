@@ -1,7 +1,7 @@
 <template>
   <section class="input-calendar">
     <header class="calendar-nav">
-      <ButtonBack class="button" @click="() => MoveMonth(-1)" />
+      <ButtonBack class="button" @click="() => MoveMonth(-1)" type="icon" />
       <InputDropdown
         class="month"
         v-model:value="shownMonth"
@@ -20,7 +20,7 @@
         hide-input
         :count="15"
       />
-      <ButtonNext class="button" @click="() => MoveMonth(1)" />
+      <ButtonNext class="button" @click="() => MoveMonth(1)" type="icon" />
     </header>
     <table class="calendar-body">
       <tr id="row-header">
@@ -226,7 +226,9 @@ const SetDate = (cell?: number) => {
 
 .button {
   background-color: var(--ion-color-black);
-  --size: var(--fs2);
+  max-width: 35px;
+  max-height: 35px;
+  --size: var(--fs0);
   --border-radius: 6px;
 }
 

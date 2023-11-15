@@ -1,13 +1,15 @@
 <template>
   <ButtonModal
     ref="modal"
-    trigger="add-pet"
+    :trigger="trigger"
     title="Doggo Profile"
     @submit="Submit"
     @clear="ClearForm"
     @dismiss="ClearForm"
     :max="pages.length"
-    :page="page"
+    v-model:page="page"
+    :disable-next="disabler[page - 1]"
+    close-on-submit
   >
     <template #button><ButtonAddPet /></template>
 
@@ -82,7 +84,7 @@ const Submit = () =>
   ).then(() => emit("submit"));
 
 defineProps({
-  id: {
+  trigger: {
     type: String,
     required: true,
   },
@@ -92,4 +94,7 @@ const emit = defineEmits(["submit"]);
 </script>
 
 <style scoped>
+.pet-avatar {
+  --max-size: 100px;
+}
 </style>

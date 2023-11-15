@@ -66,6 +66,8 @@ defineProps({
 }
 
 .subscription-card[data-design="0"] {
+  min-height: calc(90% / 3);
+
   > .data {
     flex-direction: row;
     gap: 20px;
@@ -89,6 +91,7 @@ defineProps({
 }
 
 .subscription-card[data-design="1"] {
+  min-height: calc(90% / 2);
   > .data {
     flex-direction: column;
     > .info {

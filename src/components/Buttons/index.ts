@@ -13,7 +13,6 @@ import ButtonClear from "./ButtonClear.vue";
 import ButtonAddPet from "./ButtonAddPet.vue";
 
 
-import AddPetButton from "./AddPetButton.vue";
 import ButtonModal from "./ButtonModal.vue";
 import ButtonSignOut from "./ButtonSignOut.vue";
 import GoogleButton from "./GoogleButton.vue";
@@ -36,11 +35,13 @@ export {
 
   ButtonSubmit,
   ButtonClear,
-
+  
   ButtonAddPet,
 
-  AddPetButton,
   ButtonModal,
+
+
+
   ButtonSignOut,
   GoogleButton,
   GuestButton,

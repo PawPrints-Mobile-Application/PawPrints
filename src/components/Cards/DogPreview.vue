@@ -1,6 +1,5 @@
 <template>
   <section class="dog-preview">
-    <h1>My Dogs</h1>
     <header :class="{ 'have-dogs': !state.noDogsFound }">
       <InputSearch
         v-show="!state.noDogsFound"
@@ -9,8 +8,8 @@
         @expand="() => (state.searchExpand = true)"
         @collapse="() => (state.searchExpand = false)"
       />
-      <AddPetButton
-        id="header-button"
+      <ModalAddPet
+        trigger="header-button"
         v-show="!state.searchExpand"
         @submit="ReloadPage"
       />
@@ -22,7 +21,7 @@
 </template>
 <script setup lang="ts">
 import { DogCard } from ".";
-import { AddPetButton } from "../Buttons";
+import { ModalAddPet } from "../Modals";
 import { InputSearch } from "../Forms";
 import { reactive, ref } from "vue";
 import { GetAll } from "../../server/models/Dogs";
@@ -65,7 +64,7 @@ const ReloadPage = () => FetchDogs();
 // };
 
 const FetchDogs = () =>
-GetAll().then((data) => {
+  GetAll().then((data) => {
     rawDogs.value = data;
     filteredDogs.value = data;
     state.noDogsFound = filteredDogs.value?.length === 0 || !filteredDogs.value;

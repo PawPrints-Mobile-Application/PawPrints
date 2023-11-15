@@ -1,5 +1,5 @@
 <template>
-  <section class="button-calendar" :class="{ expand: expand }" @click="Click">
+  <button class="button-calendar" :class="{ expand: expand }" @click="Click">
     <div class="background" />
     <div class="line" />
     <div
@@ -7,7 +7,7 @@
       class="dot"
       :style="{ transform: expand ? `translate(${key.x}px, ${key.y}px)` : 'translate(0,-8px)' }"
     />
-  </section>
+  </button>
 </template>
 <script setup lang="ts">
 const props = defineProps({

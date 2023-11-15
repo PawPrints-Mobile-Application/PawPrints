@@ -102,16 +102,14 @@ export default {
 
 .img-logo {
   position: relative;
-  width: 10px;
-  height: 10px;
+  --size: 10px;
   opacity: 0;
-  transition: opacity 250ms ease-out, width 500ms ease-in, height 200ms ease-out,
+  transition: opacity 250ms ease-out, width 500ms ease-in, height 450ms ease-out 100ms,
     transform 300ms ease-out;
 }
 
 .img-logo.show-thumbnail {
-  width: 240px;
-  height: 240px;
+  --size: 200px;
   opacity: 1 !important;
 }
 

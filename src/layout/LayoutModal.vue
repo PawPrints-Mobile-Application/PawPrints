@@ -6,10 +6,19 @@
     @didPresent="emit('present')"
   >
     <LayoutWrapper
+      :inAntiNavigation="inAntiNavigation"
       :justify="justify"
       :noDefaultMargin="noDefaultMargin"
-      :disable-header="hideHeader"
-      :disable-footer="hideFooter"
+      :disable-header="hideHeader || disableHeader"
+      :disable-footer="hideFooter || disableFooter"
+      :hideScrollbar="hideScrollbar"
+      :disableScroll="disableScroll"
+      :disableHeaderOnScroll="disableHeaderOnScroll"
+      @off-scroll-top="emit('off-scroll-top')"
+      @on-scroll-top="emit('on-scroll-top')"
+      @scroll-end="emit('scroll-end')"
+      @scroll-start="emit('scroll-start')"
+      @scrolling="emit('scrolling')"
     >
       <template #header>
         <section class="header" :data-design="design">
@@ -90,17 +99,29 @@ import { PageCounter } from "../components/Others";
 
 const props = defineProps({
   // Inherited from LayoutWrapper
-  noDefaultMargin: Boolean,
+  inAntiNavigation: Boolean,
   justify: {
     type: String,
     default: "center",
-    validator: (value: string) => ["center", "flex-start"].includes(value),
+    validator: (value: string) =>
+      [
+        "center",
+        "flex-start",
+        "space-between",
+        "space-around",
+        "space-evenly",
+      ].includes(value),
   },
+  noDefaultMargin: Boolean,
+  disableHeader: Boolean,
+  disableFooter: Boolean,
+  hideScrollbar: Boolean,
+  disableScroll: Boolean,
+  disableHeaderOnScroll: Boolean,
 
   // Important Props
   trigger: {
     type: String,
-    required: true,
   },
   title: {
     type: String,
@@ -171,6 +192,13 @@ const Next = () => {
 };
 
 const emit = defineEmits([
+  // Inherited from LayoutWrapper
+  "scroll-start",
+  "scroll-end",
+  "scrolling",
+  "on-scroll-top",
+  "off-scroll-top",
+  // Self
   "clear",
   "submit",
   "dismiss",
@@ -230,5 +258,9 @@ defineExpose({ Reset, Close, Submit, Back, Next });
   justify-content: center;
   align-items: stretch;
   gap: 30px;
+
+  > * {
+    max-width: 48%;
+  }
 }
 </style>

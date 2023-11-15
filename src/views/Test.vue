@@ -1,8 +1,8 @@
 <template>
-  <Logo />
+  <ModalAddPet trigger="add-pet" />
 </template>
 <script setup lang="ts">
-import { Logo } from '../components/Logo';
+import ModalAddPet from '../components/Modals/ModalAddPet.vue';
 </script>
 <script lang="ts">
 export default {

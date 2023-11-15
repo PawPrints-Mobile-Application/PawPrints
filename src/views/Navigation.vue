@@ -12,9 +12,9 @@
           layout="icon-start"
         >
           <ion-icon
-            :icon="isOnTab(`/${route.name}`) ? route.icons!.active : route.icons!.default
+            :icon="isOnTab(route.name) ? route.icons!.active : route.icons!.default
             "
-            :color="isOnTab(`/${route.name}`) ? 'tertiary' : 'black'"
+            :color="isOnTab(route.name) ? 'tertiary' : 'black'"
           />
         </ion-tab-button>
       </ion-tab-bar>
@@ -38,7 +38,7 @@ import { App } from "@capacitor/app";
 const ionRouter = useIonRouter();
 const router = useRouter();
 const isOnTab = (path: string) =>
-  router.currentRoute.value.path.toLowerCase() === path.toLowerCase();
+  router.currentRoute.value.path.toLowerCase().includes(path.toLowerCase());
 
 useBackButton(-1, () => {
   if (!ionRouter.canGoBack()) {
