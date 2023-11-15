@@ -10,7 +10,7 @@ import ButtonNext from "./ButtonNext.vue";
 import ButtonSubmit from "./ButtonSubmit.vue";
 import ButtonClear from "./ButtonClear.vue";
 
-
+import ButtonAddPet from "./ButtonAddPet.vue";
 
 
 import AddPetButton from "./AddPetButton.vue";
@@ -36,6 +36,8 @@ export {
 
   ButtonSubmit,
   ButtonClear,
+
+  ButtonAddPet,
 
   AddPetButton,
   ButtonModal,

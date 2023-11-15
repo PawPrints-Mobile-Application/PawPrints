@@ -1,6 +1,7 @@
 <template>
   <ion-page class="layout-page">
     <LayoutWrapper
+      :justify="justify"
       :noDefaultMargin="noDefaultMargin"
       :disableHeader="!showHeader"
       :disableFooter="!showFooter"
@@ -28,6 +29,11 @@ const slots = useSlots();
 const showHeader = !!slots.header;
 const showFooter = !!slots.footer;
 defineProps({
+  justify: {
+    type: String,
+    default: "center",
+    validator: (value: string) => ["center", "flex-start"].includes(value),
+  },
   noDefaultMargin: Boolean,
   hideScrollbar: Boolean,
   disableScroll: Boolean,

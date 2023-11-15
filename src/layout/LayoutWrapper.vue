@@ -2,6 +2,7 @@
   <ion-header
     class="layout-header"
     :class="{
+      'on-scroll-top': scrollDetail.scrollTop === 0,
       'ion-no-border': scrollDetail.scrollTop === 0,
       'default-margin': !noDefaultMargin,
       hide: !showHeader || disableHeader,
@@ -25,7 +26,7 @@
         'default-margin': !noDefaultMargin,
       }"
     >
-      <section>
+      <section :style="{justifyContent: justify}">
         <slot name="content"> <slot /></slot>
       </section>
     </main>
@@ -61,6 +62,11 @@ const OnScroll = (_scrollDetail: ScrollDetail) => {
 };
 
 defineProps({
+  justify: {
+    type: String,
+    default: 'center',
+    validator: (value: string) => ['center', 'flex-start'].includes(value)
+  },
   noDefaultMargin: Boolean,
   disableHeader: Boolean,
   disableFooter: Boolean,
@@ -119,8 +125,8 @@ defineProps({
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  gap: 20px;
 }
 
 .layout-footer {
@@ -138,8 +144,14 @@ defineProps({
   padding-inline: var(--default-margin);
 }
 
+.on-scroll-top {
+  min-height: 70px;
+  max-height: 70px;
+}
+
+/* Overrides all */
 .hide {
-  min-height: 0px;
-  max-height: 0px;
+  min-height: 0px !important;
+  max-height: 0px !important;
 }
 </style>

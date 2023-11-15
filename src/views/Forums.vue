@@ -1,5 +1,5 @@
 <template>
-  <LayoutPage id="fact-page">
+  <LayoutPage id="fact-page" justify="flex-start">
     <template #pageHeader>
       <h2 id="label">Doin' me educate</h2>
     </template>

@@ -1,5 +1,5 @@
 <template>
-  <LayoutPage>
+  <LayoutPage justify="flex-start" hide-scrollbar>
     <template #content>
       <ProfileCard />
       <SettingsCardPreview />
@@ -30,5 +30,9 @@ export default {
   justify-content: space-between;
   height: 100%;
   gap: 30px;
+}
+
+.button-signout {
+  margin: 10px 0 ;
 }
 </style>

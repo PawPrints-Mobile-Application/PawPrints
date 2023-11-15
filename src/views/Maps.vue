@@ -1,5 +1,5 @@
 <template>
-  <LayoutPage id="maps-page">
+  <LayoutPage id="maps-page" justify="flex-start">
     <template #pageHeader>
       <InputSearch
         v-model:value="searchLocation"

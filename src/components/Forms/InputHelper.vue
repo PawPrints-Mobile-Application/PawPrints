@@ -9,8 +9,8 @@
   </ul>
 </template>
 <script setup lang="ts">
-import { HelperConstructor, InputValidator } from ".";
 import { computed } from "vue";
+import { HelperConstructor, InputValidator } from "../../utils";
 
 const props = defineProps({
   elements: Array<HelperConstructor>,

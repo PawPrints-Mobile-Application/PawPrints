@@ -1,5 +1,5 @@
 <template>
-  <LayoutPage>
+  <LayoutPage justify="flex-start">
     <template #header>
       <TextHeading class="auth-greetings">
         {{ authGreetings }}

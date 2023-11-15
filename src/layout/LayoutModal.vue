@@ -6,6 +6,7 @@
     @didPresent="emit('present')"
   >
     <LayoutWrapper
+      :justify="justify"
       :noDefaultMargin="noDefaultMargin"
       :disable-header="hideHeader"
       :disable-footer="hideFooter"
@@ -90,6 +91,11 @@ import { PageCounter } from "../components/Others";
 const props = defineProps({
   // Inherited from LayoutWrapper
   noDefaultMargin: Boolean,
+  justify: {
+    type: String,
+    default: "center",
+    validator: (value: string) => ["center", "flex-start"].includes(value),
+  },
 
   // Important Props
   trigger: {
