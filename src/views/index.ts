@@ -2,11 +2,12 @@ import homeRecords from "./Home";
 import dogsRecords from "./Dogs";
 import forumsRecords from "./Forums";
 import settingsRecords from "./Settings";
-import transitionRecords from "./transition";
 
 import {
-  pawOutline as homeDefault,
-  paw as homeActive,
+  albumsOutline as homeDefault,
+  albums as homeActive,
+  pawOutline as dogsDefault,
+  paw as dogsActive,
   bulbOutline as forumsDefault,
   bulb as forumsActive,
   mapOutline as mapsDefault,
@@ -23,13 +24,13 @@ const navigationRecords = [
       active: homeActive,
     },
   },
-  // {
-  //   name: "Dogs",
-  //   icons: {
-  //     default: homeDefault,
-  //     active: homeActive,
-  //   },
-  // },
+  {
+    name: "Dogs",
+    icons: {
+      default: dogsDefault,
+      active: dogsActive,
+    },
+  },
   {
     name: "Forums",
     icons: {
@@ -57,6 +58,7 @@ const independentRoutes = [
   { name: "PageNotFound" },
   { name: "Test" },
   { name: "Auth" },
+  { name: "Splash" },
 ];
 
 export {
@@ -65,7 +67,6 @@ export {
   dogsRecords,
   forumsRecords,
   settingsRecords,
-  transitionRecords,
 };
 
 export default independentRoutes;

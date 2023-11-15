@@ -1,8 +1,8 @@
 <template>
-  <ButtonAddPet />
+  <Logo />
 </template>
 <script setup lang="ts">
-import ButtonAddPet from '../components/Buttons/ButtonAddPet.vue';
+import { Logo } from '../components/Logo';
 </script>
 <script lang="ts">
 export default {

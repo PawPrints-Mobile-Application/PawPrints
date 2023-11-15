@@ -15,6 +15,7 @@
   <ion-content
     class="layout-content ion-content-scroll-host"
     :class="{
+        'in-anti-navigation': inAntiNavigation,
       'disable-scroll': !!disableScroll,
     }"
     :fullscreen="true"
@@ -26,7 +27,7 @@
         'default-margin': !noDefaultMargin,
       }"
     >
-      <section :style="{justifyContent: justify}">
+      <section :style="{ justifyContent: justify }">
         <slot name="content"> <slot /></slot>
       </section>
     </main>
@@ -62,10 +63,11 @@ const OnScroll = (_scrollDetail: ScrollDetail) => {
 };
 
 defineProps({
+  inAntiNavigation: Boolean,
   justify: {
     type: String,
-    default: 'center',
-    validator: (value: string) => ['center', 'flex-start'].includes(value)
+    default: "center",
+    validator: (value: string) => ["center", "flex-start"].includes(value),
   },
   noDefaultMargin: Boolean,
   disableHeader: Boolean,
@@ -120,9 +122,14 @@ defineProps({
   align-items: center;
 }
 
+.layout-content.in-anti-navigation main {
+  min-height: 100svh;
+}
+
 .layout-content main section {
   flex: 1 0 0;
   width: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

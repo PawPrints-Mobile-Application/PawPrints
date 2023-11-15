@@ -1,19 +1,18 @@
 <template>
-  <LayoutPage justify="flex-start">
+  <LayoutPage justify="center">
     <template #header>
-      <TextHeading class="auth-greetings">
-        {{ authGreetings }}
-      </TextHeading>
+      <ImgLogo />
     </template>
     <template #content>
-      <FactsPreviewCard />
-      <DogPreview ref="dogPreview" />
+      <div class="dwada">dwadawd</div>
     </template>
   </LayoutPage>
 </template>
 
 <script lang="ts" setup>
 import { LayoutPage } from "../layout";
+import { ImgLogo } from "../components/Logo";
+
 import { TextHeading } from "../components/Texts";
 import { FactsPreviewCard, DogPreview } from "../components/Cards";
 import { onIonViewDidEnter, onIonViewWillEnter } from "@ionic/vue";
@@ -28,7 +27,6 @@ const authGreetings = `Henlo, ${
 
 // Light Functions, preferrably async functions only
 onIonViewWillEnter(async () => {
-  await dogPreview.value.ReloadPage();
 });
 
 // Heavy Functions
@@ -48,5 +46,11 @@ export default {
 
 .content {
   width: 100%;
+}
+
+.dwada {
+  height: 400px;
+  width: 100%;
+  background-color: yellow;
 }
 </style>

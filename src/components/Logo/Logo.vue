@@ -1,5 +1,5 @@
 <template>
-  <section class="img-logo">
+  <section class="logo">
     <img :src="Logo" />
   </section>
 </template>
@@ -10,21 +10,15 @@ import { Logo } from "../../assets/images";
 .logo {
   --scale: 125%;
   --size: 200px;
-  --width: var(--size);
-  --height: var(--size);
-  width: var(--width);
-  height: var(--height);
+  height: var(--size);
+  aspect-ratio: 1;
   overflow: hidden;
   border-radius: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 img {
   transform: scale(var(--scale));
-  width: var(--width);
-  height: var(--height);
+  height: 100%;
+  aspect-ratio: 1;
 }
 </style>

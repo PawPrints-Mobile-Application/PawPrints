@@ -7,7 +7,6 @@ import independentRoutes, {
   homeRecords,
   dogsRecords,
   forumsRecords,
-  transitionRecords
 } from "./views";
 
 const UrlCatcher = () =>
@@ -18,12 +17,31 @@ const UrlCatcher = () =>
     };
   });
 
-  const nameTransform = (name: string) => (name.startsWith("[") && name.endsWith("]")) ? ":" + name.substring(1, name.length - 1) : name;
+const nameTransform = (name: string) =>
+  name.startsWith("[") && name.endsWith("]")
+    ? ":" + name.substring(1, name.length - 1)
+    : name;
 
 let routes: Array<RouteRecordRaw> = [
   {
     path: "",
-    redirect: "/transition/splash",
+    redirect: "/splash",
+  },
+  {
+    path: "/",
+    component: () => import(`./views/AntiNavigation.vue`),
+    children: [
+      {
+        path: "",
+        redirect: "/test",
+      },
+      ...independentRoutes.map((record) => {
+        return {
+          path: "/" + record.name,
+          component: () => import(`./views/${record.name}.vue`),
+        };
+      }),
+    ],
   },
   ...UrlCatcher(),
   {
@@ -34,49 +52,38 @@ let routes: Array<RouteRecordRaw> = [
         path: "",
         redirect: "/home",
       },
-      ...navigationRecords.map(record => {
+      ...navigationRecords.map((record) => {
         return {
           path: "/" + record.name,
           component: () => import(`./views/${record.name}.vue`),
-        }
+        };
       }),
-      ...homeRecords.map(record => {
+      ...homeRecords.map((record) => {
         return {
           path: "/Home/" + nameTransform(record.name),
           component: () => import(`./views/Home/${record.name}.vue`),
-        }
+        };
       }),
-      ...dogsRecords.map(record => {
+      ...dogsRecords.map((record) => {
         return {
           path: "/Dogs/" + nameTransform(record.name),
           component: () => import(`./views/Dogs/${record.name}.vue`),
-        }
+        };
       }),
-      ...forumsRecords.map(record => {
+      ...forumsRecords.map((record) => {
         return {
           path: "/Forums/" + nameTransform(record.name),
           component: () => import(`./views/Forums/${record.name}.vue`),
-        }
+        };
       }),
-      ...settingsRecords.map(record => {
+      ...settingsRecords.map((record) => {
         return {
           path: "/Settings/" + record.name,
           component: () => import(`./views/Settings/${record.name}.vue`),
-        }
+        };
       }),
-    ]},
-  ...independentRoutes.map(record => {
-    return {
-      path: "/" + record.name,
-      component: () => import(`./views/${record.name}.vue`),
-    }
-  }),
-  ...transitionRecords.map(record => {
-    return {
-      path: "/transition/" + record.name,
-      component: () => import(`./views/transition/${record.name}.vue`),
-    }
-  })
+    ],
+  },
 ];
 
 const router = createRouter({
