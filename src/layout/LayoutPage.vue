@@ -59,10 +59,4 @@ const emit = defineEmits([
 ]);
 </script>
 <style scoped>
-.layout-page {
-  --background-color: var(--background-color-primary);
-  --default-margin: 20px;
-  height: 100%;
-  width: 100%;
-}
 </style>

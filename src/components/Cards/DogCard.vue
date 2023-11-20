@@ -1,112 +1,140 @@
 <template>
-  <button class="dog-card" @click="Redirect">
-    <PetAvatar :background-color="data.color" />
-    <h4>{{ data.name }}</h4>
-    <h5>{{ data.age }}</h5>
-  </button>
+  <section class="dog-card">
+    <header>
+      <TextHeading>PawPrints Dog Card</TextHeading>
+    </header>
+    <section class="content">
+      <DogAvatar type="dog" :style="{ backgroundColor: dog?.color }" />
+      <aside>
+        <div>
+          <InputLabel value="Name" />
+          <span v-if="!props.dog"><IonSkeletonText /></span>
+          <span v-else
+            ><TextSubheading>{{ dog?.name }}</TextSubheading></span
+          >
+        </div>
+        <div>
+          <InputLabel value="Birthday" />
+          <span v-if="!props.dog"><IonSkeletonText /></span>
+          <span v-else
+            ><TextParagraph
+              >{{ dog?.birthday }} ({{ age }} years)</TextParagraph
+            ></span
+          >
+        </div>
+      </aside>
+    </section>
+    <footer>
+      <aside>
+        <div>
+          <InputLabel value="Breed" />
+          <span v-if="!props.dog"><IonSkeletonText /></span>
+          <span v-else
+            ><TextParagraph v-show="!!props.dog">{{
+              dog?.breed
+            }}</TextParagraph></span
+          >
+        </div>
+        <div>
+          <InputLabel value="Fixing" />
+          <span v-if="!props.dog"><IonSkeletonText /></span>
+          <span v-else
+            ><TextParagraph v-show="!!props.dog">{{
+              dog?.fixing
+            }}</TextParagraph></span
+          >
+        </div>
+      </aside>
+      <aside>
+        <div>
+          <InputLabel value="Likes" />
+          <span v-if="!props.dog"><IonSkeletonText /></span>
+          <span v-else
+            ><TextParagraph v-show="!!props.dog">{{
+              dog?.inoutdoor
+            }}</TextParagraph></span
+          >
+        </div>
+      </aside>
+    </footer>
+  </section>
 </template>
-
 <script setup lang="ts">
-import { Default as PetAvatar } from "../../components/Avatars/Pets";
-import { useIonRouter } from '@ionic/vue';
-
-const ionRouter = useIonRouter();
-const Redirect = () => ionRouter.push(`/home/${data.name}`);
-
+import { Avatar as DogAvatar } from "../Avatars/Pets";
+import { TextHeading, TextParagraph, TextSubheading } from "../Texts";
+import { InputLabel } from "../Forms";
+import { ref, watch } from "vue";
+import { Age } from "../../utils";
+import { IonSkeletonText } from "@ionic/vue";
 const props = defineProps({
-  icon: String,
-  dog: {
-    type: Object,
-    required: true,
-  },
+  dog: Object,
 });
 
-const GetAge = (date: string) => {
-  const startDate = new Date(date);
-  const currentDate = new Date();
-
-  var yearsPassed = currentDate.getFullYear() - startDate.getFullYear();
-  var monthsPassed = currentDate.getMonth() - startDate.getMonth();
-  var daysPassed = currentDate.getDate() - startDate.getDate();
-
-  // Adjust for negative months or days
-  if (daysPassed < 0) {
-    monthsPassed--;
-    const lastMonthDate = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      0
-    );
-    daysPassed += lastMonthDate.getDate();
+const age = ref(0);
+watch(
+  () => props.dog,
+  () => {
+    if (!props.dog) return;
+    const _age = new Age(new Date(props.dog.birthday));
+    age.value = Number((_age.years + _age.months / 12).toFixed(2));
   }
-  if (monthsPassed < 0 && yearsPassed < 0) {
-    yearsPassed--;
-    monthsPassed += 12;
-  }
-
-  return {
-    years: yearsPassed,
-    months: monthsPassed,
-    days: daysPassed,
-  };
-};
-
-const StringFormatter = (value: number, label: string) => `${value} ${label}${value > 1 ? 's' : ''}`;
-const AgeToSring = (date: string) => {
-  const age = GetAge(date);
-  let temp = [];
-  if (age.years > 0) {
-    temp.push(StringFormatter(age.years, 'year'));
-  }
-  if (age.months > 0) {
-    temp.push(StringFormatter(age.months, 'month'));
-  }
-  if (age.days > 0) {
-    temp.push(StringFormatter(age.days, 'day'));
-  }
-
-  if (temp.length === 2) {
-    return temp.join(" and ");
-  } else if (temp.length === 3) {
-    return `${temp[0]}, ${temp[1]}, and ${temp[2]}`;
-  }
-  return temp[0];
-};
-
-const data = {
-  name: props.dog.name,
-  age: AgeToSring(props.dog.birthday),
-  color: props.dog.color
-}
+);
 </script>
-
 <style scoped>
 .dog-card {
-  background-color: var(--ion-color-secondary);
-  border-radius: 10px;
-  border: none;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
-  align-items: center;
+  background-color: var(--ion-color-secondary-shade);
+  outline: 3px solid var(--ion-color-black);
+  width: 100%;
+  min-height: 200px;
+  border-radius: 15px;
   padding: 10px;
-  flex: 1 0 120px;
+  display: flex;
+  flex-direction: column;
+}
 
-  > h4,
-  h5, .pet-avatar {
-    font-size: var(--fs4);
-    margin: 0;
-    width: 90px;
-  }
+.content {
+  margin-block: 0px 5px;
+  display: flex;
+  flex-direction: row wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
 
-  > h4 {
-    font-size: var(--fs2);
-    font-family: Poppins;
-    font-weight: 700;
+  > aside {
+    height: 100%;
   }
 }
 
-.dog-card:active {
-  background-color: var(--ion-color-secondary-shade);
+footer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.avatar {
+  outline: 2px solid var(--ion-color-white);
+  --size: 80px;
+  min-width: var(--size);
+  max-width: var(--size);
+  min-height: var(--size);
+  max-height: var(--size);
+  --image-scale: 100%;
+  border-radius: 15px;
+  background-color: var(--ion-color-primary);
+}
+
+aside {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  > div {
+    flex: 1 0 0;
+  }
+}
+
+.input-label {
+  --font-size: 10px;
 }
 </style>

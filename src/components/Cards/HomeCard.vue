@@ -48,6 +48,8 @@ const props = defineProps({
 .details {
   margin-left: 10px;
   height: 100%;
+  text-align: justify;
+  text-indent: 30px;
 }
 
 .button-icon {

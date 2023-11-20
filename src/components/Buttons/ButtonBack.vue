@@ -1,5 +1,5 @@
 <template>
-  <ButtonText class="button-back" :state="state" label="Back" v-if="type === 'text'" />
+  <ButtonText class="button-back" :state="state" :label="label" v-if="type === 'text'" />
   <ButtonIcon class="button-back" :state="state" :icon="icon" v-else />
 </template>
 <script setup lang="ts">
@@ -7,6 +7,10 @@ import { ButtonText, ButtonIcon } from ".";
 import { caretBack as icon } from "ionicons/icons";
 
 defineProps({
+  label: {
+    type: String,
+    default: "Back"
+  },
   type: {
     type: String,
     default: "text",

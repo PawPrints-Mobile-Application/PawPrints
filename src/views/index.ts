@@ -1,5 +1,3 @@
-import homeRecords from "./Home";
-import dogsRecords from "./Dogs";
 import forumsRecords from "./Forums";
 import settingsRecords from "./Settings";
 
@@ -63,8 +61,6 @@ const independentRoutes = [
 
 export {
   navigationRecords,
-  homeRecords,
-  dogsRecords,
   forumsRecords,
   settingsRecords,
 };

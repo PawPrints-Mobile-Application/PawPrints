@@ -8,7 +8,7 @@ import {
 } from "../sqlite";
 import { SetDocument, GetDocument, GetCollection } from "../firebase";
 import ObjectToMap from "../../utils/ObectToMap";
-import EnumConstructor from "../../utils/EnumConstructor";
+import {EnumConstructor, StringToArray} from "../../utils";
 import { DocumentData } from "firebase/firestore";
 
 class InOutdoor extends EnumConstructor {
@@ -81,8 +81,8 @@ const ToProps = (props: LocalProps): Props => {
     color: props.color,
     inoutdoor: props.inoutdoor,
     fixing: props.fixing,
-    events: props.events.split(constants.arraySplitter),
-    notes: props.events.split(constants.arraySplitter),
+    events: StringToArray(props.events, constants.arraySplitter),
+    notes: StringToArray(props.notes, constants.arraySplitter),
   };
 };
 
@@ -96,7 +96,7 @@ const ToLocalProps = (props: Props | DocumentData): LocalProps => {
     inoutdoor: props.inoutdoor,
     fixing: props.fixing,
     events: props.events.join(constants.arraySplitter),
-    notes: props.events.join(constants.arraySplitter),
+    notes: props.notes.join(constants.arraySplitter),
   };
 };
 
@@ -127,7 +127,7 @@ const Add = async (props: Props, uid?: string) => {
   return InsertRowData(constants.document, {
     keys: Array.from(data.keys()),
     values: Array.from(data.values()),
-  }).then(() => props);
+  }, true).then(() => props);
 };
 
 const Remove = (pid: string) =>

@@ -1,6 +1,6 @@
 <template>
   <section class="button-modal">
-    <button :id="trigger">
+    <button :id="trigger" style="width: 100%;">
       <slot name="button"><ButtonText :label="buttonText" /></slot>
     </button>
 
@@ -11,6 +11,7 @@
       :max="max"
       :page="page"
       @update:page="(value: number) => emit('update:page', value)"
+      :justify="justify"
       :buttonType="buttonType"
       :hideHeader="hideHeader"
       :hideFooter="hideFooter"
@@ -50,6 +51,18 @@ defineProps({
   trigger: {
     type: String,
     required: true,
+  },
+  justify: {
+    type: String,
+    default: "center",
+    validator: (value: string) =>
+      [
+        "center",
+        "flex-start",
+        "space-between",
+        "space-around",
+        "space-evenly",
+      ].includes(value),
   },
 
   // Button Props

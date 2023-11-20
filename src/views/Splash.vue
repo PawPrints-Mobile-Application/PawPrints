@@ -5,7 +5,7 @@
       v-show="state.thumbnail"
       :class="{ 'show-loading': state.loading && !state.background }"
       name="crescent"
-      color="primary"
+      color="tertiary"
     />
     <div
       class="backdrop"

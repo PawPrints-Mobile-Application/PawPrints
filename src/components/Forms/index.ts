@@ -14,6 +14,8 @@ import InputRadio from "./InputRadio.vue";
 import InputToggle from "./InputToggle.vue";
 import InputCheckbox from "./InputCheckbox.vue";
 import InputSearch from "./InputSearch.vue";
+import InputSegment from "./InputSegment.vue";
+import InputSegmentIcon from "./InputSegmentIcon.vue";
 
 
 export {
@@ -33,4 +35,6 @@ export {
   InputToggle,
   InputCheckbox,
   InputSearch,
+  InputSegment,
+  InputSegmentIcon
 };

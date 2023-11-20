@@ -9,6 +9,7 @@ import {
 import { SetDocument, GetDocument, GetCollection } from "../firebase";
 import ObjectToMap from "../../utils/ObectToMap";
 import { DocumentData } from "firebase/firestore";
+import { StringToArray } from "../../utils";
 
 const constants = {
   collection: "Users",
@@ -36,8 +37,8 @@ type LocalProps = {
 const ToProps = (props: LocalProps): Props => {
   return {
     did: props.did,
-    events: props.events.split(constants.arraySplitter),
-    notes: props.events.split(constants.arraySplitter),
+    events: StringToArray(props.events, constants.arraySplitter),
+    notes: StringToArray(props.notes, constants.arraySplitter),
   };
 };
 

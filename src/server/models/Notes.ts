@@ -9,7 +9,7 @@ import {
 import { SetDocument, GetDocument, GetCollection } from "../firebase";
 import ObjectToMap from "../../utils/ObectToMap";
 import { Timestamp } from "firebase/firestore";
-import { SeedGenerator } from "../../utils/";
+import { SeedGenerator, StringToArray } from "../../utils/";
 
 const constants = {
   collection: "Users",
@@ -55,7 +55,7 @@ type CloudProps = {
 const ToProps = (props: any, source: "LocalProps" | "CloudProps"): Props => {
   let { DTStart, DTEnd, dogs } = props;
   if (source === "LocalProps") {
-    dogs = props.dogs.split(constants.arraySplitter);
+    dogs = StringToArray(props.dogs, constants.arraySplitter),
     DTStart = new Date(props.DTStart);
     DTEnd = new Date(props.DTEnd);
   } else {

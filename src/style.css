@@ -19,6 +19,10 @@
   --content-padding: var(--content-padding-top) var(--content-padding-right) var(--content-padding-down) var(--content-padding-left);
 }
 
+#app {
+  min-width: 320px;
+}
+
 /* ----------------------- FLEX ----------------------- */
 .flex-container {
   display: flex;

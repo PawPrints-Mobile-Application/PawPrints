@@ -4,8 +4,6 @@ import { RouteRecordRaw } from "vue-router";
 import independentRoutes, {
   navigationRecords,
   settingsRecords,
-  homeRecords,
-  dogsRecords,
   forumsRecords,
 } from "./views";
 
@@ -58,18 +56,14 @@ let routes: Array<RouteRecordRaw> = [
           component: () => import(`./views/${record.name}.vue`),
         };
       }),
-      ...homeRecords.map((record) => {
-        return {
-          path: "/Home/" + nameTransform(record.name),
-          component: () => import(`./views/Home/${record.name}.vue`),
-        };
-      }),
-      ...dogsRecords.map((record) => {
-        return {
-          path: "/Dogs/" + nameTransform(record.name),
-          component: () => import(`./views/Dogs/${record.name}.vue`),
-        };
-      }),
+      {
+        path: "/dogs/:pid",
+        component: () => import("./views/Dogs/[pid].vue"),
+      },
+      {
+        path: "/dogs/:pid/:action",
+        component: () => import("./views/Dogs/[pid].vue"),
+      },
       ...forumsRecords.map((record) => {
         return {
           path: "/Forums/" + nameTransform(record.name),

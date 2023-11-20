@@ -94,15 +94,11 @@ const emit = defineEmits([
 ]);
 </script>
 <style scoped>
-.layout-wrapper {
-  height: 100%;
-  width: 100%;
-}
-
 .layout-header {
   --background-color: var(--background-color-primary);
   --background-color-header: var(--background-color);
   background-color: var(--background-color-header);
+  min-width: 320px;
   min-height: 30px;
   max-height: 70px;
   overflow: hidden;
@@ -117,10 +113,12 @@ const emit = defineEmits([
   --background-color-content: var(--background-color);
   background-color: var(--background-color-content);
   min-height: 100%;
+  min-width: 320px;
 }
 
 .layout-content::part(scroll) {
   min-height: 100%;
+  min-width: 320px;
 }
 
 .disable-scroll {
@@ -152,13 +150,15 @@ const emit = defineEmits([
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  --content-gap: 20px;
+  gap: var(--content-gap);
 }
 
 .layout-footer {
   --background-color: var(--background-color-primary);
   --background-color-footer: var(--background-color);
   background-color: var(--background-color-footer);
+  min-width: 320px;
   min-height: 30px;
   max-height: 70px;
   overflow: hidden;

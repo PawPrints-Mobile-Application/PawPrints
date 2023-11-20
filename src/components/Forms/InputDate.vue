@@ -36,7 +36,6 @@ const props = defineProps({
     type: String,
     default: "YYYY-MM-DD",
   },
-  options: Array<String>,
   value: {
     type: String,
     required: true,

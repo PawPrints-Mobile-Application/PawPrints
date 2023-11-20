@@ -15,12 +15,12 @@
       />
     </header>
     <section class="body" v-show="!state.noDogsFound">
-      <DogCard v-for="dog in filteredDogs" :dog="dog" />
+      <DogPreviewCard v-for="dog in filteredDogs" :dog="dog" />
     </section>
   </section>
 </template>
 <script setup lang="ts">
-import { DogCard } from ".";
+import { DogPreviewCard } from ".";
 import { ModalAddPet } from "../Modals";
 import { InputSearch } from "../Forms";
 import { reactive, ref } from "vue";

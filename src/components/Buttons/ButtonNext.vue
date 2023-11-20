@@ -1,5 +1,5 @@
 <template>
-  <ButtonText class="button-next" :state="state" label="Next" v-if="type === 'text'" />
+  <ButtonText class="button-next" :state="state" :label="label" v-if="type === 'text'" />
   <ButtonIcon class="button-next" :state="state" :icon="icon" v-else />
 </template>
 <script setup lang="ts">
@@ -7,6 +7,10 @@ import { ButtonText, ButtonIcon } from ".";
 import { caretForward as icon } from "ionicons/icons";
 
 defineProps({
+  label: {
+    type: String,
+    default: "Next"
+  },
   type: {
     type: String,
     default: "text",

@@ -1,5 +1,5 @@
 <template>
-  <section class="input-label default-input">
+  <section class="input-label default-input text">
     <label class="text font-bold" :for="props.for">{{ value }}</label>
     <span
       class="requirement"
@@ -30,6 +30,11 @@ const props = defineProps({
   display: flex;
   justify-content: space-between;
   align-items: center;
+  --font-size: var(--fs4);
+
+  > .text {
+    font-size: var(--font-size);
+  }
 
   > .requirement {
     font-size: var(--fs4);
