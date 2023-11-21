@@ -1,9 +1,9 @@
 <template>
   <section class="input-dropdown default-input">
     <InputLabel :value="label" v-show="!!label" />
-    <InputBox
-      :value="!!hideInput && value === '' ? placeholder : value"
-      @update:value="(v) => (value = v)"
+    <InputDynamic
+      :model-value="value?.toString()"
+      @input="GetSetOption"
       :freeze="!!hideInput"
       :placeholder="placeholder"
       @click="
@@ -14,11 +14,11 @@
       :hideIcon="hideIcon"
     >
       <ButtonExpand v-model:expand="state" />
-    </InputBox>
-    <Popup v-model:value="state">
-      <template #content="{ reverseValue }">
+    </InputDynamic>
+    <Popup v-model="state">
+      <template #default="{ reverseValue }">
         <InputSelect
-          v-model:value="value"
+          v-model="value"
           :options="options"
           @click="
             () => {
@@ -33,10 +33,10 @@
   </section>
 </template>
 <script setup lang="ts">
-import { InputBox, InputSelect, InputLabel } from ".";
+import { InputSelect, InputLabel, InputDynamic } from ".";
 import { ButtonExpand } from "../Buttons";
 import { ref, computed } from "vue";
-import Popup from "../Modals/Popup.vue";
+import { Popup } from "../Popup";
 
 const props = defineProps({
   label: String,
@@ -46,29 +46,34 @@ const props = defineProps({
     type: String,
     default: "Select a value",
   },
-  options: Array<String>,
-  value: {
-    type: String,
-    required: true,
-  },
+
+  // For Input Select
+  options: Array<String | Number | Date | Object>,
+  modelValue: [String, Number, Date, Object],
   count: {
     type: Number,
     default: 5,
   },
 });
 
+const GetSetOption = (element: string) => {
+  props.options?.forEach((option) => {
+    if (option.toString() === element) value.value = option;
+  });
+};
+
 const state = ref(false);
 const value = computed({
   get() {
-    return props.value;
+    return props.modelValue;
   },
   set(value) {
-    emit("update:value", value);
+    emit("update:modelValue", value);
     emit("change", value);
   },
 });
 
-const emit = defineEmits(["update:value", "change", "select"]);
+const emit = defineEmits(["update:modelValue", "change", "select"]);
 </script>
 <style scoped>
 .input-dropdown {

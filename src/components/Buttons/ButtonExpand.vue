@@ -27,7 +27,7 @@ const emit = defineEmits(["update:expand", "expand", "collapse"]);
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 50px;
+  height: 30px;
   --translateYUp: -8px;
   --translateYDown: 8px;
 

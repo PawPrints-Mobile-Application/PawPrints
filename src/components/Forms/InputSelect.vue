@@ -1,5 +1,5 @@
 <template>
-  <section class="input-select default-input" :style="{'--count': count}">
+  <section class="input-select default-input" :style="{ '--count': count }">
     <ul class="items">
       <li
         class="item"
@@ -7,7 +7,7 @@
         :class="{ selected: key === selected }"
         @click="SetValue(key)"
         :ref="(value) => {
-            if (props.value !== options![Math.min(key + Math.floor(count / 2), options!.length - 1)] || !!input) return;
+            if (props.modelValue !== options![Math.min(key + Math.floor(count / 2), options!.length - 1)] || !!input) return;
             input = value;
         }"
       >
@@ -21,30 +21,27 @@ import { ref } from "vue";
 import { onMounted } from "vue";
 
 const props = defineProps({
-  options: Array<String>,
-  value: {
-    type: String,
-    required: true,
-  },
+  options: Array<String | Number | Date | Object>,
+  modelValue: [String, Number, Date, Object],
   count: {
     type: Number,
-    default: 5
-  }
+    default: 5,
+  },
 });
 
 const input = ref();
 const count = Math.min(props.options!.length, props.count);
 
-const selected = ref(props.options?.indexOf(props.value));
+const selected = ref(props.options?.indexOf(props.modelValue!));
 
 const SetValue = (key: number) => {
   const value = props.options![key];
   selected.value = key;
-  emit("update:value", value);
+  emit("update:modelValue", value);
   emit("click");
 };
 
-const emit = defineEmits(["update:value", 'click']);
+const emit = defineEmits(["update:modelValue", "click"]);
 
 onMounted(() => {
   input.value?.scrollIntoView({ behavior: "smooth" });

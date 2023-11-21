@@ -1,11 +1,11 @@
 <template>
-  <section class="input-calendar">
+  <section class="input-calendar" :class="{ 'with-save': !saveOnChange }">
     <header class="calendar-nav">
       <ButtonBack class="button" @click="() => MoveMonth(-1)" type="icon" />
       <InputDropdown
         class="month"
-        v-model:value="shownMonth"
-        design="input-only"
+        v-model="calendar.dropDownMonth"
+        @change="SetMonth(calendar.dropDownMonth)"
         :options="constants.months"
         hide-icon
         hide-input
@@ -13,9 +13,9 @@
       />
       <InputDropdown
         class="year"
-        v-model:value="shownYear"
-        design="input-only"
-        :options="GetYears()"
+        v-model="calendar.year"
+        @change="SetYear(calendar.year)"
+        :options="GetAllYears()"
         hide-icon
         hide-input
         :count="15"
@@ -39,8 +39,9 @@
           :class="{ selected: IsCellSelected(week, day) }"
           @click="
             () => {
-              SetDate(BaseSevenToDecimal(week, day));
-              emit('click');
+              if (GetCellDate(week, day) === '') return;
+              SetDate(Number(GetCellDate(week, day)));
+              emit('select');
             }
           "
         >
@@ -50,49 +51,21 @@
               id="calendar-mark"
               :icon="calendarMark"
             />
-            <span class="calendar-number">{{
-              calendar.cells[BaseSevenToDecimal(week, day)]
-            }}</span>
+            <span class="calendar-number">{{ GetCellDate(week, day) }}</span>
           </div>
         </td>
       </tr>
     </table>
+    <ButtonText label="Save" @click="Save" v-show="!saveOnChange" />
   </section>
 </template>
 
 <script setup lang="ts">
 import { InputDropdown } from ".";
-import { ButtonBack, ButtonNext } from "../Buttons";
+import { ButtonBack, ButtonNext, ButtonText } from "../Buttons";
 import { paw as calendarMark } from "ionicons/icons";
-import { reactive, computed } from "vue";
+import { reactive, onMounted } from "vue";
 import { IonIcon } from "@ionic/vue";
-
-const props = defineProps({
-  value: {
-    type: String,
-    required: true,
-  },
-  setOnChange: Boolean,
-});
-const emit = defineEmits(["update:value", "click"]);
-
-// FORMATTER
-const TwoCharactersFormat = (value: number) =>
-  value < 10 ? `0${value}` : value;
-const stringToArray = (value: string) => {
-  let temp = value;
-  if (temp === "") {
-    return [
-      new Date().getFullYear(),
-      new Date().getMonth() + 1,
-      new Date().getDate(),
-    ];
-  }
-  return value.split("-").map((el: string) => parseInt(el));
-};
-const arrayToString = (year: number, month: number, date: number) =>
-  `${year}-${TwoCharactersFormat(month)}-${TwoCharactersFormat(date)}`;
-const BaseSevenToDecimal = (week: number, day: number) => week * 7 + (day % 7);
 
 // CONSTANTS
 const constants = {
@@ -111,108 +84,117 @@ const constants = {
     "December",
   ],
   days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-  getArrayDates: (month: number, year: number) =>
-    Array(new Date(year, month, 1).getDay())
-      .fill("-")
-      .map((item) => (item === "-" ? "" : item))
-      .concat(
-        Array.from(
-          { length: new Date(year, month + 1, 0).getDate() },
-          (_, i) => i + 1
-        )
-      ),
 };
-const getCalendarCells = (month: number, year: number) =>
-  constants.getArrayDates(month, year);
-const GetYears = () =>
-  Array.from({ length: 151 }, (_, i) =>
-    (i + new Date().getFullYear() - 70).toString()
-  );
 
-// VALUES
-const form = reactive({
-  date: stringToArray(props.value)[2],
-  month: stringToArray(props.value)[1],
-  year: stringToArray(props.value)[0],
+const props = defineProps({
+  modelValue: Date,
+  saveOnChange: Boolean,
 });
-
-const shownMonth = computed({
-  get() {
-    return calendar.shownMonth;
-  },
-  set(value: string) {
-    calendar.shownMonth = value;
-    calendar.month = constants.months.indexOf(value);
-    if (!!props.setOnChange) SetDate();
-    RefreshCalendar();
-  },
-});
-
-const shownYear = computed({
-  get() {
-    return calendar.shownYear;
-  },
-  set(value: string) {
-    calendar.shownYear = value;
-    calendar.year = Number(value);
-    if (!!props.setOnChange) SetDate();
-    RefreshCalendar();
-  },
-});
+const emit = defineEmits(["update:modelValue", "select", "save"]);
 
 const calendar = reactive({
-  shownMonth: constants.months[form.month - 1],
-  shownYear: form.year.toString(),
-  month: form.month - 1,
-  year: form.year,
-  cells: getCalendarCells(form.month - 1, form.year),
-  focused: false,
+  month: 0,
+  date: 1,
+  year: 1,
+  dropDownMonth: constants.months[1],
+  cells: new Array<string>(),
 });
 
-// Calendar Methods
-const MoveMonth = (value: 1 | -1) => {
-  let month = calendar.month + value;
-  let year = calendar.year;
-  if (0 > month || month > 11) {
-    month = (month + 12) % 12;
-    year += value;
+const selected = reactive({
+  month: 0,
+  date: 1,
+  year: 1,
+});
+
+const MoveMonth = (increment: 1 | -1) => {
+  calendar.month = (calendar.month + increment + 12) % 12;
+  if (calendar.month + increment < 0 || calendar.month + increment > 11)
+    calendar.year += increment;
+  calendar.dropDownMonth = constants.months[calendar.month];
+  RefreshCalendar();
+};
+const SetMonth = (month: string) => {
+  calendar.month = constants.months.indexOf(month);
+  calendar.dropDownMonth = month;
+  RefreshCalendar();
+};
+const SetYear = (year: number) => {
+  calendar.year = year;
+  RefreshCalendar();
+};
+const SetDate = (date: number) => {
+  calendar.date = date;
+  Save(!!props.saveOnChange);
+};
+
+const Save = (doEmit: boolean = false) => {
+  selected.date = calendar.date;
+  selected.month = calendar.month;
+  selected.year = calendar.year;
+  if (doEmit) {
+    emit(
+      "update:modelValue",
+      new Date(calendar.year, calendar.month, calendar.date)
+    );
+    emit("save");
   }
-  shownMonth.value = constants.months[month];
-  shownYear.value = year.toString();
 };
 
-const RefreshCalendar = () => {
-  calendar.cells = getCalendarCells(calendar.month, calendar.year);
-};
-
+// Cell Calendar UI Modifiers
+const GetCalendarCells = (month: number, year: number) =>
+  Array(new Date(year, month, 1).getDay())
+    .fill("")
+    .concat(
+      Array.from({ length: new Date(year, month + 1, 0).getDate() }, (_, i) =>
+        (i + 1).toString()
+      )
+    );
+const GetCellDate = (week: number, day: number) =>
+  calendar.cells[BaseSevenToDecimal(week, day)];
+const GetAllYears = () =>
+  Array.from({ length: 151 }, (_, i) => i + new Date().getFullYear() - 70);
+const BaseSevenToDecimal = (week: number, day: number) => week * 7 + (day % 7);
 const IsCellSelected = (week: number, day: number) => {
   const cell = BaseSevenToDecimal(week, day);
   return (
-    calendar.cells[cell] !== "" &&
-    calendar.month === form.month - 1 &&
-    calendar.year === form.year &&
-    form.date === calendar.cells[cell]
+    GetCellDate(week, day) !== "" &&
+    calendar.month === selected.month &&
+    calendar.year === selected.year &&
+    calendar.date.toString() === calendar.cells[cell]
   );
 };
-
-// Form Changes
-const SetDate = (cell?: number) => {
-  form.month = calendar.month + 1;
-  form.year = calendar.year;
-  if (!!cell) form.date = calendar.cells[cell];
-  const temp = arrayToString(form.year, form.month, form.date);
-  emit("update:value", temp);
+const RefreshCalendar = () => {
+  calendar.cells = GetCalendarCells(calendar.month, calendar.year);
 };
+
+onMounted(() => {
+  if (!props.modelValue) return;
+  calendar.date = props.modelValue?.getDate();
+  calendar.month = props.modelValue?.getMonth();
+  calendar.year = props.modelValue?.getFullYear();
+  calendar.dropDownMonth = constants.months[calendar.month];
+  RefreshCalendar();
+  selected.date = props.modelValue?.getDate();
+  selected.month = props.modelValue?.getMonth();
+  selected.year = props.modelValue?.getFullYear();
+});
 </script>
 
 <style scoped>
 .input-calendar {
   outline: 2px solid var(--ion-color-black);
   min-width: 280px;
-  min-height: 320px;
+  min-height: 313px;
   padding: 10px;
   border-radius: 10px;
   background-color: var(--ion-color-secondary);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  &.with-save {
+    min-height: 348px;
+  }
 }
 
 .calendar-nav {
@@ -246,7 +228,7 @@ const SetDate = (cell?: number) => {
   --body-width: 100%;
   --cell-size: calc(var(--body-width) / 7);
   width: var(--body-width);
-  height: 100%;
+  flex: 1 0 0;
 }
 
 .cell {
@@ -254,6 +236,10 @@ const SetDate = (cell?: number) => {
   height: 35px;
   text-align: center;
   font-size: var(--fs3);
+}
+
+#row-header .cell {
+  vertical-align: text-top;
 }
 
 #calendar-mark {
@@ -271,5 +257,12 @@ const SetDate = (cell?: number) => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.button-text {
+  margin-top: auto;
+  width: 100%;
+  max-height: 35px;
+  --background-color: var(--ion-color-black);
 }
 </style>

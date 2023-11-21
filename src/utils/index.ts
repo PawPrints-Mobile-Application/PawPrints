@@ -8,6 +8,8 @@ import StringToArray from "./StringToArray";
 import HelperConstructor from "./HelperConstructor";
 import InputValidator from "./InputValidator";
 
+import LocalDate from "./LocalDate";
+
 const GetScreenSize = () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -24,6 +26,8 @@ export {
 
   HelperConstructor,
   InputValidator,
+
+  LocalDate,
 
   GetScreenSize
 }

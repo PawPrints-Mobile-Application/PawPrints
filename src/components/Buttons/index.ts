@@ -13,6 +13,8 @@ import ButtonClear from "./ButtonClear.vue";
 import ButtonAddPet from "./ButtonAddPet.vue";
 import ButtonAddActivity from "./ButtonAddActivity.vue";
 
+import ButtonPopup from "./ButtonPopup.vue";
+
 
 import ButtonModal from "./ButtonModal.vue";
 import ButtonSignOut from "./ButtonSignOut.vue";
@@ -39,6 +41,8 @@ export {
   
   ButtonAddPet,
   ButtonAddActivity,
+
+  ButtonPopup,
 
   ButtonModal,
 

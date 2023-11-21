@@ -5,7 +5,11 @@
     <div
       v-for="key in GetLocation()"
       class="dot"
-      :style="{ transform: expand ? `translate(${key.x}px, ${key.y}px)` : 'translate(0,-8px)' }"
+      :style="{
+        transform: expand
+          ? `translate(${key.x}px, ${key.y}px)`
+          : 'translate(0,-8px)',
+      }"
     />
   </button>
 </template>
@@ -27,12 +31,13 @@ const GetLocation = () => {
 
 const Click = () => {
   const temp = !props.expand;
+  emit("click");
   emit("update:expand", temp);
   if (temp) emit("expand");
   else emit("collapse");
 };
 
-const emit = defineEmits(["update:expand", "expand", "collapse"]);
+const emit = defineEmits(["update:expand", "expand", "collapse", "click"]);
 </script>
 <style scoped>
 .button-calendar {
@@ -42,7 +47,7 @@ const emit = defineEmits(["update:expand", "expand", "collapse"]);
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 50px;
+  height: 30px;
 
   > .background {
     border-radius: 5px;
