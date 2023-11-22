@@ -3,7 +3,7 @@
     <section>
       <div v-for="i in 2" :key="i" />
     </section>
-    <TextHeading>Add Activity</TextHeading>
+    <TextHeading>Add Log</TextHeading>
   </ButtonRippled>
 </template>
 <script setup lang="ts">

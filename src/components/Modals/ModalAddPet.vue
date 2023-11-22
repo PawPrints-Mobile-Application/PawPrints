@@ -10,6 +10,7 @@
     v-model:page="page"
     :disable-next="disabler[page - 1]"
     close-on-submit
+    :can-dismiss="canDismiss"
   >
     <template #button><ButtonAddPet /></template>
 
@@ -21,6 +22,7 @@
       v-model:birthday="form.birthday"
       v-model:breed="form.breed"
       v-model:color="form.color"
+      @state-expanded="SetDismiss"
     />
     <register2
       v-else-if="page === 2"
@@ -38,8 +40,17 @@ import { ButtonModal, ButtonAddPet } from "../Buttons";
 import { Default as PetAvatar } from "../../components/Avatars/Pets";
 import { Add } from "../../server/models/Dogs";
 import { SeedGenerator } from "../../utils";
-import { register1 } from "../../views/_templates/index";
-import { register2 } from "../../views/_templates/index";
+import { register1, register2 } from "../../views/_templates";
+
+const canDismiss = ref(true);
+const SetDismiss = (value: boolean) => {
+  console.log(value);
+  if (value) {
+    setTimeout(() => {
+      canDismiss.value = value;
+    }, 10);
+  } else canDismiss.value = value;
+};
 
 const form = reactive({
   name: "",

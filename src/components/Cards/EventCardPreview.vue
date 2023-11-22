@@ -1,7 +1,7 @@
 <template>
     <section class="event-card-preview">
       <TextSubheading class="main-label">Associated Events:</TextSubheading>
-      <InputSegmentIcon :icons="icons" v-model:value="show" />
+      <InputSegmentIcon :icons="icons" v-model="show" />
       <TextSubheading class="chosen-label">{{
         texts[icons.indexOf(show)]
       }}</TextSubheading>

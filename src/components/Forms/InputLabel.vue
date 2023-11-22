@@ -30,10 +30,11 @@ const props = defineProps({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  --font-size: var(--fs4);
+  --font-size: var(--fs3);
 
   > .text {
     font-size: var(--font-size);
+    font-weight: 700;
   }
 
   > .requirement {

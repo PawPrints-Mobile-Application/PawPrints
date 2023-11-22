@@ -40,30 +40,28 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  options: {
-    type: Array<String>,
-    required: true,
-  },
+  options: Array<String | Number>,
   addOthers: Boolean,
-  value: String,
+  modelValue: [String, Number],
 });
 
 const Select = (key: number) => {
   selected.value = key;
-  emit("update:value", getOptions.value[selected.value]);
+  emit("update:modelValue", getOptions.value[selected.value]);
   emit("change", getOptions.value[selected.value]);
 };
 
 const others = ref("");
 const getOptions = computed(() => {
+  if (!props.options) return [];
   if (!props.addOthers) return props.options;
   return props.options.concat([others.value]);
 });
 
 const selected = ref(
-  !!props.value ? getOptions.value.indexOf(props.value) : -1
+  !!props.modelValue ? getOptions.value.indexOf(props.modelValue) : -1
 );
-const emit = defineEmits(["update:value", "change"]);
+const emit = defineEmits(["update:modelValue", "change"]);
 </script>
 <style scoped>
 .input-radio {

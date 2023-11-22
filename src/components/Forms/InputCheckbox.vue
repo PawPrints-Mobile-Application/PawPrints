@@ -40,12 +40,9 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  options: {
-    type: Array<String>,
-    required: true,
-  },
+  options: Array<String | Number>,
   addOthers: Boolean,
-  value: Array<String>,
+  modelValue: Array<String | Number>,
 });
 
 const Toggle = (key: number) => {
@@ -60,12 +57,15 @@ const Toggle = (key: number) => {
 
 const others = ref("");
 const getOptions = computed(() => {
+  if (!props.options) return [];
   if (!props.addOthers) return props.options;
   return props.options.concat([others.value]);
 });
 
 const selected: Ref<Array<number>> = ref(
-  !!props.value ? props.value.map(v => getOptions.value.indexOf(v)) : []
+  !!props.modelValue
+    ? props.modelValue.map((v) => getOptions.value.indexOf(v))
+    : []
 );
 const emit = defineEmits(["update:modelValue"]);
 </script>

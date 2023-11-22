@@ -1,36 +1,24 @@
 <template>
-  <section class="input-toggle default-input" @click="Toggle">
-    <div class="option-input">
-      <div class="custom-input" v-show="value" />
+  <section class="input-toggle default-input">
+    <div class="option-input" @click="Toggle">
+      <div class="custom-input" v-show="modelValue" />
     </div>
-    <label class="option-label" :for="`${id}-input`">
+    <label class="option-label">
       <slot>{{ content }}</slot>
     </label>
   </section>
 </template>
 <script setup lang="ts">
 const props = defineProps({
-  label: String,
-  id: {
-    type: String,
-    required: true,
-  },
-  design: {
-    type: String,
-    default: "classic",
-    validators: (value: string) =>
-      ["classic", "input-only", "label-inline"].includes(value),
-  },
-  hideLabel: Boolean,
-  value: Boolean,
+  modelValue: Boolean,
   content: String,
 });
 
 const Toggle = () => {
-  emit("update:value", !props.value);
+  emit("update:modelValue", !props.modelValue);
 };
 
-const emit = defineEmits(["update:value"]);
+const emit = defineEmits(["update:modelValue"]);
 </script>
 <style scoped>
 .input-toggle {

@@ -28,7 +28,7 @@
         {{ noteWarning }}
       </NoteWarning>
 
-      <InputText
+      <InputDynamicWrapped
         ref="username"
         type="text"
         label="Username"
@@ -36,11 +36,11 @@
         placeholder="Enter Username"
         required
         v-model:valid="validations.username"
-        v-model:value="form.username"
+        v-model="form.username"
         :validators="SignupValidator.username"
       />
 
-      <InputText
+      <InputDynamicWrapped
         ref="email"
         type="email"
         label="Email"
@@ -48,11 +48,11 @@
         placeholder="Enter Email"
         required
         v-model:valid="validations.email"
-        v-model:value="form.email"
+        v-model="form.email"
         :validators="SignupValidator.email"
       />
 
-      <InputText
+      <InputDynamicWrapped
         ref="password"
         type="password"
         label="Password"
@@ -60,7 +60,7 @@
         placeholder="Enter Password"
         required
         @validate="(value) => (validations.password = value > -1)"
-        v-model:value="form.password"
+        v-model="form.password"
         :validators="SignupValidator.password"
       />
 
@@ -75,7 +75,7 @@
 
 <script setup lang="ts">
 import { ButtonModal, ButtonAuth } from "../Buttons";
-import { InputText, InputToggle } from "../Forms";
+import { InputDynamicWrapped, InputToggle } from "../Forms";
 import { NoteWarning, TextSubheading } from "../Texts";
 
 import {

@@ -1,13 +1,13 @@
 <template>
   <section class="dog-preview">
     <header :class="{ 'have-dogs': !state.noDogsFound }">
-      <InputSearch
+      <!-- <InputSearch
         v-show="!state.noDogsFound"
         v-model:value="searchDog"
         @input="FilterDogs"
         @expand="() => (state.searchExpand = true)"
         @collapse="() => (state.searchExpand = false)"
-      />
+      /> -->
       <ModalAddPet
         trigger="header-button"
         v-show="!state.searchExpand"
@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { DogPreviewCard } from ".";
 import { ModalAddPet } from "../Modals";
-import { InputSearch } from "../Forms";
+// import { InputSearch } from "../Forms";
 import { reactive, ref } from "vue";
 import { GetAll } from "../../server/models/Dogs";
 
@@ -121,3 +121,4 @@ defineExpose({ ReloadPage });
   }
 }
 </style>
+../Popup

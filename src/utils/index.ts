@@ -8,11 +8,10 @@ import StringToArray from "./StringToArray";
 import HelperConstructor from "./HelperConstructor";
 import InputValidator from "./InputValidator";
 
-const GetScreenSize = () => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  return { width, height };
-}
+import LocalDate from "./LocalDate";
+
+import GetScreenSize from "./GetScreenSize";
+import SampleColors from "./SampleColors";
 
 export {
   RouteInfo,
@@ -25,5 +24,8 @@ export {
   HelperConstructor,
   InputValidator,
 
-  GetScreenSize
+  LocalDate,
+
+  GetScreenSize,
+  SampleColors
 }

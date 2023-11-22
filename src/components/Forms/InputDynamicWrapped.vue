@@ -1,5 +1,5 @@
 <template>
-  <section class="input-text default-input">
+  <section class="input-dynamic-wrapped">
     <InputLabel
       :value="label"
       v-show="!!label"
@@ -7,60 +7,64 @@
       :requirement-color="validity.requirementColor"
       :requirement-text="validity.requirementText"
     />
-    <InputBox
-      v-model:value="value"
-      @input="emit('input')"
-      @change="emit('change')"
-      :disabled="disabled"
-      :placeholder="placeholder"
-      :type="type === 'password' && (state.show || show) ? 'text' : type"
+    <InputDynamic
+      v-model="value"
+      :type="type"
       :freeze="freeze"
-      :icon="
-        type === 'password' ? (state.show ? hideIcon : showIcon) : undefined
-      "
-      @icon:click="
-        () => {
-          if (type === 'password') state.show = !state.show;
-        }
-      "
-    />
+      @focus="emit('focus')"
+      @blur="emit('blur')"
+      @first-edit="emit('first-edit')"
+      @first-touch="emit('first-touch')"
+      @change="emit('change', value)"
+      @input="emit('input', value)"
+      @click="emit('click')"
+      @icon-click="emit('icon-click')"
+      :show="show"
+      :hidden="hidden"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :hideIcon="hideIcon"
+      :disableFuture="disableFuture"
+      @state-expanded="(value) => emit('state-expanded', value)"
+    >
+      <slot name="icon"><slot /></slot>
+    </InputDynamic>
     <InputHelper :validators="validators" :validated="validity.values" />
   </section>
 </template>
 <script setup lang="ts">
 import { InputValidator } from "../../utils";
-import { InputLabel, InputBox, InputHelper } from ".";
+import { InputLabel, InputDynamic, InputHelper } from ".";
 import { computed, reactive } from "vue";
-import { eye as showIcon, eyeOff as hideIcon } from "ionicons/icons";
 
 const props = defineProps({
+  // For InputDynamic
+  type: String,
+  modelValue: [String, Number],
+  hidden: Boolean, // Turns text into password
+  show: Boolean,
+  freeze: Boolean,
+  hideIcon: Boolean,
+  saveOnChange: Boolean,
+  placeholder: String,
+  disabled: Boolean,
+  disableFuture: Boolean,
+  // For InputLabel
   label: String,
   required: Boolean,
-  placeholder: String,
-  value: {
-    type: String,
-    required: true,
-  },
-  disabled: Boolean,
-  type: {
-    type: String,
-    default: "text",
-    validator: (value: string) =>
-      ["text", "email", "password", "color"].includes(value),
-  },
+  // For InputHelper
   validators: Array<InputValidator>,
-  freeze: Boolean,
-  show: Boolean
 });
 
 const value = computed({
   get() {
-    return props.value;
+    return props.modelValue;
   },
   set(value) {
+    if (!value) return;
     state.taken = value !== "";
     Evaluate(value);
-    emit("update:value", value);
+    emit("update:modelValue", value);
   },
 });
 
@@ -76,7 +80,7 @@ const validity = reactive({
   requirementColor: "danger",
 });
 
-const Evaluate = (value: string) => {
+const Evaluate = (value: string | number) => {
   if (!props.validators) return;
   let considered = true;
   let accepted = true;
@@ -116,17 +120,25 @@ const Evaluate = (value: string) => {
   }
 
   emit("validate", validity.strength);
-  emit("update:valid", validity.strength);
+  emit("update:modelValid", validity.strength);
 };
 
-const Reevaluate = () => (value.value = props.value);
+const Reevaluate = () => (value.value = props.modelValue);
 
 const emit = defineEmits([
-  "update:value",
-  "update:valid",
-  "input",
+  // For InputDynamic
+  "update:modelValue",
+  "focus",
+  "blur",
+  "first-touch",
+  "first-edit",
   "change",
-  "icon:click",
+  "input",
+  "click",
+  "icon-click",
+  "state-expanded",
+  // For InputHelper
+  "update:modelValid",
   "validate",
   "valid",
   "invalid",
@@ -137,7 +149,7 @@ const emit = defineEmits([
 defineExpose({ Reevaluate });
 </script>
 <style scoped>
-.input-text {
+.input-dynamic-wrapped {
   width: 100%;
   display: flex;
   flex-direction: column;

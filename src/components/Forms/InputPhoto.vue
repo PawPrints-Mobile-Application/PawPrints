@@ -2,9 +2,13 @@
   <section class="input-photo" :data-shape="shape">
     <InputLabel :value="label" v-show="!!label" />
     <section class="wrapper">
-      <div @click="() => {
-        if (!!hasChangeButton) showPhoto = true;
-      }">
+      <div
+        @click="
+          () => {
+            if (!!hasChangeButton) showPhoto = true;
+          }
+        "
+      >
         <img :src="value" />
         <input
           v-show="!hasChangeButton"
@@ -15,16 +19,14 @@
         />
       </div>
     </section>
-    <InputButtonPhoto
+    <InputPhotoButton
       :name="name"
       v-model:value="_value"
       :default="default"
       v-show="!!hasChangeButton"
     />
-    <Popup v-model:value="showPhoto">
-      <template #content>
-        <PhotoCard :value="value" />
-      </template>
+    <Popup v-model="showPhoto">
+      <PhotoCard :value="value" />
     </Popup>
   </section>
 </template>
@@ -32,8 +34,8 @@
 import { PawPrints } from "../../assets/images";
 import { PhotoCard } from "../Cards";
 import { onMounted, ref, computed, WritableComputedRef } from "vue";
-import { InputButtonPhoto, InputLabel } from ".";
-import Popup from "../Modals/Popup.vue";
+import { InputPhotoButton, InputLabel } from ".";
+import { Popup } from "../Popup";
 
 const props = defineProps({
   label: String,

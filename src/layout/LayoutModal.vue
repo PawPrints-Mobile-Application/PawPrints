@@ -4,6 +4,7 @@
     class="layout-modal"
     @didDismiss="emit('dismiss')"
     @didPresent="emit('present')"
+    :canDismiss="canDismiss"
   >
     <LayoutWrapper
       :inAntiNavigation="inAntiNavigation"
@@ -161,6 +162,7 @@ const props = defineProps({
   disableSubmit: Boolean,
 
   buttonSubmitText: String,
+  canDismiss: Boolean
 });
 
 const design = ref(props.max === 1 ? 0 : 1);

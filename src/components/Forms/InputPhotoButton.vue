@@ -1,5 +1,5 @@
 <template>
-    <section class="input-button-photo" :data-shape="shape">
+    <section class="input-photo-button" :data-shape="shape">
       <section class="wrapper">
         <div>
           <button class="change-button">
@@ -86,7 +86,7 @@
     }
   }
   
-  .input-button-photo {
+  .input-photo-button {
     --width: 20px;
     width: var(--width);
     aspect-ratio: 1;

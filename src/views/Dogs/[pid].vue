@@ -11,9 +11,9 @@
           label="Back to Dogs List"
           @click="() => ionRouter.back()"
         />
-        <InputSegment
-          :options="mainSegments"
-          v-model:value="state.mainSegment"
+        <InputSegmentIcon
+          :icons="mainSegments"
+          v-model="state.mainSegment"
         />
       </header>
     </template>
@@ -23,11 +23,11 @@
       v-show="!!dog"
       v-if="state.mainSegment === mainSegments[0]"
     >
-      <ModalAddActivity trigger="add-activity" />
+      <ModalAddLog trigger="add-activity" />
       <InputSegment
         class="logs-segment"
         :options="logsSegments"
-        v-model:value="state.logsSegment"
+        v-model="state.logsSegment"
       />
       <NoteCardPreview
         :notes="dog?.notes"
@@ -44,10 +44,11 @@ import { ref, reactive, Ref } from "vue";
 import { DogCard } from "../../components/Cards";
 import { onIonViewDidEnter, useIonRouter } from "@ionic/vue";
 import { ButtonBack } from "../../components/Buttons";
-import { ModalAddActivity } from "../../components/Modals";
+import { ModalAddLog } from "../../components/Modals";
 import { Get, Props } from "../../server/models/Dogs";
-import { InputSegment } from "../../components/Forms";
+import { InputSegment, InputSegmentIcon } from "../../components/Forms";
 import { NoteCardPreview, EventCardPreview } from "../../components/Cards";
+import { documents as logView, calendar as calendarView, barChart as analysisView } from 'ionicons/icons';
 const ionRouter = useIonRouter();
 
 const route = useRoute();
@@ -55,7 +56,7 @@ const params = ref(route.params);
 const pid = ref();
 const dog: Ref<Props | undefined> = ref();
 
-const mainSegments = ["Log View", "Calendar View"];
+const mainSegments = [logView, calendarView, analysisView];
 const logsSegments = ["Notes", "Events"];
 const state = reactive({
   hideCard: false,

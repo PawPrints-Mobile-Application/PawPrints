@@ -2,9 +2,9 @@
   <section class="input-segment-icon">
     <ul>
       <li
-        v-for="icon in icons"
-        @click="SetValue(icon)"
-        :class="{ select: icon === value }"
+        v-for="(icon, key) in icons"
+        @click="SetValue(key)"
+        :class="{ select: icon === modelValue }"
       >
         <IonIcon :icon="icon" />
       </li>
@@ -14,17 +14,17 @@
 <script setup lang="ts">
 import { IonIcon } from "@ionic/vue";
 
-defineProps({
+const props = defineProps({
   icons: Array<string>,
-  value: String,
+  modelValue: String,
 });
 
-const SetValue = (value: string) => {
-  emit("select", value);
-  emit("update:value", value);
+const SetValue = (key: number) => {
+  emit("select", props.icons![key]);
+  emit("update:modelValue", props.icons![key]);
 };
 
-const emit = defineEmits(["select", "update:value"]);
+const emit = defineEmits(["select", "update:modelValue"]);
 </script>
 <style scoped>
 .input-segment-icon {
@@ -61,6 +61,6 @@ li {
 }
 
 ion-icon {
-    font-size: var(--fs1);
+  font-size: var(--fs1);
 }
 </style>

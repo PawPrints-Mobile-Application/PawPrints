@@ -1,6 +1,6 @@
 <template>
   <section class="button-modal">
-    <button :id="trigger" style="width: 100%;">
+    <button :id="trigger" style="width: 100%">
       <slot name="button"><ButtonText :label="buttonText" /></slot>
     </button>
 
@@ -26,6 +26,7 @@
       :disableClear="disableClear"
       :disableSubmit="disableSubmit"
       :buttonSubmitText="buttonSubmitText"
+      :canDismiss="canDismiss"
       @clear="emit('clear')"
       @close="emit('close')"
       @submit="emit('submit')"
@@ -108,6 +109,7 @@ defineProps({
   disableSubmit: Boolean,
 
   buttonSubmitText: String,
+  canDismiss: Boolean,
 });
 
 const emit = defineEmits([

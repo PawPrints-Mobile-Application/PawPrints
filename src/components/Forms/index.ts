@@ -1,40 +1,49 @@
+import InputLabel from './InputLabel.vue'
+import InputHelper from './InputHelper.vue';
+
+import InputColorPicker from "./InputColorPicker.vue";
+import InputColorSample from './InputColorSample.vue';
+
 import InputBox from "./InputBox.vue";
-import InputLabel from "./InputLabel.vue";
-import InputHelper from "./InputHelper.vue";
-import InputText from "./InputText.vue";
+import InputDynamic from "./InputDynamic.vue";
+import InputDynamicWrapped from './InputDynamicWrapped.vue';
+
 import InputSelect from "./InputSelect.vue";
 import InputDropdown from "./InputDropdown.vue";
-import InputDate from "./InputDate.vue";
 import InputCalendar from "./InputCalendar.vue";
-import InputColorPicker from "./InputColorPicker.vue";
-import InputColor from "./InputColor.vue";
-import InputButtonPhoto from "./InputButtonPhoto.vue";
-import InputPhoto from "./InputPhoto.vue";
-import InputRadio from "./InputRadio.vue";
-import InputToggle from "./InputToggle.vue";
-import InputCheckbox from "./InputCheckbox.vue";
-import InputSearch from "./InputSearch.vue";
-import InputSegment from "./InputSegment.vue";
-import InputSegmentIcon from "./InputSegmentIcon.vue";
 
+import InputPhoto from './InputPhoto.vue';
+import InputPhotoButton from './InputPhotoButton.vue';
+
+import InputSegment from './InputSegment.vue';
+import InputSegmentIcon from './InputSegmentIcon.vue';
+
+import InputToggle from './InputToggle.vue';
+import InputRadio from './InputRadio.vue';
+import InputCheckbox from './InputCheckbox.vue';
 
 export {
-  InputBox,
   InputLabel,
   InputHelper,
-  InputText,
+
+  InputColorPicker,
+  InputColorSample,
+  
+  InputBox,
+  InputDynamic,
+  InputDynamicWrapped,
+
   InputSelect,
   InputDropdown,
-  InputDate,
   InputCalendar,
-  InputColorPicker,
-  InputColor,
-  InputButtonPhoto,
+
   InputPhoto,
-  InputRadio,
-  InputToggle,
-  InputCheckbox,
-  InputSearch,
+  InputPhotoButton,
+
   InputSegment,
-  InputSegmentIcon
+  InputSegmentIcon,
+
+  InputToggle,
+  InputRadio,
+  InputCheckbox,
 };

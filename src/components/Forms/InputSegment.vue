@@ -2,9 +2,9 @@
   <section class="input-segment">
     <ul>
       <li
-        v-for="option in options"
-        @click="SetValue(option)"
-        :class="{ select: option === value }"
+        v-for="(option, key) in options"
+        @click="SetValue(key)"
+        :class="{ select: option === modelValue }"
       >
         <TextSubheading>{{ option }}</TextSubheading>
       </li>
@@ -14,17 +14,17 @@
 <script setup lang="ts">
 import { TextSubheading } from "../Texts";
 
-defineProps({
-  options: Array<string>,
-  value: String,
+const props = defineProps({
+  options: Array<String | Number>,
+  modelValue: [String, Number],
 });
 
-const SetValue = (value: string) => {
-  emit("select");
-  emit("update:value", value);
+const SetValue = (key: number) => {
+  emit("select", props.options![key]);
+  emit("update:modelValue", props.options![key]);
 };
 
-const emit = defineEmits(["select", "update:value"]);
+const emit = defineEmits(["select", "update:modelValue"]);
 </script>
 <style scoped>
 .input-segment {
@@ -33,7 +33,6 @@ const emit = defineEmits(["select", "update:value"]);
   border-radius: 10px;
   overflow-x: scroll;
   padding: 5px;
-  --item-flex: none;
 }
 
 ul {

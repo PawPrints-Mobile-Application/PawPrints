@@ -27,27 +27,27 @@
     </section>
 
     <section class="form" :class="{ hide: hideForm }">
-      <InputText
+      <InputDynamicWrapped
         ref="email"
         type="email"
         label="Email"
         placeholder="Enter Email"
-        v-model:value="form.email"
+        v-model="form.email"
       />
 
-      <InputText
+      <InputDynamicWrapped
         ref="password"
         type="password"
         label="Password"
         placeholder="Enter Password"
-        v-model:value="form.password"
+        v-model="form.password"
       />
     </section>
   </ButtonModal>
 </template>
 <script setup lang="ts">
 import { ButtonModal, ButtonAuth } from "../Buttons";
-import { InputText } from "../Forms";
+import { InputDynamicWrapped } from "../Forms";
 import { NoteWarning, TextSubheading } from "../Texts";
 
 import {

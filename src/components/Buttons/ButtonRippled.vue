@@ -42,7 +42,7 @@ const color = computed(
 
   padding: var(--padding);
   border-radius: var(--border-radius);
-  background-color: var(--backgroud-color);
+  background-color: var(--background-color);
   font-size: var(--size);
   font-weight: var(--font-weight);
   color: var(--color);

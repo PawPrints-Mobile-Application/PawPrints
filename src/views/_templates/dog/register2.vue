@@ -2,13 +2,13 @@
   <InputRadio
     label="Does your dog belong indoors or outdoors?"
     id="inoutdoors"
-    v-model:value="inoutdoors"
+    v-model="inoutdoors"
     :options="['Indoors', 'Outdoors']"
   />
   <InputRadio
     label="Is your pet neutered or spayed?"
     id="fixing"
-    v-model:value="fixing"
+    v-model="fixing"
     :options="['Neutered', 'Spayed', 'None']"
   />
 </template>
@@ -18,14 +18,8 @@ import { InputRadio } from "../../../components/Forms";
 import { computed, watch } from "vue";
 
 const props = defineProps({
-  inoutdoors: {
-    type: String,
-    required: true,
-  },
-  fixing: {
-    type: String,
-    required: true,
-  },
+  inoutdoors: String,
+  fixing: String,
 });
 
 const inoutdoors = computed({

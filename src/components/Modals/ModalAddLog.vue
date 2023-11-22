@@ -2,7 +2,7 @@
   <ButtonModal
     ref="modal"
     :trigger="trigger"
-    title="Activity"
+    title="Logs"
     @submit="Submit"
     @clear="ClearForm"
     @dismiss="ClearForm"
@@ -12,13 +12,13 @@
     close-on-submit
     justify="flex-start"
   >
-    <template #button><ButtonAddActivity /></template>
+    <template #button><ButtonAddLog /></template>
 
-    <InputSegment :options="activitySegments" v-model:value="state.activity" />
+    <InputSegment :options="activitySegments" v-model="state.activity" />
     <section class="specifics-wrapper" v-show="isEvent">
       <InputSegmentIcon
         :icons="eventSegments"
-        v-model:value="state.event"
+        v-model="state.event"
         @select="
           (value) => {
             form.type = EventSegmentToText(value);
@@ -34,9 +34,9 @@
       </div>
     </section>
 
-    <InputText :label="`${state.activity} Title`" v-model:value="form.title" />
+    <InputDynamicWrapped type="text" :label="`${state.activity} Title`" v-model:value="form.title" />
     <!-- <InputDate label="Start Date" :value="form.DTStart.toLocaleDateString()" @change="(value) => form.DTStart = new Date(value)"/> -->
-    <InputText :label="`${state.activity} Details`" v-model:value="form.details" />
+    <InputDynamicWrapped type="text" :label="`${state.activity} Details`" v-model:value="form.details" />
   </ButtonModal>
 </template>
 
@@ -48,8 +48,8 @@ import {
   ellipsisHorizontal as others,
 } from "ionicons/icons";
 import { reactive, ref, computed } from "vue";
-import { ButtonModal, ButtonAddActivity } from "../Buttons";
-import { InputSegment, InputSegmentIcon, InputBox, InputText, InputDate } from "../Forms";
+import { ButtonModal, ButtonAddLog } from "../Buttons";
+import { InputSegment, InputSegmentIcon, InputBox, InputDynamicWrapped } from "../Forms";
 import { TextSubheading } from "../Texts/";
 
 const props = defineProps({

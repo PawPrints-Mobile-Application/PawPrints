@@ -1,51 +1,41 @@
 <template>
-  <InputText
+  <InputDynamicWrapped
     type="text"
-    v-model:value="name"
+    v-model="name"
     placeholder="Doggo Name"
     label="Doggo Name"
   />
-  <InputDate v-model:value="birthday" label="Birthday" hide-input />
+  <InputDynamicWrapped
+    type="date"
+    v-model="birthday"
+    label="Birthday"
+    hide-input
+    disable-future
+    @state-expanded="(value) => emit('state-expanded', value)"
+  />
   <InputDropdown
-    v-model:value="breed"
+    v-model="breed"
     label="Doggo Breed"
     :options="constants.breeds"
     placeholder="Choose a breed"
   />
-  <InputColor
-    type="text"
-    v-model:value="color"
+  <InputDynamicWrapped
+    type="color"
+    v-model="color"
     placeholder="Colour"
     label="Colour"
   />
 </template>
 
 <script setup lang="ts">
-import {
-  InputText,
-  InputDropdown,
-  InputDate,
-  InputColor,
-} from "../../../components/Forms";
+import { InputDynamicWrapped, InputDropdown } from "../../../components/Forms";
 import { computed, watch } from "vue";
 
 const props = defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-  birthday: {
-    type: String,
-    required: true,
-  },
-  breed: {
-    type: String,
-    required: true,
-  },
-  color: {
-    type: String,
-    required: true,
-  },
+  name: String,
+  birthday: String,
+  breed: String,
+  color: String,
 });
 
 const name = computed({
@@ -90,6 +80,7 @@ const emit = defineEmits([
   "update:breed",
   "update:color",
   "empty",
+  "state-expanded",
 ]);
 const constants = {
   breeds: ["1", "2"],
