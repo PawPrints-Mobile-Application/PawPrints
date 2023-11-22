@@ -36,7 +36,7 @@
         id="username"
         placeholder="Enter Username"
         required
-        v-model:valid="validations.username"
+        v-model:modelValid="validations.username"
         v-model="form.username"
         :validators="SignupValidator.username"
       />
@@ -48,7 +48,7 @@
         id="email"
         placeholder="Enter Email"
         required
-        v-model:valid="validations.email"
+        v-model:modelValid="validations.email"
         v-model="form.email"
         :validators="SignupValidator.email"
       />
@@ -139,15 +139,20 @@ const requirements = () =>
 const validity = () => validations.email && validations.password;
 
 const processingRequest = ref(false);
-const disabled = computed(
-  () =>
-    !(
-      requirements() &&
-      validity() &&
-      form.acceptTOS &&
-      !processingRequest.value
-    )
-);
+const disabled = computed(() => {
+  console.log(
+    requirements(),
+    validity(),
+    form.acceptTOS,
+    !processingRequest.value
+  );
+  return !(
+    requirements() &&
+    validity() &&
+    form.acceptTOS &&
+    !processingRequest.value
+  );
+});
 
 const Register = async () => {
   emit("processing", true);
