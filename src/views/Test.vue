@@ -1,22 +1,17 @@
 <template>
   <LayoutPage>
-    <InputDynamic type="color" v-model="value" saveOnChange />
-    <InputColorSample v-model="value" />
-    <!-- <Popup v-model="show">
-    </Popup> -->
-    <!-- <InputBox v-model="value" type="date" /> -->
+    <InputRadio id="radio" v-model="value" hideIcon label="Text" required :options="options" />
   </LayoutPage>
 </template>
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { LayoutPage } from "../layout";
-import { InputDynamic, InputColorSample } from "../components/Forms";
-import { LocalDate } from "../utils";
-
+import { InputRadio } from "../components/Forms";
+import InputDynamicWrapped from "../components/Forms/InputDynamicWrapped.vue";
 
 const options = [1, 2, 3, 4, 5, 6];
 
-const value = ref('#ababab');
+const value = ref('hey');
 const show = ref(true);
 
 watch(value, () => console.log(value.value));

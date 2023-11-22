@@ -120,6 +120,13 @@ const emit = defineEmits([
 defineExpose({ state, ForceFocus, ForceBlur });
 </script>
 <style scoped>
+.input-box {
+  --outline: 2px solid var(--ion-color-tertiary);
+  > input:is(:active, :hover, :focus) {
+    outline: var(--outline);
+  }
+}
+
 input,
 div {
   background-color: var(--ion-color-secondary);

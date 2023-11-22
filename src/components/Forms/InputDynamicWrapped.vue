@@ -23,6 +23,7 @@
       :hidden="hidden"
       :placeholder="placeholder"
       :disabled="disabled"
+      :hideIcon="hideIcon"
     >
       <slot name="icon"><slot /></slot>
     </InputDynamic>
@@ -144,7 +145,7 @@ const emit = defineEmits([
 defineExpose({ Reevaluate });
 </script>
 <style scoped>
-.input-text {
+.input-dynamic-wrapped {
   width: 100%;
   display: flex;
   flex-direction: column;

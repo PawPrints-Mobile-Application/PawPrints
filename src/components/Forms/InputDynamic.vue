@@ -1,5 +1,8 @@
 <template>
-  <section class="input-dynamic text subheading poppins">
+  <section
+    class="input-dynamic text subheading poppins"
+    :class="{ focused: state.focused }"
+  >
     <InputBox
       ref="reference"
       v-model="value"
@@ -26,12 +29,12 @@
         v-model="dateValue"
       />
       <ButtonShow v-else-if="type === 'password'" v-model="valueShow" />
-      <slot name="icon"><slot /></slot>
+      <slot v-else name="icon"><slot /></slot>
     </section>
   </section>
 </template>
 <script setup lang="ts">
-import { computed, ref, onMounted, reactive } from "vue";
+import { computed, ref } from "vue";
 import { InputBox, InputColorPicker } from ".";
 import { PopupCalendar } from "../Popup";
 import { LocalDate } from "../../utils";
@@ -102,17 +105,15 @@ const Click = () => {
 const reference = ref();
 const ForceFocus = () => reference.value.ForceFocus();
 const ForceBlur = () => reference.value.ForceBlur();
-const state = reactive({
-  touched: false,
-  edited: false,
-  focused: false,
-});
-
-onMounted(() => {
-  state.touched = reference.value.state.touched;
-  state.edited = reference.value.state.edited;
-  state.edited = reference.value.state.edited;
-});
+const state = computed(() =>
+  !!reference.value
+    ? reference.value.state
+    : {
+        touched: false,
+        edited: false,
+        focused: false,
+      }
+);
 
 const emit = defineEmits([
   "update:modelValue",
@@ -129,6 +130,7 @@ defineExpose({ state, ForceFocus, ForceBlur });
 </script>
 <style scoped>
 .input-dynamic {
+  --outline: 2px solid var(--ion-color-black);
   background-color: var(--ion-color-secondary);
   border-radius: 6px;
   width: 100%;
@@ -138,15 +140,13 @@ defineExpose({ state, ForceFocus, ForceBlur });
   gap: 5px;
 
   &.focused {
-    outline: 2px solid black;
+    outline: var(--outline);
   }
 }
 
 .input-box {
   flex: 1 0 0;
-  &:is(:active, :hover, :focus) {
-    outline: none;
-  }
+  --outline: none;
 }
 
 .icon {
