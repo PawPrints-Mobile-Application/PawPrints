@@ -3,7 +3,7 @@
     <InputRadio
       :label="form[0].name"
       :options="form[0].options"
-      v-model:value="form[0].value.value"
+      v-model="form[0].value.value"
       :id="form[0].name"
     />
     <InputLabel value="Systems of Measurement"/>
@@ -12,7 +12,7 @@
       v-show="key !== 0"
       :label="item.name"
       :options="item.options"
-      v-model:value="item.value.value"
+      v-model="item.value.value"
       :id="item.name"
     />
     <section class="buttons">
