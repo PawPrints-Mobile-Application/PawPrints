@@ -13,6 +13,7 @@
     @clear="ClearForm(false)"
     @dismiss="ClearForm"
     :canDismiss="true"
+    :noHeaderAnimation="true"
   >
     <template #button><ButtonAuth label="Sign In" /></template>
 
@@ -166,14 +167,14 @@ export default {
 
 <style scoped>
 .form {
-  transform: translateY(-50px);
+  transform: translateY(-20px);
   width: 100%;
-  height: 170px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 50px;
   align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
   transition: all 200ms ease-out;
   overflow: hidden;
 }

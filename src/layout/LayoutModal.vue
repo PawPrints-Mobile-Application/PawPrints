@@ -15,6 +15,7 @@
       :hideScrollbar="hideScrollbar"
       :disableScroll="disableScroll"
       :disableHeaderOnScroll="disableHeaderOnScroll"
+      :noHeaderAnimation="noHeaderAnimation"
       @off-scroll-top="emit('off-scroll-top')"
       @on-scroll-top="emit('on-scroll-top')"
       @scroll-end="emit('scroll-end')"
@@ -119,6 +120,7 @@ const props = defineProps({
   hideScrollbar: Boolean,
   disableScroll: Boolean,
   disableHeaderOnScroll: Boolean,
+  noHeaderAnimation: Boolean,
 
   // Important Props
   trigger: {
@@ -162,7 +164,7 @@ const props = defineProps({
   disableSubmit: Boolean,
 
   buttonSubmitText: String,
-  canDismiss: Boolean
+  canDismiss: Boolean,
 });
 
 const design = ref(props.max === 1 ? 0 : 1);

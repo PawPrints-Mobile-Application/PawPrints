@@ -150,7 +150,7 @@ defineExpose({ Reevaluate });
 </script>
 <style scoped>
 .input-dynamic-wrapped {
-  width: 100%;
+  width: 98%;
   display: flex;
   flex-direction: column;
 }

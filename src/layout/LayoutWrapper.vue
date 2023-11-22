@@ -2,7 +2,7 @@
   <ion-header
     class="layout-header"
     :class="{
-      'on-scroll-top': scrollDetail.scrollTop === 0,
+      'on-scroll-top': scrollDetail.scrollTop === 0 && !noHeaderAnimation,
       'ion-no-border': scrollDetail.scrollTop === 0,
       'default-margin': !noDefaultMargin,
       hide:
@@ -83,6 +83,7 @@ defineProps({
   hideScrollbar: Boolean,
   disableScroll: Boolean,
   disableHeaderOnScroll: Boolean,
+  noHeaderAnimation: Boolean,
 });
 
 const emit = defineEmits([

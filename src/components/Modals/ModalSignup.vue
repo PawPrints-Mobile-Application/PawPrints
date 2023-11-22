@@ -13,6 +13,7 @@
     @clear="ClearForm(false)"
     @dismiss="ClearForm"
     :canDismiss="true"
+    :noHeaderAnimation="true"
   >
     <template #button><ButtonAuth label="Sign Up" /></template>
 
@@ -139,20 +140,15 @@ const requirements = () =>
 const validity = () => validations.email && validations.password;
 
 const processingRequest = ref(false);
-const disabled = computed(() => {
-  console.log(
-    requirements(),
-    validity(),
-    form.acceptTOS,
-    !processingRequest.value
-  );
-  return !(
-    requirements() &&
-    validity() &&
-    form.acceptTOS &&
-    !processingRequest.value
-  );
-});
+const disabled = computed(
+  () =>
+    !(
+      requirements() &&
+      validity() &&
+      form.acceptTOS &&
+      !processingRequest.value
+    )
+);
 
 const Register = async () => {
   emit("processing", true);

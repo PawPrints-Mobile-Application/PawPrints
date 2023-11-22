@@ -9,6 +9,7 @@
       :hideScrollbar="hideScrollbar"
       :disableScroll="disableScroll"
       :disableHeaderOnScroll="disableHeaderOnScroll"
+      :noHeaderAnimation="noHeaderAnimation"
       @off-scroll-top="emit('off-scroll-top')"
       @on-scroll-top="emit('on-scroll-top')"
       @scroll-end="emit('scroll-end')"
@@ -48,6 +49,7 @@ defineProps({
   hideScrollbar: Boolean,
   disableScroll: Boolean,
   disableHeaderOnScroll: Boolean,
+  noHeaderAnimation: Boolean,
 });
 
 const emit = defineEmits([

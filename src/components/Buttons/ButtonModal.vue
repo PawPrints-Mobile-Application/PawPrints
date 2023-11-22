@@ -27,6 +27,7 @@
       :disableSubmit="disableSubmit"
       :buttonSubmitText="buttonSubmitText"
       :canDismiss="canDismiss"
+      :noHeaderAnimation="noHeaderAnimation"
       @clear="emit('clear')"
       @close="emit('close')"
       @submit="emit('submit')"
@@ -107,9 +108,13 @@ defineProps({
   disableClear: Boolean,
   hideSubmit: Boolean,
   disableSubmit: Boolean,
+  noHeaderAnimation: Boolean,
 
   buttonSubmitText: String,
-  canDismiss: Boolean,
+  canDismiss: {
+    type: Boolean,
+    default: true
+  }
 });
 
 const emit = defineEmits([
