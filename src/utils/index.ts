@@ -10,11 +10,8 @@ import InputValidator from "./InputValidator";
 
 import LocalDate from "./LocalDate";
 
-const GetScreenSize = () => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  return { width, height };
-}
+import GetScreenSize from "./GetScreenSize";
+import SampleColors from "./SampleColors";
 
 export {
   RouteInfo,
@@ -29,5 +26,6 @@ export {
 
   LocalDate,
 
-  GetScreenSize
+  GetScreenSize,
+  SampleColors
 }

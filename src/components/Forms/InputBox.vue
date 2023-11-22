@@ -9,6 +9,8 @@
       @blur="Blur"
       @input="Input"
       @change="emit('change', value)"
+      :placeholder="!placeholder ? `Input ${type}` : placeholder"
+      :disabled="disabled"
     />
     <div v-else>
       {{ value }}
@@ -41,9 +43,12 @@ const props = defineProps({
   hidden: Boolean, // Turns text into password
   show: Boolean,
   freeze: Boolean,
+  placeholder: String,
+  disabled: Boolean,
 });
 
 const GetType = () => {
+  if (!!props.hidden) return "password";
   if (
     (props.type === "password" && !!props.show) ||
     ["color", "date"].includes(props.type)

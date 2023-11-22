@@ -1,6 +1,7 @@
 <template>
   <LayoutPage>
-    <InputDynamic type="date" v-model="value" saveOnChange />
+    <InputDynamic type="color" v-model="value" saveOnChange />
+    <InputColorSample v-model="value" />
     <!-- <Popup v-model="show">
     </Popup> -->
     <!-- <InputBox v-model="value" type="date" /> -->
@@ -9,14 +10,13 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { LayoutPage } from "../layout";
-import { InputDynamic } from "../components/Forms";
+import { InputDynamic, InputColorSample } from "../components/Forms";
 import { LocalDate } from "../utils";
+
 
 const options = [1, 2, 3, 4, 5, 6];
 
-const value = ref(
-  new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-")
-);
+const value = ref('#ababab');
 const show = ref(true);
 
 watch(value, () => console.log(value.value));

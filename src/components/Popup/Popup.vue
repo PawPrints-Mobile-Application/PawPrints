@@ -7,7 +7,9 @@
       @ionBackdropTap="reverseValue"
     />
     <div class="content">
-      <slot :reverseValue="reverseValue" />
+      <slot name="content" :reverseValue="reverseValue"
+        ><slot :reverseValue="reverseValue"
+      /></slot>
     </div>
   </section>
 </template>

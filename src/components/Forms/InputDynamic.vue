@@ -12,16 +12,21 @@
       @change="emit('change', value)"
       @input="emit('input', value)"
       @click="Click"
+      :show="valueShow"
+      :hidden="hidden"
+      :placeholder="placeholder"
+      :disabled="disabled"
     />
-    <section class="icon" v-show="!hideIcon">
-      <InputColorPicker v-if="type === 'color'" />
+    <section class="icon" v-show="!hideIcon" @click="IconClick">
+      <InputColorPicker v-if="type === 'color'" v-model="colorValue" />
       <PopupCalendar
         ref="dateRef"
         :saveOnChange="saveOnChange"
         v-else-if="type === 'date'"
         v-model="dateValue"
       />
-      <slot />
+      <ButtonShow v-else-if="type === 'password'" v-model="valueShow" />
+      <slot name="icon"><slot /></slot>
     </section>
   </section>
 </template>
@@ -30,22 +35,44 @@ import { computed, ref, onMounted, reactive } from "vue";
 import { InputBox, InputColorPicker } from ".";
 import { PopupCalendar } from "../Popup";
 import { LocalDate } from "../../utils";
+import { ButtonShow } from "../Buttons";
 
 const props = defineProps({
   type: String,
-  modelValue: String,
+  modelValue: [String, Number],
   hidden: Boolean, // Turns text into password
   show: Boolean,
   freeze: Boolean,
   hideIcon: Boolean,
   saveOnChange: Boolean,
+  placeholder: String,
+  disabled: Boolean,
 });
 
 const freezer = () => !!props.freeze || props.type === "date";
 
+const _show = ref(false);
+const valueShow = computed({
+  get() {
+    return _show.value || !!props.show;
+  },
+  set(value) {
+    _show.value = value;
+  },
+});
+
 const value = computed({
   get() {
     return props.modelValue;
+  },
+  set(value) {
+    emit("update:modelValue", value);
+  },
+});
+
+const colorValue = computed({
+  get() {
+    return props.modelValue?.toString();
   },
   set(value) {
     emit("update:modelValue", value);
@@ -64,6 +91,8 @@ const dateValue = computed({
   },
 });
 const dateRef = ref();
+
+const IconClick = () => emit("icon-click");
 
 const Click = () => {
   if (props.type === "date") dateRef.value.Trigger();
@@ -94,6 +123,7 @@ const emit = defineEmits([
   "change",
   "input",
   "click",
+  "icon-click",
 ]);
 defineExpose({ state, ForceFocus, ForceBlur });
 </script>

@@ -1,12 +1,12 @@
 <template>
-  <button class="button-calendar" :class="{ expand: expand }" @click="Click">
+  <button class="button-calendar" @click="Click">
     <div class="background" />
     <div class="line" />
     <div
       v-for="key in GetLocation()"
       class="dot"
       :style="{
-        transform: expand
+        transform: modelValue
           ? `translate(${key.x}px, ${key.y}px)`
           : 'translate(0,-8px)',
       }"
@@ -15,7 +15,7 @@
 </template>
 <script setup lang="ts">
 const props = defineProps({
-  expand: Boolean,
+  modelValue: Boolean,
 });
 
 const GetLocation = () => {
@@ -30,14 +30,14 @@ const GetLocation = () => {
 };
 
 const Click = () => {
-  const temp = !props.expand;
-  emit("click");
-  emit("update:expand", temp);
+  const temp = !props.modelValue;
+  emit("click", temp);
+  emit("update:modelValue", temp);
   if (temp) emit("expand");
   else emit("collapse");
 };
 
-const emit = defineEmits(["update:expand", "expand", "collapse", "click"]);
+const emit = defineEmits(["update:modelValue", "expand", "collapse", "click"]);
 </script>
 <style scoped>
 .button-calendar {

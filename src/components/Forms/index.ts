@@ -1,12 +1,19 @@
 import InputLabel from './InputLabel.vue'
+import InputHelper from './InputHelper.vue';
+
+import InputColorPicker from "./InputColorPicker.vue";
+import InputColorSample from './InputColorSample.vue';
 
 import InputBox from "./InputBox.vue";
 import InputDynamic from "./InputDynamic.vue";
-import InputColorPicker from "./InputColorPicker.vue";
 
 import InputSelect from "./InputSelect.vue";
 import InputDropdown from "./InputDropdown.vue";
 import InputCalendar from "./InputCalendar.vue";
+
+import InputPhoto from './InputPhoto.vue';
+import InputPhotoButton from './InputPhotoButton.vue';
+
 
 // import InputLabel from "./InputLabel.vue";
 // import InputHelper from "./InputHelper.vue";
@@ -28,14 +35,20 @@ import InputCalendar from "./InputCalendar.vue";
 
 export {
   InputLabel,
+  InputHelper,
+
+  InputColorPicker,
+  InputColorSample,
   
   InputBox,
   InputDynamic,
-  InputColorPicker,
 
   InputSelect,
   InputDropdown,
   InputCalendar,
+
+  InputPhoto,
+  InputPhotoButton,
   // InputLabel,
   // InputHelper,
   // InputText,
