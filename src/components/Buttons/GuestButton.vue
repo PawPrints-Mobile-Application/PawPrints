@@ -1,24 +1,19 @@
 <template>
-  <Button class="guest-signin" text="Guest" @click="GuestSignIn" />
+  <ButtonAuth class="button-guest" label="Guest" @click="GuestSignIn" />
 </template>
 <script setup lang="ts">
-import { Button } from ".";
-import { SigninProps } from "../../server/authentication/SigninUser";
+import { ButtonAuth } from ".";
+import {
+  DatabaseInitialization,
+  WindowDatabaseInitialization,
+} from "../../server/authentication";
+
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
 
-const GuestSignIn = async () => {
-  await SigninProps(
-    {
-      uid: new Date().toLocaleString(),
-      displayName: "Guest",
-      email: "none",
-    },
-    new Date().toLocaleDateString(),
-    new Date().toLocaleTimeString()
-  );
-  Redirect();
-};
+const GuestSignIn = () =>
+  DatabaseInitialization().then(WindowDatabaseInitialization).then(Redirect);
 </script>
-<style scoped></style>
+<style scoped>
+</style>

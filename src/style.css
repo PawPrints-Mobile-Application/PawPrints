@@ -2,8 +2,6 @@
 
 :root {
   -webkit-font-smoothing: antialiased;
-
-  font-size: 10px;
   font-family:'Poppins', 'Rubik', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
   --font-family-Rubik: 'Rubik', sans-serif;
@@ -22,8 +20,22 @@
 }
 
 #app {
+  min-width: 320px;
 }
 
+/* ----------------------- FLEX ----------------------- */
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-item {
+  flex: 1 0 0;
+}
+
+
+/* ----------------------- DISPLAY ----------------------- */
 .display-none {
   display: none !important;
 }
@@ -37,6 +49,7 @@
 }
 
 
+/* ----------------------- SCROLLBAR ----------------------- */
 .scroll-hidden {
   --overflow:hidden;
   -ms-overflow-style: none; /* Internet Explorer 10+ */
@@ -44,6 +57,15 @@
 }
 .scroll-hidden::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
+}
+
+
+
+/* ----------------------- DEFAULTS ----------------------- */
+.default-input {
+  font-family: Poppins;
+  font-size: var(--fs3);
+  font-weight: 400;
 }
 
 

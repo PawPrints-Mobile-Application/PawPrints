@@ -1,17 +1,31 @@
 import RouteInfo from "./RouteInfo";
+import EnumConstructor from "./EnumConstructor";
 import * as Hash from "./Hash";
-import Validator from "./Validator";
+import SeedGenerator from "./SeedGenerator";
+import Age from "./Age";
+import StringToArray from "./StringToArray";
 
-const GetScreenSize = () => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  return { width, height };
-}
+import HelperConstructor from "./HelperConstructor";
+import InputValidator from "./InputValidator";
+
+import LocalDate from "./LocalDate";
+
+import GetScreenSize from "./GetScreenSize";
+import SampleColors from "./SampleColors";
 
 export {
   RouteInfo,
+  EnumConstructor,
   Hash,
-  Validator,
+  SeedGenerator,
+  Age,
+  StringToArray,
 
-  GetScreenSize
+  HelperConstructor,
+  InputValidator,
+
+  LocalDate,
+
+  GetScreenSize,
+  SampleColors
 }

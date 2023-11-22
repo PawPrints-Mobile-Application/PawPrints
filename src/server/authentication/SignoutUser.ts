@@ -1,18 +1,17 @@
-import { AuthType } from ".";
-import { LogoutUser } from "../sqlite/models/Cache/LoginHistory";
 import { signOut } from "firebase/auth";
 import auth from "../firebase";
+import { ClearModels } from "../models";
 
-export default async () => {
-  signOut(auth)
-    .finally(() => LogoutUser(new Date().toLocaleString()))
-    .then(() => {
-      console.log(
-        `${window.localStorage.getItem("authUsername")} has disconnected!`
-      );
-      window.localStorage.setItem("authType", AuthType[0]);
-      window.localStorage.setItem("authID", "");
-      window.localStorage.setItem("authUsername", "");
-      window.localStorage.setItem("authEmail", "");
-    });
+const FirebaseSignout = () => signOut(auth);
+
+const DatabaseTermination = () => ClearModels();
+
+const WindowDatabaseTermination = () => {
+  console.log(`${localStorage.getItem("authUsername")} has logged in.`);
+  window.localStorage.setItem("authType", "");
+  window.localStorage.setItem("authID", "");
+  window.localStorage.setItem("authUsername", "");
+  window.localStorage.setItem("authEmail", "");
 };
+
+export { FirebaseSignout, DatabaseTermination, WindowDatabaseTermination };

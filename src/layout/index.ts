@@ -1,7 +1,7 @@
-import Navigation from './Navigation.vue';
-import PageLayout from './PageLayout.vue';
+import LayoutWrapper from "./LayoutWrapper.vue";
+import LayoutPage from "./LayoutPage.vue";
+import LayoutModal from "./LayoutModal.vue";
 
-export {
-    Navigation,
-    PageLayout
-}
+import LayoutSettings from "./LayoutSettings.vue";
+
+export { LayoutWrapper, LayoutPage, LayoutModal, LayoutSettings };

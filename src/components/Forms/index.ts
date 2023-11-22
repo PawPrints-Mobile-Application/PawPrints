@@ -1,17 +1,49 @@
-import Checkbox from "./Checkbox.vue";
-import TextInput from "./TextInput.vue";
-import Searchbox from "./Searchbox.vue";
-import CalendarBox from "./CalendarBox.vue";
-import DateInput from "./DateInput.vue";
-import DropdownInput from "../../components/Forms/DropdownInput.vue";
-import RadioInput from "../../components/Forms/RadioInput.vue";
+import InputLabel from './InputLabel.vue'
+import InputHelper from './InputHelper.vue';
+
+import InputColorPicker from "./InputColorPicker.vue";
+import InputColorSample from './InputColorSample.vue';
+
+import InputBox from "./InputBox.vue";
+import InputDynamic from "./InputDynamic.vue";
+import InputDynamicWrapped from './InputDynamicWrapped.vue';
+
+import InputSelect from "./InputSelect.vue";
+import InputDropdown from "./InputDropdown.vue";
+import InputCalendar from "./InputCalendar.vue";
+
+import InputPhoto from './InputPhoto.vue';
+import InputPhotoButton from './InputPhotoButton.vue';
+
+import InputSegment from './InputSegment.vue';
+import InputSegmentIcon from './InputSegmentIcon.vue';
+
+import InputToggle from './InputToggle.vue';
+import InputRadio from './InputRadio.vue';
+import InputCheckbox from './InputCheckbox.vue';
 
 export {
-  Checkbox,
-  TextInput,
-  Searchbox,
-  CalendarBox,
-  DateInput,
-  DropdownInput,
-  RadioInput
+  InputLabel,
+  InputHelper,
+
+  InputColorPicker,
+  InputColorSample,
+  
+  InputBox,
+  InputDynamic,
+  InputDynamicWrapped,
+
+  InputSelect,
+  InputDropdown,
+  InputCalendar,
+
+  InputPhoto,
+  InputPhotoButton,
+
+  InputSegment,
+  InputSegmentIcon,
+
+  InputToggle,
+  InputRadio,
+  InputCheckbox,
 };

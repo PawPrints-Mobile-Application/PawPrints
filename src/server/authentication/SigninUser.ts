@@ -1,27 +1,51 @@
-import { User } from "firebase/auth";
-import { AuthType } from ".";
-import { LoginUser } from '../sqlite/models/Cache/LoginHistory';
+import { User, signInWithEmailAndPassword } from "firebase/auth";
+import auth from "../../server/firebase";
+import { SyncModels, InitializeModels } from "../models";
+import {
+  Enums as InformationEnums,
+  Props as InformationProps,
+} from "../models/Information";
+import { SeedGenerator } from "../../utils";
 
-type Props = {
-  email: string | null,
-  uid: string,
-  displayName: string | null
-}
+const GuestData = {
+  informationProps: {
+    uid: SeedGenerator().toString(),
+    email: "Guest",
+    username: "Hooman",
+    subscription: new InformationEnums.Subscription().guest,
+  },
+};
 
-export const SigninProps = async (user: Props, DSignin: string, TSignin: string) => LoginUser({
-  DSignin: DSignin,
-  TSignin: TSignin,
-  uid: user.uid
-}).then(() => {
-  window.localStorage.setItem('authType', !!user.email ? AuthType[1] : AuthType[2] );
-  window.localStorage.setItem('authID', `${user.uid}`);
-  window.localStorage.setItem('authUsername', `${user.displayName}`);
-  window.localStorage.setItem('authEmail', `${user.email}`);
-  console.log(`${user.displayName} has connected!`);
-})
+type Form = {
+  email: string;
+  password: string;
+};
 
-export default async (user: User, DSignin: string, TSignin: string) => await SigninProps({
-  uid: user.uid,
-  displayName: user.displayName,
-  email: user.email
-}, DSignin, TSignin);
+const FirebaseLogin = (form: Form) =>
+  signInWithEmailAndPassword(auth, form.email, form.password).then(
+    (userCredential) => {
+      console.log("Firebase Login Successful!");
+      return userCredential.user;
+    }
+  );
+
+const DatabaseInitialization = async (user?: User) => {
+  const process: Promise<InformationProps> = !!user
+    ? SyncModels(user.uid)
+    : InitializeModels(GuestData.informationProps);
+
+  return process.then((response: any) => {
+    console.log("Database Initialization Successful!");
+    return response;
+  });
+};
+
+const WindowDatabaseInitialization = (props: InformationProps) => {
+  window.localStorage.setItem("authType", props.subscription);
+  window.localStorage.setItem("authID", props.uid);
+  window.localStorage.setItem("authUsername", props.username);
+  window.localStorage.setItem("authEmail", props.email);
+  console.log(`${props.username} has logged in.`);
+};
+
+export { FirebaseLogin, DatabaseInitialization, WindowDatabaseInitialization };

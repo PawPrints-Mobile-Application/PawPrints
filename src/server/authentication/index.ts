@@ -1,17 +1,36 @@
-import SigninUser from "./SigninUser";
-import SignupUser from "./SignupUser";
-import SignoutUser from "./SignoutUser";
+import {
+  FirebaseRegistration,
+  FirebaseVerification,
+  FirebaseProfileUpdate,
+  DatabaseRegistration,
+} from "./SignupUser";
+import {
+  FirebaseLogin,
+  DatabaseInitialization,
+  WindowDatabaseInitialization,
+} from "./SigninUser";
+import {
+  DatabaseTermination,
+  WindowDatabaseTermination,
+  FirebaseSignout,
+} from "./SignoutUser";
 
-const AuthType = {
-  0: 'None',
-  1: 'Guest',
-  2: 'Verified'
-}
+const ConvertToDTSignin = (DSignin: string, TSignin: string) =>
+  `${DSignin} , ${TSignin}`;
 
 export {
-  SigninUser,
-  SignupUser,
-  SignoutUser,
+  FirebaseRegistration,
+  FirebaseVerification,
+  FirebaseProfileUpdate,
+  DatabaseRegistration,
 
-  AuthType
-}
+  FirebaseLogin,
+  DatabaseInitialization,
+  WindowDatabaseInitialization,
+
+  FirebaseSignout,
+  DatabaseTermination,
+  WindowDatabaseTermination,
+  
+  ConvertToDTSignin,
+};
