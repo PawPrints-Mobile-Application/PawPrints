@@ -10,6 +10,7 @@
       :disableScroll="disableScroll"
       :disableHeaderOnScroll="disableHeaderOnScroll"
       :noHeaderAnimation="noHeaderAnimation"
+      :addMarginBotton="addMarginBotton"
       @off-scroll-top="emit('off-scroll-top')"
       @on-scroll-top="emit('on-scroll-top')"
       @scroll-end="emit('scroll-end')"
@@ -50,6 +51,7 @@ defineProps({
   disableScroll: Boolean,
   disableHeaderOnScroll: Boolean,
   noHeaderAnimation: Boolean,
+  addMarginBotton: Boolean,
 });
 
 const emit = defineEmits([

@@ -1,5 +1,5 @@
 <template>
-  <LayoutPage justify="flex-start" disableHeaderOnScroll>
+  <LayoutPage justify="flex-start" disableHeaderOnScroll addMarginBotton>
     <template #header>
       <header>
         <ImgLogo />

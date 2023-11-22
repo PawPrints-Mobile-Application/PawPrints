@@ -21,7 +21,5 @@ defineProps({
 .button-icon {
   width: var(--button-size);
   height: var(--button-size);
-  --transform: none;
-  transform: var(--translate);
 }
 </style>

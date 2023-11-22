@@ -32,7 +32,12 @@
         'default-margin': !noDefaultMargin,
       }"
     >
-      <section :style="{ justifyContent: justify }">
+      <section
+        :style="{
+          justifyContent: justify,
+          marginBottom: !!addMarginBotton ? '15px' : '0',
+        }"
+      >
         <slot name="content"> <slot /></slot>
       </section>
     </main>
@@ -75,7 +80,14 @@ defineProps({
   justify: {
     type: String,
     default: "center",
-    validator: (value: string) => ["center", "flex-start", "space-between", "space-around", "space-evenly"].includes(value),
+    validator: (value: string) =>
+      [
+        "center",
+        "flex-start",
+        "space-between",
+        "space-around",
+        "space-evenly",
+      ].includes(value),
   },
   noDefaultMargin: Boolean,
   disableHeader: Boolean,
@@ -84,6 +96,7 @@ defineProps({
   disableScroll: Boolean,
   disableHeaderOnScroll: Boolean,
   noHeaderAnimation: Boolean,
+  addMarginBotton: Boolean,
 });
 
 const emit = defineEmits([
@@ -162,6 +175,7 @@ const emit = defineEmits([
   min-width: 320px;
   min-height: 30px;
   max-height: 70px;
+  padding-bottom: 15px;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -183,5 +197,6 @@ const emit = defineEmits([
 .hide {
   min-height: 0px !important;
   max-height: 0px !important;
+  padding-block: 0 !important;
 }
 </style>

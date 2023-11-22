@@ -64,15 +64,32 @@ const state = reactive({
   dogs: false,
   maps: false,
   settings: false,
+  navigating: false,
 });
+
 const clickMiddle = () => {
+  if (state.navigating) return;
+  state.navigating = true;
   state.dogs = true;
-  setTimeout(() => Navigate("/dogs"), 250);
-  setTimeout(() => (state.dogs = false), 500);
+  setTimeout(() => {
+    Navigate("/dogs", false, true);
+    setTimeout(() => {
+      state.dogs = false;
+      setTimeout(() => (state.navigating = false), 150);
+    }, 150);
+  }, 250);
 };
 
-const Navigate = (target: string) =>
+const Navigate = (
+  target: string,
+  resetTime: boolean = true,
+  offResetriction: boolean = false
+) => {
+  if (state.navigating && !offResetriction) return;
+  state.navigating = true;
   ionRouter.navigate(target, "forward", "push");
+  if (resetTime) setTimeout(() => (state.navigating = false), 100);
+};
 </script>
 <style scoped>
 .navigation-bar {
@@ -87,11 +104,12 @@ const Navigate = (target: string) =>
 .dogs {
   position: absolute;
   border-radius: 100%;
-  --button-size: 35svw;
+  --button-size: 90px;
   --size: 55px;
-  transform: translate(0px, -10px);
+  transform: translate(0px, px);
   z-index: 2;
   outline: 2px solid var(--ion-color-black);
+  --transform: translateY(10px);
 }
 
 .button {
@@ -109,7 +127,7 @@ const Navigate = (target: string) =>
 }
 
 .divider {
-  width: 35svw;
+  width: 80px;
   height: 100%;
 }
 
