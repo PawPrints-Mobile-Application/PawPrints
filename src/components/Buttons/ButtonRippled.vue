@@ -27,11 +27,7 @@ const color = computed(
 </script>
 <style scoped>
 .button-rippled {
-  --font-weight: 400;
   --size: var(--fs1);
-  --color: var(--ion-color-primary);
-  --padding: 3px 5px 3px 3px;
-  --border-radius: 10px;
 
   margin: 0;
   position: relative;
@@ -40,12 +36,11 @@ const color = computed(
   justify-content: center;
   align-items: center;
 
-  padding: var(--padding);
-  border-radius: var(--border-radius);
-  background-color: var(--background-color);
+  padding: 3px 5px 3px 3px;
+  border-radius: 10px;
   font-size: var(--size);
-  font-weight: var(--font-weight);
-  color: var(--color);
+  font-weight: 400;
+  color: var(--ion-color-primary);
 
   transition: all 150ms ease-out;
 }

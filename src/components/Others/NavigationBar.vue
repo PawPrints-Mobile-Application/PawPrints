@@ -2,45 +2,55 @@
   <section class="navigation-bar">
     <ButtonIcon
       class="dogs"
-      :class="{ clicked: state.dogs }"
-      :icon="dogs"
+      :class="{ clicked: state.dogs, selected: isOnTab('dogs') }"
+      :icon="isOnTab('dogs') ? dogsActive : dogsDefault"
       @click="clickMiddle"
+      :label="state.dogs ? '' : 'Dogs'"
     />
 
     <ButtonIcon
       class="home button"
-      :class="{ clicked: state.home }"
-      :icon="home"
+      :class="{ selected: isOnTab('home') }"
+      :icon="isOnTab('home') ? homeActive : homeDefault"
       @click="Navigate('/home')"
+      label="Home"
     />
     <ButtonIcon
       class="forums button middle"
-      :class="{ clicked: state.forums }"
-      :icon="forums"
+      :class="{ selected: isOnTab('forums') }"
+      :icon="isOnTab('forums') ? forumsActive : forumsDefault"
       @click="Navigate('/forums')"
+      label="Forums"
     />
     <div class="divider" />
     <ButtonIcon
       class="maps button middle"
-      :class="{ clicked: state.maps }"
-      :icon="maps"
+      :class="{ selected: isOnTab('maps') }"
+      :icon="isOnTab('maps') ? mapsActive : mapsDefault"
       @click="Navigate('/maps')"
+      label="Maps"
     />
     <ButtonIcon
       class="settings button"
-      :class="{ clicked: state.settings }"
-      :icon="settings"
+      :class="{ selected: isOnTab('settings') }"
+      :icon="isOnTab('settings') ? settingsActive : settingsDefault"
       @click="Navigate('/settings')"
+      label="Settings"
     />
   </section>
 </template>
 <script setup lang="ts">
 import {
-  albums as home,
-  bulb as forums,
-  paw as dogs,
-  settings,
-  map as maps,
+  albumsOutline as homeDefault,
+  albums as homeActive,
+  pawOutline as dogsDefault,
+  paw as dogsActive,
+  bulbOutline as forumsDefault,
+  bulb as forumsActive,
+  mapOutline as mapsDefault,
+  map as mapsActive,
+  settingsOutline as settingsDefault,
+  settings as settingsActive,
 } from "ionicons/icons";
 import { ButtonIcon } from "../Buttons";
 import { reactive } from "vue";
@@ -98,28 +108,39 @@ const Navigate = (
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: var(--ion-color-tertiary);
+  background-color: var(--ion-color-primary);
+  border-top: 2px solid var(--ion-color-white-shade);
 }
 
 .dogs {
   position: absolute;
   border-radius: 100%;
-  --button-size: 90px;
-  --size: 55px;
-  transform: translate(0px, px);
+  --button-size: 60px;
+  --size: 30px;
+  transform: translate(0px, -7px);
   z-index: 2;
   outline: 2px solid var(--ion-color-black);
-  --transform: translateY(10px);
+}
+
+.clicked {
+  --button-size: 250svh;
+  --size: 70px;
+  transform: translate(0px, -15px);
 }
 
 .button {
   flex: 1 0 0;
   border-radius: 0px;
-  --transform: translateX(15svw);
   --button-size: 56px;
   min-width: 20px;
-  --size: 30px;
+  --size: 25px;
   z-index: 1;
+  color: var(--ion-color-black);
+  background-color: var(--ion-color-primary) !important;
+}
+
+.selected {
+  font-weight: 700;
 }
 
 .middle {
@@ -127,20 +148,7 @@ const Navigate = (
 }
 
 .divider {
-  width: 80px;
+  width: 50px;
   height: 100%;
-}
-
-.settings {
-  border-radius: 0px;
-  right: 0;
-  --transform: translateX(15svw);
-  --button-size: 56px;
-  --size: 35px;
-  z-index: 1;
-}
-
-.clicked {
-  --button-size: 400svw;
 }
 </style>

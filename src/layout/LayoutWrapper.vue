@@ -35,7 +35,7 @@
       <section
         :style="{
           justifyContent: justify,
-          marginBottom: !!addMarginBotton ? '15px' : '0',
+          marginBottom: !!addMarginBotton ? '5px' : '0',
         }"
       >
         <slot name="content"> <slot /></slot>
@@ -175,7 +175,7 @@ const emit = defineEmits([
   min-width: 320px;
   min-height: 30px;
   max-height: 70px;
-  padding-bottom: 15px;
+  padding-bottom: 5px;
   overflow: hidden;
   display: flex;
   justify-content: center;

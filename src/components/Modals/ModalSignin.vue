@@ -67,7 +67,7 @@ const modal = ref();
 const ionRouter = useIonRouter();
 const Redirect = () => {
   console.log("Redirecting to Home Page...");
-  ionRouter.navigate("/home", "forward", "replace");
+  ionRouter.navigate("/dogs", "forward", "replace");
 };
 
 const form = reactive({
