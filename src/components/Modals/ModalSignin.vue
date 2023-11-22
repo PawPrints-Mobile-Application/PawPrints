@@ -12,6 +12,7 @@
     @submit="Login"
     @clear="ClearForm(false)"
     @dismiss="ClearForm"
+    :canDismiss="true"
   >
     <template #button><ButtonAuth label="Sign In" /></template>
 

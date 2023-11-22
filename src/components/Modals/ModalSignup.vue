@@ -12,6 +12,7 @@
     @submit="Register"
     @clear="ClearForm(false)"
     @dismiss="ClearForm"
+    :canDismiss="true"
   >
     <template #button><ButtonAuth label="Sign Up" /></template>
 
@@ -64,7 +65,7 @@
         :validators="SignupValidator.password"
       />
 
-      <InputToggle id="TOS" v-model:value="form.acceptTOS">
+      <InputToggle id="TOS" v-model="form.acceptTOS">
         By creating an account you agree to our
         <span class="navigation-link">Privacy Policy</span> and
         <span class="navigation-link">Terms of Service</span>.
