@@ -2,6 +2,8 @@
   <button
     class="button-rippled ion-activatable ion-focusable"
     :style="{ backgroundColor: color }"
+    @mousedown="Mousedown"
+    @mouseup="Mouseup"
   >
     <slot />
     <ion-ripple-effect />
@@ -9,7 +11,7 @@
 </template>
 <script setup lang="ts">
 import { IonRippleEffect } from "@ionic/vue";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 const props = defineProps({
   state: {
@@ -18,12 +20,31 @@ const props = defineProps({
     validator: (value: string) =>
       ["normal", "danger", "success"].includes(value),
   },
+  holdSeconds: {
+    type: Number,
+    default: 2000,
+  },
 });
+
+const holding = ref(false);
+const Mousedown = () => {
+  holding.value = true;
+  // console.log("mouse down");
+  setTimeout(() => {
+    if (holding.value) emit("mousehold");
+  }, props.holdSeconds);
+};
+const Mouseup = () => {
+  // console.log("mouse up");
+  holding.value = false;
+};
 
 const color = computed(
   () =>
     `var(--ion-color-${props.state === "normal" ? "tertiary" : props.state})`
 );
+
+const emit = defineEmits(["mousehold"]);
 </script>
 <style scoped>
 .button-rippled {

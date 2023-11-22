@@ -8,11 +8,6 @@
         @expand="() => (state.searchExpand = true)"
         @collapse="() => (state.searchExpand = false)"
       /> -->
-      <ModalAddPet
-        trigger="header-button"
-        v-show="!state.searchExpand"
-        @submit="ReloadPage"
-      />
     </header>
     <section class="body" v-show="!state.noDogsFound">
       <DogPreviewCard v-for="dog in filteredDogs" :dog="dog" />

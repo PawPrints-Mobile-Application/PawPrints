@@ -1,12 +1,15 @@
 <template>
   <section class="navigation-bar">
-    <ButtonIcon
+    <ButtonRippled
       class="dogs"
+      :id="isOnTab('dogs') ? 'add-dog-main' : 'tab-dogs'"
       :class="{ clicked: state.dogs, selected: isOnTab('dogs') }"
-      :icon="isOnTab('dogs') ? dogsActive : dogsDefault"
       @click="clickMiddle"
-      :label="state.dogs ? '' : 'Dogs'"
-    />
+      @mousehold="console.log(true)"
+    >
+      <ion-icon :icon="isOnTab('dogs') ? dogsActive : dogsDefault" />
+      <TextSmall>{{ state.dogs ? "" : "Dogs" }}</TextSmall>
+    </ButtonRippled>
 
     <ButtonIcon
       class="home button"
@@ -38,13 +41,14 @@
       label="Settings"
     />
   </section>
+  <ModalAddDog :isOpen="isOpen" @dismiss="() => isOpen = false" />
 </template>
 <script setup lang="ts">
 import {
   albumsOutline as homeDefault,
   albums as homeActive,
   pawOutline as dogsDefault,
-  paw as dogsActive,
+  add as dogsActive,
   bulbOutline as forumsDefault,
   bulb as forumsActive,
   mapOutline as mapsDefault,
@@ -52,16 +56,24 @@ import {
   settingsOutline as settingsDefault,
   settings as settingsActive,
 } from "ionicons/icons";
-import { ButtonIcon } from "../Buttons";
-import { reactive } from "vue";
+import { ModalAddDog } from "../Modals";
+import { ButtonIcon, ButtonRippled } from "../Buttons";
+import { TextSmall } from "../Texts";
+import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { useIonRouter, useBackButton } from "@ionic/vue";
+import {
+  useIonRouter,
+  useBackButton,
+  IonIcon,
+} from "@ionic/vue";
 import { App } from "@capacitor/app";
 useBackButton(-1, () => {
   if (!ionRouter.canGoBack()) {
     App.exitApp();
   }
 });
+
+const isOpen = ref(false);
 
 const ionRouter = useIonRouter();
 const router = useRouter();
@@ -79,15 +91,18 @@ const state = reactive({
 
 const clickMiddle = () => {
   if (state.navigating) return;
-  state.navigating = true;
-  state.dogs = true;
-  setTimeout(() => {
-    Navigate("/dogs", false, true);
+  if (!isOnTab("dogs")) {
+    console.log(true);
+    state.navigating = true;
+    state.dogs = true;
     setTimeout(() => {
-      state.dogs = false;
-      setTimeout(() => (state.navigating = false), 150);
-    }, 150);
-  }, 250);
+      Navigate("/dogs", false, true);
+      setTimeout(() => {
+        state.dogs = false;
+        setTimeout(() => (state.navigating = false), 150);
+      }, 150);
+    }, 250);
+  } else isOpen.value = true;
 };
 
 const Navigate = (
@@ -113,13 +128,26 @@ const Navigate = (
 }
 
 .dogs {
-  position: absolute;
-  border-radius: 100%;
   --button-size: 60px;
   --size: 30px;
+  width: var(--button-size);
+  height: var(--button-size);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  border-radius: 100%;
   transform: translate(0px, -7px);
   z-index: 2;
   outline: 2px solid var(--ion-color-black);
+  color: var(--ion-color-primary);
+
+  &.selected {
+    --size: 40px;
+
+    > .text-small {
+      transform: translateY(-5px);
+    }
+  }
 }
 
 .clicked {
@@ -137,6 +165,10 @@ const Navigate = (
   z-index: 1;
   color: var(--ion-color-black);
   background-color: var(--ion-color-primary) !important;
+
+  &.selected {
+    color: var(--ion-color-tertiary);
+  }
 }
 
 .selected {

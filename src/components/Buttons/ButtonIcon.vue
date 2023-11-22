@@ -1,5 +1,5 @@
 <template>
-  <ButtonRippled class="button-icon">
+  <ButtonRippled class="button-icon" @mousehold="emit('mousehold')">
     <ion-icon :icon="icon" />
     <TextSmall v-show="!!label">{{ label }}</TextSmall>
   </ButtonRippled>
@@ -7,15 +7,17 @@
 <script setup lang="ts">
 import { ButtonRippled } from ".";
 import { IonIcon } from "@ionic/vue";
-import {TextSmall} from "../Texts";
+import { TextSmall } from "../Texts";
 
 defineProps({
   icon: {
     type: String,
     required: true,
   },
-  label: String
+  label: String,
 });
+
+const emit = defineEmits(["mousehold"]);
 </script>
 <style scoped>
 .button-icon {

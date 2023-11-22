@@ -1,10 +1,8 @@
 <template>
   <ion-modal
-    :trigger="trigger"
     class="layout-modal"
     @didDismiss="emit('dismiss')"
     @didPresent="emit('present')"
-    :canDismiss="canDismiss"
   >
     <LayoutWrapper
       :inAntiNavigation="inAntiNavigation"
@@ -123,9 +121,6 @@ const props = defineProps({
   noHeaderAnimation: Boolean,
 
   // Important Props
-  trigger: {
-    type: String,
-  },
   title: {
     type: String,
     required: true,
@@ -164,7 +159,6 @@ const props = defineProps({
   disableSubmit: Boolean,
 
   buttonSubmitText: String,
-  canDismiss: Boolean,
 });
 
 const design = ref(props.max === 1 ? 0 : 1);
