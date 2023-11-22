@@ -4,7 +4,7 @@
   </ButtonRippled>
 </template>
 <script setup lang="ts">
-import {ButtonRippled} from ".";
+import { ButtonRippled } from ".";
 import { IonIcon } from "@ionic/vue";
 
 defineProps({
@@ -14,3 +14,14 @@ defineProps({
   },
 });
 </script>
+<style scoped>
+.button-rippled {
+  background-color: var(--bg-color);
+}
+.button-icon {
+  width: var(--button-size);
+  height: var(--button-size);
+  --transform: none;
+  transform: var(--translate);
+}
+</style>

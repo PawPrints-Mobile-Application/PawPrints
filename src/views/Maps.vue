@@ -1,12 +1,5 @@
 <template>
   <LayoutPage id="maps-page" justify="flex-start">
-    <template #pageHeader>
-      <InputSearch
-        v-model:value="searchLocation"
-        @return="(value) => console.log(value)"
-        keep-open
-      />
-    </template>
     <template #pageContent>
       <section
         id="background-placeholder"
@@ -20,11 +13,8 @@
 </template>
 
 <script lang="ts" setup>
-import { InputSearch } from "../components/Forms";
 import { LayoutPage } from "../layout";
-import { ref } from "vue";
 
-const searchLocation = ref("");
 const appDimesions = {
   width: window.innerWidth,
   height: window.innerHeight,
@@ -40,7 +30,6 @@ export default {
 <style scoped>
 .input-search {
   transform: translateY(5px);
-
 }
 
 #background-placeholder {
