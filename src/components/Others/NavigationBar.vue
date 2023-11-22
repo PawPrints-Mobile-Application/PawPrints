@@ -2,12 +2,16 @@
   <section class="navigation-bar">
     <ButtonRippled
       class="dogs"
-      :id="isOnTab('dogs') ? 'add-dog-main' : 'tab-dogs'"
-      :class="{ clicked: state.dogs, selected: isOnTab('dogs') }"
+      :id="isTab('/dogs') ? 'add-dog-main' : 'tab-dogs'"
+      :class="{
+        clicked: state.dogs,
+        selected: isOnTab('dogs'),
+        zoom: isTab('/dogs'),
+      }"
       @click="clickMiddle"
       @mousehold="console.log(true)"
     >
-      <ion-icon :icon="isOnTab('dogs') ? dogsActive : dogsDefault" />
+      <ion-icon :icon="isTab('/dogs') ? dogsActive : dogsDefault" />
       <TextSmall>{{ state.dogs ? "" : "Dogs" }}</TextSmall>
     </ButtonRippled>
 
@@ -41,7 +45,7 @@
       label="Settings"
     />
   </section>
-  <ModalAddDog :isOpen="isOpen" @dismiss="() => isOpen = false" />
+  <ModalAddDog :isOpen="isOpen" @dismiss="() => (isOpen = false)" />
 </template>
 <script setup lang="ts">
 import {
@@ -61,11 +65,7 @@ import { ButtonIcon, ButtonRippled } from "../Buttons";
 import { TextSmall } from "../Texts";
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import {
-  useIonRouter,
-  useBackButton,
-  IonIcon,
-} from "@ionic/vue";
+import { useIonRouter, useBackButton, IonIcon } from "@ionic/vue";
 import { App } from "@capacitor/app";
 useBackButton(-1, () => {
   if (!ionRouter.canGoBack()) {
@@ -79,6 +79,8 @@ const ionRouter = useIonRouter();
 const router = useRouter();
 const isOnTab = (path: string) =>
   router.currentRoute.value.path.toLowerCase().includes(path.toLowerCase());
+const isTab = (path: string) =>
+  router.currentRoute.value.path.toLowerCase() === path.toLowerCase();
 
 const state = reactive({
   home: false,
@@ -91,7 +93,7 @@ const state = reactive({
 
 const clickMiddle = () => {
   if (state.navigating) return;
-  if (!isOnTab("dogs")) {
+  if (!isTab("/dogs")) {
     console.log(true);
     state.navigating = true;
     state.dogs = true;
@@ -141,7 +143,7 @@ const Navigate = (
   outline: 2px solid var(--ion-color-black);
   color: var(--ion-color-primary);
 
-  &.selected {
+  &.zoom {
     --size: 40px;
 
     > .text-small {
