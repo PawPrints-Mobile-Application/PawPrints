@@ -13,6 +13,8 @@ import LocalDate from "./LocalDate";
 import GetScreenSize from "./GetScreenSize";
 import SampleColors from "./SampleColors";
 
+import CustomEvent from "./CustomEvent";
+
 export {
   RouteInfo,
   EnumConstructor,
@@ -27,5 +29,7 @@ export {
   LocalDate,
 
   GetScreenSize,
-  SampleColors
+  SampleColors,
+
+  CustomEvent
 }

@@ -18,6 +18,7 @@
     label="Doggo Breed"
     :options="constants.breeds"
     placeholder="Choose a breed"
+    @state-expanded="(value) => emit('state-expanded', value)"
   />
   <InputDynamicWrapped
     type="color"

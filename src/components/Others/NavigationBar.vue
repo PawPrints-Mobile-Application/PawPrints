@@ -45,7 +45,11 @@
       label="Settings"
     />
   </section>
-  <ModalAddDog :isOpen="isOpen" @dismiss="() => (isOpen = false)" />
+  <ModalAddDog
+    :isOpen="isOpen"
+    @dismiss="OnModalDismiss"
+    @submit="(pid) => OnAddDogSuccess(pid)"
+  />
 </template>
 <script setup lang="ts">
 import {
@@ -60,6 +64,7 @@ import {
   settingsOutline as settingsDefault,
   settings as settingsActive,
 } from "ionicons/icons";
+import { CustomEvent } from "../../utils";
 import { ModalAddDog } from "../Modals";
 import { ButtonIcon, ButtonRippled } from "../Buttons";
 import { TextSmall } from "../Texts";
@@ -72,6 +77,12 @@ useBackButton(-1, () => {
     App.exitApp();
   }
 });
+
+const OnModalDismiss = () => (isOpen.value = false);
+const OnAddDogSuccess = (pid: string) => {
+  CustomEvent.EventDispatcher("reload", "dogs");
+  ionRouter.navigate(`/dogs/${pid}/profile`, "forward", "push");
+};
 
 const isOpen = ref(false);
 

@@ -18,8 +18,9 @@
 import { DogPreviewCard } from ".";
 import { ModalAddPet } from "../Modals";
 // import { InputSearch } from "../Forms";
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import { GetAll } from "../../server/models/Dogs";
+import { CustomEvent } from "../../utils";
 
 const rawDogs = ref<Array<any>>();
 const filteredDogs = ref<Array<any>>();
@@ -64,6 +65,14 @@ const FetchDogs = () =>
     filteredDogs.value = data;
     state.noDogsFound = filteredDogs.value?.length === 0 || !filteredDogs.value;
   });
+
+onMounted(() => {
+  CustomEvent.EventListener("reload", (value: any) => {
+    console.log(value);
+    if (value !== "dogs") return;
+    ReloadPage();
+  });
+});
 
 defineExpose({ ReloadPage });
 </script>

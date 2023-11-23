@@ -12,7 +12,7 @@ import { useIonRouter } from "@ionic/vue";
 import { Age } from "../../utils";
 
 const ionRouter = useIonRouter();
-const Redirect = () => ionRouter.push(`/dogs/${data.pid}`);
+const Redirect = () => ionRouter.push(`/dogs/${data.pid}/profile`);
 
 const props = defineProps({
   icon: String,

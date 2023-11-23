@@ -11,13 +11,10 @@
           label="Back to Dogs List"
           @click="() => ionRouter.back()"
         />
-        <InputSegmentIcon
-          :icons="mainSegments"
-          v-model="state.mainSegment"
-        />
+        <InputSegmentIcon :icons="mainSegments" v-model="state.mainSegment" />
       </header>
     </template>
-    <DogCard :dog="dog" />
+    <DogCard :dog="dog" @click="ClickDogCard" />
     <section
       class="logs"
       v-show="!!dog"
@@ -48,7 +45,11 @@ import { ModalAddLog } from "../../components/Modals";
 import { Get, Props } from "../../server/models/Dogs";
 import { InputSegment, InputSegmentIcon } from "../../components/Forms";
 import { NoteCardPreview, EventCardPreview } from "../../components/Cards";
-import { documents as logView, calendar as calendarView, barChart as analysisView } from 'ionicons/icons';
+import {
+  documents as logView,
+  calendar as calendarView,
+  barChart as analysisView,
+} from "ionicons/icons";
 const ionRouter = useIonRouter();
 
 const route = useRoute();
@@ -64,6 +65,9 @@ const state = reactive({
   logsSegment: logsSegments[0],
 });
 
+const ClickDogCard = () =>
+  ionRouter.navigate(`/dogs/${dog.value?.pid}/information`, "forward", "push");
+
 onIonViewDidEnter(() => {
   if (typeof params.value.pid === "string") pid.value = params.value.pid;
   else pid.value = params.value.pid.join("");
@@ -77,7 +81,7 @@ onIonViewDidEnter(() => {
 
 <script lang="ts">
 export default {
-  name: "[pid]",
+  name: "Profile",
 };
 </script>
 

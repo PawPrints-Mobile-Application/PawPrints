@@ -27,6 +27,12 @@ import {
   SyncAll as SyncEvents,
 } from "./Events";
 import {
+  CreateModel as CreateModelLogs,
+  DeleteModel as DeleteModelLogs,
+  Clear as ClearLogs,
+  SyncAll as SyncLogs,
+} from "./Logs";
+import {
   CreateModel as CreateModelCalendar,
   DeleteModel as DeleteModelCalendar,
   Clear as ClearCalendar,

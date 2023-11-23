@@ -4,10 +4,13 @@
       :visible="true"
       stopPropagation
       tappable
-      @ionBackdropTap="Trigger"
+      @ionBackdropTap="() => {
+        Trigger();
+        emit('click-backdrop');
+      }"
     />
     <div class="content">
-      <slot name="content" :Trigger="Trigger"><slot :Trigger="Trigger" /></slot>
+      <slot name="content" :Trigger="Trigger" :Select="emit('select')"><slot :Trigger="Trigger" :Select="emit('select')" /></slot>
     </div>
   </section>
 </template>
@@ -18,10 +21,16 @@ const props = defineProps({
 });
 
 const Trigger = () => {
-  emit("click");
   emit("update:modelValue", !!!props.modelValue);
+  emit("click");
 };
-const emit = defineEmits(["update:modelValue", "click"]);
+
+const emit = defineEmits([
+  "update:modelValue",
+  "click",
+  "click-backdrop",
+  "select",
+]);
 defineExpose({ Trigger });
 </script>
 <style scoped>

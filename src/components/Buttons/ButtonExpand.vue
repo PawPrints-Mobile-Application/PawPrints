@@ -15,11 +15,12 @@ const props = defineProps({
 const Click = () => {
   const temp = !props.expand;
   emit("update:expand", temp);
+  emit("click", temp);
   if (temp) emit("expand");
   else emit("collapse");
 };
 
-const emit = defineEmits(["update:expand", "expand", "collapse"]);
+const emit = defineEmits(["update:expand", "click", "expand", "collapse"]);
 </script>
 <style scoped>
 .button-expand {

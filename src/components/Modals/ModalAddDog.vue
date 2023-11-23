@@ -20,7 +20,7 @@
       v-model:birthday="form.birthday"
       v-model:breed="form.breed"
       v-model:color="form.color"
-      @state-expanded="SetDismiss" />
+      @state-expanded="(value) => SetDismiss(!value)" />
     <register2
       v-else-if="page === 2"
       @empty="(value) => (disabler[1] = value)"
@@ -40,7 +40,6 @@ import { register1, register2 } from "../../views/_templates";
 
 const canDismiss = ref(true);
 const SetDismiss = (value: boolean) => {
-  console.log(value);
   if (value) {
     setTimeout(() => {
       canDismiss.value = value;
@@ -77,10 +76,11 @@ const ClearForm = () => {
   form.fixing = "";
 };
 
-const Submit = () =>
+const Submit = () => {
+  const pid = SeedGenerator().toString();
   Add(
     {
-      pid: SeedGenerator().toString(),
+      pid: pid,
       name: form.name,
       birthday: form.birthday,
       breed: form.breed,
@@ -94,9 +94,11 @@ const Submit = () =>
       ? undefined
       : localStorage.getItem("authID")!
   ).then(() => {
-    emit("submit");
+    canDismiss.value = true;
+    emit("submit", pid);
     Dismiss();
   });
+};
 
 defineProps({
   isOpen: {
