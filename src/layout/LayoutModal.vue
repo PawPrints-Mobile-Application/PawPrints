@@ -68,6 +68,7 @@
               :type="buttonType"
               v-show="!hideBack && (!hideOnDisable || !disableBack)"
               :disabled="disableBack"
+              :label="page === 1 ? 'Discard' : 'Back'"
               @click="page === 1 ? Close() : Back()"
               :state="page === 1 ? 'danger' : 'normal'"
             />
@@ -75,6 +76,7 @@
               :type="buttonType"
               v-show="!hideNext && (!hideOnDisable || !disableNext)"
               :disabled="disableNext"
+              :label="page === max ? 'Create' : 'Next'"
               @click="page === max ? Submit() : Next()"
               :state="page === max ? 'success' : 'normal'"
             />

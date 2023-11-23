@@ -14,6 +14,7 @@ import GetScreenSize from "./GetScreenSize";
 import SampleColors from "./SampleColors";
 
 import CustomEvent from "./CustomEvent";
+import GetUID from "./GetUID";
 
 export {
   RouteInfo,
@@ -31,5 +32,6 @@ export {
   GetScreenSize,
   SampleColors,
 
-  CustomEvent
+  CustomEvent,
+  GetUID
 }

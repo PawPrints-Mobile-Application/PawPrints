@@ -35,7 +35,7 @@ import { LayoutModal } from "../../layout";
 
 import { Default as PetAvatar } from "../../components/Avatars/Pets";
 import { Add } from "../../server/models/Dogs";
-import { SeedGenerator } from "../../utils";
+import { SeedGenerator, GetUID } from "../../utils";
 import { register1, register2 } from "../../views/_templates";
 
 const canDismiss = ref(true);
@@ -90,9 +90,7 @@ const Submit = () => {
       events: [],
       notes: [],
     },
-    localStorage.getItem("authEmail")! === "Guest"
-      ? undefined
-      : localStorage.getItem("authID")!
+    GetUID()
   ).then(() => {
     canDismiss.value = true;
     emit("submit", pid);

@@ -48,7 +48,6 @@ const FilterDogs = (searchString: string) => {
 };
 
 // Page Manipulator
-const ReloadPage = () => FetchDogs();
 
 // Data Manipulator
 // const DeleteAllDogs = () => {
@@ -59,16 +58,22 @@ const ReloadPage = () => FetchDogs();
 //     });
 // };
 
-const FetchDogs = () =>
+const ReloadPage = () =>
   GetAll().then((data) => {
-    rawDogs.value = data;
-    filteredDogs.value = data;
-    state.noDogsFound = filteredDogs.value?.length === 0 || !filteredDogs.value;
+    rawDogs.value = [];
+    filteredDogs.value = [];
+    setTimeout(() => {
+      rawDogs.value = data;
+      filteredDogs.value = data;
+      state.noDogsFound =
+        filteredDogs.value?.length === 0 || !filteredDogs.value;
+    });
+    console.log("Reloaded");
   });
 
 onMounted(() => {
+  ReloadPage();
   CustomEvent.EventListener("reload", (value: any) => {
-    console.log(value);
     if (value !== "dogs") return;
     ReloadPage();
   });

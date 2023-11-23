@@ -6,9 +6,14 @@ import {
   ReadRowData,
   DeleteRowData,
 } from "../sqlite";
-import { SetDocument, GetDocument, GetCollection } from "../firebase";
+import {
+  SetDocument,
+  GetDocument,
+  GetCollection,
+  DeleteDocument,
+} from "../firebase";
 import ObjectToMap from "../../utils/ObectToMap";
-import {EnumConstructor, StringToArray} from "../../utils";
+import { EnumConstructor, StringToArray } from "../../utils";
 import { DocumentData } from "firebase/firestore";
 
 class InOutdoor extends EnumConstructor {
@@ -124,14 +129,20 @@ const Add = async (props: Props, uid?: string) => {
   const localProps = ToLocalProps(props);
   const data = ObjectToMap(localProps);
   if (!!uid) await SetDocument(documentPath(uid, props.pid), props);
-  return InsertRowData(constants.document, {
-    keys: Array.from(data.keys()),
-    values: Array.from(data.values()),
-  }, true).then(() => props);
+  return InsertRowData(
+    constants.document,
+    {
+      keys: Array.from(data.keys()),
+      values: Array.from(data.values()),
+    },
+    true
+  ).then(() => props);
 };
 
-const Remove = (pid: string) =>
-  DeleteRowData(constants.document, { key: "pid", value: pid });
+const Remove = (pid: string, uid?: string) =>
+  DeleteRowData(constants.document, { key: "pid", value: pid }).then(() => {
+    if (!!uid) return DeleteDocument(documentPath(uid, pid));
+  });
 
 const Sync = async (uid: string, pid: string) =>
   GetDocument(documentPath(uid, pid)).then(async (response) => {

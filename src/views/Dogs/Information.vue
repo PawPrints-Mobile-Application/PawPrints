@@ -42,6 +42,7 @@ import { TextHeading } from "../../components/Texts";
 import { InputDynamicWrapped } from "../../components/Forms";
 import { ButtonText } from "../../components/Buttons";
 import { Remove } from "../../server/models/Dogs";
+import { GetUID, CustomEvent as CEvent } from "../../utils";
 
 import { useRoute } from "vue-router";
 import { ref, reactive, Ref } from "vue";
@@ -87,9 +88,12 @@ const ClickDeleteDog = (event: CustomEvent) => {
   if (!event.detail) return;
   console.log(event.detail.data.action);
   if (event.detail.data.action === "delete")
-    Remove(dog.value!.pid).then(() =>
-      ionRouter.navigate("/dogs", "forward", "replace")
-    );
+    Remove(dog.value!.pid, GetUID()).then(() => {
+      CEvent.EventDispatcher("reload", "dogs");
+      setTimeout(() => {
+        ionRouter.navigate("/dogs", "forward", "replace");
+      }, 500);
+    });
 };
 
 const actionSheetButtons = [

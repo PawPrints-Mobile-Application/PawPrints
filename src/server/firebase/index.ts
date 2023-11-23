@@ -63,7 +63,7 @@ const GetDocument = async (path: string) =>
 const DeleteDocument = async (path: string) =>
   deleteDoc(doc(db, path))
     .then((data) => {
-      console.log(`A document is fetched from Firestore Database.`);
+      console.log(`A document is deleted from Firestore Database.`);
       return data;
     })
     .catch((error) => console.log(error.message));
