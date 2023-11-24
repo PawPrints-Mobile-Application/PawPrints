@@ -71,6 +71,12 @@
               :label="page === 1 ? 'Discard' : 'Back'"
               @click="page === 1 ? Close() : Back()"
               :state="page === 1 ? 'danger' : 'normal'"
+              :style="{
+                backgroundColor:
+                  page === 1
+                    ? 'var(--ion-color-danger)'
+                    : 'var(--ion-color-tertiary)',
+              }"
             />
             <ButtonNext
               :type="buttonType"
@@ -79,6 +85,12 @@
               :label="page === max ? 'Create' : 'Next'"
               @click="page === max ? Submit() : Next()"
               :state="page === max ? 'success' : 'normal'"
+              :style="{
+                backgroundColor:
+                  page === 1
+                    ? 'var(--ion-color-tertiary)'
+                    : 'var(--ion-color-success)',
+              }"
             />
           </section>
         </slot>
@@ -262,5 +274,9 @@ defineExpose({ Reset, Close, Submit, Back, Next });
   > * {
     max-width: 48%;
   }
+}
+
+[data-color] {
+  background-color: attr(data-color);
 }
 </style>

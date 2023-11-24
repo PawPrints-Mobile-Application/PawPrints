@@ -12,7 +12,7 @@
     close-on-submit
     :can-dismiss="canDismiss"
   >
-    <PetAvatar :background-color="form.color" />
+    <Avatar type="dog" :src="form.breed" :style="{backgroundColor: form.color}"/>
     <register1
       v-if="page === 1"
       @empty="(value) => (disabler[0] = value)"
@@ -33,7 +33,7 @@
 import { reactive, ref } from "vue";
 import { LayoutModal } from "../../layout";
 
-import { Default as PetAvatar } from "../../components/Avatars/Pets";
+import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
 import { SeedGenerator, GetUID } from "../../utils";
 import { register1, register2 } from "../../views/_templates";
@@ -109,7 +109,7 @@ const emit = defineEmits(["submit", "dismiss"]);
 </script>
 
 <style scoped>
-.pet-avatar {
-  --max-size: 100px;
+.avatar {
+  --size: 100px;
 }
 </style>

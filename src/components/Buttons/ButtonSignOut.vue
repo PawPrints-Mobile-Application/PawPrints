@@ -21,4 +21,9 @@ const SignOut = () =>
     .then(WindowDatabaseTermination)
     .then(Redirect);
 </script>
-<style scoped></style>
+<style scoped>
+.button-signout {
+  color: var(--ion-color-primary);
+  background-color: var(--ion-color-danger);
+}
+</style>

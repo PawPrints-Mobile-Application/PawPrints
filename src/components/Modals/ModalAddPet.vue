@@ -14,7 +14,7 @@
   >
     <template #button><ButtonAddPet /></template>
 
-    <PetAvatar :background-color="form.color" />
+    <Avatar type="dog" :src="form.breed" />
     <register1
       v-if="page === 1"
       @empty="(value) => (disabler[0] = value)"
@@ -37,7 +37,7 @@
 import { reactive, ref } from "vue";
 import { ButtonModal, ButtonAddPet } from "../Buttons";
 
-import { Default as PetAvatar } from "../../components/Avatars/Pets";
+import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
 import { SeedGenerator } from "../../utils";
 import { register1, register2 } from "../../views/_templates";

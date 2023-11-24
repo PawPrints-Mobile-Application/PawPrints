@@ -79,6 +79,6 @@ export default {
 .button-signout {
   width: 100%;
   max-height: 40px;
-  margin-bottom: 10px;
+  margin-block: 5px 10px;
 }
 </style>

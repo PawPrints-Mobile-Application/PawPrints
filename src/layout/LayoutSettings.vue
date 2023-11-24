@@ -2,7 +2,7 @@
   <LayoutPage class="layout-settings" justify="flex-start">
     <template #header>
       <header>
-        <ButtonBack type="icon" @click="Redirect" />
+        <ButtonBack state="transparent" type="icon" @click="Redirect" />
         <TextHeading>{{ label }}</TextHeading>
       </header>
     </template>

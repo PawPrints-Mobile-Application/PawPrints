@@ -45,11 +45,11 @@
       label="Settings"
     />
   </section>
-  <!-- <ModalAddDog
+  <ModalAddDog
     :isOpen="isOpen"
     @dismiss="OnModalDismiss"
     @submit="(pid) => OnAddDogSuccess(pid)"
-  /> -->
+  />
 </template>
 <script setup lang="ts">
 import {
@@ -153,6 +153,7 @@ const Navigate = (
   z-index: 2;
   outline: 2px solid var(--ion-color-black);
   color: var(--ion-color-primary);
+  background-color: var(--ion-color-tertiary);
 
   &.zoom {
     --size: 40px;
