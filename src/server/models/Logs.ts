@@ -15,7 +15,7 @@ import {
     collection: "Users",
     document: "Logs",
     data: `
-        aid TEXT PRIMARY KEY NOT NULL,
+        lid TEXT PRIMARY KEY NOT NULL,
         type TEXT,
         title TEXT,
         details TEXT,
@@ -27,7 +27,7 @@ import {
   };
   
   type Props = {
-    eid: string;
+    lid: string;
     type: string;
     title: string;
     details: string;
@@ -37,7 +37,7 @@ import {
   };
   
   type LocalProps = {
-    eid: string;
+    lid: string;
     type: string;
     title: string;
     details: string;
@@ -47,7 +47,7 @@ import {
   };
   
   type CloudProps = {
-    eid: string;
+    lid: string;
     type: string;
     title: string;
     details: string;
@@ -67,7 +67,7 @@ import {
       DTEnd = props.DTEnd.toDate();
     }
     return {
-      eid: props.eid,
+      lid: props.lid,
       type: props.type,
       title: props.title,
       details: props.details,
@@ -88,7 +88,7 @@ import {
       DTEnd = props.DTEnd.toDate();
     }
     return {
-      eid: props.eid,
+      lid: props.lid,
       type: props.type,
       title: props.title,
       details: props.details,
@@ -109,7 +109,7 @@ import {
       DTEnd = new Date(props.DTEnd);
     }
     return {
-      eid: props.eid,
+      lid: props.lid,
       type: props.type,
       title: props.title,
       details: props.details,
@@ -122,8 +122,8 @@ import {
   const CollectionPath = (uid: string) =>
     `${constants.collection}/${uid}/${constants.document}`;
   
-  const documentPath = (uid: string, eid: string) =>
-    `${CollectionPath(uid)}/${eid}`;
+  const documentPath = (uid: string, lid: string) =>
+    `${CollectionPath(uid)}/${lid}`;
   
   const CreateModel = () => CreateTable(constants.document, constants.data);
   const DeleteModel = () => DeleteTable(constants.document);
@@ -134,8 +134,8 @@ import {
       response.values!.map((note) => ToProps(note, "LocalProps"))
     );
   
-  const Get = (eid: string) =>
-    ReadRowData(constants.document, { key: "eid", value: eid }).then((response) =>
+  const Get = (lid: string) =>
+    ReadRowData(constants.document, { key: "lid", value: lid }).then((response) =>
       ToProps(response.values![0], "LocalProps")
     );
   
@@ -144,7 +144,7 @@ import {
     const data = ObjectToMap(localProps);
     if (!!uid)
       await SetDocument(
-        documentPath(uid, props.eid),
+        documentPath(uid, props.lid),
         ToCloudProps(props, "Props")
       );
     return InsertRowData(constants.document, {
@@ -153,11 +153,11 @@ import {
     }).then(() => props);
   };
   
-  const Remove = (eid: string) =>
-    DeleteRowData(constants.document, { key: "eid", value: eid });
+  const Remove = (lid: string) =>
+    DeleteRowData(constants.document, { key: "lid", value: lid });
   
-  const Sync = async (uid: string, eid: string) =>
-    GetDocument(documentPath(uid, eid)).then(async (response) => {
+  const Sync = async (uid: string, lid: string) =>
+    GetDocument(documentPath(uid, lid)).then(async (response) => {
       const cloudProps = response!.data()!;
       const localProps = ToLocalProps(cloudProps, "CloudProps");
       const data = ObjectToMap(localProps);
@@ -168,14 +168,14 @@ import {
           values: Array.from(data.values()),
         },
         true
-      ).then(() => Get(eid));
+      ).then(() => Get(lid));
     });
   
   const SyncAll = async (uid: string) =>
     GetCollection(CollectionPath(uid)).then(async (value) => {
       let temp = new Array<Props>();
       for (let cloudProps of value!.values) {
-        const response = await Sync(uid, cloudProps.eid);
+        const response = await Sync(uid, cloudProps.lid);
         temp.push(response);
       }
       return temp;

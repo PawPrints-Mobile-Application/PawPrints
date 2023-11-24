@@ -45,11 +45,11 @@
       label="Settings"
     />
   </section>
-  <ModalAddDog
+  <!-- <ModalAddDog
     :isOpen="isOpen"
     @dismiss="OnModalDismiss"
     @submit="(pid) => OnAddDogSuccess(pid)"
-  />
+  /> -->
 </template>
 <script setup lang="ts">
 import {

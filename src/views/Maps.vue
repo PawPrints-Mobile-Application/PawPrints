@@ -1,6 +1,6 @@
 <template>
   <LayoutPage id="maps-page" justify="flex-start">
-    <template #pageContent>
+    <!-- <template #pageContent>
       <section
         id="background-placeholder"
         :style="{
@@ -8,7 +8,7 @@
           height: `${appDimesions.height}px`,
         }"
       />
-    </template>
+    </template> -->
   </LayoutPage>
 </template>
 

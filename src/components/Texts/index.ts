@@ -5,11 +5,16 @@ import TextSubheading from "./TextSubheading.vue";
 import TextParagraph from "./TextParagraph.vue";
 import TextSmall from "./TextSmall.vue";
 
+import TextCard from "./TextCard.vue";
+
 export {
     NoteWarning,
     TextTitle,
     TextHeading,
     TextSubheading,
     TextParagraph,
-    TextSmall
+    TextSmall,
+
+
+    TextCard
 }

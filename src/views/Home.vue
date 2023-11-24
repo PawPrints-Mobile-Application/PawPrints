@@ -1,6 +1,6 @@
 <template>
   <LayoutPage justify="flex-start" disableHeaderOnScroll addMarginBotton>
-    <template #header>
+    <!-- <template #header>
       <header>
         <ImgLogo />
         <TextHeading>{{ authGreetings }}</TextHeading>
@@ -20,7 +20,7 @@
       title="Finding the nearest vet?"
       details="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
       target="/maps"
-    />
+    /> -->
   </LayoutPage>
 </template>
 

@@ -1,10 +1,10 @@
 <template>
   <LayoutPage justify="space-around" hide-scrollbar>
-    <ProfileCard />
+    <!-- <ProfileCard />
     <SettingsCardPreview />
     <template #footer>
       <ButtonSignOut />
-    </template>
+    </template> -->
   </LayoutPage>
 </template>
 

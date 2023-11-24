@@ -15,18 +15,6 @@ import {
   defaults as defaultsPreferences,
 } from "./Preferences";
 import {
-  CreateModel as CreateModelNotes,
-  DeleteModel as DeleteModelNotes,
-  Clear as ClearNotes,
-  SyncAll as SyncNotes,
-} from "./Notes";
-import {
-  CreateModel as CreateModelEvents,
-  DeleteModel as DeleteModelEvents,
-  Clear as ClearEvents,
-  SyncAll as SyncEvents,
-} from "./Events";
-import {
   CreateModel as CreateModelLogs,
   DeleteModel as DeleteModelLogs,
   Clear as ClearLogs,
@@ -48,23 +36,20 @@ import {
 const DeleteModels = () =>
   DeleteModelInformation()
     .then(DeleteModelPreferences)
-    .then(DeleteModelNotes)
-    .then(DeleteModelEvents)
+    .then(DeleteModelLogs)
     .then(DeleteModelCalendar)
     .then(DeleteModelDogs);
 
 const ClearModels = () =>
   ClearInformation()
     .then(ClearPreferences)
-    .then(ClearNotes)
-    .then(ClearEvents)
+    .then(ClearLogs)
     .then(ClearCalendar)
     .then(ClearDogs);
 
 const SyncModels = (uid: string) =>
   SyncPreferences(uid)
-    .then(() => SyncNotes(uid))
-    .then(() => SyncEvents(uid))
+    .then(() => SyncLogs(uid))
     .then(() => SyncCalendar(uid))
     .then(() => SyncDogs(uid))
     .then(() => SyncInformation(uid))
@@ -80,8 +65,7 @@ export { DeleteModels, ClearModels, SyncModels, InitializeModels };
 export default async function CreateModels() {
   return CreateModelInformation()
     .then(CreateModelPreferences)
-    .then(CreateModelNotes)
-    .then(CreateModelEvents)
+    .then(CreateModelLogs)
     .then(CreateModelCalendar)
     .then(CreateModelDogs);
 }

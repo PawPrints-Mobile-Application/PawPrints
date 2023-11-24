@@ -3,8 +3,8 @@ import settingsRecords from "./Settings";
 
 const navigationRecords = [
   { name: "Home" },
-  { name: "Dogs" },
   { name: "Forums" },
+  { name: "Dogs" },
   { name: "Maps" },
   { name: "Settings" },
 ];
