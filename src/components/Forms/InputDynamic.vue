@@ -15,6 +15,7 @@
       @change="emit('change', value)"
       @input="emit('input', value)"
       @click="Click"
+      @return="value => emit('return', value)"
       :show="valueShow"
       :hidden="hidden"
       :placeholder="placeholder"
@@ -132,12 +133,13 @@ const emit = defineEmits([
   "click",
   "icon-click",
   "state-expanded",
+  "return"
 ]);
 defineExpose({ state, ForceFocus, ForceBlur });
 </script>
 <style scoped>
 .input-dynamic {
-  --outline: 2px solid var(--ion-color-black);
+  --outline: 2px solid var(--ion-color-tertiary );
   background-color: var(--ion-color-secondary);
   border-radius: 6px;
   width: 100%;

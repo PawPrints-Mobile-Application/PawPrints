@@ -19,6 +19,7 @@
       @input="emit('input', value)"
       @click="emit('click')"
       @icon-click="emit('icon-click')"
+      @return="(value) => emit('return', value)"
       :show="show"
       :hidden="hidden"
       :placeholder="placeholder"
@@ -137,6 +138,7 @@ const emit = defineEmits([
   "click",
   "icon-click",
   "state-expanded",
+  "return",
   // For InputHelper
   "update:modelValid",
   "validate",

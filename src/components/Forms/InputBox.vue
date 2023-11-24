@@ -11,6 +11,7 @@
       @change="emit('change', value)"
       :placeholder="!placeholder ? `Input ${type}` : placeholder"
       :disabled="disabled"
+      @keyup.enter="emit('return', value)"
     />
     <div v-else>
       {{ value }}
@@ -73,6 +74,7 @@ const value = computed({
   },
   set(value: string | number) {
     emit("update:modelValue", value);
+    emit("input");
   },
 });
 
@@ -116,6 +118,7 @@ const emit = defineEmits([
   "first-edit",
   "change",
   "input",
+  "return",
 ]);
 defineExpose({ state, ForceFocus, ForceBlur });
 </script>
