@@ -1,5 +1,5 @@
 <template>
-  <LayoutSettings label="MY PREFERENCES" target="/settings">
+  <LayoutSettings label="FAQS" target="/settings">
     <InputRadio
       :label="form[0].name"
       :options="form[0].options"
@@ -58,7 +58,7 @@ watch(
 
 <script lang="ts">
 export default {
-  name: "Preferences",
+  name: "FAQs",
 };
 </script>
 <style scoped>

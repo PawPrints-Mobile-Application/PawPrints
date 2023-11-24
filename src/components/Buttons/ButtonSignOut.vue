@@ -1,5 +1,5 @@
 <template>
-  <ButtonText class="button-signout" @click="SignOut" label="Sign Out" />
+  <ButtonText class="button-signout" @click="SignOut" label="Sign Out" state="danger" />
 </template>
 
 <script setup lang="ts">

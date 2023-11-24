@@ -6,6 +6,8 @@ import PhotoCard from "./PhotoCard.vue";
 
 import CardDog from "./CardDog.vue";
 import CardLog from "./CardLog.vue";
+import CardUser from "./CardUser.vue";
+import CardSettings from "./CardSettings.vue";
 
 export {
   ProfileCard,
@@ -15,4 +17,6 @@ export {
   PhotoCard,
   CardDog,
   CardLog,
+  CardUser,
+  CardSettings
 };

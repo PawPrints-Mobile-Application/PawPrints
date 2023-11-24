@@ -1,41 +1,34 @@
 <template>
-  <section class="card-dog">
+  <section class="card card-user">
     <header>
-      <Avatar
-        type="dog"
-        :src="dog?.breed"
-        :style="{
-          backgroundColor: !!dog ? dog?.color : 'var(--ion-color-tertiary)',
-        }"
-        lazy-load
-      />
+      <Avatar type="user" />
       <aside>
-        <TextCard label="Name:" :value="dog?.name" />
-        <TextCard label="Date of Birth:" :value="dog?.birthday" />
-        <TextCard label="Dog Breed:" :value="dog?.breed" />
+        <TextCard label="Username:" :value="user.username" />
+        <TextCard label="Subscription:" :value="user.subscription" />
       </aside>
     </header>
+    <TextCard :value="user.email" />
     <footer>
-      <TextSmall class="text bold">Age:</TextSmall>
-      <TextSmall>Year/s: {{ !dog ? 0 : age.years }}</TextSmall>
-      <TextSmall>Month/s: {{ !dog ? 0 : age.months }}</TextSmall>
-      <TextSmall>Day/s: {{ !dog ? 0 : age.days }}</TextSmall>
+      <TextSmall class="text bold">Forums:</TextSmall>
+      <TextSmall>Post/s: {{ 0 }}</TextSmall>
+      <TextSmall>Upvotes/s: {{ 0 }}</TextSmall>
+      <TextSmall>Paws/s: {{ 0 }}</TextSmall>
     </footer>
   </section>
 </template>
 <script setup lang="ts">
 import { Avatar } from "../Avatars";
 import { TextCard, TextSmall } from "../Texts";
-import { ref, Ref } from "vue";
-import { Age } from "../../utils";
-const props = defineProps({
-  dog: Object,
-});
+import { reactive } from "vue";
 
-const age: Ref<Age> = ref(new Age(new Date(props.dog?.birthday)));
+const user = reactive({
+  username: localStorage.getItem("authUsername")!,
+  email: localStorage.getItem("authEmail")!,
+  subscription: localStorage.getItem("authType")!,
+});
 </script>
 <style scoped>
-.card-dog {
+.card-user {
   background-color: var(--ion-color-secondary-shade);
   outline: 3px solid var(--ion-color-black);
   width: 100%;
@@ -43,6 +36,7 @@ const age: Ref<Age> = ref(new Age(new Date(props.dog?.birthday)));
   padding: 10px;
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
 
 header {
@@ -52,20 +46,20 @@ header {
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
-  min-height: 105px;
 }
 
 .avatar {
   outline: 2px solid var(--ion-color-primary);
   background-color: var(--ion-color-primary);
-  --size: 80px;
+  --size: 70px;
 }
 
 aside {
   flex: 1 0 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  justify-content: space-between;
+  height: 70px;
 
   > div {
     flex: 1 0 0;

@@ -6,9 +6,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { IonSkeletonText } from "@ionic/vue";
-import { PawPrints } from "../../assets/images";
+import { personCircleOutline as UserDefault } from 'ionicons/icons';
+import { PawPrints as DogDefault } from "../../assets/images";
 const props = defineProps({
   type: {
     type: String,
@@ -23,17 +23,15 @@ const GetAvatar = () => {
   if (props.type === "dog") {
     switch (props.src) {
       default:
-        return PawPrints;
+        return DogDefault;
     }
   } else {
     switch (props.src) {
       default:
-        return PawPrints;
+        return UserDefault;
     }
   }
 };
-
-const image = computed(() => !!props.src ? props.src : PawPrints);
 </script>
 
 <style scoped>
@@ -41,10 +39,12 @@ const image = computed(() => !!props.src ? props.src : PawPrints);
   --image-scale: 120%;
   width: var(--size);
   height: var(--size);
+  aspect-ratio: 1;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: none;
 
   > * {
     width: 100%;

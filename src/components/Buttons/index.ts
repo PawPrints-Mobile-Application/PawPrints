@@ -20,6 +20,8 @@ import ButtonModal from "./ButtonModal.vue";
 import ButtonCalendar from "./ButtonCalendar.vue";
 import ButtonShow from "./ButtonShow.vue";
 
+import ButtonToggleThemeLightAndDark from "./ButtonToggleThemeLightAndDark.vue";
+
 
 import ButtonSignOut from "./ButtonSignOut.vue";
 import GoogleButton from "./GoogleButton.vue";
@@ -51,6 +53,8 @@ export {
 
   ButtonCalendar,
   ButtonShow,
+
+  ButtonToggleThemeLightAndDark,
 
 
   ButtonSignOut,

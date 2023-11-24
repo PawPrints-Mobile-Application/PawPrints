@@ -1,18 +1,60 @@
 <template>
-  <LayoutPage justify="space-around" hide-scrollbar>
-    <!-- <ProfileCard />
-    <SettingsCardPreview />
+  <LayoutPage justify="flex-start" hide-scrollbar>
+    <ButtonToggleThemeLightAndDark class="theme-toggle" />
+    <CardUser />
+    <CardSettings
+      v-for="setting in settings"
+      :label="setting.label"
+      :icon="setting.icon"
+      @click="Navigate(setting.path)"
+    />
     <template #footer>
       <ButtonSignOut />
-    </template> -->
+    </template>
   </LayoutPage>
 </template>
 
 <script lang="ts" setup>
-import { ProfileCard, SettingsCardPreview } from "../components/Cards";
-
 import { LayoutPage } from "../layout";
-import { ButtonSignOut } from "../components/Buttons";
+import { CardUser, CardSettings } from "../components/Cards";
+import {
+  ButtonToggleThemeLightAndDark,
+  ButtonSignOut,
+} from "../components/Buttons";
+import {
+  person as profileIcon,
+  pricetags as subscriptionIcon,
+  helpCircle as faqsIcon,
+  alertCircle as aboutIcon,
+} from "ionicons/icons";
+import { useIonRouter } from "@ionic/vue";
+const ionRouter = useIonRouter();
+
+const settings = [
+  {
+    label: "Profile",
+    path: "/settings/profile",
+    icon: profileIcon,
+  },
+  {
+    label: "Subscriptions",
+    path: "/settings/subscriptions",
+    icon: subscriptionIcon,
+  },
+  {
+    label: "Frequently Asked Questions",
+    path: "/settings/faqs",
+    icon: faqsIcon,
+  },
+  {
+    label: "About",
+    path: "/settings/about",
+    icon: aboutIcon,
+  },
+];
+
+const Navigate = (target: string) =>
+  ionRouter.navigate(target, "forward", "push");
 </script>
 
 <script lang="ts">
@@ -30,7 +72,13 @@ export default {
   gap: 30px;
 }
 
+.theme-toggle {
+  align-self: flex-end;
+}
+
 .button-signout {
-  margin: 10px 0;
+  width: 100%;
+  max-height: 40px;
+  margin-bottom: 10px;
 }
 </style>

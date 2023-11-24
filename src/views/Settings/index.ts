@@ -1,7 +1,7 @@
 const records = [
   { name: "Profile" },
-  { name: "Preferences" },
   { name: "Subscriptions" },
+  { name: "FAQs" },
   { name: "About" },
 ];
 
