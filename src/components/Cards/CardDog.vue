@@ -33,6 +33,7 @@ const props = defineProps({
 });
 
 const age: Ref<Age> = ref(new Age(new Date(props.dog?.birthday)));
+
 </script>
 <style scoped>
 .card-dog {

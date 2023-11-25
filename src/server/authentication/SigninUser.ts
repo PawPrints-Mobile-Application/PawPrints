@@ -13,6 +13,8 @@ const GuestData = {
     email: "Guest",
     username: "Hooman",
     subscription: new InformationEnums.Subscription().guest,
+    theme: new InformationEnums.Theme().yellow,
+    mode: new InformationEnums.Mode().light,
   },
 };
 
@@ -41,6 +43,8 @@ const DatabaseInitialization = async (user?: User) => {
 };
 
 const WindowDatabaseInitialization = (props: InformationProps) => {
+  window.localStorage.setItem("colorTheme", props.theme);
+  window.localStorage.setItem("colorMode", props.mode);
   window.localStorage.setItem("authType", props.subscription);
   window.localStorage.setItem("authID", props.uid);
   window.localStorage.setItem("authUsername", props.username);

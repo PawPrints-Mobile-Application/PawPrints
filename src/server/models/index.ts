@@ -7,14 +7,6 @@ import {
   Props as PropsInformation,
 } from "./Information";
 import {
-  CreateModel as CreateModelPreferences,
-  DeleteModel as DeleteModelPreferences,
-  Clear as ClearPreferences,
-  Sync as SyncPreferences,
-  Set as SetPreferences,
-  defaults as defaultsPreferences,
-} from "./Preferences";
-import {
   CreateModel as CreateModelLogs,
   DeleteModel as DeleteModelLogs,
   Clear as ClearLogs,
@@ -35,36 +27,27 @@ import {
 
 const DeleteModels = () =>
   DeleteModelInformation()
-    .then(DeleteModelPreferences)
     .then(DeleteModelLogs)
     .then(DeleteModelCalendar)
     .then(DeleteModelDogs);
 
 const ClearModels = () =>
-  ClearInformation()
-    .then(ClearPreferences)
-    .then(ClearLogs)
-    .then(ClearCalendar)
-    .then(ClearDogs);
+  ClearInformation().then(ClearLogs).then(ClearCalendar).then(ClearDogs);
 
 const SyncModels = (uid: string) =>
-  SyncPreferences(uid)
-    .then(() => SyncLogs(uid))
+  SyncLogs(uid)
     .then(() => SyncCalendar(uid))
     .then(() => SyncDogs(uid))
     .then(() => SyncInformation(uid))
     .then((response) => response);
 
 const InitializeModels = (props: PropsInformation, uid?: string) =>
-  SetPreferences(defaultsPreferences, uid).then(() =>
-    SetInformation(props, uid)
-  );
+  SetInformation(props, uid);
 
 export { DeleteModels, ClearModels, SyncModels, InitializeModels };
 
 export default async function CreateModels() {
   return CreateModelInformation()
-    .then(CreateModelPreferences)
     .then(CreateModelLogs)
     .then(CreateModelCalendar)
     .then(CreateModelDogs);

@@ -19,7 +19,26 @@ class Subscription extends EnumConstructor {
   }
 }
 
-const Enums = { Subscription };
+class Theme extends EnumConstructor {
+  yellow: "yellow" = "yellow";
+  pink: "pink" = "pink";
+  blue: "blue" = "blue";
+
+  constructor() {
+    super(["yellow", "pink", "blue"]);
+  }
+}
+
+class Mode extends EnumConstructor {
+  light: "light" = "light";
+  dark: "dark" = "dark";
+
+  constructor() {
+    super(["light", "dark"]);
+  }
+}
+
+const Enums = { Subscription, Theme, Mode };
 
 const constants = {
   collection: "Users",
@@ -28,7 +47,9 @@ const constants = {
     uid TEXT PRIMARY KEY NOT NULL UNIQUE,
     email TEXT,
     username TEXT,
-    subscription TEXT
+    subscription TEXT,
+    theme TEXT,
+    mode TEXT
     `,
 };
 
@@ -37,6 +58,8 @@ type Props = {
   email: string;
   username: string;
   subscription: "guest" | "free" | "pawmium";
+  theme: string;
+  mode: string;
 };
 
 const ToProps = (values: any): Props => {
@@ -44,7 +67,9 @@ const ToProps = (values: any): Props => {
     uid: values.uid,
     email: values.email,
     username: values.username,
-    subscription: values.subscription
+    subscription: values.subscription,
+    theme: values.theme,
+    mode: values.mode
   }
 }
 

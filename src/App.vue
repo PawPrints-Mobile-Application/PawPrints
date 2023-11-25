@@ -1,6 +1,6 @@
 <template>
   <ion-app>
-    <ion-router-outlet></ion-router-outlet>
+    <ion-router-outlet />
     <ToastNetwork />
   </ion-app>
 </template>
@@ -9,7 +9,7 @@
 import { IonApp, IonRouterOutlet } from "@ionic/vue";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { onBeforeMount, onMounted } from "vue";
-import {ToastNetwork} from "./components/Toasts";
+import { ToastNetwork } from "./components/Toasts";
 
 onBeforeMount(() => {
   sessionStorage.setItem("appInitialized", "false");
@@ -31,7 +31,4 @@ export default {
 </script>
 
 <style scoped>
-ion-toast.toast-connectivity {
-  --background: var(--ion-color-danger);
-}
 </style>

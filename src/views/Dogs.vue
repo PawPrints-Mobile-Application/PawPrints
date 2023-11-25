@@ -5,8 +5,7 @@
     </template>
     <section class="search-box">
       <IonIcon :icon="icon" />
-      <InputDynamic v-model="search" @input="Reload" >
-      </InputDynamic>
+      <InputDynamic v-model="search" @input="Reload" />
     </section>
     <section v-show="!!dogs" class="collection card-collection">
       <CardDog
