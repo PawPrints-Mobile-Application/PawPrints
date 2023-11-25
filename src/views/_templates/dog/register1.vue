@@ -19,6 +19,7 @@
     :options="constants.breeds"
     placeholder="Choose a breed"
     @state-expanded="(value) => emit('state-expanded', value)"
+    :count="12"
   />
   <InputDynamicWrapped
     type="color"
@@ -31,6 +32,7 @@
 <script setup lang="ts">
 import { InputDynamicWrapped, InputDropdown } from "../../../components/Forms";
 import { computed, watch } from "vue";
+import { Breeds } from "../../../utils";
 
 const props = defineProps({
   name: String,
@@ -84,7 +86,7 @@ const emit = defineEmits([
   "state-expanded",
 ]);
 const constants = {
-  breeds: ["1", "2"],
+  breeds: Breeds
 };
 
 const isEmpty = () =>

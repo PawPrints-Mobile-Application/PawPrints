@@ -16,6 +16,8 @@ import SampleColors from "./SampleColors";
 import CustomEvent from "./CustomEvent";
 import GetUID from "./GetUID";
 
+import Breeds from "./Breeds";
+
 export {
   RouteInfo,
   EnumConstructor,
@@ -33,5 +35,6 @@ export {
   SampleColors,
 
   CustomEvent,
-  GetUID
+  GetUID,
+  Breeds
 }
