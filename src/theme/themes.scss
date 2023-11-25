@@ -20,37 +20,101 @@ $theme-selected: (
 // themes: yellow, blue, pink
 $theme-yellow-light: (
   // General Styles
-  "color-primary": #fefefe,
-  "color-secondary": #e3f6f5,
-  "color-secondary-dark": #e3f6f5,
-  "color-tertiary": #ffd803,
-  "color-quadratic": #272343,
+  "color-primary": #FFFFFF, // primary bg
+  "color-secondary": #E3F6F5, // input text area
+  "color-secondary-dark": #BAE8E8, // search bar, write
+  "color-tertiary": #FFD803, //button or theme name
+  "color-quadratic": #000000, // dates choices, buttons in input text
 
-  "button-text": #fefefe,
-  "button-normal": #ffd803, // same as tertiary
-  "button-warning": #eb445a,
-  "button-success": #2dd36f,
-  "button-icon": #ffd803,
+  "button-text": #FFFFFF, // for color-tertiary
+  "button-normal": #FFD803, // same as tertiary
+  "button-warning": #EB445A, // clear/delete button
+  "button-success": #2DD36F, //sign up,get started,save
+  "button-icon": #FFD803, // forums button in home
 
-  "text": #1c1c1c
+  "card-text": #000000,
+  "card-background": #BAE8E8,
+  "card-highlight-background": #FFD803,
+  "card-highlight-text": #000000,
+  "trivia-background": #272343,
+  "trivia-text": #FFFFFF,
+
+  "text": #000000
+);
+
+// // themes: yellow, blue, pink
+// $theme-yellow-dark: (
+//   // General Styles
+//   "color-primary": #202020, // primary bg
+//   "color-secondary": #EEF7FF, // input text area
+//   "color-secondary-dark": #C4CEDF, // search bar, write
+//   "color-tertiary": #EC9CAF, //button or theme name
+//   "color-quadratic": #33272A, // dates choices, buttons in input text area
+
+//   "button-text": #FFFFFF, // for color-tertiary
+//   "button-normal": #EC9CAF, // same as tertiary
+//   "button-warning": #EC9CAF, // clear/delete/close button
+//   "button-success": #AFE194, //sign up,get started,save
+//   "button-icon": #EC9CAF, // forums button in home
+
+//   "card-text": #33272A,
+//   "card-background": #EEF7FF,
+//   "card-highlight-background": #FFF9C4,
+//   "card-highlight-text": #33272A,
+//   "trivia-background": #C7EAB4,
+//   "trivia-text": #33272A,
+
+//   "text": #33272A 
+// );
+
+// themes: yellow, blue, pink
+$theme-pink-light: (
+  // General Styles
+  "color-primary": #FFFFFF, // primary bg
+  "color-secondary": #EEF7FF, // input text area
+  "color-secondary-dark": #C4CEDF, // search bar, write
+  "color-tertiary": #EC9CAF, //button or theme name
+  "color-quadratic": #33272A, // dates choices, buttons in input text area
+
+  "button-text": #FFFFFF, // for color-tertiary
+  "button-normal": #EC9CAF, // same as tertiary
+  "button-warning": #EC9CAF, // clear/delete/close button
+  "button-success": #AFE194, //sign up,get started,save
+  "button-icon": #EC9CAF, // forums button in home
+
+  "card-text": #33272A,
+  "card-background": #EEF7FF,
+  "card-highlight-background": #FFF9C4,
+  "card-highlight-text": #33272A,
+  "trivia-background": #C7EAB4,
+  "trivia-text": #33272A,
+
+  "text": #33272A   
 );
 
 // themes: yellow, blue, pink
-$theme-yellow-dark: (
-  // General Styles
-  "color-primary": #fefefe,
-  "color-secondary": #e3f6f5,
-  "color-secondary-dark": #e3f6f5,
-  "color-tertiary": #ffd803,
-  "color-quadratic": #272343,
-
-  "button-text": #fefefe,
-  "button-normal": #ffd803, // same as tertiary
-  "button-warning": #eb445a,
-  "button-success": #2dd36f,
-  "button-icon": #ffd803,
-
-  "text": #1c1c1c
+$theme-blue-light: (
+    // General Styles
+    "color-primary": #DBEBF5, // primary bg
+    "color-secondary": #7FA4BF, // input text area 
+    "color-secondary-dark": #7FA4BF, // search bar, write
+    "color-tertiary": #0D3B5C, //button, dday or theme name 
+    "color-quadratic": #1E5074, // dates choices
+  
+    "button-text": #FFFFFE, // for color-tertiary
+    "button-normal": #0D3B5C, // same as tertiary
+    "button-warning": #0D3B5C, // clear/delete/close button
+    "button-success": #F5D473, //sign up,get started,save
+    "button-icon": #F5D473, // forums button in home
+  
+    "card-text": #000000,
+    "card-background": #7FA4BF,
+    "card-highlight-background": #D9E4EC,
+    "card-highlight-text": #000000,
+    "trivia-background": #1E5074,
+    "trivia-text": #FFFFFF,
+  
+    "text": #000000  
 );
 
 @mixin theme-color($theme, $mode) {
@@ -63,10 +127,20 @@ $theme-yellow-dark: (
         $theme-selected: $theme-yellow-dark;
     }
   }
-  @else if $theme == "yellow" { // blue
-    
+  @else if $theme == "blue" { // blue
+    @if $mode == "light" {
+      $theme-selected: $theme-blue-light;
+    }
+    @else {
+        $theme-selected: $theme-blue-dark;
+    }    
   }
-  @else if $theme == "yellow" { // pink
-    
+  @else if $theme == "pink" { // pink
+    @if $mode == "light" {
+      $theme-selected: $theme-pink-light;
+    }
+    @else {
+        $theme-selected: $theme-blue-dark;
+    }   
   }
 }
