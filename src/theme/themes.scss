@@ -140,7 +140,7 @@ $theme-blue-light: (
       $theme-selected: $theme-pink-light;
     }
     @else {
-        $theme-selected: $theme-blue-dark;
+        $theme-selected: $theme-pink-dark;
     }   
   }
 }

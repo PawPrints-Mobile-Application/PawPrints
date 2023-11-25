@@ -36,7 +36,7 @@ const GetAvatar = () => {
 
 <style scoped>
 .avatar {
-  --image-scale: 120%;
+  --image-scale: 100%;
   width: var(--size);
   height: var(--size);
   aspect-ratio: 1;
