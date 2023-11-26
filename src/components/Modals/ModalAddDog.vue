@@ -7,7 +7,7 @@
     @clear="ClearForm"
     @discard="Discard"
     close-on-submit
-    :can-discard="!isOpen"
+    :canDismiss="!isOpen"
   >
     <Avatar
       type="dog"

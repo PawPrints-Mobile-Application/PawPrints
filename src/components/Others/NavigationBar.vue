@@ -172,6 +172,7 @@ const Navigate = (
   z-index: 2;
   overflow: hidden;
   transition: all 200ms ease-out;
+  opacity: 1;
 
   .icon {
     display: flex;
