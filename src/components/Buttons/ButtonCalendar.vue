@@ -6,7 +6,7 @@
       v-for="key in GetLocation()"
       class="dot"
       :style="{
-        transform: modelValue
+        transform: state
           ? `translate(${key.x}px, ${key.y}px)`
           : 'translate(0,-8px)',
       }"
@@ -14,8 +14,19 @@
   </button>
 </template>
 <script setup lang="ts">
+import { ref, computed } from "vue";
 const props = defineProps({
   modelValue: Boolean,
+});
+
+const _state = ref(false);
+const state = computed({
+  get() {
+    return !props.modelValue ? _state.value : props.modelValue;
+  },
+  set(value) {
+    _state.value = value;
+  },
 });
 
 const GetLocation = () => {
@@ -30,10 +41,10 @@ const GetLocation = () => {
 };
 
 const Click = () => {
-  const temp = !props.modelValue;
-  emit("click", temp);
-  emit("update:modelValue", temp);
-  if (temp) emit("expand");
+  state.value = !state.value;
+  emit("click", state.value);
+  emit("update:modelValue", state.value);
+  if (state.value) emit("expand");
   else emit("collapse");
 };
 
@@ -41,26 +52,24 @@ const emit = defineEmits(["update:modelValue", "expand", "collapse", "click"]);
 </script>
 <style scoped>
 .button-calendar {
-  --color: var(--ion-color-black);
-  --background-color: var(--ion-color-secondary);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 30px;
-
+  
   > .background {
     border-radius: 5px;
     width: 30px;
     aspect-ratio: 1;
-    background-color: var(--color);
+    background-color: var(--theme-tertiary);
   }
 
   > .line {
     position: absolute;
     width: 30px;
     height: 3px;
-    background-color: var(--background-color);
+    background-color: var(--theme-secondary);
     transform: translateY(-8px);
   }
 
@@ -68,7 +77,7 @@ const emit = defineEmits(["update:modelValue", "expand", "collapse", "click"]);
     position: absolute;
     width: 3px;
     aspect-ratio: 1;
-    background-color: var(--background-color);
+    background-color: var(--theme-secondary);
     transition: all 200ms ease-out;
   }
 }

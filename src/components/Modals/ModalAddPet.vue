@@ -12,7 +12,7 @@
     close-on-submit
     :can-dismiss="canDismiss"
   >
-    <template #button><ButtonAddPet /></template>
+    <template #button><ButtonAddDog /></template>
 
     <Avatar type="dog" :src="form.breed" />
     <register1
@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { ButtonModal, ButtonAddPet } from "../Buttons";
+import { ButtonModal, ButtonAddDog } from "../Buttons";
 
 import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";

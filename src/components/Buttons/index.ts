@@ -1,16 +1,16 @@
 import ButtonRippled from "./ButtonRippled.vue";
 
 import ButtonText from "./ButtonText.vue";
-import ButtonAuth from "./ButtonAuth.vue";
+import ButtonGuest from "./ButtonGuest.vue";
+import ButtonSubmit from "./ButtonSubmit.vue";
+import ButtonClear from "./ButtonClear.vue";
+import ButtonSignOut from "./ButtonSignOut.vue";
 
 import ButtonIcon from "./ButtonIcon.vue";
 import ButtonBack from "./ButtonBack.vue";
 import ButtonNext from "./ButtonNext.vue";
 
-import ButtonSubmit from "./ButtonSubmit.vue";
-import ButtonClear from "./ButtonClear.vue";
-
-import ButtonAddPet from "./ButtonAddPet.vue";
+import ButtonAddDog from "./ButtonAddDog.vue";
 import ButtonAddLog from "./ButtonAddLog.vue";
 
 import ButtonPopup from "./ButtonPopup.vue";
@@ -18,33 +18,25 @@ import ButtonPopup from "./ButtonPopup.vue";
 import ButtonModal from "./ButtonModal.vue";
 
 import ButtonCalendar from "./ButtonCalendar.vue";
+import ButtonDropdown from "./ButtonDropdown.vue";
 import ButtonShow from "./ButtonShow.vue";
 
 import ButtonToggleThemeLightAndDark from "./ButtonToggleThemeLightAndDark.vue";
-
-
-import ButtonSignOut from "./ButtonSignOut.vue";
-import GoogleButton from "./GoogleButton.vue";
-import GuestButton from "./GuestButton.vue";
-import SearchButton from "./SearchButton.vue";
-import TextButton from "./TextButton.vue";
-import ButtonExpand from "./ButtonExpand.vue";
-import ButtonSearch from "./ButtonSearch.vue";
 
 export {
   ButtonRippled,
   
   ButtonText,
-  ButtonAuth,
+  ButtonGuest,
+  ButtonSubmit,
+  ButtonClear,
+  ButtonSignOut,
 
   ButtonIcon,
   ButtonBack,
   ButtonNext,
-
-  ButtonSubmit,
-  ButtonClear,
   
-  ButtonAddPet,
+  ButtonAddDog,
   ButtonAddLog,
 
   ButtonPopup,
@@ -52,16 +44,10 @@ export {
   ButtonModal,
 
   ButtonCalendar,
+  ButtonDropdown,
   ButtonShow,
 
   ButtonToggleThemeLightAndDark,
 
 
-  ButtonSignOut,
-  GoogleButton,
-  GuestButton,
-  SearchButton,
-  TextButton,
-  ButtonExpand,
-  ButtonSearch
 };

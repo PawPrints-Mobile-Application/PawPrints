@@ -23,7 +23,7 @@ const SignOut = () =>
 </script>
 <style scoped>
 .button-signout {
-  color: var(--ion-color-primary);
-  background-color: var(--ion-color-danger);
+  color: var(--theme-button-text);
+  background-color: var(--theme-button-warning);
 }
 </style>

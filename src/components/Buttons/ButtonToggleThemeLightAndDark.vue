@@ -7,7 +7,7 @@
     @click="Click"
   >
     <div
-    :class="[options[selected].name]"
+      :class="[options[selected].name]"
       class="button"
       :style="{
         color: options[selected].color,
@@ -22,6 +22,7 @@
 import { ref } from "vue";
 import { IonIcon } from "@ionic/vue";
 import { sunny as light, moon as dark } from "ionicons/icons";
+import SetRootStyle from "../../utils/SetRootStyle";
 
 const options = [
   {
@@ -46,6 +47,8 @@ const selected = ref(0);
 
 const Click = () => {
   selected.value = ++selected.value % options.length;
+  if (selected.value === 0) SetRootStyle("yellow");
+  else SetRootStyle("blue");
 };
 </script>
 <style scoped>
@@ -62,7 +65,7 @@ const Click = () => {
 }
 
 .button {
-    position: relative;
+  position: relative;
   transition: all 300ms ease-out;
   outline: 2px solid black;
   height: 30px;

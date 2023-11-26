@@ -24,6 +24,7 @@ import "@ionic/vue/css/display.css";
 import "./theme/variables.css";
 import "./theme/fonts.css";
 import "./theme/customs.css";
+import "./theme/themes.css";
 // import "./theme/forms.css";
 
 import { Capacitor } from "@capacitor/core";

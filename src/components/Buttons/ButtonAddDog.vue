@@ -4,16 +4,16 @@
       <IonIcon :icon="backIcon" />
       <IonIcon :icon="frontIcon" />
     </div>
-    <TextSmall>Add Log</TextSmall>
+    <TextSmall>Add Dog</TextSmall>
   </ButtonRippled>
 </template>
 <script setup lang="ts">
-import { add as frontIcon, document as backIcon } from "ionicons/icons";
+import { add as frontIcon, paw as backIcon } from "ionicons/icons";
 import { ButtonRippled } from ".";
 import { IonIcon } from "@ionic/vue";
 import { TextSmall } from "../Texts";
 import { CustomEvent } from "../../utils";
-const EventDispatch = () => CustomEvent.EventDispatcher("add", "log");
+const EventDispatch = () => CustomEvent.EventDispatcher("add", "dog");
 </script>
 <style scoped>
 .button-add-log {
@@ -32,25 +32,25 @@ const EventDispatch = () => CustomEvent.EventDispatcher("add", "log");
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 30px;
+  height: 35px;
 }
 
 ion-icon:nth-child(1) {
-  font-size: 30px;
+  font-size: 35px;
   color: var(--theme-primary);
 }
 
 ion-icon:nth-child(2) {
-  font-size: 20px;
+  font-size: 18px;
   position: absolute;
-  transform: translateY(4px);
+  transform: translateY(6px);
   color: var(--theme-tertiary);
 }
 
 .text-small {
   position: relative;
   color: var(--theme-primary);
-  transform: translateY(-5px);
+  transform: translateY(-7px);
   font-weight: bold;
 }
 </style>

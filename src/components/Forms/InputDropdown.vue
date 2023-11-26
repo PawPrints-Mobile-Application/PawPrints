@@ -13,7 +13,7 @@
       "
       :hideIcon="hideIcon"
     >
-      <ButtonExpand
+      <ButtonDropdown
         v-model:expand="state"
         @click="emit('state-expanded', state)"
       />
@@ -37,7 +37,7 @@
 </template>
 <script setup lang="ts">
 import { InputSelect, InputLabel, InputDynamic } from ".";
-import { ButtonExpand } from "../Buttons";
+import { ButtonDropdown } from "../Buttons";
 import { ref, computed } from "vue";
 import { Popup } from "../Popup";
 

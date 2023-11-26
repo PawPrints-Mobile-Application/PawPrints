@@ -7,7 +7,7 @@ import {
     DeleteRowData,
   } from "../sqlite";
   import { SetDocument, GetDocument, GetCollection } from "../firebase";
-  import ObjectToMap from "../../utils/ObectToMap";
+  import ObjectToMap from "../../utils/ObjectToMap";
   import { Timestamp } from "firebase/firestore";
   import { SeedGenerator, StringToArray } from "../../utils/";
   

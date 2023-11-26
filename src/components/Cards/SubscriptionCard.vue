@@ -13,7 +13,7 @@
         </ul>
       </div>
     </div>
-    <TextButton
+    <ButtonText
       v-show="!hideButton || !buttonText"
       :label="buttonText!"
       :disabled="!!disableButton"
@@ -21,7 +21,7 @@
   </section>
 </template>
 <script setup lang="ts">
-import { TextButton } from "../Buttons";
+import { ButtonText } from "../Buttons";
 
 defineProps({
   icon: String,

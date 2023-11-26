@@ -4,6 +4,7 @@ import * as Hash from "./Hash";
 import SeedGenerator from "./SeedGenerator";
 import Age from "./Age";
 import StringToArray from "./StringToArray";
+import ObjectToMap from "./ObjectToMap";
 
 import HelperConstructor from "./HelperConstructor";
 import InputValidator from "./InputValidator";
@@ -23,6 +24,7 @@ export {
   SeedGenerator,
   Age,
   StringToArray,
+  ObjectToMap,
 
   HelperConstructor,
   InputValidator,

@@ -15,7 +15,7 @@
     :canDismiss="true"
     :noHeaderAnimation="true"
   >
-    <template #button><ButtonAuth label="Sign Up" /></template>
+    <template #button><ButtonText label="Sign Up" /></template>
 
     <section class="state-indicator" v-show="hideForm">
       <div class="media">
@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { ButtonModal, ButtonAuth } from "../Buttons";
+import { ButtonModal, ButtonText } from "../Buttons";
 import { InputDynamicWrapped, InputToggle } from "../Forms";
 import { NoteWarning, TextSubheading } from "../Texts";
 

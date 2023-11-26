@@ -1,5 +1,5 @@
 <template>
-  <section class="button-expand" :class="{ expand: expand }" @click="Click">
+  <section class="button-dropdown" :class="{ expand: state }" @click="Click">
     <ion-icon id="icon-up" :icon="chevronUp" />
     <ion-icon id="icon-down" :icon="chevronDown" />
   </section>
@@ -7,27 +7,38 @@
 <script setup lang="ts">
 import { chevronUp, chevronDown } from "ionicons/icons";
 import { IonIcon } from "@ionic/vue";
-
+import { ref, computed } from "vue";
 const props = defineProps({
-  expand: Boolean,
+  modelValue: Boolean,
+});
+
+const _state = ref(false);
+const state = computed({
+  get() {
+    return !props.modelValue ? _state.value : props.modelValue;
+  },
+  set(value) {
+    _state.value = value;
+  },
 });
 
 const Click = () => {
-  const temp = !props.expand;
-  emit("update:expand", temp);
-  emit("click", temp);
-  if (temp) emit("expand");
+  state.value = !state.value;
+  emit("click", state.value);
+  emit("update:modelValue", state.value);
+  if (state.value) emit("expand");
   else emit("collapse");
 };
 
-const emit = defineEmits(["update:expand", "click", "expand", "collapse"]);
+const emit = defineEmits(["update:modelValue", "click", "expand", "collapse"]);
 </script>
 <style scoped>
-.button-expand {
+.button-dropdown {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: var(--theme-tertiary);
   height: 30px;
   --translateYUp: -8px;
   --translateYDown: 8px;

@@ -15,7 +15,7 @@
     :canDismiss="true"
     :noHeaderAnimation="true"
   >
-    <template #button><ButtonAuth label="Sign In" /></template>
+    <template #button><ButtonText label="Sign In" /></template>
 
     <section class="state-indicator">
       <NoteWarning v-show="noteWarning !== '' && !hideForm">
@@ -48,7 +48,7 @@
   </ButtonModal>
 </template>
 <script setup lang="ts">
-import { ButtonModal, ButtonAuth } from "../Buttons";
+import { ButtonModal, ButtonText } from "../Buttons";
 import { InputDynamicWrapped } from "../Forms";
 import { NoteWarning, TextSubheading } from "../Texts";
 

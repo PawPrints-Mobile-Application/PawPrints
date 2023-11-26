@@ -47,8 +47,8 @@ const emit = defineEmits(["mousehold"]);
   border-radius: 10px;
   font-size: var(--size);
   font-weight: 400;
-  background-color: var(--ion-color-primary);
-  color: var(--ion-color-black);
+  background-color: var(--theme-primary);
+  color: var(--theme-tertiary);
 
   transition: all 150ms ease-out;
 }

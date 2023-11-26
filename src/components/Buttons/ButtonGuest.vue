@@ -1,8 +1,8 @@
 <template>
-  <ButtonAuth class="button-guest" label="Guest" @click="GuestSignIn" />
+  <ButtonText class="button-guest" label="Guest" @click="GuestSignIn" />
 </template>
 <script setup lang="ts">
-import { ButtonAuth } from ".";
+import { ButtonText } from ".";
 import {
   DatabaseInitialization,
   WindowDatabaseInitialization,

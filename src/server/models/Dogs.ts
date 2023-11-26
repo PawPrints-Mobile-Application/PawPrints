@@ -12,7 +12,7 @@ import {
   GetCollection,
   DeleteDocument,
 } from "../firebase";
-import ObjectToMap from "../../utils/ObectToMap";
+import ObjectToMap from "../../utils/ObjectToMap";
 import { EnumConstructor, StringToArray } from "../../utils";
 import { DocumentData } from "firebase/firestore";
 
