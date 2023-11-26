@@ -39,7 +39,7 @@ const emit = defineEmits(["mousehold"]);
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  /* overflow: hidden; */
   position: relative;
 
   padding: 3px;

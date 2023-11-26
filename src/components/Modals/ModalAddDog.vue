@@ -5,28 +5,41 @@
     title="Doggo Profile"
     @submit="Submit"
     @clear="ClearForm"
-    @dismiss="Dismiss"
-    :max="pages.length"
-    v-model:page="page"
-    :disable-next="disabler[page - 1]"
+    @discard="Discard"
     close-on-submit
-    :can-dismiss="canDismiss"
+    :can-discard="!isOpen"
   >
-    <Avatar type="dog" :src="form.breed" :style="{backgroundColor: form.color}"/>
-    <register1
-      v-if="page === 1"
-      @empty="(value) => (disabler[0] = value)"
-      v-model:name="form.name"
-      v-model:birthday="form.birthday"
-      v-model:breed="form.breed"
-      v-model:color="form.color"
-      @state-expanded="(value) => SetDismiss(!value)" />
-    <register2
-      v-else-if="page === 2"
-      @empty="(value) => (disabler[1] = value)"
-      v-model:inoutdoors="form.inoutdoors"
-      v-model:fixing="form.fixing"
-  /></LayoutModal>
+    <Avatar
+      type="dog"
+      :src="form.breed"
+      :style="{ backgroundColor: form.color }"
+    />
+    <InputDynamicWrapped
+      type="text"
+      v-model="form.name"
+      placeholder="Doggo Name"
+      label="Doggo Name"
+    />
+    <InputDynamicWrapped
+      type="date"
+      v-model="form.birthday"
+      label="Birthday"
+      hide-input
+      disable-future
+    />
+    <InputDropdown
+      v-model="form.breed"
+      label="Doggo Breed"
+      :options="constants.breeds"
+      placeholder="Choose a breed"
+    />
+    <InputDynamicWrapped
+      type="color"
+      v-model="form.color"
+      placeholder="Colour"
+      label="Colour"
+    />
+  </LayoutModal>
 </template>
 
 <script setup lang="ts">
@@ -36,15 +49,9 @@ import { LayoutModal } from "../../layout";
 import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
 import { SeedGenerator, GetUID } from "../../utils";
-import { register1, register2 } from "../../views/_templates";
-
-const canDismiss = ref(true);
-const SetDismiss = (value: boolean) => {
-  if (value) {
-    setTimeout(() => {
-      canDismiss.value = value;
-    }, 10);
-  } else canDismiss.value = value;
+import { InputDynamicWrapped, InputDropdown } from "../Forms";
+const constants = {
+  breeds: ["1", "2"],
 };
 
 const form = reactive({
@@ -56,18 +63,15 @@ const form = reactive({
   fixing: "",
 });
 
-const pages = [register1, register2];
-const page = ref(1);
-const disabler = ref([true, true]);
-
-const Dismiss = () => {
-  emit("dismiss");
+const disabled = ref(true);
+const Discard = () => {
+  emit("discard");
   ClearForm();
 };
 
 const ClearForm = () => {
   console.log("Clearing...");
-  disabler.value = [true, true];
+  disabled.value = true;
   form.name = "";
   form.birthday = "";
   form.breed = "";
@@ -92,9 +96,8 @@ const Submit = () => {
     },
     GetUID()
   ).then(() => {
-    canDismiss.value = true;
     emit("submit", pid);
-    Dismiss();
+    Discard();
   });
 };
 
@@ -105,7 +108,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(["submit", "dismiss"]);
+const emit = defineEmits(["submit", "discard"]);
 </script>
 
 <style scoped>

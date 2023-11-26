@@ -11,14 +11,12 @@
     label="Birthday"
     hide-input
     disable-future
-    @state-expanded="(value) => emit('state-expanded', value)"
   />
   <InputDropdown
     v-model="breed"
     label="Doggo Breed"
     :options="constants.breeds"
     placeholder="Choose a breed"
-    @state-expanded="(value) => emit('state-expanded', value)"
   />
   <InputDynamicWrapped
     type="color"

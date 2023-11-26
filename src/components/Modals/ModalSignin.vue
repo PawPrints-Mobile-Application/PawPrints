@@ -23,7 +23,7 @@
       </NoteWarning>
       <div class="media">
         <IonSpinner name="crescent" v-show="hideForm" />
-        <img :src="PawPrints" />
+        <Logo />
       </div>
       <TextSubheading v-show="hideForm">{{ processState }}</TextSubheading>
     </section>
@@ -60,7 +60,7 @@ import {
 
 import { computed, reactive, ref } from "vue";
 import { useIonRouter, IonSpinner } from "@ionic/vue";
-import { PawPrints } from "../../assets/images";
+import { Logo } from "../Logo";
 
 const modal = ref();
 
@@ -177,6 +177,11 @@ export default {
   gap: 30px;
   transition: all 200ms ease-out;
   overflow: hidden;
+}
+
+.button-text {
+  width: 200px;
+  height: 50px;
 }
 
 .form.hide {

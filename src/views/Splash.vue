@@ -11,7 +11,7 @@
       class="backdrop"
       :class="{ 'background-grow': state.backgroundGrow }"
     />
-    <ImgLogo
+    <Logo
       :class="{
         'show-thumbnail': state.thumbnail,
         'logo-out': state.logoOut,
@@ -19,18 +19,19 @@
     />
     <section class="main-content" :class="{ 'show-auth': state.showAuth }">
       <TextTitle>PawPrints</TextTitle>
-      <ButtonAuth label="Guest" />
-      <ButtonAuth label="Sign In" />
-      <ButtonAuth label="Sign Up" />
+      <TextSubheading>Your Ultimate Canine<br/>Companion Care App</TextSubheading>
+      <ButtonText label="Guest" />
+      <ButtonText label="Sign In" />
+      <ButtonText label="Sign Up" />
     </section>
   </LayoutPage>
 </template>
 
 <script setup lang="ts">
 import { LayoutPage } from "../layout";
-import { ImgLogo } from "../components/Logo";
-import { ButtonAuth } from "../components/Buttons";
-import { TextTitle } from "../components/Texts";
+import { Logo } from "../components/Logo";
+import { ButtonText } from "../components/Buttons";
+import { TextTitle, TextSubheading } from "../components/Texts";
 
 import auth from "../server/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -100,7 +101,7 @@ export default {
   --background-color: var(--ion-color-tertiary);
 }
 
-.img-logo {
+.logo {
   position: relative;
   --size: 10px;
   opacity: 0;
@@ -108,7 +109,7 @@ export default {
     transform 300ms ease-out;
 }
 
-.img-logo.show-thumbnail {
+.logo.show-thumbnail {
   --size: 200px;
   opacity: 1 !important;
 }
@@ -145,7 +146,7 @@ export default {
   opacity: 1;
 }
 
-.img-logo.logo-out {
+.logo.logo-out {
   transform: translateY(-500px);
 }
 
@@ -156,13 +157,23 @@ export default {
   justify-content: center;
   align-items: center;
   flex-flow: column nowrap;
-  gap: 20px;
+  gap: 10px;
   transition: all 300ms ease-out;
   overflow: hidden;
 }
 
 .main-content.show-auth {
   opacity: 1;
-  height: 250px;
+  height: 270px;
+}
+
+.text-subheading {
+  font-weight: 400;
+  text-align: center;
+}
+
+.button-text {
+  width: 200px;
+  height: 50px;
 }
 </style>

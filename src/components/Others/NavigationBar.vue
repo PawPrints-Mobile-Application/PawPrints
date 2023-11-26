@@ -1,18 +1,23 @@
 <template>
   <section class="navigation-bar">
     <ButtonRippled
-      class="dogs"
-      :id="isTab('/dogs') ? 'add-dog-main' : 'tab-dogs'"
-      :class="{
-        clicked: state.dogs,
-        selected: isOnTab('dogs'),
-        zoom: isTab('/dogs'),
-      }"
+      :class="[
+        {
+          clicked: state.dogs,
+          selected: isOnTab('dogs'),
+          zoom: isTab('/dogs'),
+        },
+        GetMiddleButton().class,
+        'button-middle',
+      ]"
       @click="clickMiddle"
       @mousehold="console.log(true)"
     >
-      <ion-icon :icon="isTab('/dogs') ? dogsActive : dogsDefault" />
-      <TextSmall>{{ state.dogs ? "" : "Dogs" }}</TextSmall>
+      <section class="icon">
+        <ion-icon :icon="GetMiddleButton().iconBack" />
+        <ion-icon v-show="GetMiddleButton().class !== 'dogs'" :icon="addIcon" />
+      </section>
+      <TextSmall>{{ GetMiddleButton().label }}</TextSmall>
     </ButtonRippled>
 
     <ButtonIcon
@@ -45,18 +50,15 @@
       label="Settings"
     />
   </section>
-  <ModalAddDog
-    :isOpen="isOpen"
-    @dismiss="OnModalDismiss"
-    @submit="(pid) => OnAddDogSuccess(pid)"
-  />
 </template>
 <script setup lang="ts">
 import {
+  pawOutline as dogsDefault,
+  add as addIcon,
+  paw as pawIcon,
+  document as documentIcon,
   albumsOutline as homeDefault,
   albums as homeActive,
-  pawOutline as dogsDefault,
-  add as dogsActive,
   bulbOutline as forumsDefault,
   bulb as forumsActive,
   mapOutline as mapsDefault,
@@ -65,10 +67,9 @@ import {
   settings as settingsActive,
 } from "ionicons/icons";
 import { CustomEvent } from "../../utils";
-import { ModalAddDog } from "../Modals";
 import { ButtonIcon, ButtonRippled } from "../Buttons";
 import { TextSmall } from "../Texts";
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useIonRouter, useBackButton, IonIcon } from "@ionic/vue";
 import { App } from "@capacitor/app";
@@ -78,13 +79,28 @@ useBackButton(-1, () => {
   }
 });
 
-const OnModalDismiss = () => (isOpen.value = false);
-const OnAddDogSuccess = (pid: string) => {
-  CustomEvent.EventDispatcher("reload", "dogs");
-  ionRouter.navigate(`/dogs/${pid}/profile`, "forward", "push");
-};
+const options = [
+  {
+    class: "dogs",
+    label: "Dogs",
+    iconBack: dogsDefault,
+  },
+  {
+    class: "add-dog",
+    label: "Add Dog",
+    iconBack: pawIcon,
+  },
+  {
+    class: "add-log",
+    label: "Add Log",
+    iconBack: documentIcon,
+  },
+];
 
-const isOpen = ref(false);
+const GetMiddleButton = () => {
+  const selected = isOnTab("/dogs") ? (isTab("/dogs") ? 1 : 2) : 0;
+  return options[selected];
+};
 
 const ionRouter = useIonRouter();
 const router = useRouter();
@@ -115,7 +131,7 @@ const clickMiddle = () => {
         setTimeout(() => (state.navigating = false), 150);
       }, 150);
     }, 250);
-  } else isOpen.value = true;
+  } else CustomEvent.EventDispatcher("modal-open");
 };
 
 const Navigate = (
@@ -140,9 +156,9 @@ const Navigate = (
   border-top: 2px solid var(--ion-color-white-shade);
 }
 
-.dogs {
+.button-middle {
   --button-size: 60px;
-  --size: 30px;
+  --size: 40px;
   width: var(--button-size);
   height: var(--button-size);
   display: flex;
@@ -150,17 +166,68 @@ const Navigate = (
   position: absolute;
   border-radius: 100%;
   transform: translate(0px, -7px);
+  outline: 2px solid var(--theme-black);
+  background-color: var(--theme-tertiary);
+  color: var(--theme-primary);
   z-index: 2;
-  outline: 2px solid var(--ion-color-black);
-  color: var(--ion-color-primary);
-  background-color: var(--ion-color-tertiary);
+  overflow: hidden;
+  transition: all 200ms ease-out;
 
-  &.zoom {
-    --size: 40px;
+  .icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: var(--size);
 
-    > .text-small {
-      transform: translateY(-5px);
+    > ion-icon:nth-child(1) {
+      font-size: var(--size);
+      color: var(--theme-primary);
     }
+
+    > ion-icon:nth-child(2) {
+      font-size: 18px;
+      position: absolute;
+      color: var(--theme-tertiary);
+    }
+  }
+
+  .text-small {
+    position: relative;
+    color: var(--theme-primary);
+    transform: translateY(-2px);
+  }
+}
+
+.add-dog {
+  --size: 40px;
+  .icon {
+    height: var(--size);
+    transform: translateY(-5px);
+
+    > ion-icon:nth-child(2) {
+      transform: translateY(5px);
+    }
+  }
+
+  .text-small {
+    transform: translateY(-9px);
+  }
+}
+
+.add-log {
+  --size: 35px;
+  .icon {
+    height: var(--size);
+    transform: translateY(-7px);
+
+    > ion-icon:nth-child(2) {
+      transform: translateY(5px);
+    }
+  }
+
+  .text-small {
+    transform: translateY(-7px);
   }
 }
 

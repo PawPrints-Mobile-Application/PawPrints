@@ -13,12 +13,9 @@
       "
       :hideIcon="hideIcon"
     >
-      <ButtonDropdown
-        v-model:expand="state"
-        @click="emit('state-expanded', state)"
-      />
+      <ButtonDropdown v-model="state" />
     </InputDynamic>
-    <Popup v-model="state" @click-backdrop="emit('state-expanded', state)">
+    <Popup v-model="state">
       <template #default="{ Trigger }">
         <InputSelect
           v-model="value"
@@ -76,12 +73,7 @@ const value = computed({
   },
 });
 
-const emit = defineEmits([
-  "update:modelValue",
-  "change",
-  "select",
-  "state-expanded",
-]);
+const emit = defineEmits(["update:modelValue", "change", "select"]);
 </script>
 <style scoped>
 .input-dropdown {

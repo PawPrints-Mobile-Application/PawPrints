@@ -1,19 +1,17 @@
 <template>
-  <ButtonModal
+  <LayoutModal
     ref="modal"
-    :trigger="trigger"
-    title="Logs"
+    :isOpen="isOpen"
+    title="Activity Log"
     @submit="Submit"
     @clear="ClearForm"
-    @dismiss="ClearForm"
+    @dismiss="Dismiss"
     :max="pages.length"
     v-model:page="page"
     :disable-next="disabler[page - 1]"
     close-on-submit
-    justify="flex-start"
+    :can-dismiss="canDismiss"
   >
-    <template #button><ButtonAddLog /></template>
-
     <InputSegment :options="activitySegments" v-model="state.activity" />
     <section class="specifics-wrapper" v-show="isEvent">
       <InputSegmentIcon
@@ -34,122 +32,100 @@
       </div>
     </section>
 
-    <InputDynamicWrapped type="text" :label="`${state.activity} Title`" v-model:value="form.title" />
+    <InputDynamicWrapped
+      type="text"
+      :label="`${state.activity} Title`"
+      v-model:value="form.title"
+    />
     <!-- <InputDate label="Start Date" :value="form.DTStart.toLocaleDateString()" @change="(value) => form.DTStart = new Date(value)"/> -->
-    <InputDynamicWrapped type="text" :label="`${state.activity} Details`" v-model:value="form.details" />
-  </ButtonModal>
+    <InputDynamicWrapped
+      type="text"
+      :label="`${state.activity} Details`"
+      v-model:value="form.details"
+    />
+  </LayoutModal>
 </template>
 
 <script setup lang="ts">
-import {
-  bandage as vaccine,
-  eyedrop as medicine,
-  fastFood as food,
-  ellipsisHorizontal as others,
-} from "ionicons/icons";
-import { reactive, ref, computed } from "vue";
-import { ButtonModal, ButtonAddLog } from "../Buttons";
-import { InputSegment, InputSegmentIcon, InputBox, InputDynamicWrapped } from "../Forms";
-import { TextSubheading } from "../Texts/";
+import { reactive, ref } from "vue";
+import { LayoutModal } from "../../layout";
 
-const props = defineProps({
-  trigger: {
-    type: String,
-    required: true,
-  },
-  date: Date,
-});
+import { Add } from "../../server/models/Dogs";
+import { SeedGenerator, GetUID } from "../../utils";
+import { register1, register2 } from "../../views/_templates";
 
-import { SeedGenerator } from "../../utils";
-import { register1 } from "../../views/_templates/index";
-import { register2 } from "../../views/_templates/index";
-import { Add as AddNote } from "../../server/models/Notes";
-import { Add as AddEvent } from "../../server/models/Events";
-import { Get as GetDog, Add as EditDog } from "../../server/models/Dogs";
-
-const activitySegments = ["Note", "Event"];
-
-const eventSegments = [vaccine, medicine, food, others];
-const eventTypes = ["Vaccines", "Medicines", "Foods", "Others"];
-const eventTypeOthers = ref("");
-const EventSegmentToText = (eventSegment: string) =>
-  eventTypes[eventSegments.indexOf(eventSegment)];
-
-const state = reactive({
-  activity: activitySegments[0],
-  event: eventSegments[0],
-});
-const isEvent = computed(() => state.activity === activitySegments[1]);
+const canDismiss = ref(true);
+const SetDismiss = (value: boolean) => {
+  if (value) {
+    setTimeout(() => {
+      canDismiss.value = value;
+    }, 10);
+  } else canDismiss.value = value;
+};
 
 const form = reactive({
-  id: "",
-  title: "",
-  details: "",
-  dogs: [],
-  DTStart: !props.date ? new Date() : props.date,
-  DTEnd: !props.date ? new Date() : props.date,
-  type: "",
+  name: "",
+  birthday: "",
+  breed: "",
+  color: "#FFD80A",
+  inoutdoors: "",
+  fixing: "",
 });
 
 const pages = [register1, register2];
 const page = ref(1);
 const disabler = ref([true, true]);
 
+const Dismiss = () => {
+  emit("dismiss");
+  ClearForm();
+};
+
 const ClearForm = () => {
   console.log("Clearing...");
   disabler.value = [true, true];
+  form.name = "";
+  form.birthday = "";
+  form.breed = "";
+  form.color = "#FFD80A";
+  form.inoutdoors = "";
+  form.fixing = "";
 };
 
 const Submit = () => {
-
+  const pid = SeedGenerator().toString();
+  Add(
+    {
+      pid: pid,
+      name: form.name,
+      birthday: form.birthday,
+      breed: form.breed,
+      color: form.color,
+      inoutdoor: form.inoutdoors,
+      fixing: form.fixing,
+      events: [],
+      notes: [],
+    },
+    GetUID()
+  ).then(() => {
+    canDismiss.value = true;
+    emit("submit", pid);
+    Dismiss();
+  });
 };
-// Add(
-//   {
-//     pid: SeedGenerator().toString(),
-//     name: form.name,
-//     birthday: form.birthday,
-//     breed: form.breed,
-//     color: form.color,
-//     inoutdoor: form.inoutdoors,
-//     fixing: form.fixing,
-//     events: [],
-//     notes: [],
-//   },
-//   localStorage.getItem("authEmail")! === "Guest"
-//     ? undefined
-//     : localStorage.getItem("authID")!
-// ).then(() => emit("submit"));
 
-const emit = defineEmits(["submit"]);
+defineProps({
+  isOpen: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const emit = defineEmits(["submit", "dismiss"]);
 </script>
 
 <style scoped>
-.pet-avatar {
-  --max-size: 100px;
-}
-
-.specifics-wrapper {
-  max-height: 90px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  transition: all 200ms ease-out;
-
-  > div {
-    align-items: center;
-    width: 100%;
-    display: flex;
-    gap: 10px;
-    height: 40px;
-
-    .input-box {
-      --background-color: var(--ion-color-primary-shade);
-    }
-  }
-}
-
-.input-segment {
-  --item-flex: 1 0 0;
+.avatar {
+  --size: 100px;
 }
 </style>

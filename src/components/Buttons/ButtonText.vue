@@ -1,8 +1,13 @@
 <template>
-  <ButtonRippled class="button-text text Rubik paragraph normal">{{ label }}</ButtonRippled>
+  <ButtonRippled class="button-text"
+    ><TextSubheading class="text Rubik subheading normal">{{
+      label
+    }}</TextSubheading></ButtonRippled
+  >
 </template>
 <script setup lang="ts">
 import { ButtonRippled } from ".";
+import { TextSubheading } from "../Texts";
 
 defineProps({
   label: String,
@@ -12,5 +17,11 @@ defineProps({
 .button-text {
   padding: 10px 30px;
   min-width: 130px;
+  background-color: var(--theme-button-normal);
+  color: var(--theme-button-text);
+
+  > .text {
+    color: inherit;
+  }
 }
 </style>

@@ -51,7 +51,19 @@
               id="calendar-mark"
               :icon="calendarMark"
             />
-            <span class="calendar-number">{{ GetCellDate(week, day) }}</span>
+            <span
+              class="calendar-number"
+              :class="{
+                future:
+                  !!props.disableFuture &&
+                  new Date(
+                    calendar.year,
+                    calendar.month,
+                    Number(GetCellDate(week, day))
+                  ) > new Date(),
+              }"
+              >{{ GetCellDate(week, day) }}</span
+            >
           </div>
         </td>
       </tr>
@@ -208,12 +220,12 @@ onMounted(() => {
 
 <style scoped>
 .input-calendar {
-  outline: 2px solid var(--ion-color-black);
+  outline: 2px solid var(--theme-black);
   min-width: 280px;
   min-height: 313px;
   padding: 10px;
   border-radius: 10px;
-  background-color: var(--ion-color-secondary);
+  background-color: var(--theme-secondary);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -228,15 +240,13 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--ion-color-black);
+  border-bottom: 2px solid var(--theme-black);
   padding-bottom: 5px;
 }
 
 .button {
-  background-color: var(--ion-color-black);
-  max-width: 35px;
-  max-height: 35px;
-  --size: var(--fs0);
+  background-color: var(--theme-secondary);
+  font-size: 35px;
   --border-radius: 6px;
 }
 
@@ -262,6 +272,10 @@ onMounted(() => {
   height: 35px;
   text-align: center;
   font-size: var(--fs3);
+}
+
+.future {
+  opacity: 0.5;
 }
 
 #row-header .cell {

@@ -29,5 +29,9 @@ const emit = defineEmits(["mousehold"]);
   > ion-icon {
     transform: var(--transform);
   }
+
+  > * {
+    color: inherit;
+  }
 }
 </style>

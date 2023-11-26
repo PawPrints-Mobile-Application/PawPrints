@@ -1,7 +1,7 @@
 <template>
   <section class="button-popup">
-    <slot name="button" />
-    <Popup ref="reference" v-model="state" @click="emit('state', state)">
+    <slot name="button" :Trigger="Change" />
+    <Popup v-model="state" @click-backdrop="emit('click-backdrop')">
       <template #content="{ Trigger }">
         <slot name="content" :Trigger="Trigger"
           ><slot :Trigger="Trigger"
@@ -12,14 +12,31 @@
 </template>
 <script setup lang="ts">
 import { Popup } from "../Popup";
-import { ref } from "vue";
+import { computed } from "vue";
 
-const state = ref(false);
-const emit = defineEmits(["state"]);
+const props = defineProps({
+  modelValue: Boolean,
+});
 
-const reference = ref();
-const Trigger = () => reference.value.Trigger();
+const state = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(value) {
+    emit("change", value);
+    emit("update:modelValue", value);
+  },
+});
 
-defineExpose({ Trigger });
+const Change = () => {
+  state.value = !state.value;
+};
+
+const emit = defineEmits([
+  "update:modelValue",
+  "change",
+  "click-backdrop",
+  "state",
+]);
 </script>
 <style scoped></style>

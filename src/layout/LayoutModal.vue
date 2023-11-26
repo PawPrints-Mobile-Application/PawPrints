@@ -24,10 +24,9 @@
         <section class="header" :data-design="design">
           <section class="header-inner">
             <ButtonBack
-              type="icon"
               v-show="design === 0 && !hideBack"
               :disabled="disableBack"
-              @click="Close"
+              @click="Discard"
             />
             <slot name="header">
               <TextHeading>{{ title }}</TextHeading>
@@ -64,32 +63,28 @@
             />
           </section>
           <section class="footer" v-show="design === 1">
-            <ButtonBack
-              :type="buttonType"
+            <ButtonText
               v-show="!hideBack && (!hideOnDisable || !disableBack)"
               :disabled="disableBack"
               :label="page === 1 ? 'Discard' : 'Back'"
-              @click="page === 1 ? Close() : Back()"
-              :state="page === 1 ? 'danger' : 'normal'"
+              @click="page === 1 ? Discard() : Back()"
               :style="{
                 backgroundColor:
                   page === 1
-                    ? 'var(--ion-color-danger)'
-                    : 'var(--ion-color-tertiary)',
+                    ? 'var(--theme-button-warning)'
+                    : 'var(--theme-button-normal)',
               }"
             />
-            <ButtonNext
-              :type="buttonType"
+            <ButtonText
               v-show="!hideNext && (!hideOnDisable || !disableNext)"
               :disabled="disableNext"
               :label="page === max ? 'Create' : 'Next'"
               @click="page === max ? Submit() : Next()"
-              :state="page === max ? 'success' : 'normal'"
               :style="{
                 backgroundColor:
                   page === 1
-                    ? 'var(--ion-color-tertiary)'
-                    : 'var(--ion-color-success)',
+                    ? 'var(--theme-button-normal)'
+                    : 'var(--theme-button-success)',
               }"
             />
           </section>
@@ -99,13 +94,13 @@
   </ion-modal>
 </template>
 <script setup lang="ts">
-import { IonModal, modalController } from "@ionic/vue";
+import { IonModal } from "@ionic/vue";
 import { LayoutWrapper } from ".";
 import { ref } from "vue";
 import {
   ButtonBack,
   ButtonClear,
-  ButtonNext,
+  ButtonText,
   ButtonSubmit,
 } from "../components/Buttons";
 import { TextHeading } from "../components/Texts";
@@ -182,15 +177,14 @@ const Add = (i: number) =>
 
 const Reset = () => emit("update:page", 1);
 
-const Close = () => {
-  emit("close");
-  modalController.dismiss();
+const Discard = () => {
+  emit("discard");
   setTimeout(Reset, 100);
 };
 
 const Submit = () => {
   emit("submit");
-  if (!!props.closeOnSubmit) Close();
+  if (!!props.closeOnSubmit) Discard();
 };
 
 const Back = () => {
@@ -215,13 +209,13 @@ const emit = defineEmits([
   "submit",
   "dismiss",
   "present",
-  "close",
+  "discard",
   "back",
   "next",
   "update:page",
 ]);
 
-defineExpose({ Reset, Close, Submit, Back, Next });
+defineExpose({ Reset, Discard, Submit, Back, Next });
 </script>
 <style scoped>
 .layout-modal {
@@ -267,9 +261,8 @@ defineExpose({ Reset, Close, Submit, Back, Next });
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
-  align-items: stretch;
-  gap: 30px;
+  justify-content: space-between;
+  align-items: center;
 
   > * {
     max-width: 48%;

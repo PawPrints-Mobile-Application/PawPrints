@@ -1,7 +1,7 @@
 <template>
-  <ButtonPopup ref="reference" @state="(value) => emit('state', value)">
+  <ButtonPopup v-model="state" @click-backdrop="emit('click-backdrop')">
     <template #button>
-      <ButtonCalendar @click="Trigger" />
+      <ButtonCalendar v-model="state" @click="Trigger" />
     </template>
     <InputCalendar
       v-model="value"
@@ -22,19 +22,23 @@ const props = defineProps({
   disableFuture: Boolean,
 });
 
+const state = ref(false);
+
 const value = computed({
   get() {
     return props.modelValue;
   },
   set(value) {
     emit("update:modelValue", value);
+    emit("state", value);
   },
 });
 
-const reference = ref();
-const Trigger = () => reference.value.Trigger();
+const Trigger = () => {
+  state.value = !state.value;
+};
 
-const emit = defineEmits(["update:modelValue", "state"]);
+const emit = defineEmits(["update:modelValue", "state", "click-backdrop"]);
 
 defineExpose({ Trigger });
 </script>

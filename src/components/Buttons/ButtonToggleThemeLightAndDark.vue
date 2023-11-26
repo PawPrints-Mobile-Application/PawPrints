@@ -53,7 +53,7 @@ const Click = () => {
 </script>
 <style scoped>
 .button-toggle-theme-light-and-dark {
-  outline: 3px solid black;
+  outline: 3px solid var(--theme-black);
   padding: 5px 6px;
   width: 77px;
   border-radius: 30px;
@@ -67,7 +67,7 @@ const Click = () => {
 .button {
   position: relative;
   transition: all 300ms ease-out;
-  outline: 2px solid black;
+  outline: 2px solid var(--theme-black);
   height: 30px;
   width: 30px;
   border-radius: 100%;

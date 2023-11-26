@@ -10,9 +10,6 @@ import ButtonIcon from "./ButtonIcon.vue";
 import ButtonBack from "./ButtonBack.vue";
 import ButtonNext from "./ButtonNext.vue";
 
-import ButtonAddDog from "./ButtonAddDog.vue";
-import ButtonAddLog from "./ButtonAddLog.vue";
-
 import ButtonPopup from "./ButtonPopup.vue";
 
 import ButtonModal from "./ButtonModal.vue";
@@ -35,9 +32,6 @@ export {
   ButtonIcon,
   ButtonBack,
   ButtonNext,
-  
-  ButtonAddDog,
-  ButtonAddLog,
 
   ButtonPopup,
 

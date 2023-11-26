@@ -16,4 +16,8 @@ const GuestSignIn = () =>
   DatabaseInitialization().then(WindowDatabaseInitialization).then(Redirect);
 </script>
 <style scoped>
+.button-text {
+  width: 200px;
+  height: 50px;
+}
 </style>

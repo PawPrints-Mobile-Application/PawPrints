@@ -6,7 +6,7 @@ import { ButtonIcon } from ".";
 import { chevronForward as icon } from "ionicons/icons";
 </script>
 <style scoped>
-.button-back {
+.button-next {
   color: var(--theme-tertiary);
   font-size: 40px;
 }

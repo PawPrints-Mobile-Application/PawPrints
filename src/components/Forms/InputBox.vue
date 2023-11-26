@@ -124,7 +124,7 @@ defineExpose({ state, ForceFocus, ForceBlur });
 </script>
 <style scoped>
 .input-box {
-  --outline: 2px solid var(--ion-color-tertiary);
+  --outline: 2px solid var(--theme-tertiary);
   > input:is(:active, :hover, :focus) {
     outline: var(--outline);
   }
@@ -132,7 +132,8 @@ defineExpose({ state, ForceFocus, ForceBlur });
 
 input,
 div {
-  background-color: var(--ion-color-secondary);
+  background-color: var(--theme-secondary);
+  color: var(--theme-text);
   border-radius: 6px;
   border: none;
   padding: 2px 10px;

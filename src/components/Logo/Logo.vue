@@ -8,7 +8,7 @@ import { Logo } from "../../assets/images";
 </script>
 <style scoped>
 .logo {
-  --scale: 125%;
+  --scale: 100%;
   --size: 200px;
   height: var(--size);
   aspect-ratio: 1;

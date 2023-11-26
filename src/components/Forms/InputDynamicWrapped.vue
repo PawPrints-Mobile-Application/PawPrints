@@ -26,7 +26,6 @@
       :disabled="disabled"
       :hideIcon="hideIcon"
       :disableFuture="disableFuture"
-      @state-expanded="(value) => emit('state-expanded', value)"
     >
       <slot name="icon"><slot /></slot>
     </InputDynamic>
@@ -137,7 +136,6 @@ const emit = defineEmits([
   "input",
   "click",
   "icon-click",
-  "state-expanded",
   "return",
   // For InputHelper
   "update:modelValid",

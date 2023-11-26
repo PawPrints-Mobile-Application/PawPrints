@@ -247,6 +247,11 @@ export default {
   overflow: hidden;
 }
 
+.button-text {
+  width: 200px;
+  height: 50px;
+}
+
 .form.hide {
   height: 0;
 }

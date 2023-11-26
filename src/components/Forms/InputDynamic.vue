@@ -15,7 +15,7 @@
       @change="emit('change', value)"
       @input="emit('input', value)"
       @click="Click"
-      @return="value => emit('return', value)"
+      @return="(value) => emit('return', value)"
       :show="valueShow"
       :hidden="hidden"
       :placeholder="placeholder"
@@ -29,7 +29,6 @@
         v-else-if="type === 'date'"
         v-model="dateValue"
         :disableFuture="disableFuture"
-        @state="(value) => emit('state-expanded', value)"
       />
       <ButtonShow v-else-if="type === 'password'" v-model="valueShow" />
       <slot v-else name="icon"><slot /></slot>
@@ -100,10 +99,10 @@ const dateValue = computed({
     );
   },
 });
-const dateRef = ref();
 
 const IconClick = () => emit("icon-click");
 
+const dateRef = ref();
 const Click = () => {
   if (props.type === "date") dateRef.value.Trigger();
   emit("click");
@@ -132,15 +131,15 @@ const emit = defineEmits([
   "input",
   "click",
   "icon-click",
-  "state-expanded",
-  "return"
+  "return",
 ]);
 defineExpose({ state, ForceFocus, ForceBlur });
 </script>
 <style scoped>
 .input-dynamic {
-  --outline: 2px solid var(--ion-color-tertiary );
-  background-color: var(--ion-color-secondary);
+  --outline: 2px solid var(--theme-tertiary);
+  background-color: var(--theme-secondary);
+  color: var(--theme-text);
   border-radius: 6px;
   width: 100%;
   padding: 5px 10px;
@@ -161,6 +160,7 @@ defineExpose({ state, ForceFocus, ForceBlur });
 .icon {
   width: 30px;
   height: 30px;
+  display: flex;
 }
 
 input[type="date"]::-webkit-inner-spin-button,

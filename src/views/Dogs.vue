@@ -14,6 +14,11 @@
         @click="Navigate(dog.pid)"
       />
     </section>
+    <ModalAddDog
+      :isOpen="modalOpen"
+      @submit="SubmitModalDog"
+      @discard="CloseModalDog"
+    />
   </LayoutPage>
 </template>
 
@@ -23,12 +28,14 @@ import { search as icon } from "ionicons/icons";
 import { IonIcon } from "@ionic/vue";
 import { CardDog } from "../components/Cards";
 import { TextHeading } from "../components/Texts";
+import { CustomEvent } from "../utils";
 import {
   onIonViewDidEnter,
   onIonViewWillEnter,
   useIonRouter,
 } from "@ionic/vue";
 import { ref, Ref } from "vue";
+import { ModalAddDog } from "../components/Modals";
 import { GetAll, Props } from "../server/models/Dogs";
 import { InputDynamic } from "../components/Forms";
 const ionRouter = useIonRouter();
@@ -53,8 +60,22 @@ onIonViewWillEnter(async () => {
   filteredDogs.value = dogs.value;
 });
 
+const modalOpen = ref(false);
+const OpenModalDog = () => {
+  modalOpen.value = true;
+};
+const CloseModalDog = () => {
+  modalOpen.value = false;
+};
+const SubmitModalDog = (pid: string) => {
+  CustomEvent.EventDispatcher("reload", "dogs");
+  ionRouter.navigate(`/dogs/${pid}/profile`, "forward", "push");
+};
+
 // Heavy Functions
-onIonViewDidEnter(() => {});
+onIonViewDidEnter(() => {
+  CustomEvent.EventListener("modal-open", OpenModalDog);
+});
 </script>
 
 <script lang="ts">

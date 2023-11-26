@@ -1,4 +1,4 @@
-const EventDispatcher = (name: string, value: any) =>
+const EventDispatcher = (name: string, value: any = undefined) =>
   dispatchEvent(new CustomEvent(name, { detail: { storage: value } }));
 
 const EventListener = (name: string, callback: Function) =>

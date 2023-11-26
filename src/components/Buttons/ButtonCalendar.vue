@@ -1,5 +1,5 @@
 <template>
-  <button class="button-calendar" @click="Click">
+  <button class="button-calendar" @click="() => (state = !modelValue)">
     <div class="background" />
     <div class="line" />
     <div
@@ -14,18 +14,20 @@
   </button>
 </template>
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed } from "vue";
 const props = defineProps({
   modelValue: Boolean,
 });
 
-const _state = ref(false);
 const state = computed({
   get() {
-    return !props.modelValue ? _state.value : props.modelValue;
+    return props.modelValue;
   },
   set(value) {
-    _state.value = value;
+    emit("click", value);
+    emit("update:modelValue", value);
+    if (value) emit("expand");
+    else emit("collapse");
   },
 });
 
@@ -40,14 +42,6 @@ const GetLocation = () => {
   return temp;
 };
 
-const Click = () => {
-  state.value = !state.value;
-  emit("click", state.value);
-  emit("update:modelValue", state.value);
-  if (state.value) emit("expand");
-  else emit("collapse");
-};
-
 const emit = defineEmits(["update:modelValue", "expand", "collapse", "click"]);
 </script>
 <style scoped>
@@ -56,10 +50,12 @@ const emit = defineEmits(["update:modelValue", "expand", "collapse", "click"]);
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 30px;
   height: 30px;
-  
+  border-radius: 5px;
+  overflow: hidden;
+
   > .background {
-    border-radius: 5px;
     width: 30px;
     aspect-ratio: 1;
     background-color: var(--theme-tertiary);

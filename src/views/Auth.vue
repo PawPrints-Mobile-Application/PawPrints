@@ -1,9 +1,10 @@
 <template>
   <LayoutPage justify="center" inAntiNavigation>
-    <ImgLogo />
+    <Logo />
     <section class="main-content">
       <TextTitle>PawPrints</TextTitle>
-      <GuestButton />
+      <TextSubheading>Your Ultimate Canine<br/>Companion Care App</TextSubheading>
+      <ButtonGuest />
       <ModalSignin />
       <ModalSignup />
     </section>
@@ -12,10 +13,10 @@
 
 <script lang="ts" setup>
 import { LayoutPage } from "../layout";
-import { TextTitle } from "../components/Texts";
-import { GuestButton } from "../components/Buttons";
+import { TextTitle, TextSubheading } from "../components/Texts";
+import { ButtonGuest } from "../components/Buttons";
 import { ModalSignin, ModalSignup } from "../components/Modals";
-import { ImgLogo } from "../components/Logo";
+import { Logo } from "../components/Logo";
 </script>
 
 <script lang="ts">
@@ -27,13 +28,16 @@ export default {
 <style scoped>
 .main-content {
   width: 100%;
-  height: 250px;
+  height: 270px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-flow: column nowrap;
-  gap: 20px;
-  transition: all 300ms ease-out;
+  gap: 10px;
   overflow: hidden;
+}
+.text-subheading {
+  font-weight: 400;
+  text-align: center;
 }
 </style>

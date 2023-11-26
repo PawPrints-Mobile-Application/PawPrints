@@ -1,11 +1,11 @@
 <template>
   <section>
-    <ButtonSignOut />
+    <ButtonDropdown />
   </section>
 </template>
 <script setup lang="ts">
 import {
-  ButtonSignOut,
+  ButtonDropdown,
 } from "../components/Buttons";
 </script>
 <script lang="ts">
