@@ -1,5 +1,5 @@
 <template>
-  <ButtonText class="button-submit" label="Submit" />
+  <ButtonText class="button-submit" :label="label" />
 </template>
 <script setup lang="ts">
 import { ButtonText } from ".";

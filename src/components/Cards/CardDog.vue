@@ -3,7 +3,7 @@
     <header>
       <Avatar
         type="dog"
-        :src="dog?.breed"
+        :src="dog?.breed.value"
         :style="{
           backgroundColor: !!dog ? dog?.color : 'var(--ion-color-tertiary)',
         }"
@@ -12,7 +12,7 @@
       <aside>
         <TextCard label="Name:" :value="dog?.name" />
         <TextCard label="Date of Birth:" :value="dog?.birthday" />
-        <TextCard label="Dog Breed:" :value="dog?.breed" />
+        <TextCard label="Dog Breed:" :value="dog?.breed.value" />
       </aside>
     </header>
     <footer>
@@ -33,7 +33,6 @@ const props = defineProps({
 });
 
 const age: Ref<Age> = ref(new Age(new Date(props.dog?.birthday)));
-
 </script>
 <style scoped>
 .card-dog {

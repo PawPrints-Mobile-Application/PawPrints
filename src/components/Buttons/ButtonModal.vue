@@ -1,12 +1,12 @@
 <template>
   <section class="button-modal">
-    <button :id="trigger" style="width: 100%">
+    <button style="width: 100%" @click="() => (isOpen = true)">
       <slot name="button"><ButtonText :label="buttonText" /></slot>
     </button>
 
     <LayoutModal
       ref="modal"
-      :trigger="trigger"
+      :isOpen="isOpen"
       :title="title"
       :max="max"
       :page="page"
@@ -26,10 +26,14 @@
       :disableClear="disableClear"
       :disableSubmit="disableSubmit"
       :buttonSubmitText="buttonSubmitText"
-      :canDismiss="canDismiss"
       :noHeaderAnimation="noHeaderAnimation"
       @clear="emit('clear')"
-      @close="emit('close')"
+      @discard="
+        () => {
+          emit('discard');
+          isOpen = false;
+        }
+      "
       @submit="emit('submit')"
       @back="emit('back')"
       @next="emit('next')"
@@ -113,28 +117,46 @@ defineProps({
   buttonSubmitText: String,
   canDismiss: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 });
+
+const isOpen = ref(false);
 
 const emit = defineEmits([
   "clear",
   "submit",
   "dismiss",
   "present",
-  "close",
+  "discard",
   "back",
   "next",
   "update:page",
 ]);
 
-const Reset = () => modal.value.Reset();
-const Close = () => modal.value.Close();
-const Submit = () => modal.value.Submit();
-const Back = () => modal.value.Back();
-const Next = () => modal.value.Next();
+const Clear = () => {
+  emit("clear");
+  modal.value.Clear();
+};
+const Discard = () => {
+  emit("discard");
+  modal.value.Discard();
+  isOpen.value = false;
+};
+const Submit = () => {
+  emit("submit");
+  modal.value.Submit();
+};
+const Back = () => {
+  emit("back");
+  modal.value.Back();
+};
+const Next = () => {
+  emit("next");
+  modal.value.Next();
+};
 
-defineExpose({ Reset, Close, Submit, Back, Next });
+defineExpose({ Clear, Discard, Submit, Back, Next });
 </script>
 <style scoped>
 button {

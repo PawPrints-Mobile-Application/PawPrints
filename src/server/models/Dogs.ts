@@ -13,7 +13,7 @@ import {
   DeleteDocument,
 } from "../firebase";
 import ObjectToMap from "../../utils/ObjectToMap";
-import { EnumConstructor, StringToArray } from "../../utils";
+import { DropdownOption, EnumConstructor, StringToArray } from "../../utils";
 import { DocumentData } from "firebase/firestore";
 
 class InOutdoor extends EnumConstructor {
@@ -55,7 +55,7 @@ type Props = {
   pid: string;
   name: string;
   birthday: string;
-  breed: string;
+  breed: DropdownOption;
   color: string;
   events: Array<string>;
   notes: Array<string>;
@@ -76,7 +76,7 @@ const ToProps = (props: LocalProps): Props => {
     pid: props.pid,
     name: props.name,
     birthday: props.birthday,
-    breed: props.breed,
+    breed: new DropdownOption(props.breed),
     color: props.color,
     events: StringToArray(props.events, constants.arraySplitter),
     notes: StringToArray(props.notes, constants.arraySplitter),
@@ -88,7 +88,8 @@ const ToLocalProps = (props: Props | DocumentData): LocalProps => {
     pid: props.pid,
     name: props.name,
     birthday: props.birthday,
-    breed: props.breed,
+    breed:
+      props.breed instanceof DropdownOption ? props.breed.value : props.breed,
     color: props.color,
     events: props.events.join(constants.arraySplitter),
     notes: props.notes.join(constants.arraySplitter),

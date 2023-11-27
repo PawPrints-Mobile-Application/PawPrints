@@ -12,7 +12,7 @@
   >
     <Avatar
       type="dog"
-      :src="form.breed"
+      :src="form.breed.value"
       :style="{ backgroundColor: form.color }"
     />
     <InputDynamicWrapped
@@ -51,13 +51,13 @@ import { LayoutModal } from "../../layout";
 
 import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
-import { SeedGenerator, GetUID, breeds } from "../../utils";
+import { SeedGenerator, GetUID, breeds, DropdownOption } from "../../utils";
 import { InputDynamicWrapped, InputDropdown } from "../Forms";
 
 const form = reactive({
   name: "",
   birthday: "",
-  breed: "",
+  breed: new DropdownOption("", ""),
   color: "#FFD80A",
   inoutdoors: "",
   fixing: "",
@@ -75,7 +75,7 @@ const ClearForm = () => {
   console.log("Clearing...");
   form.name = "";
   form.birthday = "";
-  form.breed = "";
+  form.breed = new DropdownOption("", "");
   form.color = "#FFD80A";
 };
 

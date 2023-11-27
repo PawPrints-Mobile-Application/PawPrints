@@ -175,11 +175,11 @@ const design = ref(props.max === 1 ? 0 : 1);
 const Add = (i: number) =>
   emit("update:page", Math.max(1, Math.min(props.max, i + props.page)));
 
-const Reset = () => emit("update:page", 1);
+const Clear = () => emit("update:page", 1);
 
 const Discard = () => {
   emit("discard");
-  setTimeout(Reset, 100);
+  setTimeout(Clear, 100);
 };
 
 const Submit = () => {
@@ -215,7 +215,7 @@ const emit = defineEmits([
   "update:page",
 ]);
 
-defineExpose({ Reset, Discard, Submit, Back, Next });
+defineExpose({ Clear, Discard, Submit, Back, Next });
 </script>
 <style scoped>
 .layout-modal {

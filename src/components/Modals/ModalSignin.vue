@@ -143,7 +143,7 @@ const Login = () => {
           } else {
             Redirect();
             emit("success");
-            modal.value.Close();
+            modal.value.Discard();
           }
           emit("processing", false);
           processState.value = "";
