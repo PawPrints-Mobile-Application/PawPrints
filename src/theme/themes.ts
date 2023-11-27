@@ -21,6 +21,28 @@ const themes = {
 
     text: "#0d0d0d",
   },
+  yellowDark: {
+    primary: "#15202B", // primary bg
+    secondary: "#242D38", // input text area
+    "secondary-dark": "#242D38", // search bar, write
+    tertiary: "#FFE558", //button or theme name
+    quadratic: "#8A9197", // dates choices, buttons in input text
+
+    "button-text": "#fefefe", // for color-tertiary
+    "button-normal": "#FFE558", // same as tertiary
+    "button-warning": "#F7677B", // clear/delete button
+    "button-success": "#56CF87", //sign up,get started,save
+    "button-icon": "#FFE558", // forums button in home
+
+    "card-text": "#F7F9F9",
+    "card-background": "#1E2732",
+    "card-highlight-background": "#3C434C",
+    "card-highlight-text": "#F7F9F9",
+    "trivia-background": "#07121D",
+    "trivia-text": "#F7F9F9",
+
+    text: "#F7F9F9",
+  },
   pinkLight: {
     primary: "#FFFFFF", // primary bg
     secondary: "#EEF7FF", // input text area
@@ -43,6 +65,27 @@ const themes = {
 
     text: "#33272A",
   },
+  pinkDark: {
+    primary: "#15202B", // primary bg
+    secondary: "#242D38", // input text area
+    "secondary-dark": "#242D38", // search bar, write
+    tertiary: "#EC9CAF", //button or theme name
+    quadratic: "#8A9197", // dates choices, buttons in input text
+
+    "button-text": "#fefefe", // for color-tertiary
+    "button-normal": "#FFE558", // same as tertiary
+    "button-warning": "#F7677B", // clear/delete button
+    "button-success": "#56CF87", //sign up,get started,save
+    "button-icon": "#FFE558", // forums button in home
+
+    "card-text": "#F7F9F9",
+    "card-background": "#1E2732",
+    "card-highlight-background": "#3C434C",
+    "card-highlight-text": "#F7F9F9",
+    "trivia-background": "#07121D",
+    "trivia-text": "#F7F9F9",
+
+    text: "#F7F9F9",
   blueLight: {
     primary: "#DBEBF5", // primary bg
     secondary: "#7FA4BF", // input text area
@@ -63,8 +106,29 @@ const themes = {
     "trivia-background": "#1E5074",
     "trivia-text": "#FFFFFF",
 
-    text: "#000000",
+    text: "#0d0d0d",
   },
+  blueDark: {
+    primary: "#15202B", // primary bg
+    secondary: "#242D38", // input text area
+    "secondary-dark": "#242D38", // search bar, write
+    tertiary: "#0D3B5C", //button or theme name
+    quadratic: "#8A9197", // dates choices, buttons in input text
+
+    "button-text": "#fefefe", // for color-tertiary
+    "button-normal": "#FFE558", // same as tertiary
+    "button-warning": "#F7677B", // clear/delete button
+    "button-success": "#56CF87", //sign up,get started,save
+    "button-icon": "#FFE558", // forums button in home
+
+    "card-text": "#F7F9F9",
+    "card-background": "#1E2732",
+    "card-highlight-background": "#3C434C",
+    "card-highlight-text": "#F7F9F9",
+    "trivia-background": "#07121D",
+    "trivia-text": "#F7F9F9",
+
+    text: "#F7F9F9",
 };
 
 export default themes;
