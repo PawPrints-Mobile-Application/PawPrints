@@ -18,7 +18,8 @@ import ButtonCalendar from "./ButtonCalendar.vue";
 import ButtonDropdown from "./ButtonDropdown.vue";
 import ButtonShow from "./ButtonShow.vue";
 
-import ButtonToggleThemeLightAndDark from "./ButtonToggleThemeLightAndDark.vue";
+import ButtonTheme from "./ButtonTheme.vue";
+import ButtonMode from "./ButtonMode.vue";
 
 export {
   ButtonRippled,
@@ -41,7 +42,6 @@ export {
   ButtonDropdown,
   ButtonShow,
 
-  ButtonToggleThemeLightAndDark,
-
-
+  ButtonTheme,
+  ButtonMode
 };

@@ -1,6 +1,6 @@
 <template>
   <LayoutPage justify="flex-start" hide-scrollbar>
-    <ButtonToggleThemeLightAndDark class="theme-toggle" />
+    <Theme/>
     <CardUser />
     <CardSettings
       v-for="setting in settings"
@@ -17,10 +17,8 @@
 <script lang="ts" setup>
 import { LayoutPage } from "../layout";
 import { CardUser, CardSettings } from "../components/Cards";
-import {
-  ButtonToggleThemeLightAndDark,
-  ButtonSignOut,
-} from "../components/Buttons";
+import { Theme } from "../components/Others";
+import { ButtonSignOut } from "../components/Buttons";
 import {
   person as profileIcon,
   pricetags as subscriptionIcon,

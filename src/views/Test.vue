@@ -6,10 +6,12 @@
       :name="theme"
       :label="`Theme ${key+1}`"
     />
+    <ButtonMode />
   </section>
 </template>
 <script setup lang="ts">
 import ButtonTheme from "../components/Buttons/ButtonTheme.vue";
+import ButtonMode from "../components/Buttons/ButtonMode.vue";
 import themes from "../theme";
 import { ObjectToMap } from "../utils";
 </script>
