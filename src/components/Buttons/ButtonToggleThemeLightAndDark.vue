@@ -22,7 +22,7 @@
 import { ref } from "vue";
 import { IonIcon } from "@ionic/vue";
 import { sunny as light, moon as dark } from "ionicons/icons";
-import SetRootStyle from "../../utils/SetRootStyle";
+import { SetRootStyle } from "../../utils";
 
 const options = [
   {

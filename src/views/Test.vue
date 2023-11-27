@@ -1,16 +1,17 @@
 <template>
   <section>
     <ButtonTheme
-      v-for="(theme, key) in themeList"
-      :theme="theme"
-      :label="`Theme ${key}`"
+      v-for="(theme, key) in ObjectToMap(themes).keys()"
+      :theme="ObjectToMap(themes).get(theme)"
+      :name="theme"
+      :label="`Theme ${key+1}`"
     />
   </section>
 </template>
 <script setup lang="ts">
 import ButtonTheme from "../components/Buttons/ButtonTheme.vue";
 import themes from "../theme";
-const themeList = [themes.yellowLight, themes.pinkLight, themes.blueLight];
+import { ObjectToMap } from "../utils";
 </script>
 <script lang="ts">
 export default {

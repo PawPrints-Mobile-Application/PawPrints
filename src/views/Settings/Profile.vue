@@ -114,22 +114,4 @@ export default {
 };
 </script>
 <style scoped>
-.reset-password {
-  width: 100%;
-  max-height: 40px;
-  margin-block: 5px 10px;
-}
-.change-buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  gap: 10px;
-}
-.reset{
-  background-color: var(--theme-button-warning);
-}
-
-.save{
-  background-color: var(--theme-button-success);
-}
 </style>

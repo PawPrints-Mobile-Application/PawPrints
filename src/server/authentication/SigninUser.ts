@@ -43,6 +43,7 @@ const DatabaseInitialization = async (user?: User) => {
 };
 
 const WindowDatabaseInitialization = (props: InformationProps) => {
+  console.log(props);
   window.localStorage.setItem("colorTheme", props.theme);
   window.localStorage.setItem("colorMode", props.mode);
   window.localStorage.setItem("authType", props.subscription);

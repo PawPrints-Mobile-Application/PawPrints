@@ -20,6 +20,7 @@ import breeds from "./Breeds";
 
 import DropdownOption from "./DropdownOption";
 import SegmentOption from "./SegmentOption";
+import SetRootStyle from "./SetRootStyle";
 
 export {
   RouteInfo,
@@ -38,5 +39,6 @@ export {
   GetUID,
   breeds,
   DropdownOption,
-  SegmentOption
+  SegmentOption,
+  SetRootStyle
 };
