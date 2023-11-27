@@ -47,7 +47,8 @@ const InitializeModels = (props: PropsInformation, uid?: string) =>
 export { DeleteModels, ClearModels, SyncModels, InitializeModels };
 
 export default async function CreateModels() {
-  return CreateModelInformation()
+  return DeleteModels()
+    .then(CreateModelInformation)
     .then(CreateModelLogs)
     .then(CreateModelCalendar)
     .then(CreateModelDogs);

@@ -57,7 +57,7 @@ type Props = {
   uid: string;
   email: string;
   username: string;
-  subscription: "guest" | "free" | "pawmium";
+  subscription: string;
   theme: string;
   mode: string;
 };
@@ -89,7 +89,7 @@ const Set = async (props: Props, uid?: string) => {
   return InsertRowData(constants.document, {
     keys: Array.from(data.keys()),
     values: Array.from(data.values()),
-  }).then(() => props);
+  },true).then(() => props);
 };
 
 const Sync = async (uid: string) =>

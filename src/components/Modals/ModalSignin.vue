@@ -21,9 +21,9 @@
       <NoteWarning v-show="noteWarning !== '' && !hideForm">
         {{ noteWarning }}
       </NoteWarning>
-      <div class="media">
+      <div class="media" :class="{loading:hideForm}" >
         <IonSpinner name="crescent" v-show="hideForm" />
-        <Logo />
+        <Logo/>
       </div>
       <TextSubheading v-show="hideForm">{{ processState }}</TextSubheading>
     </section>
@@ -187,7 +187,22 @@ export default {
 .form.hide {
   height: 0;
 }
+.logo {
+  --scale: 100%;
+  --size: 200px;
+  height: var(--size);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 100%;
 
+}
+
+.loading{
+  height: 260px;
+  > .logo{
+    --scale: 80%;
+  }
+}
 .state-indicator {
   height: 300px;
   display: flex;

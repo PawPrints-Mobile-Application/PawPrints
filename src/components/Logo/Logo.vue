@@ -20,5 +20,6 @@ img {
   transform: scale(var(--scale));
   height: 100%;
   aspect-ratio: 1;
+  transition: all 500ms ease-out;
 }
 </style>

@@ -19,12 +19,20 @@
 <script setup lang="ts">
 import { Avatar } from "../Avatars";
 import { TextCard, TextSmall } from "../Texts";
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
+import { CustomEvent } from "../../utils";
 
 const user = reactive({
   username: localStorage.getItem("authUsername")!,
   email: localStorage.getItem("authEmail")!,
   subscription: localStorage.getItem("authType")!,
+});
+
+onMounted(() => {
+  CustomEvent.EventListener(
+    "reload-card-user",
+    () => (user.username = localStorage.getItem("authUsername")!)
+  );
 });
 </script>
 <style scoped>

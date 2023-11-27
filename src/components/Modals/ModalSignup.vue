@@ -18,9 +18,9 @@
     <template #button><ButtonText label="Sign Up" /></template>
 
     <section class="state-indicator" v-show="hideForm">
-      <div class="media">
+      <div class="media" :class="{loading:hideForm}" >
         <IonSpinner name="crescent" />
-        <img :src="PawPrints" />
+        <Logo />
       </div>
       <TextSubheading>{{ processState }}</TextSubheading>
     </section>
@@ -90,7 +90,7 @@ import {
 
 import { computed, reactive, ref } from "vue";
 import { useIonRouter, IonSpinner } from "@ionic/vue";
-import { PawPrints } from "../../assets/images";
+import { Logo } from "../Logo";
 import { SignupValidator } from "../../server/rulesets";
 
 const modal = ref();
@@ -231,6 +231,21 @@ export default {
 };
 </script>
 <style scoped>
+
+.logo {
+  --scale: 100%;
+  --size: 200px;
+  height: var(--size);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 100%;
+}
+.loading{
+  height: 260px;
+  > .logo{
+    --scale: 80%;
+  }
+}
 .navigation-link {
   text-decoration: underline;
   font-weight: 500;

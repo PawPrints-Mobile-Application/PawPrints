@@ -2,8 +2,8 @@
   <section class="input-dynamic-wrapped">
     <InputLabel
       :value="label"
-      v-show="!!label"
-      :show-requirement="!!required || (state.taken && !!validators)"
+      v-show="!!label && !hideLabel" 
+      :show-requirement="(!!required || (state.taken && !!validators)) && !hideRequired"
       :requirement-color="validity.requirementColor"
       :requirement-text="validity.requirementText"
     />
@@ -29,7 +29,7 @@
     >
       <slot name="icon"><slot /></slot>
     </InputDynamic>
-    <InputHelper :validators="validators" :validated="validity.values" />
+    <InputHelper :validators="validators" :validated="validity.values" v-show="!hideValidator" />
   </section>
 </template>
 <script setup lang="ts">
@@ -52,8 +52,12 @@ const props = defineProps({
   // For InputLabel
   label: String,
   required: Boolean,
+  hideRequired: Boolean,
+  hideLabel: Boolean,
   // For InputHelper
   validators: Array<InputValidator>,
+  hideValidator: Boolean,
+
 });
 
 const value = computed({
