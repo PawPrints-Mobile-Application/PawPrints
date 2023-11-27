@@ -1,13 +1,16 @@
 <template>
-  <section :class="[`avatar-${type}`, 'avatar']">
-    <IonSkeletonText v-if="!!lazyLoad && !src " />
+  <section
+    :class="[`avatar-${type}`, 'avatar']"
+    :style="{ backgroundColor: !color ? 'none' : color }"
+  >
+    <IonSkeletonText v-if="!!lazyLoad && !src" />
     <img :src="GetAvatar()" v-else />
   </section>
 </template>
 
 <script setup lang="ts">
 import { IonSkeletonText } from "@ionic/vue";
-import { personCircleOutline as UserDefault } from 'ionicons/icons';
+import { personCircleOutline as UserDefault } from "ionicons/icons";
 import { PawPrints as DogDefault } from "../../assets/images";
 const props = defineProps({
   type: {
@@ -17,6 +20,7 @@ const props = defineProps({
   },
   src: String,
   lazyLoad: Boolean,
+  color: String,
 });
 
 const GetAvatar = () => {
@@ -36,7 +40,7 @@ const GetAvatar = () => {
 
 <style scoped>
 .avatar {
-  --image-scale: 100%;
+  --image-scale: 95%;
   width: var(--size);
   height: var(--size);
   aspect-ratio: 1;

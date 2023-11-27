@@ -47,5 +47,6 @@ ion-backdrop {
 
 .content {
   z-index: 2;
+  width: 90%;
 }
 </style>

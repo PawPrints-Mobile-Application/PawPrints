@@ -1,5 +1,5 @@
 <template>
-  <section class="input-dynamic-wrapped">
+  <section class="input-textarea-wrapped">
     <InputLabel
       :value="label"
       v-show="!!label"
@@ -7,9 +7,8 @@
       :requirement-color="validity.requirementColor"
       :requirement-text="validity.requirementText"
     />
-    <InputDynamic
+    <InputTextarea
       v-model="value"
-      :type="type"
       :freeze="freeze"
       @focus="emit('focus')"
       @blur="emit('blur')"
@@ -24,31 +23,31 @@
       :hidden="hidden"
       :placeholder="placeholder"
       :disabled="disabled"
-      :hideIcon="hideIcon"
-      :disableFuture="disableFuture"
-    >
-      <slot name="icon"><slot /></slot>
-    </InputDynamic>
+    />
     <InputHelper :validators="validators" :validated="validity.values" />
   </section>
 </template>
 <script setup lang="ts">
 import { InputValidator } from "../../utils";
-import { InputLabel, InputDynamic, InputHelper } from ".";
+import { InputLabel, InputHelper, InputTextarea } from ".";
 import { computed, reactive } from "vue";
 
 const props = defineProps({
   // For InputDynamic
-  type: String,
-  modelValue: [String, Number],
+  modelValue: String,
   hidden: Boolean, // Turns text into password
   show: Boolean,
   freeze: Boolean,
-  hideIcon: Boolean,
-  saveOnChange: Boolean,
   placeholder: String,
   disabled: Boolean,
-  disableFuture: Boolean,
+  rows: {
+    type: Number,
+    default: 4,
+  },
+  cols: {
+    type: Number,
+    default: 50,
+  },
   // For InputLabel
   label: String,
   required: Boolean,
@@ -149,13 +148,13 @@ const emit = defineEmits([
 defineExpose({ Reevaluate });
 </script>
 <style scoped>
-.input-dynamic-wrapped {
+.input-textarea-wrapped {
   width: 98%;
   display: flex;
   flex-direction: column;
 }
 
-.input-dynamic {
+.input-textarea {
   min-width: 100%;
 }
 </style>

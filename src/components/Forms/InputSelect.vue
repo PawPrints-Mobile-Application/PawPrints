@@ -1,42 +1,62 @@
 <template>
-  <section class="input-select default-input" :style="{ '--count': count }">
+  <section
+    class="input-select default-input"
+    :style="{ '--count': count + (!!allowOthers && selected === -1 ? 1 : 0) }"
+  >
     <ul class="items">
       <li
         class="item"
-        v-for="(element, key) in options"
+        v-for="(element, key) in props.options"
         :class="{ selected: key === selected }"
         @click="SetValue(key)"
         :ref="(value) => {
-            if (props.modelValue !== options![Math.min(key + Math.floor(count / 2), options!.length - 1)] || !!input) return;
+            if (props.modelValue !== props.options![Math.min(key + Math.floor(count / 2), props.options!.length - 1)] || !!input) return;
             input = value;
         }"
       >
-        {{ element }}
+        {{ element.label }}
+      </li>
+      <li
+        class="item"
+        v-show="!!allowOthers && selected === -1"
+        :class="{ selected: selected === -1 }"
+        :ref="(value) => {
+            if (props.modelValue !== options![Math.min(options?.length! - 1 + Math.floor(count / 2), options!.length - 1)] || !!input) return;
+            input = value;
+        }"
+      >
+        Others
       </li>
     </ul>
   </section>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
+import { DropdownOption } from "../../utils";
 
 const props = defineProps({
-  options: Array<String | Number | Date | Object>,
-  modelValue: [String, Number, Date, Object],
+  options: Array<DropdownOption>,
+  modelValue: DropdownOption,
   count: {
     type: Number,
     default: 5,
   },
+  allowOthers: Boolean,
 });
 
 const input = ref();
 const count = Math.min(props.options!.length, props.count);
+const selected = ref(-1);
 
-const selected = ref(props.options?.indexOf(props.modelValue!));
+const FindIndex = () => {
+  props.options?.forEach((option, key) => {
+    if (option.label === props.modelValue?.label) selected.value = key;
+  });
+};
 
 const SetValue = (key: number) => {
-  const value = props.options![key];
   selected.value = key;
+  const value = props.options![key];
   emit("update:modelValue", value);
   emit("click");
 };
@@ -45,25 +65,22 @@ const emit = defineEmits(["update:modelValue", "click"]);
 
 onMounted(() => {
   input.value?.scrollIntoView({ behavior: "smooth" });
+  FindIndex();
 });
 </script>
 <style scoped>
 .input-select {
-  --outline-color: var(--ion-color-black);
-  --background-color: var(--ion-color-secondary);
-  --background-color-selected: var(--ion-color-secondary-shade);
-  --border-radius: 5px;
   --item-height: 30px;
   --count: 5;
 
-  outline: 2px solid var(--outline-color);
+  outline: 2px solid var(--theme-black);
   min-width: 100px;
   width: max-content;
-  border-radius: var(--border-radius);
+  border-radius: 5px;
   padding: 0;
   overflow: scroll;
   height: calc(var(--item-height) * var(--count));
-  background-color: var(--background-color);
+  background-color: var(--theme-secondary);
 
   > .items {
     padding: 0;
@@ -87,6 +104,6 @@ onMounted(() => {
 
 .selected {
   font-weight: 700;
-  background-color: var(--background-color-selected);
+  background-color: var(--theme-secondary-dark);
 }
 </style>

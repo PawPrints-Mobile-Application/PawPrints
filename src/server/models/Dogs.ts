@@ -45,8 +45,6 @@ const constants = {
     birthday TEXT,
     breed TEXT,
     color TEXT,
-    inoutdoor TEXT,
-    fixing TEXT,
     events TEXT,
     notes TEXT
       `,
@@ -59,8 +57,6 @@ type Props = {
   birthday: string;
   breed: string;
   color: string;
-  inoutdoor: string;
-  fixing: string;
   events: Array<string>;
   notes: Array<string>;
 };
@@ -71,8 +67,6 @@ type LocalProps = {
   birthday: string;
   breed: string;
   color: string;
-  inoutdoor: string;
-  fixing: string;
   events: string;
   notes: string;
 };
@@ -84,8 +78,6 @@ const ToProps = (props: LocalProps): Props => {
     birthday: props.birthday,
     breed: props.breed,
     color: props.color,
-    inoutdoor: props.inoutdoor,
-    fixing: props.fixing,
     events: StringToArray(props.events, constants.arraySplitter),
     notes: StringToArray(props.notes, constants.arraySplitter),
   };
@@ -98,8 +90,6 @@ const ToLocalProps = (props: Props | DocumentData): LocalProps => {
     birthday: props.birthday,
     breed: props.breed,
     color: props.color,
-    inoutdoor: props.inoutdoor,
-    fixing: props.fixing,
     events: props.events.join(constants.arraySplitter),
     notes: props.notes.join(constants.arraySplitter),
   };

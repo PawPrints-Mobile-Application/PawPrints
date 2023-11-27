@@ -158,7 +158,7 @@ defineExpose({ state, ForceFocus, ForceBlur });
 }
 
 .icon {
-  width: 30px;
+  min-width: 30px;
   height: 30px;
   display: flex;
 }

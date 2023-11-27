@@ -6,6 +6,7 @@
     @submit="Submit"
     @clear="ClearForm"
     @discard="Discard"
+    :disable-submit="disabled"
     close-on-submit
     :canDismiss="!isOpen"
   >
@@ -30,8 +31,10 @@
     <InputDropdown
       v-model="form.breed"
       label="Doggo Breed"
-      :options="constants.breeds"
+      :options="breeds"
       placeholder="Choose a breed"
+      :count="6"
+      searchable
     />
     <InputDynamicWrapped
       type="color"
@@ -43,16 +46,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, computed } from "vue";
 import { LayoutModal } from "../../layout";
 
 import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
-import { SeedGenerator, GetUID } from "../../utils";
+import { SeedGenerator, GetUID, breeds } from "../../utils";
 import { InputDynamicWrapped, InputDropdown } from "../Forms";
-const constants = {
-  breeds: ["1", "2"],
-};
 
 const form = reactive({
   name: "",
@@ -63,7 +63,9 @@ const form = reactive({
   fixing: "",
 });
 
-const disabled = ref(true);
+const disabled = computed(() =>
+  [form.name, form.birthday, form.breed].includes("")
+);
 const Discard = () => {
   emit("discard");
   ClearForm();
@@ -71,13 +73,10 @@ const Discard = () => {
 
 const ClearForm = () => {
   console.log("Clearing...");
-  disabled.value = true;
   form.name = "";
   form.birthday = "";
   form.breed = "";
   form.color = "#FFD80A";
-  form.inoutdoors = "";
-  form.fixing = "";
 };
 
 const Submit = () => {
@@ -89,8 +88,6 @@ const Submit = () => {
       birthday: form.birthday,
       breed: form.breed,
       color: form.color,
-      inoutdoor: form.inoutdoors,
-      fixing: form.fixing,
       events: [],
       notes: [],
     },
@@ -114,5 +111,6 @@ const emit = defineEmits(["submit", "discard"]);
 <style scoped>
 .avatar {
   --size: 100px;
+  --image-scale: 90%;
 }
 </style>

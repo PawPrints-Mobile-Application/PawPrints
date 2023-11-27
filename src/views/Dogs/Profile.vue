@@ -6,50 +6,49 @@
   >
     <template #header>
       <header>
-        <ButtonBack
-          type="icon"
-          label="Back to Dogs List"
-          @click="() => ionRouter.back()"
-        />
-        <InputSegmentIcon :icons="mainSegments" v-model="state.mainSegment" />
+        <ButtonBack type="icon" @click="() => ionRouter.back()" />
+        <TextHeading>{{ dog?.name }}</TextHeading>
+        <section class="edit-profile" @click="ClickInfoCard">
+          <Avatar type="dog" :src="dog?.breed" :color="dog?.color" />
+          <TextSmall>Edit Profile</TextSmall>
+        </section>
       </header>
     </template>
-    <DogCard :dog="dog" @click="ClickDogCard" />
+    <InputSegment
+      class="logs-segment"
+      :options="viewSegments"
+      v-model="state.viewSegment"
+      show="both"
+    />
     <section
       class="logs"
       v-show="!!dog"
-      v-if="state.mainSegment === mainSegments[0]"
+      v-if="state.viewSegment === viewSegments[0]"
     >
-      <ModalAddLog trigger="add-activity" />
-      <InputSegment
-        class="logs-segment"
-        :options="logsSegments"
-        v-model="state.logsSegment"
-      />
-      <NoteCardPreview
-        :notes="dog?.notes"
-        v-if="state.logsSegment === logsSegments[0]"
-      />
-      <EventCardPreview :notes="dog?.events" v-else />
     </section>
+    <ModalAddLog
+      :isOpen="modalOpen"
+      @submit="SubmitModalDog"
+      @discard="CloseModalLog"
+    />
   </LayoutPage>
 </template>
 <script setup lang="ts">
 import { LayoutPage } from "../../layout";
-import { useRoute } from "vue-router";
-import { ref, reactive, Ref } from "vue";
-import { DogCard } from "../../components/Cards";
-import { onIonViewDidEnter, useIonRouter } from "@ionic/vue";
 import { ButtonBack } from "../../components/Buttons";
+import { TextHeading, TextSmall } from "../../components/Texts";
+import { Avatar } from "../../components/Avatars";
 import { ModalAddLog } from "../../components/Modals";
 import { Get, Props } from "../../server/models/Dogs";
-import { InputSegment, InputSegmentIcon } from "../../components/Forms";
-import { NoteCardPreview, EventCardPreview } from "../../components/Cards";
+import { InputSegment } from "../../components/Forms";
+import { CustomEvent, SegmentOption } from "../../utils";
+import { ref, reactive, Ref } from "vue";
+import { onIonViewDidEnter, useIonRouter } from "@ionic/vue";
 import {
   documents as logView,
   calendar as calendarView,
-  barChart as analysisView,
 } from "ionicons/icons";
+import { useRoute } from "vue-router";
 const ionRouter = useIonRouter();
 
 const route = useRoute();
@@ -57,24 +56,36 @@ const params = ref(route.params);
 const pid = ref();
 const dog: Ref<Props | undefined> = ref();
 
-const mainSegments = [logView, calendarView, analysisView];
-const logsSegments = ["Notes", "Events"];
+  const viewSegments = [
+  new SegmentOption("Calendar View", calendarView),
+  new SegmentOption("Log View", logView),
+];
 const state = reactive({
   hideCard: false,
-  mainSegment: mainSegments[0],
-  logsSegment: logsSegments[0],
+  viewSegment: viewSegments[0],
 });
 
-const ClickDogCard = () =>
+const ClickInfoCard = () =>
   ionRouter.navigate(`/dogs/${dog.value?.pid}/information`, "forward", "push");
 
+const modalOpen = ref(false);
+const OpenModalLog = () => {
+  modalOpen.value = true;
+};
+const CloseModalLog = () => {
+  modalOpen.value = false;
+};
+const SubmitModalDog = () => {
+  CustomEvent.EventDispatcher("reload", "logs");
+};
+
 onIonViewDidEnter(() => {
+  CustomEvent.EventListener("modal-log-open", OpenModalLog);
   if (typeof params.value.pid === "string") pid.value = params.value.pid;
   else pid.value = params.value.pid.join("");
 
   Get(pid.value).then((value: Props) => {
     dog.value = value;
-    console.log(value.notes);
   });
 });
 </script>
@@ -89,7 +100,7 @@ export default {
 header {
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
   margin-block: 10px;
@@ -100,6 +111,30 @@ header {
 
   > .text-heading {
     width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+
+  > .edit-profile {
+    width: 120px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    > .avatar {
+      --size: 50px;
+      --image-scale: 80%;
+    }
+
+    > .text-small {
+      position: absolute;
+      padding: 2px;
+      background-color: var(--theme-tertiary);
+      border-radius: 6px;
+      font-size: 10px;
+      transform: translateY(27px);
+    }
   }
 }
 

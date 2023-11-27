@@ -4,19 +4,39 @@
       <li
         v-for="(option, key) in options"
         @click="SetValue(key)"
-        :class="{ select: option === modelValue }"
+        :class="[
+          { selected: option.label === modelValue?.label, reverse: key+1 > options?.length! / 2 && show === 'auto' },
+          show,
+        ]"
       >
-        <TextSubheading>{{ option }}</TextSubheading>
+        <IonIcon :icon="option.icon" v-show="show !== 'label'" />
+        <TextSubheading
+          v-show="
+            !(
+              (show === 'auto' && option.label !== modelValue?.label) ||
+              show === 'icon'
+            )
+          "
+          >{{ option.label }}</TextSubheading
+        >
       </li>
     </ul>
   </section>
 </template>
 <script setup lang="ts">
 import { TextSubheading } from "../Texts";
+import { SegmentOption } from "../../utils";
+import { IonIcon } from "@ionic/vue";
 
 const props = defineProps({
-  options: Array<String | Number>,
-  modelValue: [String, Number],
+  options: Array<SegmentOption>,
+  modelValue: SegmentOption,
+  show: {
+    type: String,
+    default: "auto",
+    validator: (value: string) =>
+      ["auto", "label", "icon", "both"].includes(value),
+  },
 });
 
 const SetValue = (key: number) => {
@@ -28,7 +48,7 @@ const emit = defineEmits(["select", "update:modelValue"]);
 </script>
 <style scoped>
 .input-segment {
-  background-color: var(--ion-color-primary-shade);
+  background-color: var(--theme-secondary);
   width: 100%;
   border-radius: 10px;
   overflow-x: scroll;
@@ -38,23 +58,37 @@ const emit = defineEmits(["select", "update:modelValue"]);
 ul {
   padding: 0;
   margin: 0;
+  height: 30px;
   list-style: none;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: stretch;
   min-width: 100%;
 }
 
 li {
-  flex: var(--item-flex);
-  text-align: center;
-  vertical-align: center;
-  padding: 2px 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
   border-radius: 6px;
-  transition: all 100ms ease-out;
+  transition: all 200ms ease-out;
+}
 
-  &.select {
-    background-color: var(--ion-color-tertiary);
+.selected {
+  background-color: var(--theme-tertiary);
+
+  > * {
+    color: var(--theme-primary);
   }
+}
+
+.reverse {
+  flex-direction: row-reverse;
+}
+
+ion-icon {
+  font-size: 25px;
 }
 </style>

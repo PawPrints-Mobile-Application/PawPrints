@@ -120,7 +120,7 @@ const state = reactive({
 
 const clickMiddle = () => {
   if (state.navigating) return;
-  if (!isTab("/dogs")) {
+  if (!isOnTab("/dogs")) {
     console.log(true);
     state.navigating = true;
     state.dogs = true;
@@ -131,7 +131,8 @@ const clickMiddle = () => {
         setTimeout(() => (state.navigating = false), 150);
       }, 150);
     }, 250);
-  } else CustomEvent.EventDispatcher("modal-open");
+  } else if (!isTab("/dogs")) CustomEvent.EventDispatcher("modal-log-open");
+  else CustomEvent.EventDispatcher("modal-dog-open");
 };
 
 const Navigate = (

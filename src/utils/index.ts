@@ -16,6 +16,10 @@ import SampleColors from "./SampleColors";
 
 import CustomEvent from "./CustomEvent";
 import GetUID from "./GetUID";
+import breeds from "./Breeds";
+
+import DropdownOption from "./DropdownOption";
+import SegmentOption from "./SegmentOption";
 
 export {
   RouteInfo,
@@ -25,15 +29,14 @@ export {
   Age,
   StringToArray,
   ObjectToMap,
-
   HelperConstructor,
   InputValidator,
-
   LocalDate,
-
   GetScreenSize,
   SampleColors,
-
   CustomEvent,
-  GetUID
-}
+  GetUID,
+  breeds,
+  DropdownOption,
+  SegmentOption
+};
