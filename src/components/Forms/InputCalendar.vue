@@ -4,8 +4,8 @@
       <ButtonBack class="button" @click="() => MoveMonth(-1)" type="icon" />
       <InputDropdown
         class="month"
-        :model-value="calendar.dropDownMonth"
-        @change="(value) => SetMonth(value)"
+        :model-value="calendar.dropdownMonth"
+        @change="(value) => SetMonth(value.value)"
         :options="constants.months"
         hide-icon
         hide-input
@@ -13,8 +13,8 @@
       />
       <InputDropdown
         class="year"
-        :model-value="calendar.year"
-        @change="(value) => SetYear(value)"
+        :model-value="calendar.dropdownYear"
+        @change="(value) => SetYear(value.value)"
         :options="GetAllYears()"
         hide-icon
         hide-input
@@ -78,24 +78,68 @@ import { ButtonBack, ButtonNext, ButtonText } from "../Buttons";
 import { paw as calendarMark } from "ionicons/icons";
 import { reactive, onMounted } from "vue";
 import { IonIcon } from "@ionic/vue";
+import { DropdownOption } from "../../utils";
 
 // CONSTANTS
 const constants = {
   months: [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    new DropdownOption("January"),
+    new DropdownOption("February"),
+    new DropdownOption("March"),
+    new DropdownOption("April"),
+    new DropdownOption("May"),
+    new DropdownOption("June"),
+    new DropdownOption("July"),
+    new DropdownOption("August"),
+    new DropdownOption("September"),
+    new DropdownOption("October"),
+    new DropdownOption("November"),
+    new DropdownOption("December"),
   ],
   days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+};
+
+// Cell Calendar UI Modifiers
+const GetCalendarCells = (month: number, year: number) =>
+  Array(new Date(year, month, 1).getDay())
+    .fill("")
+    .concat(
+      Array.from({ length: new Date(year, month + 1, 0).getDate() }, (_, i) =>
+        (i + 1).toString()
+      )
+    );
+const GetCellDate = (week: number, day: number) =>
+  calendar.cells[BaseSevenToDecimal(week, day)];
+const GetAllYears = () => {
+  const length = !props.disableFuture ? 151 : 71;
+  return Array.from(
+    { length: length },
+    (_, i) =>
+      new DropdownOption(
+        (i + new Date().getFullYear() - 70).toString(),
+        i + new Date().getFullYear() - 70
+      )
+  );
+};
+const indexOfMonth = (month: string) => {
+  let temp = -1;
+  constants.months.forEach((each, key) => {
+    if (each.value === month) temp = key;
+  });
+  return temp;
+};
+const BaseSevenToDecimal = (week: number, day: number) => week * 7 + (day % 7);
+const IsCellSelected = (week: number, day: number) => {
+  const cell = BaseSevenToDecimal(week, day);
+  return (
+    GetCellDate(week, day) !== "" &&
+    calendar.month === selected.month &&
+    calendar.year === selected.year &&
+    calendar.date.toString() === calendar.cells[cell]
+  );
+};
+const RefreshCalendar = () => {
+  calendar.cells = GetCalendarCells(calendar.month, calendar.year);
 };
 
 const props = defineProps({
@@ -109,7 +153,11 @@ const calendar = reactive({
   month: 0,
   date: 1,
   year: 1,
-  dropDownMonth: constants.months[1],
+  dropdownMonth: constants.months[0],
+  dropdownYear: new DropdownOption(
+    new Date().getFullYear().toString(),
+    new Date().getFullYear()
+  ),
   cells: new Array<string>(),
 });
 
@@ -132,21 +180,21 @@ const MoveMonth = (increment: 1 | -1) => {
     return;
   calendar.month = month;
   calendar.year = year;
-  SetMonth(constants.months[calendar.month]);
+  SetMonth(constants.months[calendar.month].value);
 };
 const SetMonth = (month: string) => {
   if (
     !!props.disableFuture &&
-    new Date(calendar.year, constants.months.indexOf(month), calendar.date) >
-      new Date()
+    new Date(calendar.year, indexOfMonth(month), calendar.date) > new Date()
   )
     return;
-  calendar.month = constants.months.indexOf(month);
-  calendar.dropDownMonth = month;
+  calendar.month = indexOfMonth(month);
+  calendar.dropdownMonth = new DropdownOption(month);
   RefreshCalendar();
 };
 const SetYear = (year: number) => {
   calendar.year = year;
+  calendar.dropdownYear = new DropdownOption(year.toString(), year);
   RefreshCalendar();
 };
 const SetDate = (date: number) => {
@@ -172,45 +220,13 @@ const Save = (doEmit: boolean = false) => {
   }
 };
 
-// Cell Calendar UI Modifiers
-const GetCalendarCells = (month: number, year: number) =>
-  Array(new Date(year, month, 1).getDay())
-    .fill("")
-    .concat(
-      Array.from({ length: new Date(year, month + 1, 0).getDate() }, (_, i) =>
-        (i + 1).toString()
-      )
-    );
-const GetCellDate = (week: number, day: number) =>
-  calendar.cells[BaseSevenToDecimal(week, day)];
-const GetAllYears = () => {
-  const length = !props.disableFuture ? 151 : 71;
-  return Array.from(
-    { length: length },
-    (_, i) => i + new Date().getFullYear() - 70
-  );
-};
-const BaseSevenToDecimal = (week: number, day: number) => week * 7 + (day % 7);
-const IsCellSelected = (week: number, day: number) => {
-  const cell = BaseSevenToDecimal(week, day);
-  return (
-    GetCellDate(week, day) !== "" &&
-    calendar.month === selected.month &&
-    calendar.year === selected.year &&
-    calendar.date.toString() === calendar.cells[cell]
-  );
-};
-const RefreshCalendar = () => {
-  calendar.cells = GetCalendarCells(calendar.month, calendar.year);
-};
-
 onMounted(() => {
   let temp = !props.modelValue ? new Date() : props.modelValue;
   if (!props.modelValue) emit("update:modelValue", temp);
   calendar.date = temp.getDate();
   calendar.month = temp.getMonth();
   calendar.year = temp.getFullYear();
-  calendar.dropDownMonth = constants.months[calendar.month];
+  calendar.dropdownMonth = constants.months[calendar.month];
   RefreshCalendar();
   selected.date = temp.getDate();
   selected.month = temp.getMonth();
