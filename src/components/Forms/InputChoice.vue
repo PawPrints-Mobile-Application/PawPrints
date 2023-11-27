@@ -38,9 +38,9 @@ const emit = defineEmits(["update:modelValue"]);
 }
 
 .choice {
+  background-color: var(--theme-secondary);
+  color: var(--theme-black);
   outline: 2px solid var(--theme-black);
-  background-color: var(--theme-quadratic);
-  color: var(--theme-primary);
   font-weight: 700;
   width: max-content;
   width: 30px;
@@ -49,11 +49,13 @@ const emit = defineEmits(["update:modelValue"]);
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 0.3;
 }
 
 .selected {
-  background-color: var(--theme-primary);
-  color: var(--theme-tertiary);
-  outline: 2px solid var(--theme-tertiary);
+  background-color: var(--theme-quadratic);
+  color: var(--theme-primary);
+  outline: 2px solid var(--theme-black);
+  opacity: 1;
 }
 </style>

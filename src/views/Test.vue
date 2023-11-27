@@ -17,4 +17,9 @@ export default {
   name: "Test",
 };
 </script>
-<style scoped></style>
+<style scoped>
+section {
+  display: flex;
+  gap: 10px;
+}
+</style>

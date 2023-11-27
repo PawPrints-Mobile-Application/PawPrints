@@ -9,7 +9,7 @@
         <ButtonBack type="icon" @click="() => ionRouter.back()" />
         <TextHeading>{{ dog?.name }}</TextHeading>
         <section class="edit-profile" @click="ClickInfoCard">
-          <Avatar type="dog" :src="dog?.breed" :color="dog?.color" />
+          <Avatar type="dog" :src="dog?.breed.value" :color="dog?.color" />
           <TextSmall>Edit Profile</TextSmall>
         </section>
       </header>

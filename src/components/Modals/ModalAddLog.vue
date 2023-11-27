@@ -20,14 +20,12 @@
       v-model="form.recordType"
       label="Record Type"
       :hideInput="isRecord()"
+      :count="6"
     />
-    <InputDynamicWrapped
-      label="Record Value"
-      placeholder="Record Value"
-      v-show="isRecord()"
-    >
+    <InputDynamicWrapped label="Record Value" placeholder="Record Value">
       <InputChoice
-        :options="isRecord() ? form.recordType.value : []"
+        v-show="hasChoices()"
+        :options="hasChoices() ? form.recordType.value: []"
         v-model="form.recordUnits"
       />
     </InputDynamicWrapped>
@@ -57,20 +55,21 @@ const GetTitle = () =>
   form.recordType.label === "" ? "Title" : form.recordType.label;
 
 const isRecord = () => logSegment.value.label === logSegments[0].label;
+const hasChoices = () => Array.isArray(form.recordType.value);
 
 const GetRecordTypeOptions = () => {
+  let temp = [
+    new DropdownOption("Vaccine"),
+    new DropdownOption("Medicine"),
+    new DropdownOption("Symptoms"),
+    new DropdownOption("Activity"),
+  ];
   if (isRecord())
-    return [
+    temp = temp.concat([
       new DropdownOption("Weight", ["kg", "lbs"]),
       new DropdownOption("Temperature", ["°C", "°F"]),
-    ];
-  else
-    return [
-      new DropdownOption("Vaccine", "Vaccine"),
-      new DropdownOption("Medicine", "Medicine"),
-      new DropdownOption("Symptoms", "Symptoms"),
-      new DropdownOption("Activity", "Activity"),
-    ];
+    ]);
+  return temp;
 };
 
 const logSegments = [
