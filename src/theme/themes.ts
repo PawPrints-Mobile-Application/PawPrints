@@ -86,6 +86,7 @@ const themes = {
     "trivia-text": "#F7F9F9",
 
     text: "#F7F9F9",
+    },
   blueLight: {
     primary: "#DBEBF5", // primary bg
     secondary: "#7FA4BF", // input text area
@@ -129,6 +130,7 @@ const themes = {
     "trivia-text": "#F7F9F9",
 
     text: "#F7F9F9",
+  }
 };
 
 export default themes;
