@@ -16,13 +16,13 @@
       :id="item.name"
     />
     <section class="buttons">
-      <TextButton label="Reset" />
-      <TextButton label="Save" />
+      <ButtonText label="Reset" />
+      <ButtonText label="Save" />
     </section>
   </LayoutSettings>
 </template>
 <script setup lang="ts">
-import { TextButton } from "../../components/Buttons";
+import { ButtonText } from "../../components/Buttons";
 import { LayoutSettings } from "../../layout";
 import { InputRadio, InputLabel } from "../../components/Forms";
 import { watch, ref } from "vue";

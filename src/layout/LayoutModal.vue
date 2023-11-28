@@ -219,7 +219,6 @@ defineExpose({ Clear, Discard, Submit, Back, Next });
 </script>
 <style scoped>
 .layout-modal {
-  --background-color: var(--background-color-primary);
   --default-margin: 20px;
   height: 100%;
   width: 100%;

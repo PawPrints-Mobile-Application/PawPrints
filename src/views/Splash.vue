@@ -98,7 +98,7 @@ export default {
 </script>
 <style scoped>
 .layout-page {
-  --background-color: var(--ion-color-tertiary);
+  --background-color: var(--theme-tertiary);
 }
 
 .logo {
@@ -131,7 +131,7 @@ export default {
 .backdrop {
   opacity: 0;
   position: absolute;
-  background-color: var(--ion-color-primary);
+  background-color: var(--theme-primary);
   width: 10px;
   height: 10px;
   border-radius: 100%;

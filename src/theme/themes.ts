@@ -47,13 +47,13 @@ const themes = {
   },
   pink: {
     light: {
-      primary: "#FFFFFF", // primary bg
+      primary: "#FEFEFE", // primary bg
       secondary: "#EEF7FF", // input text area
       "secondary-dark": "#C4CEDF", // search bar, write
       tertiary: "#EC9CAF", //button or theme name
       quadratic: "#33272A", // dates choices, buttons in input text area
 
-      "button-text": "#FFFFFF", // for color-tertiary
+      "button-text": "#FEFEFE", // for color-tertiary
       "button-normal": "#EC9CAF", // same as tertiary
       "button-warning": "#EC9CAF", // clear/delete/close button
       "button-success": "#AFE194", //sign up,get started,save
@@ -99,7 +99,7 @@ const themes = {
       tertiary: "#0D3B5C", //button, dday or theme name
       quadratic: "#1E5074", // dates choices
 
-      "button-text": "#FFFFFE", // for color-tertiary
+      "button-text": "#FEFEFE", // for color-tertiary
       "button-normal": "#0D3B5C", // same as tertiary
       "button-warning": "#0D3B5C", // clear/delete/close button
       "button-success": "#F5D473", //sign up,get started,save
@@ -110,7 +110,7 @@ const themes = {
       "card-highlight-background": "#D9E4EC",
       "card-highlight-text": "#000000",
       "trivia-background": "#1E5074",
-      "trivia-text": "#FFFFFF",
+      "trivia-text": "#FEFEFE",
 
       text: "#0d0d0d",
     },

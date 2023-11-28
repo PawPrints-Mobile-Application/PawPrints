@@ -33,6 +33,6 @@ export default {
 }
 
 #background-placeholder {
-  background-color: var(--ion-color-primary-shade);
+  background-color: var(--theme-grey);
 }
 </style>

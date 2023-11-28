@@ -41,7 +41,7 @@ const emit = defineEmits(["update:modelValue", "click-backdrop"]);
 }
 
 ion-backdrop {
-  background: var(--ion-color-black);
+  background: var(--theme-black);
   opacity: 0.3;
 }
 

@@ -1,7 +1,7 @@
 <template>
   <LayoutSettings label="ABOUT" target="/settings">
     <section class="logo">
-      <ImgLogo />
+      <Logo />
       <TextHeading class="app-name">PawPrints</TextHeading>
     </section>
     <section class="container">
@@ -16,7 +16,7 @@
 </template>
 <script setup lang="ts">
 import { LayoutSettings } from "../../layout";
-import { ImgLogo } from "../../components/Logo";
+import { Logo } from "../../components/Logo";
 import { TextHeading, TextParagraph } from "../../components/Texts";
 
 const devNames = [
@@ -55,7 +55,7 @@ export default {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  background-color: var(--ion-color-secondary);
+  background-color: var(--theme-secondary);
   font-family: Poppins;
   font-size: var(--fs4);
 

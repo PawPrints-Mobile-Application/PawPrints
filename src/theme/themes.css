@@ -1,6 +1,8 @@
 :root {
   --theme-black: #0d0d0d;
   --theme-white: #fefefe;
+  --theme-grey: #cecece;
+
   --theme-primary: #fefefe;
   --theme-secondary: #e3f6f5;
   --theme-secondary-dark: #e3f6f5;

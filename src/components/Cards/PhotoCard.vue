@@ -14,8 +14,8 @@ defineProps({
   justify-content: center;
   align-items: center;
   width: 90%;
-  background-color: var(--ion-color-tertiary);
-  outline: 2px solid var(--ion-color-black);
+  background-color: var(--theme-tertiary);
+  outline: 2px solid var(--theme-black);
   border-radius: 10px;
   overflow: hidden ;
 

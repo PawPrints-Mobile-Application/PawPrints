@@ -140,7 +140,7 @@ const emit = defineEmits(["update:value"]);
     width: var(--size);
     aspect-ratio: 1;
     overflow: hidden;
-    background-color: var(--ion-color-tertiary);
+    background-color: var(--theme-tertiary);
     outline: 2px solid black;
 
     > div {

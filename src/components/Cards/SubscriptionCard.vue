@@ -44,7 +44,7 @@ defineProps({
 }
 
 .subscription-card {
-  background-color: var(--ion-color-secondary);
+  background-color: var(--theme-secondary);
   width: 90%;
   display: flex;
   flex-direction: column;

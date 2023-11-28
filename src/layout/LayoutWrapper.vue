@@ -109,9 +109,7 @@ const emit = defineEmits([
 </script>
 <style scoped>
 .layout-header {
-  --background-color: var(--background-color-primary);
-  --background-color-header: var(--background-color);
-  background-color: var(--background-color-header);
+  background-color: var(--theme-primary);
   min-width: 320px;
   min-height: 30px;
   max-height: 70px;
@@ -123,9 +121,7 @@ const emit = defineEmits([
 }
 
 .layout-content::part(background) {
-  --background-color: var(--background-color-primary);
-  --background-color-content: var(--background-color);
-  background-color: var(--background-color-content);
+  background-color: var(--theme-primary);
   min-height: 100%;
   min-width: 320px;
 }
@@ -169,9 +165,7 @@ const emit = defineEmits([
 }
 
 .layout-footer {
-  --background-color: var(--background-color-primary);
-  --background-color-footer: var(--background-color);
-  background-color: var(--background-color-footer);
+  background-color: var(--theme-primary);
   min-width: 320px;
   min-height: 30px;
   max-height: 70px;

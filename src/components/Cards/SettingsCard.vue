@@ -35,7 +35,7 @@ const emit = defineEmits(["click"]);
   align-items: center;
   padding: 20px;
   border-radius: 20px;
-  background-color: var(--ion-color-secondary);
+  background-color: var(--theme-secondary);
 
   > img {
     width: 80px;
@@ -49,6 +49,6 @@ const emit = defineEmits(["click"]);
 }
 
 .settings-card:active {
-  background-color: var(--ion-color-secondary-shade);
+  background-color: var(--theme-secondary-dark);
 }
 </style>

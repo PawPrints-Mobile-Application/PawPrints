@@ -10,6 +10,7 @@ import { IonApp, IonRouterOutlet } from "@ionic/vue";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { onBeforeMount, onMounted } from "vue";
 import { ToastNetwork } from "./components/Toasts";
+import { CustomEvent } from "./utils";
 
 onBeforeMount(() => {
   sessionStorage.setItem("appInitialized", "false");
@@ -21,6 +22,7 @@ onMounted(async () => {
   }, 0);
 
   sessionStorage.setItem("appInitialized", "true");
+  CustomEvent.EventDispatcher("reload-mode");
 });
 </script>
 
@@ -30,5 +32,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

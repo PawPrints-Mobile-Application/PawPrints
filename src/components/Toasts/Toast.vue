@@ -20,7 +20,7 @@ defineProps({
 .toast {
   --width: 90%;
   --background-color: #00000096;
-  --color: var(--ion-color-white);
+  --color: var(--theme-text);
 
   position: absolute;
   width: 100%;
@@ -50,7 +50,7 @@ defineProps({
 
 .inside-wrapper {
   min-width: var(--width);
-  background-color: var(--background-color);
+  background-color: var(--theme-primary);
   color: var(--color);
   padding: 10px;
   border-radius: 20px;

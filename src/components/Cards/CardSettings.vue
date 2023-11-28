@@ -16,7 +16,7 @@ defineProps({
 .card-settings {
   height: 60px;
   width: 100%;
-  background-color: var(--ion-color-secondary);
+  background-color: var(--theme-secondary);
   border-radius: 8px;
   display: flex;
   gap: 5px;
@@ -26,5 +26,6 @@ defineProps({
 
 ion-icon {
     font-size: 30px;
+    color: var(--theme-text);
 }
 </style>

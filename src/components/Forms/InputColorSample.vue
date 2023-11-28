@@ -41,7 +41,7 @@ const emit = defineEmits(["update:modelValue"]);
 }
 
 .color {
-  outline: 1px solid var(--ion-color-black);
+  outline: 1px solid var(--theme-black);
   width: var(--size);
   height: var(--size);
   border-radius: 15px;

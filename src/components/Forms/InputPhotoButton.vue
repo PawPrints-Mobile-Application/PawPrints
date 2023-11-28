@@ -119,7 +119,7 @@
         }
   
         > .change-button {
-          background-color: var(--ion-color-black);
+          background-color: var(--theme-black);
           border-radius: 4px;
           display: flex;
           justify-content: center;
@@ -130,7 +130,7 @@
             position: absolute;
             width: 14px;
             height: 2px;
-            background-color: var(--ion-color-white);
+            background-color: var(--theme-white);
           }
   
           > #button-line-1 {

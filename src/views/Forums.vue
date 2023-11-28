@@ -61,11 +61,10 @@ export default {
 }
 
 .facts-image {
-  background-color: var(--ion-color-primary-shade);
+  background-color: var(--theme-grey);
   border-radius: 10px;
   width: 98%;
   max-width: 98%;
   min-height: 150px;
 }
 </style>
-../FactsPages../FactsPages../facts

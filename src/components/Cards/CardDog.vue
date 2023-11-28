@@ -5,7 +5,7 @@
         type="dog"
         :src="dog?.breed.value"
         :style="{
-          backgroundColor: !!dog ? dog?.color : 'var(--ion-color-tertiary)',
+          backgroundColor: !!dog ? dog?.color : 'var(--theme-tertiary)',
         }"
         lazy-load
       />
@@ -36,8 +36,8 @@ const age: Ref<Age> = ref(new Age(new Date(props.dog?.birthday)));
 </script>
 <style scoped>
 .card-dog {
-  background-color: var(--ion-color-secondary-shade);
-  outline: 3px solid var(--ion-color-black);
+  background-color: var(--theme-secondary-dark);
+  outline: 3px solid var(--theme-black);
   width: 100%;
   border-radius: 10px;
   padding: 10px;
@@ -56,8 +56,8 @@ header {
 }
 
 .avatar {
-  outline: 2px solid var(--ion-color-primary);
-  background-color: var(--ion-color-primary);
+  outline: 2px solid var(--theme-primary);
+  background-color: var(--theme-primary);
   --size: 80px;
 }
 

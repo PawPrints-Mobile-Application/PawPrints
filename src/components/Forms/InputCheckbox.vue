@@ -98,7 +98,7 @@ const emit = defineEmits(["update:modelValue"]);
 }
 
 .option-input {
-  background-color: var(--ion-color-secondary);
+  background-color: var(--theme-secondary);
   width: var(--size);
   height: var(--size);
   display: flex;
@@ -113,7 +113,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 .option-input > .custom-input {
   opacity: 0.7;
-  background-color: var(--ion-color-black);
+  background-color: var(--theme-black);
   border-radius: var(--border-radius);
   position: absolute;
   width: var(--cover-size);
@@ -123,17 +123,18 @@ const emit = defineEmits(["update:modelValue"]);
 .option-label {
   flex: 1 0 0;
   font-size: var(--fs4);
+  color: var(--theme-text);
 
   > input {
     width: 100%;
     border-radius: 4px;
     border: none;
-    border-bottom: 1px solid var(--ion-color-black);
+    border-bottom: 1px solid var(--theme-black);
   }
 
   > input:is(:focus, :hover, :active) {
     outline: none;
-    border-bottom: 2px solid var(--ion-color-black);
+    border-bottom: 2px solid var(--theme-black);
   }
 }
 </style>

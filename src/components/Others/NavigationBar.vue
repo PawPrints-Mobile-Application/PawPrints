@@ -153,8 +153,8 @@ const Navigate = (
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: var(--ion-color-primary);
-  border-top: 2px solid var(--ion-color-white-shade);
+  background-color: var(--theme-primary);
+  border-top: 2px solid var(--theme-grey);
 }
 
 .button-middle {
@@ -184,7 +184,7 @@ const Navigate = (
 
     > ion-icon:nth-child(1) {
       font-size: var(--size);
-      color: var(--theme-primary);
+      color: var(--theme-text);
     }
 
     > ion-icon:nth-child(2) {
@@ -196,7 +196,7 @@ const Navigate = (
 
   .text-small {
     position: relative;
-    color: var(--theme-primary);
+    color: var(--theme-text);
     transform: translateY(-2px);
   }
 }
@@ -246,11 +246,11 @@ const Navigate = (
   min-width: 20px;
   --size: 25px;
   z-index: 1;
-  color: var(--ion-color-black);
-  background-color: var(--ion-color-primary) !important;
+  color: var(--theme-text);
+  background-color: var(--theme-primary) !important;
 
   &.selected {
-    color: var(--ion-color-tertiary);
+    color: var(--theme-tertiary);
   }
 }
 

@@ -319,6 +319,6 @@ onMounted(() => {
   margin-top: auto;
   width: 100%;
   max-height: 35px;
-  --background-color: var(--ion-color-black);
+  --background-color: var(--theme-black);
 }
 </style>
