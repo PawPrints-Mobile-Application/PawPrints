@@ -114,4 +114,17 @@ export default {
 };
 </script>
 <style scoped>
+.change-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-block: 10px;
+}
+.reset {
+  background-color: var(--theme-button-warning);
+}
+.save {
+  background-color: var(--theme-button-success);
+}
+
 </style>
