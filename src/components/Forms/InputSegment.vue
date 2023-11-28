@@ -74,6 +74,8 @@ li {
   padding: 5px;
   border-radius: 6px;
   transition: all 200ms ease-out;
+  flex: var(--flex);
+  justify-content: center;
 }
 
 .selected {
