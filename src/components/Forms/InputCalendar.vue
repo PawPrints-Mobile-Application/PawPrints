@@ -204,20 +204,21 @@ const SetDate = (date: number) => {
   )
     return;
   calendar.date = date;
-  Save(!!props.saveOnChange);
+  Finalize(!!props.saveOnChange);
 };
 
-const Save = (doEmit: boolean = false) => {
+const Finalize = (save: boolean = false) => {
   selected.date = calendar.date;
   selected.month = calendar.month;
   selected.year = calendar.year;
-  if (doEmit) {
-    emit(
-      "update:modelValue",
-      new Date(calendar.year, calendar.month, calendar.date)
-    );
-    emit("save");
-  }
+  if (save) Save();
+};
+const Save = () => {
+  emit(
+    "update:modelValue",
+    new Date(selected.year, selected.month, selected.date)
+  );
+  emit("save");
 };
 
 onMounted(() => {

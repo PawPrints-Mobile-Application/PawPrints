@@ -9,6 +9,7 @@
     :disable-submit="disabled"
     close-on-submit
     :canDismiss="!isOpen"
+    button-submit-text="Save"
   >
     <Avatar
       type="dog"
@@ -46,12 +47,18 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from "vue";
+import { reactive, computed, watch } from "vue";
 import { LayoutModal } from "../../layout";
 
 import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
-import { SeedGenerator, GetUID, breeds, DropdownOption } from "../../utils";
+import {
+  SeedGenerator,
+  GetUID,
+  breeds,
+  DropdownOption,
+  ObjectToMap,
+} from "../../utils";
 import { InputDynamicWrapped, InputDropdown } from "../Forms";
 
 const form = reactive({
@@ -61,9 +68,23 @@ const form = reactive({
   color: "#FFD80A",
 });
 
-const disabled = computed(() =>
-  [form.name, form.birthday, form.breed.value].includes("")
-);
+const defaultValues = reactive({
+  name: "",
+  birthday: "",
+  breed: new DropdownOption("", ""),
+  color: "#FFD80A",
+});
+
+const disabled = computed(() => {
+  let temp = true;
+  const defVal = ObjectToMap(defaultValues);
+  ObjectToMap(form).forEach((value, key) => {
+    if (key === "breed") temp &&= value.value === defVal.get(key).value;
+    else temp &&= value === defVal.get(key);
+  });
+  return temp;
+});
+
 const Discard = () => {
   emit("discard");
   ClearForm();
@@ -71,10 +92,10 @@ const Discard = () => {
 
 const ClearForm = () => {
   console.log("Clearing...");
-  form.name = "";
-  form.birthday = "";
-  form.breed = new DropdownOption("", "");
-  form.color = "#FFD80A";
+  form.name = defaultValues.name;
+  form.birthday = defaultValues.birthday;
+  form.breed = defaultValues.breed;
+  form.color = defaultValues.color;
 };
 
 const Submit = () => {
@@ -86,7 +107,7 @@ const Submit = () => {
       birthday: form.birthday,
       breed: form.breed.value,
       color: form.color,
-      logs: []
+      logs: props.dog!.logs,
     },
     GetUID()
   ).then(() => {
@@ -95,14 +116,26 @@ const Submit = () => {
   });
 };
 
-defineProps({
+const props = defineProps({
   isOpen: {
     type: Boolean,
     required: true,
   },
+  dog: Object,
 });
 
 const emit = defineEmits(["submit", "discard"]);
+
+watch(
+  () => props.dog,
+  () => {
+    defaultValues.name = props.dog!.name;
+    defaultValues.birthday = props.dog!.birthday;
+    defaultValues.breed = props.dog!.breed;
+    defaultValues.color = props.dog!.color;
+    ClearForm();
+  }
+);
 </script>
 
 <style scoped>

@@ -40,7 +40,7 @@ import { GetAll, Props } from "../server/models/Dogs";
 import { InputDynamic } from "../components/Forms";
 const ionRouter = useIonRouter();
 const Navigate = (pid: string) =>
-  ionRouter.navigate(`/dogs/${pid}/profile`, "forward", "push");
+  ionRouter.navigate(`/dogs/${pid}`, "forward", "push");
 
 const dogs: Ref<Props[] | undefined> = ref();
 const filteredDogs = ref(new Array<Props>());
@@ -69,12 +69,12 @@ const CloseModalDog = () => {
 };
 const SubmitModalDog = (pid: string) => {
   CustomEvent.EventDispatcher("reload", "dogs");
-  ionRouter.navigate(`/dogs/${pid}/profile`, "forward", "push");
+  ionRouter.navigate(`/dogs/${pid}`, "forward", "push");
 };
 
 // Heavy Functions
 onIonViewDidEnter(() => {
-  CustomEvent.EventListener("modal-dog-open", OpenModalDog);
+  CustomEvent.EventListener("modal-dog-add", OpenModalDog);
 });
 </script>
 

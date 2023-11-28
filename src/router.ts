@@ -57,12 +57,8 @@ let routes: Array<RouteRecordRaw> = [
         };
       }),
       {
-        path: "/dogs/:pid/profile",
-        component: () => import("./views/Dogs/Profile.vue"),
-      },
-      {
-        path: "/dogs/:pid/information",
-        component: () => import("./views/Dogs/Information.vue"),
+        path: "/dogs/:pid",
+        component: () => import("./views/Dogs/[pid].vue"),
       },
       ...forumsRecords.map((record) => {
         return {

@@ -58,6 +58,6 @@ const emit = defineEmits(["mousehold"]);
 }
 
 .button-rippled:disabled {
-  opacity: 0.4;
+  opacity: 0.2;
 }
 </style>

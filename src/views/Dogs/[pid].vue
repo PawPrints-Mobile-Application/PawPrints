@@ -8,7 +8,7 @@
       <header>
         <ButtonBack type="icon" @click="() => ionRouter.back()" />
         <TextHeading>{{ dog?.name }}</TextHeading>
-        <section class="edit-profile" @click="ClickInfoCard">
+        <section class="edit-profile" @click="EditProfile">
           <Avatar type="dog" :src="dog?.breed.value" :color="dog?.color" />
           <TextSmall>Edit Profile</TextSmall>
         </section>
@@ -24,12 +24,17 @@
       class="logs"
       v-show="!!dog"
       v-if="state.viewSegment === viewSegments[0]"
-    >
-    </section>
+    ></section>
     <ModalAddLog
-      :isOpen="modalOpen"
-      @submit="SubmitModalDog"
+      :isOpen="modalOpen.log"
+      @submit="SubmitModal"
       @discard="CloseModalLog"
+    />
+    <ModalEditDog
+      :isOpen="modalOpen.dog"
+      @submit="SubmitModal"
+      @discard="CloseModalLog"
+      :dog="dog"
     />
   </LayoutPage>
 </template>
@@ -38,16 +43,13 @@ import { LayoutPage } from "../../layout";
 import { ButtonBack } from "../../components/Buttons";
 import { TextHeading, TextSmall } from "../../components/Texts";
 import { Avatar } from "../../components/Avatars";
-import { ModalAddLog } from "../../components/Modals";
+import { ModalAddLog, ModalEditDog } from "../../components/Modals";
 import { Get, Props } from "../../server/models/Dogs";
 import { InputSegment } from "../../components/Forms";
 import { CustomEvent, SegmentOption } from "../../utils";
 import { ref, reactive, Ref } from "vue";
 import { onIonViewDidEnter, useIonRouter } from "@ionic/vue";
-import {
-  documents as logView,
-  calendar as calendarView,
-} from "ionicons/icons";
+import { documents as logView, calendar as calendarView } from "ionicons/icons";
 import { useRoute } from "vue-router";
 const ionRouter = useIonRouter();
 
@@ -56,7 +58,7 @@ const params = ref(route.params);
 const pid = ref();
 const dog: Ref<Props | undefined> = ref();
 
-  const viewSegments = [
+const viewSegments = [
   new SegmentOption("Calendar View", calendarView),
   new SegmentOption("Log View", logView),
 ];
@@ -65,22 +67,25 @@ const state = reactive({
   viewSegment: viewSegments[0],
 });
 
-const ClickInfoCard = () =>
-  ionRouter.navigate(`/dogs/${dog.value?.pid}/information`, "forward", "push");
+const EditProfile = () => {
+  modalOpen.dog = true;
+  console.log(true);
+};
 
-const modalOpen = ref(false);
-const OpenModalLog = () => {
-  modalOpen.value = true;
-};
+const modalOpen = reactive({
+  dog: false,
+  log: false,
+});
 const CloseModalLog = () => {
-  modalOpen.value = false;
+  modalOpen.dog = false;
+  modalOpen.log = false;
 };
-const SubmitModalDog = () => {
-  CustomEvent.EventDispatcher("reload", "logs");
+const SubmitModal = () => {
+  CustomEvent.EventDispatcher("reload-page-information");
 };
 
 onIonViewDidEnter(() => {
-  CustomEvent.EventListener("modal-log-open", OpenModalLog);
+  CustomEvent.EventListener("modal-log-add", () => (modalOpen.log = true));
   if (typeof params.value.pid === "string") pid.value = params.value.pid;
   else pid.value = params.value.pid.join("");
 
@@ -131,6 +136,7 @@ header {
       position: absolute;
       padding: 2px;
       background-color: var(--theme-tertiary);
+      color: var(--theme-primary);
       border-radius: 6px;
       font-size: 10px;
       transform: translateY(27px);

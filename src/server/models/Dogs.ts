@@ -45,8 +45,7 @@ const constants = {
     birthday TEXT,
     breed TEXT,
     color TEXT,
-    events TEXT,
-    notes TEXT
+    logs TEXT
       `,
   arraySplitter: ", ",
 };
@@ -57,8 +56,7 @@ type Props = {
   birthday: string;
   breed: DropdownOption;
   color: string;
-  events: Array<string>;
-  notes: Array<string>;
+  logs: Array<string>;
 };
 
 type LocalProps = {
@@ -67,8 +65,7 @@ type LocalProps = {
   birthday: string;
   breed: string;
   color: string;
-  events: string;
-  notes: string;
+  logs: string;
 };
 
 const ToProps = (props: LocalProps): Props => {
@@ -78,8 +75,7 @@ const ToProps = (props: LocalProps): Props => {
     birthday: props.birthday,
     breed: new DropdownOption(props.breed),
     color: props.color,
-    events: StringToArray(props.events, constants.arraySplitter),
-    notes: StringToArray(props.notes, constants.arraySplitter),
+    logs: StringToArray(props.logs, constants.arraySplitter),
   };
 };
 
@@ -91,8 +87,7 @@ const ToLocalProps = (props: Props | DocumentData): LocalProps => {
     breed:
       props.breed instanceof DropdownOption ? props.breed.value : props.breed,
     color: props.color,
-    events: props.events.join(constants.arraySplitter),
-    notes: props.notes.join(constants.arraySplitter),
+    logs: props.logs.join(constants.arraySplitter),
   };
 };
 

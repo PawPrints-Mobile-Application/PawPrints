@@ -50,6 +50,8 @@ const DatabaseRegistration = async (user: User) =>
       email: user.email!,
       username: user.displayName!,
       subscription: new InformationEnums.Subscription().free,
+      theme: new InformationEnums.Theme().yellow,
+      mode: new InformationEnums.Mode().light,
     },
     user.uid
   );

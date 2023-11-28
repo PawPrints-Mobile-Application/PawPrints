@@ -131,8 +131,8 @@ const clickMiddle = () => {
         setTimeout(() => (state.navigating = false), 150);
       }, 150);
     }, 250);
-  } else if (!isTab("/dogs")) CustomEvent.EventDispatcher("modal-log-open");
-  else CustomEvent.EventDispatcher("modal-dog-open");
+  } else if (!isTab("/dogs")) CustomEvent.EventDispatcher("modal-log-add");
+  else CustomEvent.EventDispatcher("modal-dog-add");
 };
 
 const Navigate = (
