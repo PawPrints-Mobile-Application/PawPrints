@@ -53,7 +53,6 @@ import { LayoutModal } from "../../layout";
 import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
 import {
-  SeedGenerator,
   GetUID,
   breeds,
   DropdownOption,
@@ -99,10 +98,9 @@ const ClearForm = () => {
 };
 
 const Submit = () => {
-  const pid = SeedGenerator().toString();
   Add(
     {
-      pid: pid,
+      pid: props.dog!.pid,
       name: form.name,
       birthday: form.birthday,
       breed: form.breed.value,
@@ -111,7 +109,7 @@ const Submit = () => {
     },
     GetUID()
   ).then(() => {
-    emit("submit", pid);
+    emit("submit", props.dog!.pid);
     Discard();
   });
 };
