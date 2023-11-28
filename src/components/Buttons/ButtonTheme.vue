@@ -12,7 +12,7 @@
   </section>
 </template>
 <script setup lang="ts">
-import { SetRootStyle, CustomEvent, ObjectToMap } from "../../utils";
+import { CustomEvent } from "../../utils";
 import { ref, onMounted } from "vue";
 const props = defineProps({
   theme: Object,
@@ -23,16 +23,13 @@ const isTheme = ref(localStorage.getItem("colorTheme") === props.name);
 
 const Click = () => {
   localStorage.setItem("colorTheme", props.name!);
-  CustomEvent.EventDispatcher("reload-theme");
+  CustomEvent.EventDispatcher("set-theme");
+  CustomEvent.EventDispatcher("set-mode");
 };
 
 onMounted(() => {
-  CustomEvent.EventListener("reload-theme", () => {
+  CustomEvent.EventListener("set-theme", () => {
     isTheme.value = localStorage.getItem("colorTheme") === props.name;
-    if (isTheme.value)
-      SetRootStyle(
-        ObjectToMap(props.theme!).get(localStorage.getItem("colorMode")!)
-      );
   });
 });
 </script>

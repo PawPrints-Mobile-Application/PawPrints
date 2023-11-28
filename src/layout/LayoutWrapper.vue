@@ -124,6 +124,7 @@ const emit = defineEmits([
   background-color: var(--theme-primary);
   min-height: 100%;
   min-width: 320px;
+  transition: background-color 200ms ease-out;
 }
 
 .layout-content::part(scroll) {

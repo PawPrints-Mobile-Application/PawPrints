@@ -93,6 +93,7 @@ export default {
 
   > ion-icon {
     font-size: 30px;
+    color: var(--theme-text);
   }
 
   > .input-box {

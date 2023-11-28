@@ -10,7 +10,8 @@ import { IonApp, IonRouterOutlet } from "@ionic/vue";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { onBeforeMount, onMounted } from "vue";
 import { ToastNetwork } from "./components/Toasts";
-import { CustomEvent } from "./utils";
+import { CustomEvent, SetRootStyle, ObjectToMap } from "./utils";
+import themes from "./theme";
 
 onBeforeMount(() => {
   sessionStorage.setItem("appInitialized", "false");
@@ -22,6 +23,11 @@ onMounted(async () => {
   }, 0);
 
   sessionStorage.setItem("appInitialized", "true");
+  CustomEvent.EventListener("reload-mode", () => {
+    const theme = ObjectToMap(themes).get(localStorage.getItem("colorTheme")!);
+    const mode = ObjectToMap(theme).get(localStorage.getItem("colorMode")!);
+    SetRootStyle(mode);
+  });
   CustomEvent.EventDispatcher("reload-mode");
 });
 </script>

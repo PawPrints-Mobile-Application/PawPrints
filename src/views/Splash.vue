@@ -5,7 +5,6 @@
       v-show="state.thumbnail"
       :class="{ 'show-loading': state.loading && !state.background }"
       name="crescent"
-      color="tertiary"
     />
     <div
       class="backdrop"
@@ -120,6 +119,7 @@ export default {
   width: var(--loading-size);
   height: var(--loading-size);
   opacity: 0;
+  color: var(--theme-tertiary);
   transition: all 500ms ease-in;
 }
 

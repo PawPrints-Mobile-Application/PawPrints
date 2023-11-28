@@ -23,7 +23,8 @@
 import { ref, onMounted } from "vue";
 import { IonIcon } from "@ionic/vue";
 import { sunny as light, moon as dark } from "ionicons/icons";
-import { ObjectToMap, CustomEvent} from "../../utils";
+import { ObjectToMap, CustomEvent } from "../../utils";
+import { Set } from "../../server/models/Information";
 import themes from "../../theme";
 
 const isLight = ref(localStorage.getItem("colorMode") === "light");
@@ -36,20 +37,26 @@ const Click = () => {
     "colorMode",
     localStorage.getItem("colorMode") === "dark" ? "light" : "dark"
   );
-  CustomEvent.EventDispatcher("reload-mode");
+  CustomEvent.EventDispatcher("set-mode");
 };
 
 onMounted(() => {
-  CustomEvent.EventListener(
-    "reload-theme",
-    () =>
-      (options.value = ObjectToMap(themes).get(
-        localStorage.getItem("colorTheme")!
-      ))
-  );
-  CustomEvent.EventListener("reload-mode", () => {
+  CustomEvent.EventListener("set-mode", () => {
     isLight.value = localStorage.getItem("colorMode") === "light";
-    CustomEvent.EventDispatcher("reload-theme");
+    options.value = ObjectToMap(themes).get(
+      localStorage.getItem("colorTheme")!
+    );
+    Set(
+      {
+        uid: localStorage.getItem("authID")!,
+        email: localStorage.getItem("authEmail")!,
+        username: localStorage.getItem("authUsername")!,
+        subscription: localStorage.getItem("authType")!,
+        theme: localStorage.getItem("colorTheme")!,
+        mode: localStorage.getItem("colorMode")!,
+      },
+      localStorage.getItem("authID")!
+    ).then(() => CustomEvent.EventDispatcher("reload-mode"));
   });
 });
 </script>

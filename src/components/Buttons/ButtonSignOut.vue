@@ -1,11 +1,16 @@
 <template>
-  <ButtonText class="button-signout" @click="SignOut" label="Sign Out" state="danger" />
+  <ButtonText
+    class="button-signout"
+    @click="SignOut"
+    label="Sign Out"
+    state="danger"
+  />
 </template>
 
 <script setup lang="ts">
 import { ButtonText } from ".";
 import { useIonRouter } from "@ionic/vue";
-
+import { CustomEvent } from "../../utils";
 import {
   FirebaseSignout,
   DatabaseTermination,
@@ -13,7 +18,10 @@ import {
 } from "../../server/authentication";
 
 const ionRouter = useIonRouter();
-const Redirect = () => ionRouter.navigate("/auth", "forward", "replace");
+const Redirect = () => {
+  CustomEvent.EventDispatcher("reload-mode");
+  ionRouter.navigate("/auth", "forward", "replace");
+};
 
 const SignOut = () =>
   FirebaseSignout()

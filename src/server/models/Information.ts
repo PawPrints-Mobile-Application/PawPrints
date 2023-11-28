@@ -69,9 +69,9 @@ const ToProps = (values: any): Props => {
     username: values.username,
     subscription: values.subscription,
     theme: values.theme,
-    mode: values.mode
-  }
-}
+    mode: values.mode,
+  };
+};
 
 const documentPath = (uid: string) =>
   `${constants.collection}/${uid}/Profile/${constants.document}`;
@@ -81,15 +81,21 @@ const DeleteModel = () => DeleteTable(constants.document);
 const Clear = () => ResetTable(constants.document);
 
 const Get = () =>
-  ReadFirstRow(constants.document).then((response) => ToProps(response.values![0]));
+  ReadFirstRow(constants.document).then((response) =>
+    ToProps(response.values![0])
+  );
 
 const Set = async (props: Props, uid?: string) => {
   const data = ObjectToMap(props);
   if (!!uid) await SetDocument(documentPath(uid), props);
-  return InsertRowData(constants.document, {
-    keys: Array.from(data.keys()),
-    values: Array.from(data.values()),
-  },true).then(() => props);
+  return InsertRowData(
+    constants.document,
+    {
+      keys: Array.from(data.keys()),
+      values: Array.from(data.values()),
+    },
+    true
+  ).then(() => props);
 };
 
 const Sync = async (uid: string) =>

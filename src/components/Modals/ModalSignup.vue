@@ -246,6 +246,11 @@ export default {
     --scale: 80%;
   }
 }
+
+ion-spinner {
+  color: var(--theme-tertiary);
+}
+
 .navigation-link {
   text-decoration: underline;
   font-weight: 500;

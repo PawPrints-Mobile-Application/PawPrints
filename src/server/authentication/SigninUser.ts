@@ -5,7 +5,7 @@ import {
   Enums as InformationEnums,
   Props as InformationProps,
 } from "../models/Information";
-import { SeedGenerator } from "../../utils";
+import { SeedGenerator, CustomEvent } from "../../utils";
 
 const GuestData = {
   informationProps: {
@@ -43,7 +43,6 @@ const DatabaseInitialization = async (user?: User) => {
 };
 
 const WindowDatabaseInitialization = (props: InformationProps) => {
-  console.log(props);
   window.localStorage.setItem("colorTheme", props.theme);
   window.localStorage.setItem("colorMode", props.mode);
   window.localStorage.setItem("authType", props.subscription);
@@ -51,6 +50,7 @@ const WindowDatabaseInitialization = (props: InformationProps) => {
   window.localStorage.setItem("authUsername", props.username);
   window.localStorage.setItem("authEmail", props.email);
   console.log(`${props.username} has logged in.`);
+  CustomEvent.EventDispatcher("reload-mode");
 };
 
 export { FirebaseLogin, DatabaseInitialization, WindowDatabaseInitialization };
