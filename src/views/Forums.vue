@@ -18,12 +18,13 @@
       <ButtonText
         class="add-post"
         label="Write something..."
-        @click="AddPost"
+        @click="() => (modalOpen = true)"
       />
     </section>
     <section class="post-wrapper">
-      <CardPost v-for="post in posts" :post="post"/>
+      <CardPost v-for="post in posts" :post="post" />
     </section>
+    <ModalAddPost :isOpen="modalOpen" @discard="() => (modalOpen = false)" />
   </LayoutPage>
 </template>
 
@@ -32,11 +33,13 @@ import { LayoutPage } from "../layout";
 import { TextHeading } from "../components/Texts";
 import { InputSegment } from "../components/Forms";
 import { SegmentOption } from "../utils";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { ButtonText } from "../components/Buttons";
-// import { ModalAddPost } from "../components/Modals";
+import { ModalAddPost } from "../components/Modals";
 import { Avatar } from "../components/Avatars";
 import { CardPost } from "../components/Cards";
+
+const modalOpen = ref(false);
 
 const posts = [
   {
@@ -44,20 +47,21 @@ const posts = [
     uid: "123",
     content: "hello",
     date: new Date(),
-    tags: ["new", "post","new", "post"],
-    comments: [1,2],
-    likes: [1,8,9],
+    tags: ["new", "post", "new", "post"],
+    comments: [1, 2],
+    likes: [1, 8, 9],
   },
-  
+
   {
     fid: 11525,
     uid: "1230",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis justo sollicitudin, varius dui at, tincidunt erat. Quisque et erat sit amet mauris scelerisque scelerisque. Ut at mi non dolor imperdiet porttitor.",
-    date: new Date(2023,11,27),
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis justo sollicitudin, varius dui at, tincidunt erat. Quisque et erat sit amet mauris scelerisque scelerisque. Ut at mi non dolor imperdiet porttitor.",
+    date: new Date(2023, 11, 27),
     tags: ["newsss", "postssss"],
-    comments: [1,12],
-    likes: [1,8,1],
-  }
+    comments: [1, 12],
+    likes: [1, 8, 1],
+  },
 ];
 
 const viewSegments = [
@@ -69,41 +73,38 @@ const state = reactive({
   hideCard: false,
   viewSegment: viewSegments[0],
 });
-
-const AddPost = () => {};
 </script>
 
 <script lang="ts">
 export default {
-    name: "Forums",
-    components: { Avatar }
+  name: "Forums",
+  components: { Avatar },
 };
 </script>
 
 <style scoped>
-.add-post-wrapper{
+.add-post-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   gap: 10px;
 }
-.avatar{
+.avatar {
   --size: 40px;
 }
 .add-post {
   background-color: var(--theme-secondary-dark);
   flex: 1 0 0;
 }
-.input-segment{
+.input-segment {
   --flex: 1 0 0;
 }
 
-.post-wrapper{
+.post-wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-
 </style>
