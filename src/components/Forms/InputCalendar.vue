@@ -78,25 +78,12 @@ import { ButtonBack, ButtonNext, ButtonText } from "../Buttons";
 import { paw as calendarMark } from "ionicons/icons";
 import { reactive, onMounted } from "vue";
 import { IonIcon } from "@ionic/vue";
-import { DropdownOption } from "../../utils";
+import { DropdownOption, Calendar, ArrayToDropdownOptions } from "../../utils";
 
 // CONSTANTS
 const constants = {
-  months: [
-    new DropdownOption("January"),
-    new DropdownOption("February"),
-    new DropdownOption("March"),
-    new DropdownOption("April"),
-    new DropdownOption("May"),
-    new DropdownOption("June"),
-    new DropdownOption("July"),
-    new DropdownOption("August"),
-    new DropdownOption("September"),
-    new DropdownOption("October"),
-    new DropdownOption("November"),
-    new DropdownOption("December"),
-  ],
-  days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  months: ArrayToDropdownOptions(Calendar.months),
+  days: Calendar.daysShort,
 };
 
 // Cell Calendar UI Modifiers
@@ -110,17 +97,10 @@ const GetCalendarCells = (month: number, year: number) =>
     );
 const GetCellDate = (week: number, day: number) =>
   calendar.cells[BaseSevenToDecimal(week, day)];
-const GetAllYears = () => {
-  const length = !props.disableFuture ? 151 : 71;
-  return Array.from(
-    { length: length },
-    (_, i) =>
-      new DropdownOption(
-        (i + new Date().getFullYear() - 70).toString(),
-        i + new Date().getFullYear() - 70
-      )
+const GetAllYears = () =>
+  ArrayToDropdownOptions(
+    Calendar.GetYears({ back: 75, front: !props.disableFuture ? 75 : 0 })
   );
-};
 const indexOfMonth = (month: string) => {
   let temp = -1;
   constants.months.forEach((each, key) => {
@@ -178,9 +158,8 @@ const MoveMonth = (increment: 1 | -1) => {
     new Date(year, month, calendar.date) > new Date()
   )
     return;
-  calendar.month = month;
-  calendar.year = year;
-  SetMonth(constants.months[calendar.month].value);
+  SetMonth(constants.months[month].value);
+  SetYear(year);
 };
 const SetMonth = (month: string) => {
   if (
@@ -264,7 +243,7 @@ onMounted(() => {
 .button {
   background-color: var(--theme-secondary);
   font-size: 35px;
-  --border-radius: 6px;
+  border-radius: 6px;
 }
 
 .month {
@@ -301,7 +280,7 @@ onMounted(() => {
 
 #calendar-mark {
   position: absolute;
-  color: var(--ion-color-tertiary);
+  color: var(--theme-tertiary);
   font-size: 40px;
   transform: translateY(-7px);
 }
@@ -320,6 +299,6 @@ onMounted(() => {
   margin-top: auto;
   width: 100%;
   max-height: 35px;
-  --background-color: var(--theme-black);
+  background-color: var(--theme-tertiary);
 }
 </style>

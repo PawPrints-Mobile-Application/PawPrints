@@ -155,6 +155,7 @@ defineExpose({ state, ForceFocus, ForceBlur });
 .input-box {
   flex: 1 0 0;
   --outline: none;
+  background-color: inherit;
 }
 
 .icon {

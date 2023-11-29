@@ -160,6 +160,10 @@ defineExpose({ Reevaluate });
 }
 
 .input-dynamic {
+  background-color: var(--theme-secondary);
+}
+
+.input-dynamic {
   min-width: 100%;
 }
 </style>

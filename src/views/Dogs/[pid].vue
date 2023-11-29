@@ -21,10 +21,13 @@
       show="both"
     />
     <section
-      class="logs"
+      class="view view-calendar"
       v-show="!!dog"
-      v-if="state.viewSegment === viewSegments[0]"
-    ></section>
+      v-if="state.viewSegment.label === viewSegments[0].label"
+    >
+      <CardCalendar />
+    </section>
+    <section class="view view-log" v-show="!!dog" v-else></section>
     <ModalAddLog
       :isOpen="modalOpen.log"
       @submit="SubmitModal"
@@ -40,12 +43,13 @@
 </template>
 <script setup lang="ts">
 import { LayoutPage } from "../../layout";
+import { Avatar } from "../../components/Avatars";
 import { ButtonBack } from "../../components/Buttons";
 import { TextHeading, TextSmall } from "../../components/Texts";
-import { Avatar } from "../../components/Avatars";
 import { ModalAddLog, ModalEditDog } from "../../components/Modals";
 import { Get, Props } from "../../server/models/Dogs";
 import { InputSegment } from "../../components/Forms";
+import { CardCalendar } from "../../components/Cards";
 import { CustomEvent, SegmentOption } from "../../utils";
 import { ref, reactive, Ref } from "vue";
 import { onIonViewDidEnter, useIonRouter } from "@ionic/vue";
@@ -109,6 +113,7 @@ header {
   align-items: center;
   gap: 10px;
   margin-block: 10px;
+  min-height: 70;
 
   > .button-back {
     min-width: 40px;

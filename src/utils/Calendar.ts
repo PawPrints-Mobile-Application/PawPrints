@@ -22,8 +22,7 @@ const days = [
   "Wednesday",
   "Thursday",
   "Friday",
-  "Saturday",
-  "Sunday",
+  "Saturday"
 ];
 
 const daysShort = days.map((day) => day.slice(0, 3));

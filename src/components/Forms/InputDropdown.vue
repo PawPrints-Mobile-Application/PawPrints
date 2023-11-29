@@ -14,7 +14,7 @@
     >
       <ButtonDropdown v-model="state" />
     </InputDynamic>
-    <Popup v-model="state">
+    <Popup v-model="state" @click-backdrop="() => (filter = '')">
       <template #default="{ Trigger }">
         <InputBox v-model="filter" v-show="!!searchable" />
         <br />
@@ -108,9 +108,19 @@ const emit = defineEmits(["update:modelValue", "change", "select"]);
 <style scoped>
 .input-dropdown {
   width: 100%;
+  --background-color: var(--theme-secondary);
+}
+
+.input-box {
+  background-color: var(--theme-secondary);
+}
+
+.input-dynamic {
+  background-color: var(--background-color);
 }
 
 .input-select {
   width: 100%;
+  background-color: var(--background-color);
 }
 </style>

@@ -19,7 +19,7 @@ import GetUID from "./GetUID";
 import breeds from "./Breeds";
 
 import DropdownOption from "./DropdownOption";
-import ListToDropdownOption from "./ListToDropdownOption";
+import ArrayToDropdownOptions from "./ArrayToDropdownOptions";
 import SegmentOption from "./SegmentOption";
 import SetRootStyle from "./SetRootStyle";
 
@@ -42,7 +42,7 @@ export {
   GetUID,
   breeds,
   DropdownOption,
-  ListToDropdownOption,
+  ArrayToDropdownOptions,
   SegmentOption,
   SetRootStyle,
   Calendar
