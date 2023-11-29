@@ -36,12 +36,12 @@ const emit = defineEmits(["mousehold"]);
 </script>
 <style scoped>
 .button-rippled {
+  --justify-content: center;
   display: flex;
-  justify-content: center;
+  justify-content: var(--justify-content);
   align-items: center;
   /* overflow: hidden; */
   position: relative;
-
   padding: 3px;
   margin: 0;
   border-radius: 10px;

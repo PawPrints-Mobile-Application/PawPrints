@@ -12,24 +12,22 @@
       </aside>
     </header>
     <div class="content">
-      {{ post!.content }} 
+      {{ post!.content }}
     </div>
     <div class="tags">
-      <IonChip v-for="tag in post!.tags">
-        # {{ tag }}
-      </IonChip>
+      <IonChip v-for="tag in post!.tags"> # {{ tag }} </IonChip>
     </div>
     <footer>
       <div class="button-interaction">
-        <IonIcon :icon="commentIcon"/>
+        <IonIcon :icon="commentIcon" />
         <TextParagraph>
-          {{ post!.comments.length }} 
+          {{ post!.comments.length }}
         </TextParagraph>
       </div>
       <div class="button-interaction">
-        <IonIcon :icon="likeIcon"/>
+        <IonIcon :icon="likeIcon" />
         <TextParagraph>
-          {{ post!.likes.length }} 
+          {{ post!.likes.length }}
         </TextParagraph>
       </div>
     </footer>
@@ -39,7 +37,10 @@
 import { Avatar } from "../Avatars";
 import { TextSubheading, TextParagraph } from "../Texts";
 import { IonIcon, IonChip } from "@ionic/vue";
-import { chatbubbleEllipses as commentIcon, heartCircle as likeIcon } from "ionicons/icons";
+import {
+  chatbubbleEllipses as commentIcon,
+  heartCircle as likeIcon,
+} from "ionicons/icons";
 
 defineProps({
   post: Object,
@@ -58,7 +59,7 @@ defineProps({
   gap: 5px;
 }
 
-header{
+header {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -68,29 +69,29 @@ header{
   --size: 40px;
 }
 
-.tags{
+.tags {
   width: 100%;
 }
 
 ion-chip {
-    --background: var(--theme-quadratic);
-    --color: var(--theme-primary);
-    font-size: var(--fs4);
-    height: 25px;
+  --background: var(--theme-quadratic);
+  --color: var(--theme-primary);
+  font-size: var(--fs4);
+  height: 25px;
 }
 
-footer{
+footer {
   display: flex;
   align-items: center;
   gap: 20px;
 }
-.button-interaction{
+.button-interaction {
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-ion-icon{
+ion-icon {
   font-size: 20px;
 }
 </style>

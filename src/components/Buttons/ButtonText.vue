@@ -15,13 +15,13 @@ defineProps({
 </script>
 <style scoped>
 .button-text {
-  padding: 10px 30px;
+  --padding: 10px 30px;
+  padding: var(--padding);
   min-width: 130px;
   background-color: var(--theme-button-normal);
   color: var(--theme-button-text);
-
-  > .text {
-    color: inherit;
-  }
+}
+.text {
+  color: inherit;
 }
 </style>
