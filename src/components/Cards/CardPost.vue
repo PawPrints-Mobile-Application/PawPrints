@@ -1,5 +1,5 @@
 <template>
-  <section class="card-post">
+  <section class="card card-post">
     <header>
       <Avatar type="user" />
       <aside>

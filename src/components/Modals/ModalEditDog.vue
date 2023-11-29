@@ -6,8 +6,8 @@
     @submit="Submit"
     @clear="ClearForm"
     @discard="Discard"
-    :disable-submit="disabled"
-    :disable-clear="disabled"
+    :disable-submit="disableSave"
+    :disable-clear="disableClear"
     close-on-submit
     :canDismiss="!isOpen"
     button-submit-text="Save"
@@ -54,7 +54,6 @@ import { LayoutModal } from "../../layout";
 import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
 import {
-  SeedGenerator,
   GetUID,
   breeds,
   DropdownOption,
@@ -76,7 +75,18 @@ const defaultValues = reactive({
   color: "#FFD80A",
 });
 
-const disabled = computed(() => {
+const disableSave = computed(() => isBlank() || disableClear.value);
+
+const isBlank = () => {
+  let temp = false;
+  ObjectToMap(form).forEach((value, key) => {
+    if (key === "breed") temp ||= value.value === "";
+    else temp ||= value === "";
+  });
+  return temp;
+}
+
+const disableClear = computed(() => {
   let temp = true;
   const defVal = ObjectToMap(defaultValues);
   ObjectToMap(form).forEach((value, key) => {
@@ -84,7 +94,7 @@ const disabled = computed(() => {
     else temp &&= value === defVal.get(key);
   });
   return temp;
-});
+})
 
 const Discard = () => {
   emit("discard");
@@ -100,10 +110,9 @@ const ClearForm = () => {
 };
 
 const Submit = () => {
-  const pid = SeedGenerator().toString();
   Add(
     {
-      pid: pid,
+      pid: props.dog!.pid,
       name: form.name,
       birthday: form.birthday,
       breed: form.breed.value,
@@ -112,7 +121,7 @@ const Submit = () => {
     },
     GetUID()
   ).then(() => {
-    emit("submit", pid);
+    emit("submit", props.dog!.pid);
     Discard();
   });
 };

@@ -10,7 +10,7 @@
         :class="{ selected: key === selected }"
         @click="SetValue(key)"
         :ref="(value) => {
-            if (props.modelValue !== props.options![Math.min(key + Math.floor(count / 2), props.options!.length - 1)] || !!input) return;
+            if (props.options?.length! < 1 || props.modelValue!.value !== props.options![Math.min(key + Math.floor(count / 2), props.options!.length - 1)].value || !!input) return;
             input = value;
         }"
       >
@@ -80,7 +80,7 @@ onMounted(() => {
   padding: 0;
   overflow: scroll;
   height: calc(var(--item-height) * var(--count));
-  background-color: var(--theme-secondary);
+  background-color: inherit;
 
   > .items {
     padding: 0;
@@ -94,6 +94,7 @@ onMounted(() => {
       display: flex;
       justify-content: center;
       align-items: center;
+      color: var(--theme-text);
     }
   }
 }
@@ -104,6 +105,6 @@ onMounted(() => {
 
 .selected {
   font-weight: 700;
-  background-color: var(--theme-secondary-dark);
+  background-color: inherit;
 }
 </style>

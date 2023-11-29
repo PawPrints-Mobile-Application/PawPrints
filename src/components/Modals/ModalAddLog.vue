@@ -105,6 +105,7 @@ watch(
 );
 
 const disabled = computed(() => [form.title].includes(""));
+
 const Discard = () => {
   emit("discard");
   ClearForm();

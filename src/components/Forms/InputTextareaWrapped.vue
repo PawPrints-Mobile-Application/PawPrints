@@ -60,7 +60,7 @@ const value = computed({
     return props.modelValue;
   },
   set(value) {
-    if (!value) return;
+    if (value === undefined) return;
     state.taken = value !== "";
     Evaluate(value);
     emit("update:modelValue", value);
@@ -152,9 +152,11 @@ defineExpose({ Reevaluate });
   width: 98%;
   display: flex;
   flex-direction: column;
+  height: 100px;
 }
 
 .input-textarea {
   min-width: 100%;
+  height: inherit;
 }
 </style>

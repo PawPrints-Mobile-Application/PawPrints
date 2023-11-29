@@ -1,5 +1,5 @@
 <template>
-  <section class="card-dog">
+  <section class="card card-dog">
     <header>
       <Avatar
         type="dog"

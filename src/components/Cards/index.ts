@@ -5,10 +5,11 @@ import SubscriptionCard from "./SubscriptionCard.vue";
 import PhotoCard from "./PhotoCard.vue";
 
 import CardDog from "./CardDog.vue";
-import CardLog from "./CardLog.vue";
 import CardUser from "./CardUser.vue";
 import CardSettings from "./CardSettings.vue";
 import CardPost from "./CardPost.vue";
+import CardCalendar from "./CardCalendar.vue";
+import CardLog from "./CardLog.vue";
 
 export {
   ProfileCard,
@@ -17,8 +18,9 @@ export {
   SubscriptionCard,
   PhotoCard,
   CardDog,
-  CardLog,
   CardUser,
   CardSettings,
-  CardPost
+  CardPost,
+  CardCalendar,
+  CardLog,
 };
