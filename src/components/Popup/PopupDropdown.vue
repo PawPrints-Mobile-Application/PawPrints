@@ -52,7 +52,4 @@ const emit = defineEmits(["update:modelValue", "state", "click-backdrop"]);
 defineExpose({ Trigger });
 </script>
 <style scoped>
-.input-dropdown {
-  background-color: var(--theme-primary);
-}
 </style>
