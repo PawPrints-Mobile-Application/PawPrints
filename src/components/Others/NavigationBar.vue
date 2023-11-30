@@ -172,7 +172,7 @@ const Navigate = (
   color: var(--theme-primary);
   z-index: 2;
   overflow: hidden;
-  transition: all 200ms ease-out;
+  transition: all 300ms ease-out;
   opacity: 1;
 
   .icon {

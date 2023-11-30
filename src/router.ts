@@ -1,11 +1,7 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 
-import independentRoutes, {
-  navigationRecords,
-  settingsRecords,
-  forumsRecords,
-} from "./views";
+import independentRoutes, { navigationRecords, settingsRecords } from "./views";
 
 const UrlCatcher = () =>
   [...new Array(6).keys()].map((key: number) => {
@@ -14,11 +10,6 @@ const UrlCatcher = () =>
       component: () => import(`./views/PageNotFound.vue`),
     };
   });
-
-const nameTransform = (name: string) =>
-  name.startsWith("[") && name.endsWith("]")
-    ? ":" + name.substring(1, name.length - 1)
-    : name;
 
 let routes: Array<RouteRecordRaw> = [
   {
@@ -60,12 +51,10 @@ let routes: Array<RouteRecordRaw> = [
         path: "/dogs/:pid",
         component: () => import("./views/Dogs/[pid].vue"),
       },
-      ...forumsRecords.map((record) => {
-        return {
-          path: "/Forums/" + nameTransform(record.name),
-          component: () => import(`./views/Forums/${record.name}.vue`),
-        };
-      }),
+      {
+        path: "/forums/:fid",
+        component: () => import("./views/Forums/[fid].vue"),
+      },
       ...settingsRecords.map((record) => {
         return {
           path: "/Settings/" + record.name,

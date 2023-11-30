@@ -1,11 +1,13 @@
 <template>
-    <div>
-        
-    </div>
+  <LayoutPage justify="flex-start"> </LayoutPage>
 </template>
 <script setup lang="ts">
-
+import { LayoutPage } from "../../layout";
 </script>
-<style scoped>
-    
-</style>
+
+<script lang="ts">
+export default {
+  name: "Forum",
+};
+</script>
+<style scoped></style>

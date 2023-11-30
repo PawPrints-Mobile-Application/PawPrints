@@ -12,9 +12,10 @@ import { Timestamp } from "firebase/firestore";
 import { StringToArray } from "../../utils/";
 
 const constants = {
-  collection: "Users",
-  document: "Logs",
-  data: `
+  collection: "Forums",
+  documentPosts: "Posts",
+  documentComments: "Comments",
+  dataPosts: `
           fid TEXT PRIMARY KEY NOT NULL,
           uid TEXT,
           content TEXT,
@@ -23,6 +24,15 @@ const constants = {
           comments TEXT,
           likes TEXT
           `,
+  dataComments: `
+          cid TEXT PRIMARY KEY NOT NULL,
+          uid TEXT,
+          content TEXT,
+          DTPost INTEGER,
+          tags TEXT,
+          comments TEXT,
+          likes TEXT
+                  `,
   arraySplitter: ", ",
 };
 
@@ -71,9 +81,9 @@ const ToProps = (props: any, source: "LocalProps" | "CloudProps"): Props => {
     uid: props.uid,
     content: props.content,
     DTPost: DTPost,
-    tags: props.tags,
-    comments: props.comments,
-    likes: props.likes,
+    tags: tags,
+    comments: comments,
+    likes: likes,
   };
 };
 
@@ -100,75 +110,82 @@ const ToCloudProps = (
   props: any,
   source: "Props" | "LocalProps"
 ): CloudProps => {
-    let { DTPost } = props;
-    if (source === "LocalProps") {
-      DTPost = new Date(props.DTPost);
-    }
-    return {
-      fid: props.fid,
-      uid: props.uid,
-      content: props.content,
-      DTPost: DTPost,
-      tags: props.tags.join(constants.arraySplitter),
-      comments: props.comments.join(constants.arraySplitter),
-      likes: props.likes.join(constants.arraySplitter),
-    };
+  let { DTPost } = props;
+  if (source === "LocalProps") {
+    DTPost = new Date(props.DTPost);
+  }
+  return {
+    fid: props.fid,
+    uid: props.uid,
+    content: props.content,
+    DTPost: DTPost,
+    tags: props.tags.join(constants.arraySplitter),
+    comments: props.comments.join(constants.arraySplitter),
+    likes: props.likes.join(constants.arraySplitter),
+  };
 };
 
-const CollectionPath = (uid: string) =>
-  `${constants.collection}/${uid}/${constants.document}`;
+const CollectionPathPosts = (uid: string) =>
+  `${constants.collection}/${uid}/${constants.documentPosts}`;
 
-const documentPath = (uid: string, fid: string) =>
-  `${CollectionPath(uid)}/${fid}`;
+const documentPathPosts = (uid: string, fid: string) =>
+  `${CollectionPathPosts(uid)}/${fid}`;
 
-const CreateModel = () => CreateTable(constants.document, constants.data);
-const DeleteModel = () => DeleteTable(constants.document);
-const Clear = () => ResetTable(constants.document);
+const CollectionPathComment = (uid: string, fid: string) =>
+  `${documentPathPosts(uid, fid)}/${constants.documentComments}`;
+
+const documentPathComments = (uid: string, fid: string, cid: string) =>
+  `${CollectionPathComment(uid, fid)}/${cid}`;
+
+const CreateModel = () =>
+  CreateTable(constants.documentPosts, constants.dataPosts);
+const DeleteModel = () => DeleteTable(constants.documentPosts);
+const Clear = () => ResetTable(constants.documentPosts);
 
 const GetAll = () =>
-  ReadRowData(constants.document).then((response) =>
+  ReadRowData(constants.documentPosts).then((response) =>
     response.values!.map((note) => ToProps(note, "LocalProps"))
   );
 
 const Get = (fid: string) =>
-  ReadRowData(constants.document, { key: "fid", value: fid }).then((response) =>
-    ToProps(response.values![0], "LocalProps")
+  ReadRowData(constants.documentPosts, { key: "fid", value: fid }).then(
+    (response) => ToProps(response.values![0], "LocalProps")
   );
 
 const Add = async (props: Props, uid?: string) => {
   const localProps = ToLocalProps(props, "Props");
-  const data = ObjectToMap(localProps);
+  const dataPosts = ObjectToMap(localProps);
   if (!!uid)
     await SetDocument(
-      documentPath(uid, props.fid),
+      documentPathPosts(uid, props.fid),
       ToCloudProps(props, "Props")
     );
-  return InsertRowData(constants.document, {
-    keys: Array.from(data.keys()),
-    values: Array.from(data.values()),
+  return InsertRowData(constants.documentPosts, {
+    keys: Array.from(dataPosts.keys()),
+    values: Array.from(dataPosts.values()),
   }).then(() => props);
 };
 
 const Remove = (fid: string) =>
-  DeleteRowData(constants.document, { key: "fid", value: fid });
+  DeleteRowData(constants.documentPosts, { key: "fid", value: fid });
 
 const Sync = async (uid: string, fid: string) =>
-  GetDocument(documentPath(uid, fid)).then(async (response) => {
+  GetDocument(documentPathPosts(uid, fid)).then(async (response) => {
     const cloudProps = response!.data()!;
     const localProps = ToLocalProps(cloudProps, "CloudProps");
-    const data = ObjectToMap(localProps);
+    const dataPosts = ObjectToMap(localProps);
     return InsertRowData(
-      constants.document,
+      constants.documentPosts,
       {
-        keys: Array.from(data.keys()),
-        values: Array.from(data.values()),
+        keys: Array.from(dataPosts.keys()),
+        values: Array.from(dataPosts.values()),
       },
       true
     ).then(() => Get(fid));
   });
 
 const SyncAll = async (uid: string) =>
-  GetCollection(CollectionPath(uid)).then(async (value) => {
+  GetCollection(CollectionPathPosts(uid)).then(async (value) => {
     let temp = new Array<Props>();
     for (let cloudProps of value!.values) {
       const response = await Sync(uid, cloudProps.fid);

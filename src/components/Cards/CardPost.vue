@@ -1,5 +1,5 @@
 <template>
-  <section class="card card-post">
+  <section class="card card-post" @click="Navigate">
     <header>
       <Avatar type="user" />
       <aside>
@@ -41,8 +41,11 @@ import {
   chatbubbleEllipses as commentIcon,
   heartCircle as likeIcon,
 } from "ionicons/icons";
+import { useIonRouter } from "@ionic/vue";
+const ionRouter = useIonRouter();
+const Navigate = () => ionRouter.navigate(`/forums/${props.post!.fid}`);
 
-defineProps({
+const props = defineProps({
   post: Object,
 });
 </script>
