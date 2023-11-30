@@ -1,49 +1,23 @@
 <template>
   <section class="input-dropdown default-input">
-    <InputLabel :value="label" v-show="!!label" />
-    <InputDynamic
-      v-model="othersValue"
-      :freeze="!!hideInput"
-      :placeholder="placeholder"
-      @click="
-        () => {
-          if (!!hideInput) state = !state;
-        }
-      "
-      :hideIcon="hideIcon"
-    >
-      <ButtonDropdown v-model="state" />
-    </InputDynamic>
-    <Popup v-model="state" @click-backdrop="() => (filter = '')">
-      <template #default="{ Trigger }">
-        <InputBox v-model="filter" v-show="!!searchable" />
-        <br />
-        <InputSelect
-          v-model="value"
-          :options="GetOptions()"
-          @click="
-            () => {
-              Trigger();
-              emit('select', value);
-            }
-          "
-          :count="count"
-          :allow-others="!hideInput"
-        />
-      </template>
-    </Popup>
+    <InputBox v-model="filter" v-show="!!searchable" />
+    <br />
+    <InputSelect
+      v-model="value"
+      :options="GetOptions()"
+      @click="emit('select', value)"
+      :count="count"
+      :allow-others="!hideInput"
+    />
   </section>
 </template>
 <script setup lang="ts">
-import { InputSelect, InputLabel, InputDynamic, InputBox } from ".";
-import { ButtonDropdown } from "../Buttons";
+import { InputSelect, InputBox } from ".";
 import { ref, computed } from "vue";
-import { Popup } from "../Popup";
 import { DropdownOption } from "../../utils";
 
 const props = defineProps({
   label: String,
-  hideIcon: Boolean,
   hideInput: Boolean,
   placeholder: {
     type: String,
@@ -61,24 +35,7 @@ const props = defineProps({
   searchable: Boolean,
 });
 
-const othersValue = computed({
-  get() {
-    return props.modelValue?.label!;
-  },
-  set(value: string) {
-    FindOption(value);
-  },
-});
-
 const filter = ref("");
-const FindOption = (element: string) => {
-  let temp = new DropdownOption(element, element);
-  props.options?.forEach((option) => {
-    if (option.toString() === element) temp = option;
-  });
-  value.value = temp;
-};
-
 const GetOptions = () => {
   if (!props.options || props.options.length === 0) return [];
   let temp: DropdownOption[] = [];
@@ -92,7 +49,6 @@ const GetOptions = () => {
   return temp;
 };
 
-const state = ref(false);
 const value = computed({
   get() {
     return props.modelValue!;

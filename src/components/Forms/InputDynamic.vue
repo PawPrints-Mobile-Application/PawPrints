@@ -23,6 +23,7 @@
     />
     <section class="icon" v-show="!hideIcon" @click="IconClick">
       <InputColorPicker v-if="type === 'color'" v-model="colorValue" />
+      <ButtonShow v-else-if="type === 'password'" v-model="valueShow" />
       <PopupCalendar
         ref="dateRef"
         :saveOnChange="saveOnChange"
@@ -30,7 +31,17 @@
         v-model="dateValue"
         :disableFuture="disableFuture"
       />
-      <ButtonShow v-else-if="type === 'password'" v-model="valueShow" />
+      <PopupDropdown
+        ref="dropdownRef"
+        v-else-if="type === 'dropdown'"
+        v-model="dropdownValue"
+        :options="
+          options?.map((option) => new DropdownOption(option.toString()))
+        "
+        :count="count"
+        :searchable="searchable"
+        :hideInput="hideInput"
+      />
       <slot v-else name="icon"><slot /></slot>
     </section>
   </section>
@@ -38,8 +49,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { InputBox, InputColorPicker } from ".";
-import { PopupCalendar } from "../Popup";
-import { LocalDate } from "../../utils";
+import { PopupCalendar, PopupDropdown } from "../Popup";
+import { DropdownOption, LocalDate } from "../../utils";
 import { ButtonShow } from "../Buttons";
 
 const props = defineProps({
@@ -49,13 +60,26 @@ const props = defineProps({
   show: Boolean,
   freeze: Boolean,
   hideIcon: Boolean,
-  saveOnChange: Boolean,
   placeholder: String,
   disabled: Boolean,
+  // Date
+  saveOnChange: Boolean,
   disableFuture: Boolean,
+  // Dropdown
+  options: Array<String | Number>,
+  count: {
+    type: Number,
+    default: 5,
+    validate: (value: number) => value <= 10 && value > 0,
+  },
+  searchable: Boolean,
+  hideInput: Boolean,
 });
 
-const freezer = () => !!props.freeze || props.type === "date";
+const freezer = () =>
+  !!props.freeze ||
+  props.type === "date" ||
+  (props.type === "dropdown" && !!props.hideInput);
 
 const _show = ref(false);
 const valueShow = computed({
@@ -93,18 +117,34 @@ const dateValue = computed({
     return new Date(props.modelValue!);
   },
   set(value) {
-    emit(
-      "update:modelValue",
-      new LocalDate(value).toLocaleDateString("YYYY/MM/DD", "-")
-    );
+    const temp = new LocalDate(value).toLocaleDateString("YYYY/MM/DD", "-");
+    emit("update:modelValue", temp);
+    emit("change", temp);
   },
 });
 
-const IconClick = () => emit("icon-click");
+const dropdownValue = computed({
+  get() {
+    if (!props.modelValue || props.modelValue === "") {
+      dropdownValue.value = new DropdownOption("");
+    }
+    return new DropdownOption(props.modelValue!.toString());
+  },
+  set(value) {
+    const temp = value.label;
+    emit("update:modelValue", temp);
+    emit("change", temp);
+  },
+});
 
 const dateRef = ref();
+const dropdownRef = ref();
+
+const IconClick = () => emit("icon-click");
 const Click = () => {
   if (props.type === "date") dateRef.value.Trigger();
+  if (props.type === "dropdown" && !!props.hideInput)
+    dropdownRef.value.Trigger();
   emit("click");
 };
 

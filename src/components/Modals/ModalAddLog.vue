@@ -15,7 +15,8 @@
       <InputSegment :options="logSegments" v-model="logSegment" show="both" />
     </template>
     <InputDynamicWrapped label="Title" :placeholder="GetTitle()" />
-    <InputDropdown
+    <InputDynamicWrapped
+      type="dropdown"
       :options="GetRecordTypeOptions()"
       v-model="form.recordType"
       label="Record Type"
@@ -24,8 +25,8 @@
     />
     <InputDynamicWrapped label="Record Value" placeholder="Record Value">
       <InputChoice
-        v-show="hasChoices()"
-        :options="hasChoices() ? form.recordType.value: []"
+        v-show="isRecord()"
+        :options="GetRecordUnitOptions()"
         v-model="form.recordUnits"
       />
     </InputDynamicWrapped>
@@ -39,11 +40,10 @@ import { LayoutModal } from "../../layout";
 import {
   InputSegment,
   InputDynamicWrapped,
-  InputDropdown,
   InputChoice,
   InputTextareaWrapped,
 } from "../Forms";
-import { SegmentOption, DropdownOption } from "../../utils";
+import { SegmentOption } from "../../utils";
 import {
   documents as recordIcon,
   calendar as scheduleIcon,
@@ -51,25 +51,21 @@ import {
 import { Add } from "../../server/models/Logs";
 import { SeedGenerator, GetUID } from "../../utils";
 
-const GetTitle = () =>
-  form.recordType.label === "" ? "Title" : form.recordType.label;
+const GetTitle = () => (form.recordType === "" ? "Title" : form.recordType);
 
 const isRecord = () => logSegment.value.label === logSegments[0].label;
-const hasChoices = () => Array.isArray(form.recordType.value);
 
 const GetRecordTypeOptions = () => {
-  let temp = [
-    new DropdownOption("Vaccine"),
-    new DropdownOption("Medicine"),
-    new DropdownOption("Symptoms"),
-    new DropdownOption("Activity"),
-  ];
-  if (isRecord())
-    temp = temp.concat([
-      new DropdownOption("Weight", ["kg", "lbs"]),
-      new DropdownOption("Temperature", ["°C", "°F"]),
-    ]);
+  let temp = ["Vaccine", "Medicine", "Symptoms", "Activity"];
+  if (isRecord()) temp = temp.concat(["Weight", "Temperature"]);
   return temp;
+};
+
+const GetRecordUnitOptions = () => {
+  if (!isRecord()) return new Array<string>();
+  if (form.recordType === "Weight") return ["kg", "lb"];
+  else if (form.recordType === "Temperature") return ["°C", "°F"];
+  return new Array<string>();
 };
 
 const logSegments = [
@@ -89,7 +85,7 @@ const logSegment = computed({
 
 const form = reactive({
   title: "",
-  recordType: new DropdownOption("", ""),
+  recordType: "",
   recordValue: 0,
   recordUnits: "kg",
   DTStart: new Date(),
@@ -100,7 +96,7 @@ const form = reactive({
 watch(
   () => form.recordType,
   () => {
-    if (isRecord()) form.recordUnits = form.recordType.value[0];
+    if (isRecord()) form.recordUnits = GetRecordUnitOptions()[0];
   }
 );
 
@@ -113,7 +109,7 @@ const Discard = () => {
 
 const ClearForm = () => {
   form.title = "";
-  form.recordType = new DropdownOption("", "");
+  form.recordType = "";
   form.recordValue = 0;
   form.recordUnits = "kg";
   form.DTStart = new Date();

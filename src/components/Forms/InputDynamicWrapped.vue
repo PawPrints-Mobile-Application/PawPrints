@@ -2,8 +2,10 @@
   <section class="input-dynamic-wrapped">
     <InputLabel
       :value="label"
-      v-show="!!label && !hideLabel" 
-      :show-requirement="(!!required || (state.taken && !!validators)) && !hideRequired"
+      v-show="!!label && !hideLabel"
+      :show-requirement="
+        (!!required || (state.taken && !!validators)) && !hideRequired
+      "
       :requirement-color="validity.requirementColor"
       :requirement-text="validity.requirementText"
     />
@@ -15,8 +17,8 @@
       @blur="emit('blur')"
       @first-edit="emit('first-edit')"
       @first-touch="emit('first-touch')"
-      @change="emit('change', value)"
-      @input="emit('input', value)"
+      @change="(value) => emit('change', value)"
+      @input="(value) => emit('input', value)"
       @click="emit('click')"
       @icon-click="emit('icon-click')"
       @return="(value) => emit('return', value)"
@@ -26,10 +28,18 @@
       :disabled="disabled"
       :hideIcon="hideIcon"
       :disableFuture="disableFuture"
+      :options="options"
+      :count="count"
+      :searchable="searchable"
+      :hideInput="hideInput"
     >
       <slot name="icon"><slot /></slot>
     </InputDynamic>
-    <InputHelper :validators="validators" :validated="validity.values" v-show="!hideValidator" />
+    <InputHelper
+      :validators="validators"
+      :validated="validity.values"
+      v-show="!hideValidator"
+    />
   </section>
 </template>
 <script setup lang="ts">
@@ -45,10 +55,8 @@ const props = defineProps({
   show: Boolean,
   freeze: Boolean,
   hideIcon: Boolean,
-  saveOnChange: Boolean,
   placeholder: String,
   disabled: Boolean,
-  disableFuture: Boolean,
   // For InputLabel
   label: String,
   required: Boolean,
@@ -57,7 +65,18 @@ const props = defineProps({
   // For InputHelper
   validators: Array<InputValidator>,
   hideValidator: Boolean,
-
+  // Date
+  saveOnChange: Boolean,
+  disableFuture: Boolean,
+  // Dropdown
+  options: Array<String | Number>,
+  count: {
+    type: Number,
+    default: 5,
+    validate: (value: number) => value <= 10 && value > 0,
+  },
+  searchable: Boolean,
+  hideInput: Boolean,
 });
 
 const value = computed({

@@ -3,7 +3,7 @@
     <header>
       <Avatar
         type="dog"
-        :src="dog?.breed.value"
+        :src="dog?.breed"
         :style="{
           backgroundColor: !!dog ? dog?.color : 'var(--theme-tertiary)',
         }"
@@ -12,7 +12,7 @@
       <aside>
         <TextCard label="Name:" :value="dog?.name" />
         <TextCard label="Date of Birth:" :value="dog?.birthday" />
-        <TextCard label="Dog Breed:" :value="dog?.breed.value" />
+        <TextCard label="Dog Breed:" :value="dog?.breed" />
       </aside>
     </header>
     <footer>

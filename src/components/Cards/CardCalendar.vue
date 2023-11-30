@@ -2,23 +2,30 @@
   <section class="card card-calendar" :class="{ 'with-save': !saveOnChange }">
     <header class="calendar-nav">
       <ButtonBack class="button" @click="() => MoveMonth(-1)" type="icon" />
-      <InputDropdown
+      <InputDynamicWrapped
+        type="dropdown"
         class="month"
         :model-value="calendar.dropdownMonth"
-        @change="(value) => SetMonth(value.value)"
+        @change="
+          (value) => {
+            SetMonth(value);
+            console.log(value, typeof value);
+          }
+        "
         :options="constants.months"
-        hide-icon
         hide-input
         :count="12"
+        hide-validator
       />
-      <InputDropdown
+      <InputDynamicWrapped
+        type="dropdown"
         class="year"
         :model-value="calendar.dropdownYear"
-        @change="(value) => SetYear(value.value)"
+        @change="(value) => SetYear(value)"
         :options="GetAllYears()"
-        hide-icon
-        hide-input
+        hideInput
         :count="15"
+        hide-validator
       />
       <ButtonNext class="button" @click="() => MoveMonth(1)" type="icon" />
     </header>
@@ -73,16 +80,16 @@
 </template>
 
 <script setup lang="ts">
-import { InputDropdown } from "../Forms";
+import { InputDynamicWrapped } from "../Forms";
 import { ButtonBack, ButtonNext, ButtonText } from "../Buttons";
 import { paw as calendarMark } from "ionicons/icons";
 import { reactive, onMounted } from "vue";
 import { IonIcon } from "@ionic/vue";
-import { DropdownOption, Calendar, ArrayToDropdownOptions } from "../../utils";
+import { Calendar } from "../../utils";
 
 // CONSTANTS
 const constants = {
-  months: ArrayToDropdownOptions(Calendar.months),
+  months: Calendar.months,
   days: Calendar.daysShort,
 };
 
@@ -97,14 +104,11 @@ const GetCalendarCells = (month: number, year: number) =>
     );
 const GetCellDate = (week: number, day: number) =>
   calendar.cells[BaseSevenToDecimal(week, day)];
-const GetAllYears = () =>
-  ArrayToDropdownOptions(
-    Calendar.GetYears({ back: 75, front: !props.disableFuture ? 75 : 0 })
-  );
+const GetAllYears = () => Calendar.GetYears({ back: 75, front: !props.disableFuture ? 75 : 0 });
 const indexOfMonth = (month: string) => {
   let temp = -1;
   constants.months.forEach((each, key) => {
-    if (each.value === month) temp = key;
+    if (each === month) temp = key;
   });
   return temp;
 };
@@ -134,10 +138,7 @@ const calendar = reactive({
   date: 1,
   year: 1,
   dropdownMonth: constants.months[0],
-  dropdownYear: new DropdownOption(
-    new Date().getFullYear().toString(),
-    new Date().getFullYear()
-  ),
+  dropdownYear: new Date().getFullYear(),
   cells: new Array<string>(),
 });
 
@@ -158,7 +159,7 @@ const MoveMonth = (increment: 1 | -1) => {
     new Date(year, month, calendar.date) > new Date()
   )
     return;
-  SetMonth(constants.months[month].value);
+  SetMonth(constants.months[month]);
   SetYear(year);
 };
 const SetMonth = (month: string) => {
@@ -168,12 +169,12 @@ const SetMonth = (month: string) => {
   )
     return;
   calendar.month = indexOfMonth(month);
-  calendar.dropdownMonth = new DropdownOption(month);
+  calendar.dropdownMonth = month;
   RefreshCalendar();
 };
 const SetYear = (year: number) => {
   calendar.year = year;
-  calendar.dropdownYear = new DropdownOption(year.toString(), year);
+  calendar.dropdownYear = year;
   RefreshCalendar();
 };
 const SetDate = (date: number) => {
@@ -207,6 +208,7 @@ onMounted(() => {
   calendar.month = temp.getMonth();
   calendar.year = temp.getFullYear();
   calendar.dropdownMonth = constants.months[calendar.month];
+  calendar.dropdownYear = temp.getFullYear();
   RefreshCalendar();
   selected.date = temp.getDate();
   selected.month = temp.getMonth();
@@ -244,7 +246,7 @@ onMounted(() => {
   border-radius: 6px;
 }
 
-.input-dropdown {
+.input-dynamic-wrapped {
   font-weight: 700;
   --background-color: var(--theme-primary);
 }

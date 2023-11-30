@@ -14,7 +14,7 @@
   >
     <Avatar
       type="dog"
-      :src="form.breed.value"
+      :src="form.breed"
       :style="{ backgroundColor: form.color }"
     />
     <InputDynamicWrapped
@@ -30,7 +30,8 @@
       hide-input
       disable-future
     />
-    <InputDropdown
+    <InputDynamicWrapped
+      type="dropdown"
       v-model="form.breed"
       label="Doggo Breed"
       :options="breeds"
@@ -56,22 +57,21 @@ import { Add } from "../../server/models/Dogs";
 import {
   GetUID,
   breeds,
-  DropdownOption,
   ObjectToMap,
 } from "../../utils";
-import { InputDynamicWrapped, InputDropdown } from "../Forms";
+import { InputDynamicWrapped } from "../Forms";
 
 const form = reactive({
   name: "",
   birthday: "",
-  breed: new DropdownOption("", ""),
+  breed: '',
   color: "#FFD80A",
 });
 
 const defaultValues = reactive({
   name: "",
   birthday: "",
-  breed: new DropdownOption("", ""),
+  breed: '',
   color: "#FFD80A",
 });
 
@@ -115,7 +115,7 @@ const Submit = () => {
       pid: props.dog!.pid,
       name: form.name,
       birthday: form.birthday,
-      breed: form.breed.value,
+      breed: form.breed,
       color: form.color,
       logs: props.dog!.logs,
     },

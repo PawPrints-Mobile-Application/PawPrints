@@ -12,7 +12,7 @@
   >
     <Avatar
       type="dog"
-      :src="form.breed.value"
+      :src="form.breed"
       :style="{ backgroundColor: form.color }"
     />
     <InputDynamicWrapped
@@ -28,7 +28,8 @@
       hide-input
       disable-future
     />
-    <InputDropdown
+    <InputDynamicWrapped
+      type="dropdown"
       v-model="form.breed"
       label="Doggo Breed"
       :options="breeds"
@@ -51,18 +52,18 @@ import { LayoutModal } from "../../layout";
 
 import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
-import { SeedGenerator, GetUID, breeds, DropdownOption } from "../../utils";
-import { InputDynamicWrapped, InputDropdown } from "../Forms";
+import { SeedGenerator, GetUID, breeds } from "../../utils";
+import { InputDynamicWrapped } from "../Forms";
 
 const form = reactive({
   name: "",
   birthday: "",
-  breed: new DropdownOption("", ""),
+  breed: "",
   color: "#FFD80A",
 });
 
 const disabled = computed(() =>
-  [form.name, form.birthday, form.breed.value].includes("")
+  [form.name, form.birthday, form.breed].includes("")
 );
 const Discard = () => {
   emit("discard");
@@ -73,7 +74,7 @@ const ClearForm = () => {
   console.log("Clearing...");
   form.name = "";
   form.birthday = "";
-  form.breed = new DropdownOption("", "");
+  form.breed = "";
   form.color = "#FFD80A";
 };
 
@@ -84,9 +85,9 @@ const Submit = () => {
       pid: pid,
       name: form.name,
       birthday: form.birthday,
-      breed: form.breed.value,
+      breed: form.breed,
       color: form.color,
-      logs: []
+      logs: [],
     },
     GetUID()
   ).then(() => {

@@ -54,7 +54,7 @@ type Props = {
   pid: string;
   name: string;
   birthday: string;
-  breed: DropdownOption;
+  breed: string;
   color: string;
   logs: Array<string>;
 };
@@ -73,7 +73,7 @@ const ToProps = (props: LocalProps): Props => {
     pid: props.pid,
     name: props.name,
     birthday: props.birthday,
-    breed: new DropdownOption(props.breed),
+    breed: props.breed,
     color: props.color,
     logs: StringToArray(props.logs, constants.arraySplitter),
   };

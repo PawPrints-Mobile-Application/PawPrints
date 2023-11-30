@@ -9,7 +9,7 @@ import {
 import { SetDocument, GetDocument, GetCollection } from "../firebase";
 import ObjectToMap from "../../utils/ObjectToMap";
 import { Timestamp } from "firebase/firestore";
-import { DropdownOption, SeedGenerator } from "../../utils/";
+import { SeedGenerator } from "../../utils/";
 
 const constants = {
   collection: "Users",
@@ -29,7 +29,7 @@ const constants = {
 type Props = {
   lid: string;
   title: string;
-  recordType: DropdownOption;
+  recordType: string;
   recordValue: number;
   recordUnits: string;
   DTStart: Date;
@@ -71,7 +71,7 @@ const ToProps = (props: any, source: "LocalProps" | "CloudProps"): Props => {
   return {
     lid: props.lid,
     title: props.title,
-    recordType: new DropdownOption(props.recordType, props.recordType),
+    recordType: props.recordType,
     recordValue: props.recordValue,
     recordUnits: props.recordUnits,
     note: props.note,

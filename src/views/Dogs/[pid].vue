@@ -1,6 +1,8 @@
 <template>
   <LayoutPage
     justify="flex-start"
+    @on-scroll-top="() => (state.hideCard = false)"
+    @off-scroll-top="() => (state.hideCard = true)"
   >
     <template #header>
       <header>
@@ -65,6 +67,7 @@ const viewSegments = [
   new SegmentOption("Log View", logView),
 ];
 const state = reactive({
+  hideCard: false,
   viewSegment: viewSegments[0],
 });
 
