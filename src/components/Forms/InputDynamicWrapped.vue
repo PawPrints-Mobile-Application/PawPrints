@@ -32,6 +32,7 @@
       :count="count"
       :searchable="searchable"
       :hideInput="hideInput"
+      :hideDropdownIcon="hideDropdownIcon"
     >
       <slot name="icon"><slot /></slot>
     </InputDynamic>
@@ -77,6 +78,7 @@ const props = defineProps({
   },
   searchable: Boolean,
   hideInput: Boolean,
+  hideDropdownIcon: Boolean,
 });
 
 const value = computed({
@@ -173,7 +175,7 @@ defineExpose({ Reevaluate });
 </script>
 <style scoped>
 .input-dynamic-wrapped {
-  width: 98%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }

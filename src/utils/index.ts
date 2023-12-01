@@ -10,6 +10,7 @@ import HelperConstructor from "./HelperConstructor";
 import InputValidator from "./InputValidator";
 
 import LocalDate from "./LocalDate";
+import LocalTime from "./LocalTime";
 
 import GetScreenSize from "./GetScreenSize";
 import SampleColors from "./SampleColors";
@@ -36,6 +37,7 @@ export {
   HelperConstructor,
   InputValidator,
   LocalDate,
+  LocalTime,
   GetScreenSize,
   SampleColors,
   CustomEvent,

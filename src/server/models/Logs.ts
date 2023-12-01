@@ -9,7 +9,7 @@ import {
 import { SetDocument, GetDocument, GetCollection } from "../firebase";
 import ObjectToMap from "../../utils/ObjectToMap";
 import { Timestamp } from "firebase/firestore";
-import { SeedGenerator } from "../../utils/";
+import { LocalTime, SeedGenerator } from "../../utils/";
 
 const constants = {
   collection: "Users",
@@ -18,65 +18,81 @@ const constants = {
         lid TEXT PRIMARY KEY NOT NULL,
         type TEXT,
         title TEXT,
-        details TEXT,
-        dogs TEXT,
-        DTStart INTEGER,
-        DTEnd INTEGER
+        recordType: TEXT,
+        recordValue: INTEGER,
+        recordUnits: TEXT,
+        DStart INTEGER,
+        TStart INTEGER,
+        DEnd INTEGER,
+        TEnd INTEGER,
+        note TEXT
         `,
   arraySplitter: ", ",
 };
 
 type Props = {
   lid: string;
+  type: string;
   title: string;
   recordType: string;
   recordValue: number;
   recordUnits: string;
-  DTStart: Date;
-  DTEnd: Date;
+  DStart: Date;
+  TStart: LocalTime;
+  DEnd: Date;
+  TEnd: LocalTime;
   note: string;
 };
 
 type LocalProps = {
   lid: string;
+  type: string;
   title: string;
   recordType: string;
   recordValue: number;
   recordUnits: string;
-  DTStart: number;
-  DTEnd: number;
+  DStart: number;
+  TStart: number;
+  DEnd: number;
+  TEnd: number;
   note: string;
 };
 
 type CloudProps = {
   lid: string;
+  type: string;
   title: string;
   recordType: string;
   recordValue: number;
   recordUnits: string;
-  DTStart: Timestamp;
-  DTEnd: Timestamp;
+  DStart: Timestamp;
+  TStart: number;
+  DEnd: Timestamp;
+  TEnd: number;
   note: string;
 };
 
 const ToProps = (props: any, source: "LocalProps" | "CloudProps"): Props => {
-  let { DTStart, DTEnd } = props;
+  let { DStart, DEnd } = props;
   if (source === "LocalProps") {
-    DTStart = new Date(props.DTStart);
-    DTEnd = new Date(props.DTEnd);
+    DStart = new Date(props.DStart);
+    DEnd = new Date(props.DEnd);
   } else {
-    DTStart = props.DTStart.toDate();
-    DTEnd = props.DTEnd.toDate();
+    DStart = props.DStart.toDate();
+    DEnd = props.DEnd.toDate();
   }
   return {
     lid: props.lid,
+    type: props.type,
     title: props.title,
     recordType: props.recordType,
     recordValue: props.recordValue,
     recordUnits: props.recordUnits,
     note: props.note,
-    DTStart: DTStart,
-    DTEnd: DTEnd,
+    DStart: DStart,
+    TStart: new LocalTime(props.TStart),
+    DEnd: DEnd,
+    TEnd: new LocalTime(props.TEnd),
   };
 };
 
@@ -84,23 +100,28 @@ const ToLocalProps = (
   props: any,
   source: "Props" | "CloudProps"
 ): LocalProps => {
-  let { DTStart, DTEnd, recordType } = props;
+  let { DStart, DEnd, recordType, TStart, TEnd } = props;
   if (source === "CloudProps") {
-    DTStart = props.DTStart.toDate();
-    DTEnd = props.DTEnd.toDate();
+    DStart = props.DStart.toDate();
+    DEnd = props.DEnd.toDate();
     recordType = props.recordType;
   } else {
     recordType = props.recordType.label;
+    TStart = props.TStart.value;
+    TEnd = props.TEnd.value;
   }
   return {
     lid: props.lid,
+    type: props.type,
     title: props.title,
     recordType: recordType,
     recordValue: props.recordValue,
     recordUnits: props.recordUnits,
     note: props.note,
-    DTStart: SeedGenerator(DTStart),
-    DTEnd: SeedGenerator(DTEnd),
+    DStart: SeedGenerator(DStart),
+    TStart: TStart,
+    DEnd: SeedGenerator(DEnd),
+    TEnd: TEnd,
   };
 };
 
@@ -108,23 +129,28 @@ const ToCloudProps = (
   props: any,
   source: "Props" | "LocalProps"
 ): CloudProps => {
-  let { DTStart, DTEnd, recordType } = props;
+  let { DStart, DEnd, recordType, TStart, TEnd } = props;
   if (source === "LocalProps") {
-    DTStart = new Date(props.DTStart);
-    DTEnd = new Date(props.DTEnd);
+    DStart = new Date(props.DStart);
+    DEnd = new Date(props.DEnd);
     recordType = props.recordType;
   } else {
     recordType = props.recordType.label;
+    TStart = props.TStart.value;
+    TEnd = props.TEnd.value;
   }
   return {
     lid: props.lid,
+    type: props.type,
     title: props.title,
     recordType: recordType,
     recordValue: props.recordValue,
     recordUnits: props.recordUnits,
     note: props.note,
-    DTStart: Timestamp.fromDate(DTStart),
-    DTEnd: Timestamp.fromDate(DTEnd),
+    DStart: Timestamp.fromDate(DStart),
+    TStart: TStart,
+    DEnd: Timestamp.fromDate(DEnd),
+    TEnd: TEnd,
   };
 };
 

@@ -1,7 +1,7 @@
 <template>
   <ButtonPopup v-model="state" @click-backdrop="emit('click-backdrop')">
     <template #button>
-      <ButtonDropdown v-model="state" @click="Trigger" v-show="!hideInput" />
+      <ButtonDropdown v-model="state" @click="Trigger" v-show="!hideIcon" />
     </template>
     <InputDropdown
       v-model="value"
@@ -29,6 +29,7 @@ const props = defineProps({
   },
   searchable: Boolean,
   hideInput: Boolean,
+  hideIcon: Boolean,
 });
 
 const state = ref(false);

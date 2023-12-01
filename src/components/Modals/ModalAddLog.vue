@@ -14,7 +14,11 @@
     <template #header>
       <InputSegment :options="logSegments" v-model="logSegment" show="both" />
     </template>
-    <InputDynamicWrapped label="Title" :placeholder="GetTitle()" />
+    <InputDynamicWrapped
+      label="Title"
+      :placeholder="GetTitle()"
+      hideValidator
+    />
     <InputDynamicWrapped
       type="dropdown"
       :options="GetRecordTypeOptions()"
@@ -22,15 +26,29 @@
       label="Record Type"
       :hideInput="isRecord()"
       :count="6"
+      hideValidator
     />
-    <InputDynamicWrapped label="Record Value" placeholder="Record Value">
+    <InputDynamicWrapped
+      label="Record Value"
+      placeholder="Record Value"
+      hideValidator
+      v-show="isRecord()"
+    >
       <InputChoice
         v-show="isRecord()"
         :options="GetRecordUnitOptions()"
         v-model="form.recordUnits"
       />
     </InputDynamicWrapped>
-    <InputTextareaWrapped v-model="form.note" label="Note" />
+    <div class="date-time">
+      <InputLabel :value="`Record${isRecord() ? ' ' : ' Start '}Date`" />
+      <InputDynamicWrapped v-model="form.DStart" type="date" hideValidator />
+    </div>
+    <div class="date-time" v-show="!isRecord()">
+      <InputLabel value="Record End Date" />
+      <InputDynamicWrapped v-model="form.DStart" type="date" hideValidator />
+    </div>
+    <InputTextareaWrapped v-model="form.note" label="Note (Optional)" />
   </LayoutModal>
 </template>
 
@@ -42,8 +60,9 @@ import {
   InputDynamicWrapped,
   InputChoice,
   InputTextareaWrapped,
+  InputLabel,
 } from "../Forms";
-import { SegmentOption } from "../../utils";
+import { LocalDate, LocalTime, SegmentOption } from "../../utils";
 import {
   documents as recordIcon,
   calendar as scheduleIcon,
@@ -80,16 +99,20 @@ const logSegment = computed({
   set(value) {
     _logSegment.value = value;
     form.recordType = GetRecordTypeOptions()[0];
+    form.type = value.label!;
   },
 });
 
 const form = reactive({
   title: "",
-  recordType: "",
+  type: logSegments[0].label!,
+  recordType: GetRecordTypeOptions()[0],
   recordValue: 0,
   recordUnits: "kg",
-  DTStart: new Date(),
-  DTEnd: new Date(),
+  DStart: new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-"),
+  TStart: 0,
+  DEnd: new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-"),
+  TEnd: 0,
   note: "",
 });
 
@@ -109,11 +132,14 @@ const Discard = () => {
 
 const ClearForm = () => {
   form.title = "";
-  form.recordType = "";
+  form.type = logSegments[0].label!;
+  form.recordType = GetRecordTypeOptions()[0];
   form.recordValue = 0;
   form.recordUnits = "kg";
-  form.DTStart = new Date();
-  form.DTEnd = new Date();
+  form.DStart = new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-");
+  form.TStart = 0;
+  form.DEnd = new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-");
+  form.TEnd = 0;
   form.note = "";
 };
 
@@ -122,12 +148,15 @@ const Submit = () => {
   Add(
     {
       lid: lid,
+      type: form.type,
       title: form.title,
       recordType: form.recordType,
       recordValue: form.recordValue,
       recordUnits: form.recordUnits,
-      DTStart: form.DTStart,
-      DTEnd: form.DTEnd,
+      DStart: new Date(form.DStart),
+      TStart: new LocalTime(form.TStart),
+      DEnd: new Date(form.DEnd),
+      TEnd: new LocalTime(form.TEnd),
       note: form.note,
     },
     GetUID()
@@ -155,5 +184,9 @@ onMounted(() => {
 .avatar {
   --size: 100px;
   --image-scale: 90%;
+}
+
+.date-time {
+  width: 100%;
 }
 </style>

@@ -14,6 +14,7 @@ import InputTextareaWrapped from './InputTextareaWrapped.vue';
 import InputSelect from "./InputSelect.vue";
 import InputDropdown from "./InputDropdown.vue";
 import InputCalendar from "./InputCalendar.vue";
+import InputTime from './InputTime.vue';
 
 import InputPhoto from './InputPhoto.vue';
 import InputPhotoButton from './InputPhotoButton.vue';
@@ -42,6 +43,7 @@ export {
   InputSelect,
   InputDropdown,
   InputCalendar,
+  InputTime,
 
   InputPhoto,
   InputPhotoButton,

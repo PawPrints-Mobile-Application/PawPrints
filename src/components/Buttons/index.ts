@@ -17,6 +17,7 @@ import ButtonModal from "./ButtonModal.vue";
 import ButtonCalendar from "./ButtonCalendar.vue";
 import ButtonDropdown from "./ButtonDropdown.vue";
 import ButtonShow from "./ButtonShow.vue";
+import ButtonTime from "./ButtonTime.vue";
 
 import ButtonTheme from "./ButtonTheme.vue";
 import ButtonMode from "./ButtonMode.vue";
@@ -41,6 +42,7 @@ export {
   ButtonCalendar,
   ButtonDropdown,
   ButtonShow,
+  ButtonTime,
 
   ButtonTheme,
   ButtonMode

@@ -27,7 +27,9 @@
     >
       <CardCalendar />
     </section>
-    <section class="view view-list" v-show="!!dog" v-else></section>
+    <section class="view view-list" v-show="!!dog" v-else>
+      <LayoutPIDListViewVue />
+    </section>
     <ModalAddLog
       :isOpen="modalOpen.log"
       @submit="ReloadPage"
@@ -42,7 +44,7 @@
   </LayoutPage>
 </template>
 <script setup lang="ts">
-import { LayoutPage } from "../../layout";
+import { LayoutPage, LayoutPIDListViewVue } from "../../layout";
 import { Avatar } from "../../components/Avatars";
 import { ButtonBack } from "../../components/Buttons";
 import { TextHeading, TextSmall } from "../../components/Texts";
@@ -53,7 +55,10 @@ import { CardCalendar } from "../../components/Cards";
 import { CustomEvent, SegmentOption } from "../../utils";
 import { ref, reactive, Ref } from "vue";
 import { onIonViewDidEnter, useIonRouter } from "@ionic/vue";
-import { documents as listView, calendar as calendarView } from "ionicons/icons";
+import {
+  documents as listView,
+  calendar as calendarView,
+} from "ionicons/icons";
 import { useRoute } from "vue-router";
 const ionRouter = useIonRouter();
 
@@ -161,5 +166,9 @@ header {
 
 .logs-segment {
   --item-flex: 1 0 0;
+}
+
+.view {
+  width: 100%;
 }
 </style>

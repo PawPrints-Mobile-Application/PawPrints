@@ -1,15 +1,13 @@
 <template>
   <section>
-    <ButtonSignOut />
-    <InputDynamicWrapped type="dropdown" v-model="value" :options="options" />
+    <InputDynamicWrapped v-model="value" type="time" />
   </section>
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { ButtonSignOut } from "../components/Buttons";
-import InputDynamicWrapped from "../components/Forms/InputDynamicWrapped.vue";
+import { InputDynamicWrapped } from "../components/Forms";
 
-const value = ref("");
+const value = ref(125);
 const options = [1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 </script>
 <script lang="ts">
@@ -21,5 +19,6 @@ export default {
 section {
   display: flex;
   gap: 10px;
+  flex-direction: column;
 }
 </style>

@@ -41,6 +41,12 @@
         :count="count"
         :searchable="searchable"
         :hideInput="hideInput"
+        :hideIcon="hideDropdownIcon"
+      />
+      <PopupTime
+        ref="timeRef"
+        v-else-if="type === 'time'"
+        v-model="timeValue"
       />
       <slot v-else name="icon"><slot /></slot>
     </section>
@@ -49,8 +55,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { InputBox, InputColorPicker } from ".";
-import { PopupCalendar, PopupDropdown } from "../Popup";
-import { DropdownOption, LocalDate } from "../../utils";
+import { PopupCalendar, PopupDropdown, PopupTime } from "../Popup";
+import { DropdownOption, LocalDate, LocalTime } from "../../utils";
 import { ButtonShow } from "../Buttons";
 
 const props = defineProps({
@@ -74,12 +80,14 @@ const props = defineProps({
   },
   searchable: Boolean,
   hideInput: Boolean,
+  hideDropdownIcon: Boolean,
 });
 
 const freezer = () =>
   !!props.freeze ||
   props.type === "date" ||
-  (props.type === "dropdown" && !!props.hideInput);
+  (props.type === "dropdown" && !!props.hideInput) ||
+  props.type === "time";
 
 const _show = ref(false);
 const valueShow = computed({
@@ -137,14 +145,31 @@ const dropdownValue = computed({
   },
 });
 
+const timeValue = computed({
+  get() {
+    if (!props.modelValue || props.modelValue === "") {
+      timeValue.value = new LocalTime(1);
+    }
+    return new LocalTime(props.modelValue!);
+  },
+  set(value) {
+    console.log(value);
+    const temp = value.value;
+    emit("update:modelValue", temp);
+    emit("change", temp);
+  },
+});
+
 const dateRef = ref();
 const dropdownRef = ref();
+const timeRef = ref();
 
 const IconClick = () => emit("icon-click");
 const Click = () => {
   if (props.type === "date") dateRef.value.Trigger();
   if (props.type === "dropdown" && !!props.hideInput)
     dropdownRef.value.Trigger();
+  if (props.type === "time") timeRef.value.Trigger();
   emit("click");
 };
 
