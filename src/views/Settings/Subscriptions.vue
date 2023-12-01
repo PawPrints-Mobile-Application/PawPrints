@@ -40,12 +40,12 @@ const subscriptions = [
   {
     name: "Free",
     icon: subscriptionFree,
-    info: ["Advertisement included", "Up to 3 dog profiles"],
+    info: ["Up to 3 dog profiles", "Up to 50 logs (per month)"],
   },
   {
     name: "Pawmium",
     icon: subscriptionPawmium,
-    info: ["No advertisement", "Unlimited dog profiles"],
+    info: ["Unlimited dog profiles", "Unlimited logs"],
   },
 ];
 

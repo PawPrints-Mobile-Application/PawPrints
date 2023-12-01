@@ -53,8 +53,8 @@ const props = defineProps({
 .card-post {
   width: 100%;
   min-height: 60px;
-  background-color: var(--theme-secondary);
-  outline: 2px solid var(--theme-black);
+  background-color: var(--theme-secondary-background);
+  outline: 2px solid var(--theme-primary-text);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -77,8 +77,8 @@ header {
 }
 
 ion-chip {
-  --background: var(--theme-quadratic);
-  --color: var(--theme-primary);
+  --background: var(--theme-quadratic-background);
+  --color: var(--theme-quadratic-text);
   font-size: var(--fs4);
   height: 25px;
 }

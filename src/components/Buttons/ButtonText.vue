@@ -18,8 +18,8 @@ defineProps({
   --padding: 10px 30px;
   padding: var(--padding);
   min-width: 130px;
-  background-color: var(--theme-button-normal);
-  color: var(--theme-button-text);
+  background-color: var(--theme-tertiary-background);
+  color: var(--theme-tertiary-text);
 }
 .text {
   color: inherit;

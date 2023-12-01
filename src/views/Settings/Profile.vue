@@ -13,7 +13,6 @@
       :hideRequired="form.disabled"
       :hideValidator="form.disabled"
     />
-
     <InputDynamicWrapped
       ref="email"
       type="email"
@@ -23,8 +22,8 @@
       freeze
     />
     <ButtonText
-      class="reset-password"
-      label="Reset Password"
+      class="change-password"
+      label="Change Password"
       @click="ResetPassword"
     />
     <section class="change-buttons">
@@ -121,10 +120,17 @@ export default {
   padding-block: 10px;
 }
 .reset {
-  background-color: var(--theme-button-warning);
+  background-color: var(--theme-warning-background);
+  color: var(--theme-warning-text);
 }
 .save {
-  background-color: var(--theme-button-success);
+  background-color: var(--theme-success-background);
+  color: var(--theme-success-text);
 }
 
+.change-password {
+  background-color: var(--theme-tertiary-background);
+  color: var(--theme-tertiary-text);
+  width: 100%;
+}
 </style>

@@ -149,10 +149,10 @@ defineExpose({ Reevaluate });
 </script>
 <style scoped>
 .input-textarea-wrapped {
-  width: 98%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  height: 100px;
+  height: 130px;
 }
 
 .input-textarea {

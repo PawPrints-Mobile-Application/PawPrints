@@ -17,7 +17,7 @@
         <ion-icon :icon="GetMiddleButton().iconBack" />
         <ion-icon v-show="GetMiddleButton().class !== 'dogs'" :icon="addIcon" />
       </section>
-      <TextSmall>{{ GetMiddleButton().label }}</TextSmall>
+      <TextSmall v-show="GetMiddleButton().class === 'dogs'">Dogs </TextSmall>
     </ButtonRippled>
 
     <ButtonIcon
@@ -87,12 +87,12 @@ const options = [
   },
   {
     class: "add-dog",
-    label: "Add Dog",
+    label: "Dog",
     iconBack: pawIcon,
   },
   {
     class: "add-log",
-    label: "Add Log",
+    label: "Log",
     iconBack: documentIcon,
   },
 ];
@@ -153,10 +153,13 @@ const Navigate = (
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: var(--theme-primary);
+  background-color: var(--theme-primary-background);
   border-top: 2px solid var(--theme-grey);
 }
 
+.text-small {
+  font-size: 10px;
+}
 .button-middle {
   --button-size: 60px;
   --size: 40px;
@@ -168,8 +171,8 @@ const Navigate = (
   border-radius: 100%;
   transform: translate(0px, -7px);
   outline: 2px solid var(--theme-black);
-  background-color: var(--theme-tertiary);
-  color: var(--theme-primary);
+  background-color: var(--theme-tertiary-background);
+  color: var(--theme-primary-background);
   z-index: 2;
   overflow: hidden;
   transition: all 300ms ease-out;
@@ -184,52 +187,55 @@ const Navigate = (
 
     > ion-icon:nth-child(1) {
       font-size: var(--size);
-      color: var(--theme-text);
+      color: var(--theme-button-middle-text);
     }
 
     > ion-icon:nth-child(2) {
       font-size: 18px;
       position: absolute;
-      color: var(--theme-tertiary);
+      color: var(--theme-button-middle-text);
     }
   }
 
   .text-small {
     position: relative;
-    color: var(--theme-text);
+    color: var(--theme-button-middle-text);
     transform: translateY(-2px);
   }
 }
 
 .add-dog {
   --size: 40px;
+  margin-top: 5px;
   .icon {
     height: var(--size);
-    transform: translateY(-5px);
+    transform: translateY(0px);
 
     > ion-icon:nth-child(2) {
-      transform: translateY(5px);
+      transform: translateY(6px);
+      font-size: 18px;
     }
   }
 
   .text-small {
-    transform: translateY(-9px);
+    transform: translateY(-1px);
   }
 }
 
 .add-log {
-  --size: 35px;
+  --size: 40px;
   .icon {
     height: var(--size);
-    transform: translateY(-7px);
+    transform: translate(1px,0px);
 
     > ion-icon:nth-child(2) {
-      transform: translateY(5px);
+      transform: translate(0px,6px);
+      font-size: 20px;
     }
   }
 
   .text-small {
-    transform: translateY(-7px);
+    transform: translateY(0px);
   }
 }
 
@@ -246,11 +252,11 @@ const Navigate = (
   min-width: 20px;
   --size: 25px;
   z-index: 1;
-  color: var(--theme-text);
-  background-color: var(--theme-primary) !important;
+  color: var(--theme-tertiary-text);
+  background-color: var(--theme-primary-background) !important;
 
   &.selected {
-    color: var(--theme-tertiary);
+    color: var(--theme-tertiary-background);
   }
 }
 

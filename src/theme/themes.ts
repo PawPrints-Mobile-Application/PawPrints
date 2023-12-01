@@ -1,119 +1,132 @@
+// "primary-background":
+// "primary-text":
+// "secondary-background":
+// "secondary-text":
+// "secondary-dark-background":
+// "secondary-dark-text":
+// "tertiary-background":
+// "tertiary-text":
+// "quadratic-background":
+// "quadratic-text":
+
+// "warning-background":
+// "warning-text":
+// "success-background":
+// "success-text":
+// "button-icon": "#FFD803", // forums button in home
+
 const themes = {
   yellow: {
     light: {
-      primary: "#fefefe", // primary bg
-      secondary: "#E3F6F5", // input text area
-      "secondary-dark": "#BAE8E8", // search bar, write
-      tertiary: "#FFD803", //button or theme name
-      quadratic: "#272343", // dates choices, buttons in input text
+      "primary-background": "#FEFEFE",
+      "primary-text": "#0D0D0D",
+      "secondary-background": "#E3F6F5",
+      "secondary-text": "#0D0D0D",
+      "secondary-dark-background": "#BAE8E8",
+      "secondary-dark-text": "#0D0D0D",
+      "tertiary-background": "#FFD803",
+      "tertiary-text": "#0D0D0D",
+      "quadratic-background": "#272343",
+      "quadratic-text": "#FEFEFE",
 
-      "button-text": "#fefefe", // for color-tertiary
-      "button-normal": "#FFD803", // same as tertiary
-      "button-warning": "#EB445A", // clear/delete button
-      "button-success": "#2DD36F", //sign up,get started,save
+      "button-middle-text": "#FFFFFE",
+      "warning-background": "#EB445A",
+      "warning-text": "#FFFFFE",
+      "success-background": "#2DD36F",
+      "success-text": "#FFFFFE",
       "button-icon": "#FFD803", // forums button in home
-
-      "card-text": "#0d0d0d",
-      "card-background": "#BAE8E8",
-      "card-highlight-background": "#FFD803",
-      "card-highlight-text": "#0d0d0d",
-      "trivia-background": "#272343",
-      "trivia-text": "#fefefe",
-
-      text: "#0d0d0d",
+      grey: "#cecece",
+      black: "#0d0d0d",
     },
     dark: {
-      primary: "#15202B", // primary bg
-      secondary: "#242D38", // input text area
-      "secondary-dark": "#242D38", // search bar, write
-      tertiary: "#FFE558", //button or theme name
-      quadratic: "#8A9197", // dates choices, buttons in input text
+      "primary-background": "#15202B",
+      "primary-text": "#F7F9F9",
+      "secondary-background": "#242D38",
+      "secondary-text": "#F7F9F9",
+      "secondary-dark-background": "#242D38",
+      "secondary-dark-text": "#0D0D0D",
+      "tertiary-background": "#FFD803",
+      "tertiary-text": "#F7F9F9",
+      "quadratic-background": "#07121D",
+      "quadratic-text": "#F7F9F9",
 
-      "button-text": "#fefefe", // for color-tertiary
-      "button-normal": "#FFE558", // same as tertiary
-      "button-warning": "#F7677B", // clear/delete button
-      "button-success": "#56CF87", //sign up,get started,save
+      "button-middle-text": "#15202B",
+      "warning-background": "#F7677B",
+      "warning-text": "#FFFFFF",
+      "success-background": "#56CF87",
+      "success-text": "#FFFFFF",
       "button-icon": "#FFE558", // forums button in home
-
-      "card-text": "#F7F9F9",
-      "card-background": "#1E2732",
-      "card-highlight-background": "#3C434C",
-      "card-highlight-text": "#F7F9F9",
-      "trivia-background": "#07121D",
-      "trivia-text": "#F7F9F9",
-
-      text: "#F7F9F9",
+      grey: "#cecece",
+      black: "#0d0d0d",
     },
   },
   pink: {
     light: {
-      primary: "#FEFEFE", // primary bg
-      secondary: "#EEF7FF", // input text area
-      "secondary-dark": "#C4CEDF", // search bar, write
-      tertiary: "#EC9CAF", //button or theme name
-      quadratic: "#33272A", // dates choices, buttons in input text area
+      "primary-background": "#FFFFFE",
+      "primary-text": "#33272A",
+      "secondary-background": "#EEF7FF",
+      "secondary-text": "#33272A",
+      "secondary-dark-background": "#C4CEDF",
+      "secondary-dark-text": "#33272A",
+      "tertiary-background": "#EC9CAF",
+      "tertiary-text": "#0D0D0D",
+      "quadratic-background": "#C7EAB4",
+      "quadratic-text": "#33272A",
 
-      "button-text": "#FEFEFE", // for color-tertiary
-      "button-normal": "#EC9CAF", // same as tertiary
-      "button-warning": "#EC9CAF", // clear/delete/close button
-      "button-success": "#AFE194", //sign up,get started,save
+      "button-middle-text": "#FFFFFF",
+      "warning-background": "#EE9DAE",
+      "warning-text": "#FFFFFF",
+      "success-background": "#AFE194",
+      "success-text": "#FFFFFF",
       "button-icon": "#EC9CAF", // forums button in home
-
-      "card-text": "#33272A",
-      "card-background": "#EEF7FF",
-      "card-highlight-background": "#FFF9C4",
-      "card-highlight-text": "#33272A",
-      "trivia-background": "#C7EAB4",
-      "trivia-text": "#33272A",
-
-      text: "#33272A",
+      grey: "#cecece",
+      black: "#0d0d0d",
     },
     dark: {
-      primary: "#15202B", // primary bg
-      secondary: "#242D38", // input text area
-      "secondary-dark": "#242D38", // search bar, write
-      tertiary: "#EC9CAF", //button or theme name
-      quadratic: "#8A9197", // dates choices, buttons in input text
+      "primary-background": "#202020",
+      "primary-text": "#FFFFFE",
+      "secondary-background": "#EEF7FF",
+      "secondary-text": "#202020",
+      "secondary-dark-background": "#C4CEDF",
+      "secondary-dark-text": "#202020",
+      "tertiary-background": "#C7EAB4",
+      "tertiary-text": "#0D0D0D",
+      "quadratic-background": "#272343",
+      "quadratic-text": "#202020",
 
-      "button-text": "#fefefe", // for color-tertiary
-      "button-normal": "#FFE558", // same as tertiary
-      "button-warning": "#F7677B", // clear/delete button
-      "button-success": "#56CF87", //sign up,get started,save
-      "button-icon": "#FFE558", // forums button in home
-
-      "card-text": "#F7F9F9",
-      "card-background": "#1E2732",
-      "card-highlight-background": "#3C434C",
-      "card-highlight-text": "#F7F9F9",
-      "trivia-background": "#07121D",
-      "trivia-text": "#F7F9F9",
-
-      text: "#F7F9F9",
+      "button-middle-text": "#FFFFFF",
+      "warning-background": "#EE9DAE",
+      "warning-text": "#FFFFFF",
+      "success-background": "#AFE194",
+      "success-text": "#FFFFFF",
+      "button-icon": "#EC9CAF", // forums button in home
+      grey: "#cecece",
+      black: "#0d0d0d",
     },
   },
   blue: {
     light: {
-      primary: "#DBEBF5", // primary bg
-      secondary: "#7FA4BF", // input text area
-      "secondary-dark": "#7FA4BF", // search bar, write
-      tertiary: "#0D3B5C", //button, dday or theme name
-      quadratic: "#1E5074", // dates choices
+      "primary-background": "#DBEBF5",
+      "primary-text": "#000000",
+      "secondary-background": "#7FA4BF",
+      "secondary-text": "#000000",
+      "secondary-dark-background": "#7FA4BF",
+      "secondary-dark-text": "#000000",
+      "tertiary-background": "#0D3B5C",
+      "tertiary-text": "#FFFFFE",
+      "quadratic-background": "#1E5074",
+      "quadratic-text": "#FFFFFF",
 
-      "button-text": "#FEFEFE", // for color-tertiary
-      "button-normal": "#0D3B5C", // same as tertiary
-      "button-warning": "#0D3B5C", // clear/delete/close button
-      "button-success": "#F5D473", //sign up,get started,save
+      "button-middle-text": "#DBEBF5",
+      "warning-background": "#0D3B5C",
+      "warning-text": "#FFFFFE",
+      "success-background": "#F5D473",
+      "success-text": "#FFFFFE",
       "button-icon": "#F5D473", // forums button in home
-
-      "card-text": "#000000",
-      "card-background": "#7FA4BF",
-      "card-highlight-background": "#D9E4EC",
-      "card-highlight-text": "#000000",
-      "trivia-background": "#1E5074",
-      "trivia-text": "#FEFEFE",
-
-      text: "#0d0d0d",
+      grey: "#cecece",
+      black: "#0d0d0d",
     },
+
     dark: {
       primary: "#15202B", // primary bg
       secondary: "#242D38", // input text area
@@ -134,7 +147,8 @@ const themes = {
       "trivia-background": "#07121D",
       "trivia-text": "#F7F9F9",
 
-      text: "#F7F9F9",
+      grey: "#cecece",
+      black: "#0d0d0d",
     },
   },
 };

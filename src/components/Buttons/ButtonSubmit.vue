@@ -14,7 +14,7 @@ defineProps({
 </script>
 <style scoped>
 .button-submit {
-  background-color: var(--theme-button-success);
-  color: var(--theme-button-text);
+  background-color: var(--theme-success-background);
+  color: var(--theme-success-text);
 }
 </style>

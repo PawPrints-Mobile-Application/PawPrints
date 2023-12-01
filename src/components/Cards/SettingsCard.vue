@@ -35,7 +35,7 @@ const emit = defineEmits(["click"]);
   align-items: center;
   padding: 20px;
   border-radius: 20px;
-  background-color: var(--theme-secondary);
+  background-color: var(--theme-secondary-background);
 
   > img {
     width: 80px;

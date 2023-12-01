@@ -147,7 +147,7 @@ div {
 }
 
 div {
-  opacity: 0.7;
+  opacity: 1;
 }
 
 input[type="date"]::-webkit-inner-spin-button,

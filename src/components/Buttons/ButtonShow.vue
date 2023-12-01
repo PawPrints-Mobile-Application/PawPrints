@@ -35,8 +35,8 @@ const emit = defineEmits(["update:modelValue", "expand", "collapse", "click"]);
 .button-show {
   height: 30px;
   width: 30px;
-  background-color: var(--theme-secondary);
-  color: var(--theme-tertiary);
+  background-color: var(--theme-secondary-background);
+  color: var(--theme-tertiary-background);
   font-size: 30px;
 }
 </style>

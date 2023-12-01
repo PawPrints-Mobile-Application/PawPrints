@@ -40,11 +40,11 @@ defineProps({
 </script>
 <style scoped>
 .selected {
-  outline: 2px solid black;
+  outline: 2px solid var(--theme-tertiary-text);
 }
 
 .subscription-card {
-  background-color: var(--theme-secondary);
+  background-color: var(--theme-secondary-background);
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -61,7 +61,7 @@ defineProps({
     display: flex;
     justify-content: space-around;
     align-items: center;
-    gap: 20px;
+    gap: 5px;
   }
 }
 

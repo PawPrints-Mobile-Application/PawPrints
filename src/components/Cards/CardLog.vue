@@ -56,7 +56,7 @@ defineProps({
 .card-log {
   width: 100%;
   border-radius: 6px;
-  background-color: var(--theme-secondary);
+  background-color: var(--theme-secondary-background);
   padding: 10px 20px;
 }
 
@@ -87,7 +87,7 @@ header .text-subheading {
 }
 
 .data {
-  background-color: var(--theme-tertiary);
+  background-color: var(--theme-tertiary-background);
   border-radius: 5px;
   padding: 5px 10px;
   display: flex;

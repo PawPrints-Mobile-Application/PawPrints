@@ -42,7 +42,14 @@ defineProps({
   justify: {
     type: String,
     default: "center",
-    validator: (value: string) => ["center", "flex-start", "space-between", "space-around", "space-evenly"].includes(value),
+    validator: (value: string) =>
+      [
+        "center",
+        "flex-start",
+        "space-between",
+        "space-around",
+        "space-evenly",
+      ].includes(value),
   },
   noDefaultMargin: Boolean,
   disableHeader: Boolean,
@@ -62,5 +69,4 @@ const emit = defineEmits([
   "off-scroll-top",
 ]);
 </script>
-<style scoped>
-</style>
+<style scoped></style>

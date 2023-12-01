@@ -93,7 +93,7 @@ export default {
 
   > ion-icon {
     font-size: 30px;
-    color: var(--theme-text);
+    color: var(--theme-primary-text);
   }
 
   > .input-box {
@@ -105,6 +105,6 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 </style>

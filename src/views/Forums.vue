@@ -5,7 +5,7 @@
     @off-scroll-top="() => (state.hideCard = true)"
   >
     <template #header>
-      <TextHeading class="title"> FORUMS </TextHeading>
+      <TextHeading class="title"> FORUM </TextHeading>
     </template>
     <InputSegment
       class="forums-segment"
@@ -94,7 +94,7 @@ export default {
   --size: 40px;
 }
 .add-post {
-  background-color: var(--theme-secondary-dark);
+  background-color: var(--theme-secondary-dark-background);
   flex: 1 0 0;
   --justify-content: flex-start;
   --padding: 5px 9px;

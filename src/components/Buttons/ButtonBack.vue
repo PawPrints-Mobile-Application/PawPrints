@@ -7,7 +7,7 @@ import { chevronBack as icon } from "ionicons/icons";
 </script>
 <style scoped>
 .button-back {
-  color: var(--theme-tertiary);
+  color: var(--theme-tertiary-background);
   font-size: 40px;
 }
 </style>

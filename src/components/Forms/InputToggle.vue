@@ -34,7 +34,7 @@ const emit = defineEmits(["update:modelValue"]);
 }
 
 .option-input {
-  background-color: var(--theme-secondary);
+  background-color: var(--theme-secondary-background);
   width: var(--size);
   height: var(--size);
   display: flex;
@@ -44,7 +44,7 @@ const emit = defineEmits(["update:modelValue"]);
 
   > .custom-input {
     opacity: 0.7;
-    background-color: var(--theme-black);
+    background-color: var(--theme-secondary-text);
     border-radius: var(--border-radius);
     position: relative;
     width: var(--cover-size);

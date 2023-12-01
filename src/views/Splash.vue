@@ -97,7 +97,7 @@ export default {
 </script>
 <style scoped>
 .layout-page {
-  --background-color: var(--theme-tertiary);
+  --background-color: var(--theme-tertiary-background);
 }
 
 .logo {
@@ -119,7 +119,7 @@ export default {
   width: var(--loading-size);
   height: var(--loading-size);
   opacity: 0;
-  color: var(--theme-tertiary);
+  color: var(--theme-tertiary-background);
   transition: all 500ms ease-in;
 }
 
@@ -131,7 +131,7 @@ export default {
 .backdrop {
   opacity: 0;
   position: absolute;
-  background-color: var(--theme-primary);
+  background-color: var(--theme-primary-background);
   width: 10px;
   height: 10px;
   border-radius: 100%;

@@ -46,7 +46,7 @@ header {
 }
 
 .button-back {
-  max-width: 40px;
+  max-width: 30px;
 }
 
 .body {

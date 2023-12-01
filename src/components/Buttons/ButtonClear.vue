@@ -6,7 +6,7 @@ import { ButtonText } from ".";
 </script>
 <style scoped>
 .button-clear {
-  background-color: var(--theme-button-warning);
-  color: var(--theme-button-text);
+  background-color: var(--theme-warning-background);
+  color: var(--theme-warning-text);
 }
 </style>

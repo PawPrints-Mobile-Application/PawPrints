@@ -108,12 +108,12 @@ defineExpose({ state, ForceFocus, ForceBlur });
 textarea,
 div {
   min-height: 100%;
-  background-color: var(--theme-secondary);
-  outline: 2px solid var(--outline);
+  background-color: var(--theme-secondary-background);
+  /* outline: 2px solid var(--outline); */
   color: var(--theme-text);
   border: none;
   padding: 2px 10px;
-  width: 98%;
+  width: 100%;
   height: 30px;
   border-radius: 6px;
 }

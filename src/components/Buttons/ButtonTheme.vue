@@ -2,7 +2,7 @@
   <section
     class="button-theme text small"
     :style="{
-      backgroundColor: theme?.light.tertiary,
+      backgroundColor: ObjectToMap(theme?.light).get('tertiary-background'),
       color: theme?.light.primary,
     }"
     :class="{ selected: isTheme }"
@@ -14,6 +14,7 @@
 <script setup lang="ts">
 import { CustomEvent } from "../../utils";
 import { ref, onMounted } from "vue";
+import { ObjectToMap } from "../../utils";
 const props = defineProps({
   theme: Object,
   name: String,
@@ -47,7 +48,7 @@ onMounted(() => {
 }
 
 .selected {
-  outline: 2px solid var(--theme-quadratic);
+  outline: 2px solid var(--theme-quadratic-background);
   opacity: 1;
   font-weight: 700;
 }

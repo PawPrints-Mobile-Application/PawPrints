@@ -62,7 +62,7 @@ onMounted(() => {
 </script>
 <style scoped>
 .button-mode {
-  outline: 3px solid var(--theme-tertiary);
+  outline: 3px solid var(--theme-tertiary-background);
   padding: 5px 6px;
   width: 77px;
   border-radius: 30px;

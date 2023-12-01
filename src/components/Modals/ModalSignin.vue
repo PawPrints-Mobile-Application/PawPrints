@@ -204,7 +204,7 @@ export default {
 }
 
 ion-spinner {
-  color: var(--theme-tertiary);
+  color: var(--theme-tertiary-background);
 }
 
 .state-indicator {

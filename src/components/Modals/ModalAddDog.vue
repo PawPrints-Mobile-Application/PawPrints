@@ -15,34 +15,36 @@
       :src="form.breed"
       :style="{ backgroundColor: form.color }"
     />
-    <InputDynamicWrapped
-      type="text"
-      v-model="form.name"
-      placeholder="Doggo Name"
-      label="Doggo Name"
-    />
-    <InputDynamicWrapped
-      type="date"
-      v-model="form.birthday"
-      label="Birthday"
-      hide-input
-      disable-future
-    />
-    <InputDynamicWrapped
-      type="dropdown"
-      v-model="form.breed"
-      label="Doggo Breed"
-      :options="breeds"
-      placeholder="Choose a breed"
-      :count="6"
-      searchable
-    />
-    <InputDynamicWrapped
-      type="color"
-      v-model="form.color"
-      placeholder="Colour"
-      label="Colour"
-    />
+    <section class="add-dog-form">
+      <InputDynamicWrapped
+        type="text"
+        v-model="form.name"
+        placeholder="Doggo Name"
+        label="Doggo Name"
+      />
+      <InputDynamicWrapped
+        type="date"
+        v-model="form.birthday"
+        label="Date of Birth"
+        hide-input
+        disable-future
+      />
+      <InputDynamicWrapped
+        type="dropdown"
+        v-model="form.breed"
+        label="Doggo Breed"
+        :options="breeds"
+        placeholder="Choose a breed"
+        :count="6"
+        searchable
+      />
+      <InputDynamicWrapped
+        type="color"
+        v-model="form.color"
+        placeholder="Colour"
+        label="Colour"
+      />
+    </section>
   </LayoutModal>
 </template>
 
@@ -110,5 +112,10 @@ const emit = defineEmits(["submit", "discard"]);
 .avatar {
   --size: 100px;
   --image-scale: 90%;
+}
+
+.add-dog-form {
+  display: flex;
+  flex-direction: column;
 }
 </style>

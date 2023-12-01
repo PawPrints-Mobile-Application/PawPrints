@@ -14,59 +14,70 @@
     <template #header>
       <InputSegment :options="logSegments" v-model="logSegment" show="both" />
     </template>
-    <InputDynamicWrapped
-      label="Title"
-      :placeholder="GetTitle()"
-      hideValidator
-    />
-    <InputDynamicWrapped
-      type="dropdown"
-      :options="GetRecordTypeOptions()"
-      v-model="form.recordType"
-      label="Record Type"
-      hideInput
-      :count="7"
-      hideValidator
-    />
-    <InputDynamicWrapped
-      label="Record Value"
-      placeholder="Record Value"
-      hideValidator
-      v-show="isRecord()"
-    >
-      <InputChoice
-        v-show="isRecord()"
-        :options="GetRecordUnitOptions()"
-        v-model="form.recordUnits"
+    <section class="add-log-form">
+      <InputDynamicWrapped
+        label="Title"
+        :placeholder="GetTitle()"
+        hideValidator
       />
-    </InputDynamicWrapped>
-    <div class="date-time">
-      <InputLabel :value="`Record${isRecord() ? ' ' : ' Start '}Date`" />
-      <div>
-        <InputDynamicWrapped v-model="form.DStart" type="date" hideValidator />
-        <InputDynamicWrapped
-          class="time"
-          v-model="form.TStart"
-          type="time"
-          hideValidator
-          hideIcon
-        />
+      <InputDynamicWrapped
+        type="dropdown"
+        :options="GetRecordTypeOptions()"
+        v-model="form.recordType"
+        label="Record Type"
+        hideInput
+        :count="7"
+        hideValidator
+      />
+      <div class="record-value" v-show="isRecord()">
+        <InputLabel value="Record Value" />
+        <div>
+          <InputDynamicWrapped placeholder="Record Value" hideValidator />
+          <InputChoice
+            v-show="isRecord()"
+            :options="GetRecordUnitOptions()"
+            v-model="form.recordUnits"
+          />
+        </div>
       </div>
-    </div>
-    <div class="date-time" v-show="!isRecord()">
-      <InputLabel value="Record End Date" />
-      <div>
-        <InputDynamicWrapped v-model="form.DEnd" type="date" hideValidator />
-        <InputDynamicWrapped
-          class="time"
-          v-model="form.TEnd"
-          type="time"
-          hideValidator
-          hideIcon
-        />
+      <div class="date-time">
+        <InputLabel :value="`Record${isRecord() ? ' ' : ' Start '}Date`" />
+        <div>
+          <InputDynamicWrapped
+            v-model="form.DStart"
+            type="date"
+            hideValidator
+            hide-icon
+          />
+          <InputDynamicWrapped
+            class="time"
+            v-model="form.TStart"
+            type="time"
+            hideValidator
+            hideIcon
+          />
+        </div>
       </div>
-    </div>
-    <InputTextareaWrapped v-model="form.note" label="Note (Optional)" />
+      <div class="date-time" v-show="!isRecord()">
+        <InputLabel value="Record End Date" />
+        <div>
+          <InputDynamicWrapped
+            v-model="form.DEnd"
+            type="date"
+            hideValidator
+            hideIcon
+          />
+          <InputDynamicWrapped
+            class="time"
+            v-model="form.TEnd"
+            type="time"
+            hideValidator
+            hideIcon
+          />
+        </div>
+      </div>
+      <InputTextareaWrapped v-model="form.note" label="Note (Optional)" />
+    </section>
   </LayoutModal>
 </template>
 
@@ -100,7 +111,7 @@ const isRecord = () => logSegment.value.label === logSegments[0].label;
 const GetRecordTypeOptions = () => {
   let temp = ["Vaccine", "Medicine", "Symptoms", "Activity"];
   if (isRecord()) temp = temp.concat(["Weight", "Temperature"]);
-  temp.push('Others')
+  temp.push("Others");
   return temp;
 };
 
@@ -216,6 +227,18 @@ onMounted(() => {
   --size: 100px;
   --image-scale: 90%;
 }
+.add-log-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.record-value {
+  display: flex;
+  flex-direction: column;
+}
+.record-value div {
+  display: flex;
+}
 
 .date-time {
   width: 100%;
@@ -223,7 +246,7 @@ onMounted(() => {
 
 .date-time div {
   display: flex;
-  gap: 5px;
+  gap: 6px;
 }
 
 .time {

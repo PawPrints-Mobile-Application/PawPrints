@@ -181,7 +181,7 @@ defineExpose({ Reevaluate });
 }
 
 .input-dynamic {
-  background-color: var(--theme-secondary);
+  background-color: var(--theme-secondary-background);
 }
 
 .input-dynamic {

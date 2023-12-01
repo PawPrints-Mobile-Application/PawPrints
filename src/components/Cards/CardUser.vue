@@ -7,7 +7,7 @@
         <TextCard label="Subscription:" :value="user.subscription" />
       </aside>
     </header>
-    <TextCard :value="user.email" />
+    <!-- <TextCard :value="user.email" /> -->
     <footer>
       <TextSmall class="text bold">Forums:</TextSmall>
       <TextSmall>Post/s: {{ 0 }}</TextSmall>
@@ -37,8 +37,8 @@ onMounted(() => {
 </script>
 <style scoped>
 .card-user {
-  background-color: var(--theme-secondary-dark);
-  outline: 3px solid var(--theme-black);
+  background-color: var(--theme-secondary-background);
+  outline: 3px solid var(--theme-secondary-text);
   width: 100%;
   border-radius: 10px;
   padding: 10px;
@@ -57,8 +57,8 @@ header {
 }
 
 .avatar {
-  outline: 2px solid var(--theme-primary);
-  background-color: var(--theme-primary);
+  outline: 2px solid var(--theme-primary-background);
+  background-color: var(--theme-primary-background);
   --size: 70px;
 }
 
