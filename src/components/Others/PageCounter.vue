@@ -36,7 +36,7 @@ defineProps({
 <style scoped>
 .page-counter {
   --color-default: lightgrey;
-  --color-active: var(--theme-tertiary);
+  --color-active: var(--theme-tertiary-background);
 
   width: 100%;
   height: 10px;

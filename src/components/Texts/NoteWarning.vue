@@ -10,6 +10,6 @@
   font-size: var(--fs4);
   font-style: italic;
   text-align: center;
-  color: var(--ion-color-danger);
+  color: var(--theme-warning-background);
 }
 </style>

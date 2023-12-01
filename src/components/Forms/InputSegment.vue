@@ -48,7 +48,13 @@ const emit = defineEmits(["select", "update:modelValue"]);
 </script>
 <style scoped>
 .input-segment {
-  background-color: var(--theme-secondary-background);
+  --default-background: var(--theme-secondary-background);
+  --default-text: var(--theme-secondary-text);
+  --active-background: var(--theme-tertiary-background);
+  --active-text: var(--theme-tertiary-text);
+
+  background-color: var(--default-background);
+  color: var(--default-text);
   width: 100%;
   border-radius: 10px;
   overflow-x: scroll;
@@ -79,10 +85,10 @@ li {
 }
 
 .selected {
-  background-color: var(--theme-tertiary-background);
+  background-color: var(--active-background);
 
   > * {
-    color: var(--theme-primary-background);
+    color: var(--active-text);
   }
 }
 

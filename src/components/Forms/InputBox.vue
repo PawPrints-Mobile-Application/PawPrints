@@ -1,6 +1,7 @@
 <template>
   <section class="input-box text subheading poppins">
     <input
+      class="input"
       v-if="!freeze"
       ref="reference"
       :type="GetType()"
@@ -13,7 +14,7 @@
       :disabled="disabled"
       @keyup.enter="emit('return', value)"
     />
-    <div v-else>
+    <div class="input" v-else>
       {{ value }}
     </div>
   </section>
@@ -126,18 +127,19 @@ defineExpose({ state, ForceFocus, ForceBlur });
 </script>
 <style scoped>
 .input-box {
-  --outline: 2px solid var(--theme-tertiary);
+  --background: var(--theme-secondary-background);
+  --text: var(--theme-secondary-text);
+  --outline: var(--theme-tertiary-background);
   background-color: inherit;
   border-radius: 6px;
   > input:is(:active, :hover, :focus) {
-    outline: var(--outline);
+    outline: 2px solid var(--outline);
   }
 }
 
-input,
-div {
-  background-color: inherit;
-  color: var(--theme-text);
+.input {
+  background-color: var(--background);
+  color: var(--text);
   border-radius: inherit;
   overflow: hidden;
   border: none;

@@ -179,6 +179,10 @@ export default {
   overflow: hidden;
 }
 
+.input-dynamic-wrapped {
+  width: calc(100% - 4px);
+}
+
 .button-text {
   width: 200px;
   height: 50px;

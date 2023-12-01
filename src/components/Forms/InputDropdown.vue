@@ -64,19 +64,10 @@ const emit = defineEmits(["update:modelValue", "change", "select"]);
 <style scoped>
 .input-dropdown {
   width: 100%;
-  --background-color: var(--theme-secondary);
+  --dropdown-width: 100%;
 }
 
 .input-box {
-  background-color: var(--theme-secondary);
-}
-
-.input-dynamic {
-  background-color: var(--background-color);
-}
-
-.input-select {
-  width: 100%;
-  background-color: var(--background-color);
+  outline: 2px solid var(--theme-black);
 }
 </style>

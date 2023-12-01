@@ -71,8 +71,12 @@
               :style="{
                 backgroundColor:
                   page === 1
-                    ? 'var(--theme-button-warning)'
-                    : 'var(--theme-button-normal)',
+                    ? 'var(--theme-warning-background)'
+                    : 'var(--theme-tertiary-background)',
+                color:
+                  page === 1
+                    ? 'var(--theme-warning-text)'
+                    : 'var(--theme-tertiary-text)',
               }"
             />
             <ButtonText
@@ -83,8 +87,12 @@
               :style="{
                 backgroundColor:
                   page === 1
-                    ? 'var(--theme-button-normal)'
-                    : 'var(--theme-button-success)',
+                    ? 'var(--theme-tertiary-background)'
+                    : 'var(--theme-success-background)',
+                color:
+                  page === 1
+                    ? 'var(--theme-tertiary-text)'
+                    : 'var(--theme-success-text)',
               }"
             />
           </section>

@@ -40,15 +40,15 @@ const emit = defineEmits(["mousehold"]);
   display: flex;
   justify-content: var(--justify-content);
   align-items: center;
-  /* overflow: hidden; */
+  overflow: hidden;
   position: relative;
   padding: 3px;
   margin: 0;
   border-radius: 10px;
   font-size: var(--size);
   font-weight: 400;
-  background-color: var(--theme-primary);
-  color: var(--theme-tertiary);
+  background-color: var(--theme-tertiary-background);
+  color: var(--theme-tertiary-text);
 
   transition: all 150ms ease-out;
 }

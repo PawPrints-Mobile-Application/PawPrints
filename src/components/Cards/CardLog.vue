@@ -7,27 +7,27 @@
     <div class="logs">
       <div class="log" v-for="log in logs">
         <div class="time">
-          <TextSubheading>{{ log.TStart.toString() }}</TextSubheading>
-          <TextSubheading
+          <TextSmall>{{ log.TStart.toString() }}</TextSmall>
+          <TextSmall
             v-show="
               !isRecord(log) && log.TStart.toString() !== log.TEnd.toString()
             "
-            >to</TextSubheading
+            >to</TextSmall
           >
-          <TextSubheading
+          <TextSmall
             v-show="
               !isRecord(log) && log.TStart.toString() !== log.TEnd.toString()
             "
-            >{{ log.TEnd.toString() }}</TextSubheading
+            >{{ log.TEnd.toString() }}</TextSmall
           >
         </div>
         <div class="data">
           <TextSubheading class="title">{{ log.title }}</TextSubheading>
-          <TextSubheading class="record-value"
+          <TextParagraph class="record-value"
             >{{ log.recordType
             }}<span v-show="isRecord(log)"
               >: {{ log.recordValue }}{{ log.recordUnits }}</span
-            ></TextSubheading
+            ></TextParagraph
           >
         </div>
       </div>
@@ -35,7 +35,7 @@
   </section>
 </template>
 <script setup lang="ts">
-import { TextSubheading } from "../Texts";
+import { TextSubheading, TextParagraph, TextSmall } from "../Texts";
 import { Calendar } from "../../utils";
 import { Props } from "../../server/models/Logs";
 
@@ -57,16 +57,17 @@ defineProps({
   width: 100%;
   border-radius: 6px;
   background-color: var(--theme-secondary-background);
+  color: var(--theme-secondary-text);
   padding: 10px 20px;
 }
 
 header {
   display: flex;
   gap: 20px;
-}
 
-header .text-subheading {
-  font-weight: 700;
+  > .text-subheading {
+    font-weight: 700;
+  }
 }
 
 .text-subheading {
@@ -88,7 +89,8 @@ header .text-subheading {
 
 .data {
   background-color: var(--theme-tertiary-background);
-  border-radius: 5px;
+  color: var(--theme-tertiary-text);
+  border-radius: 8px;
   padding: 5px 10px;
   display: flex;
   gap: 20px;

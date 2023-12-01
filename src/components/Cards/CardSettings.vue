@@ -17,6 +17,7 @@ defineProps({
   height: 60px;
   width: 100%;
   background-color: var(--theme-secondary-background);
+  color: var(--theme-secondary-text);
   border-radius: 8px;
   display: flex;
   gap: 5px;
@@ -25,7 +26,6 @@ defineProps({
 }
 
 ion-icon {
-    font-size: 30px;
-    color: var(--theme-secondary-text);
+  font-size: 30px;
 }
 </style>

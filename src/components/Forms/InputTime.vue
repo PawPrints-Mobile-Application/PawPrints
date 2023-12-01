@@ -67,7 +67,7 @@ const emit = defineEmits(["update:modelValue", "change"]);
 .input-time {
   flex-direction: column;
   align-items: center;
-  background-color: var(--theme-primary);
+  background-color: var(--theme-primary-background);
   border-radius: 10px;
   padding: 10px;
   outline: 3px solid var(--theme-black);

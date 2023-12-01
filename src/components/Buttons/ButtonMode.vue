@@ -2,9 +2,13 @@
   <section
     class="button-mode"
     :style="{
-      backgroundImage: `linear-gradient(to right, ${options.light.secondary}, ${
-        !isLight ? options.dark.primary : options.light.secondary
-      }, ${options.dark.primary})`,
+      backgroundImage: `linear-gradient(to right, ${ObjectToMap(
+        options?.light
+      ).get('secondary-background')}, ${
+        !isLight
+          ? ObjectToMap(options?.dark).get('primary-background')
+          : ObjectToMap(options?.light).get('secondary-background')
+      }, ${ObjectToMap(options?.dark).get('primary-background')})`,
     }"
     @click="Click"
   >
@@ -12,7 +16,9 @@
       :class="{ dark: !isLight }"
       class="button"
       :style="{
-        color: !isLight ? options.light.primary : options.dark.primary,
+        color: ObjectToMap(!isLight ? options.light : options.dark).get(
+          'primary-background'
+        ),
       }"
     >
       <IonIcon :icon="isLight ? light : dark" />

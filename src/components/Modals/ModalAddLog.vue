@@ -34,7 +34,7 @@
         <div>
           <InputDynamicWrapped placeholder="Record Value" hideValidator />
           <InputChoice
-            v-show="isRecord()"
+            v-show="hasChoice()"
             :options="GetRecordUnitOptions()"
             v-model="form.recordUnits"
           />
@@ -107,6 +107,7 @@ import { SeedGenerator, GetUID } from "../../utils";
 const GetTitle = () => (form.recordType === "" ? "Title" : form.recordType);
 
 const isRecord = () => logSegment.value.label === logSegments[0].label;
+const hasChoice = () => ["Weight", "Temperature"].includes(form.recordType);
 
 const GetRecordTypeOptions = () => {
   let temp = ["Vaccine", "Medicine", "Symptoms", "Activity"];
@@ -223,6 +224,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.add-log-form {
+  width: 100%;
+}
+
 .avatar {
   --size: 100px;
   --image-scale: 90%;
@@ -238,6 +243,7 @@ onMounted(() => {
 }
 .record-value div {
   display: flex;
+  gap: 6px;
 }
 
 .date-time {

@@ -56,7 +56,12 @@
 import { computed, ref } from "vue";
 import { InputBox, InputColorPicker } from ".";
 import { PopupCalendar, PopupDropdown, PopupTime } from "../Popup";
-import { DropdownOption, LocalDate, LocalTime, TwoCharactersFormat } from "../../utils";
+import {
+  DropdownOption,
+  LocalDate,
+  LocalTime,
+  TwoCharactersFormat,
+} from "../../utils";
 import { ButtonShow } from "../Buttons";
 
 const props = defineProps({
@@ -215,9 +220,11 @@ defineExpose({ state, ForceFocus, ForceBlur });
 </script>
 <style scoped>
 .input-dynamic {
-  --outline: 2px solid var(--theme-tertiary-background);
-  background-color: var(--theme-secondary-dark-background);
-  color: var(--theme-secondary-dark-text);
+  --input-background: var(--theme-secondary-background);
+  --input-text: var(--theme-secondary-text);
+  --input-outline: 2px solid var(--theme-tertiary-background);
+  background-color: var(--input-background);
+  color: var(--text);
   border-radius: 6px;
   width: 100%;
   padding: 5px 10px;
@@ -226,20 +233,22 @@ defineExpose({ state, ForceFocus, ForceBlur });
   gap: 5px;
 
   &.focused {
-    outline: var(--outline);
+    outline: var(--input-outline);
   }
 }
 
 .input-box {
   flex: 1 0 0;
   --outline: none;
-  background-color: inherit;
+  --background: var(--input-background);
+  --text: var(--input-text);
 }
 
 .icon {
   min-width: 30px;
   height: 30px;
   display: flex;
+  --color: var(--theme-tertiary-background);
 }
 
 input[type="date"]::-webkit-inner-spin-button,

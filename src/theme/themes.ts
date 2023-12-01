@@ -35,8 +35,6 @@ const themes = {
       "success-background": "#2DD36F",
       "success-text": "#FFFFFE",
       "button-icon": "#FFD803", // forums button in home
-      grey: "#cecece",
-      black: "#0d0d0d",
     },
     dark: {
       "primary-background": "#15202B",
@@ -56,8 +54,6 @@ const themes = {
       "success-background": "#56CF87",
       "success-text": "#FFFFFF",
       "button-icon": "#FFE558", // forums button in home
-      grey: "#cecece",
-      black: "#0d0d0d",
     },
   },
   pink: {
@@ -79,8 +75,6 @@ const themes = {
       "success-background": "#AFE194",
       "success-text": "#FFFFFF",
       "button-icon": "#EC9CAF", // forums button in home
-      grey: "#cecece",
-      black: "#0d0d0d",
     },
     dark: {
       "primary-background": "#202020",
@@ -100,8 +94,6 @@ const themes = {
       "success-background": "#AFE194",
       "success-text": "#FFFFFF",
       "button-icon": "#EC9CAF", // forums button in home
-      grey: "#cecece",
-      black: "#0d0d0d",
     },
   },
   blue: {
@@ -123,8 +115,6 @@ const themes = {
       "success-background": "#F5D473",
       "success-text": "#FFFFFE",
       "button-icon": "#F5D473", // forums button in home
-      grey: "#cecece",
-      black: "#0d0d0d",
     },
 
     dark: {
@@ -146,9 +136,6 @@ const themes = {
       "card-highlight-text": "#F7F9F9",
       "trivia-background": "#07121D",
       "trivia-text": "#F7F9F9",
-
-      grey: "#cecece",
-      black: "#0d0d0d",
     },
   },
 };

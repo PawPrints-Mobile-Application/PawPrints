@@ -50,7 +50,7 @@ defineProps({
 
 .inside-wrapper {
   min-width: var(--width);
-  background-color: var(--theme-primary);
+  background-color: var(--theme-primary-background);
   color: var(--color);
   padding: 10px;
   border-radius: 20px;

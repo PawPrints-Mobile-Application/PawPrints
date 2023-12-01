@@ -2,25 +2,5 @@
   --theme-black: #0d0d0d;
   --theme-white: #fefefe;
   --theme-grey: #cecece;
-
-  --theme-primary: #fefefe;
-  --theme-secondary: #e3f6f5;
-  --theme-secondary-dark: #e3f6f5;
-  --theme-tertiary: #ffd803;
-  --theme-quadratic: #272343;
-
-  --theme-button-text: #fefefe;
-  --theme-button-icon: #ffd803;
-  --theme-button-normal: #ffd803;
-  --theme-button-warning: #eb445a;
-  --theme-button-success: #2dd36f;
-
-  --theme-card-text: #0d0d0d;
-  --theme-card-background: #BAE8E8;
-  --theme-card-highlight-background: #FFD803;
-  --theme-card-hightlight-text: #0d0d0d;
-  --theme-trivia-background: #272343;
-  --theme-trivia-text: #fefefe;
-
-  --theme-text: #1c1c1c;
+  --theme-pawprints: #ffd803;
 }

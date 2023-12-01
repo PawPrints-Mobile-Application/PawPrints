@@ -6,9 +6,9 @@
         <TextSubheading>
           {{ post!.uid }}
         </TextSubheading>
-        <TextSubheading>
+        <TextSmall>
           {{ post!.date.toLocaleString() }}
-        </TextSubheading>
+        </TextSmall>
       </aside>
     </header>
     <div class="content">
@@ -35,7 +35,7 @@
 </template>
 <script setup lang="ts">
 import { Avatar } from "../Avatars";
-import { TextSubheading, TextParagraph } from "../Texts";
+import { TextSubheading, TextParagraph, TextSmall } from "../Texts";
 import { IonIcon, IonChip } from "@ionic/vue";
 import {
   chatbubbleEllipses as commentIcon,
@@ -55,6 +55,7 @@ const props = defineProps({
   min-height: 60px;
   background-color: var(--theme-secondary-background);
   outline: 2px solid var(--theme-primary-text);
+  color: var(--theme-primary-text);
   border-radius: 8px;
   display: flex;
   flex-direction: column;

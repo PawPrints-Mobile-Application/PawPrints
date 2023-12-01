@@ -22,6 +22,7 @@ const emit = defineEmits(["update:modelValue"]);
 </script>
 <style scoped>
 .input-toggle {
+  --label-color: var(--theme-primary-text);
   width: 100%;
   min-width: calc(50% - var(--gap));
   --size: 15px;
@@ -53,6 +54,7 @@ const emit = defineEmits(["update:modelValue"]);
 }
 
 .option-label {
+  color: var(--label-color);
   font-size: var(--fs4);
   flex: 1 0 0;
 }

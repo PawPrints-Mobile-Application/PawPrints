@@ -1,14 +1,14 @@
 :root {
-    --fs0: 30px;
-    --fs1: 24px;
-    --fs2: 16px;
-    --fs3: 14px;
-    --fs4: 12px;
+  --fs0: 30px;
+  --fs1: 24px;
+  --fs2: 16px;
+  --fs3: 14px;
+  --fs4: 12px;
 }
 
 .text {
   margin: 0;
-  color: var(--theme-text);
+  color: inherit;
 }
 
 .text.bold {
@@ -17,7 +17,6 @@
 .text.normal {
   font-weight: 400;
 }
-
 
 .text.title {
   font-size: var(--fs0);
@@ -38,7 +37,6 @@
 .text.small {
   font-size: var(--fs4);
 }
-
 
 .text.poppins {
   font-family: Poppins;

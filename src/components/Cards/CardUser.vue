@@ -39,6 +39,7 @@ onMounted(() => {
 .card-user {
   background-color: var(--theme-secondary-background);
   outline: 3px solid var(--theme-secondary-text);
+  color: var(--theme-secondary-text);
   width: 100%;
   border-radius: 10px;
   padding: 10px;

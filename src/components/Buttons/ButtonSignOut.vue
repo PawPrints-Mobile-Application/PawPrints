@@ -31,7 +31,7 @@ const SignOut = () =>
 </script>
 <style scoped>
 .button-signout {
-  color: var(--theme-button-text);
-  background-color: var(--theme-button-warning);
+  color: var(--theme-warning-text);
+  background-color: var(--theme-warning-background);
 }
 </style>

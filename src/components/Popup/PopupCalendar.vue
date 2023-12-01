@@ -42,4 +42,5 @@ const emit = defineEmits(["update:modelValue", "state", "click-backdrop"]);
 
 defineExpose({ Trigger });
 </script>
-<style scoped></style>
+<style scoped>
+</style>

@@ -31,6 +31,13 @@ const emit = defineEmits(["update:modelValue"]);
 </script>
 <style scoped>
 .input-choice {
+  --default-background: var(--theme-primary-background);
+  --default-text: var(--theme-primary-text);
+  --default-outline: var(--theme-primary-text);
+  --active-background: var(--theme-quadratic-background);
+  --active-text: var(--theme-quadratic-text);
+  --active-outline: var(--theme-quadratic-text);
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,9 +45,9 @@ const emit = defineEmits(["update:modelValue"]);
 }
 
 .choice {
-  background-color: var(--theme-primary-background);
-  color: var(--theme-primary-text);
-  outline: 2px solid var(--theme-primary-text);
+  background-color: var(--default-background);
+  color: var(--default-text);
+  outline: 2px solid var(--default-outline);
   font-weight: 700;
   width: max-content;
   width: 30px;
@@ -53,9 +60,9 @@ const emit = defineEmits(["update:modelValue"]);
 }
 
 .selected {
-  background-color: var(--theme-secondary-text);
-  color: var(--theme-primary-background);
-  outline: 2px solid var(--theme-secondary-text);
+  background-color: var(--active-background);
+  color: var(--active-text);
+  outline: 2px solid var(--active-outline);
   opacity: 1;
 }
 </style>

@@ -4,10 +4,7 @@
     :class="{ expand: !!props.modelValue }"
     @click="() => (state = !modelValue)"
   >
-    <div class="background" v-if="!props.modelValue" />
-    <div class="line line-1" v-if="!props.modelValue" />
-    <div class="line line-2" v-if="!props.modelValue" />
-    <IonIcon v-else :icon="icon" />
+    <IonIcon :icon="icon" />
   </button>
 </template>
 <script setup lang="ts">
@@ -41,38 +38,20 @@ const emit = defineEmits(["update:modelValue", "expand", "collapse", "click"]);
   height: 30px;
   border-radius: 100%;
   overflow: hidden;
-  background-color: var(--theme-tertiary);
+  background: none;
 
   --line-1: rotate(135deg) translate(4.5px, 0);
   --line-2: rotate(90deg) translate(-4.5px, 0);
 }
 
-.background {
-  width: 100%;
-  height: 100%;
-  background-color: var(--theme-tertiary);
-}
-
-.line {
-  position: absolute;
-  height: 4px;
-  background-color: var(--theme-primary);
-  border-radius: 40px;
+ion-icon {
+  position: relative;
+  font-size: 30px;
+  color: var(--theme-tertiary-background);
   transition: all 200ms ease-out;
 }
 
-.line-1 {
-  width: 14px;
-  transform: var(--line-1);
-}
-
-.line-2 {
-  width: 10px;
-  transform: var(--line-2);
-}
-
-ion-icon {
-  font-size: 35px;
-  color: var(--theme-tertiary);
+.expand ion-icon {
+  transform: rotate(180deg);
 }
 </style>

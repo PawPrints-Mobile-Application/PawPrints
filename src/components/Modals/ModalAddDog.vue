@@ -30,6 +30,7 @@
         disable-future
       />
       <InputDynamicWrapped
+      class="dropdown"
         type="dropdown"
         v-model="form.breed"
         label="Doggo Breed"
@@ -117,5 +118,9 @@ const emit = defineEmits(["submit", "discard"]);
 .add-dog-form {
   display: flex;
   flex-direction: column;
+}
+
+.dropdown {
+  --select-active-background: white;
 }
 </style>

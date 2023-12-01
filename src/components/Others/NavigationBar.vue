@@ -154,7 +154,7 @@ const Navigate = (
   justify-content: space-evenly;
   align-items: center;
   background-color: var(--theme-primary-background);
-  border-top: 2px solid var(--theme-grey);
+  border-top: 2px solid var(--theme-tertiary-background);
 }
 
 .text-small {
@@ -169,14 +169,18 @@ const Navigate = (
   flex-direction: column;
   position: absolute;
   border-radius: 100%;
-  transform: translate(0px, -7px);
   outline: 2px solid var(--theme-black);
   background-color: var(--theme-tertiary-background);
-  color: var(--theme-primary-background);
+  color: var(--theme-tertiary-text);
   z-index: 2;
   overflow: hidden;
+  transform: translate(0px, -7px);
   transition: all 300ms ease-out;
   opacity: 1;
+
+  &.selected {
+    transform: translate(0px, -9px);
+  }
 
   .icon {
     display: flex;
@@ -193,7 +197,7 @@ const Navigate = (
     > ion-icon:nth-child(2) {
       font-size: 18px;
       position: absolute;
-      color: var(--theme-button-middle-text);
+      color: var(--theme-tertiary-background);
     }
   }
 
@@ -209,7 +213,6 @@ const Navigate = (
   margin-top: 5px;
   .icon {
     height: var(--size);
-    transform: translateY(0px);
 
     > ion-icon:nth-child(2) {
       transform: translateY(6px);
@@ -226,10 +229,10 @@ const Navigate = (
   --size: 40px;
   .icon {
     height: var(--size);
-    transform: translate(1px,0px);
+    transform: translate(1px, 0px);
 
     > ion-icon:nth-child(2) {
-      transform: translate(0px,6px);
+      transform: translate(0px, 6px);
       font-size: 20px;
     }
   }
@@ -252,8 +255,8 @@ const Navigate = (
   min-width: 20px;
   --size: 25px;
   z-index: 1;
-  color: var(--theme-tertiary-text);
-  background-color: var(--theme-primary-background) !important;
+  color: var(--theme-primary-text);
+  background-color: var(--theme-primary-background);
 
   &.selected {
     color: var(--theme-tertiary-background);

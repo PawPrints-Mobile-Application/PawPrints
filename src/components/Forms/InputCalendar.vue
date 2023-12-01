@@ -1,8 +1,8 @@
 <template>
   <section class="input-calendar" :class="{ 'with-save': !saveOnChange }">
     <header class="calendar-nav">
-      <ButtonBack class="button" @click="() => MoveMonth(-1)" type="icon" />
-      <InputDynamicWrapped
+      <ButtonBack @click="() => MoveMonth(-1)" type="icon" />
+      <InputDynamic
         type="dropdown"
         class="month"
         :model-value="calendar.dropdownMonth"
@@ -15,10 +15,9 @@
         :options="constants.months"
         hideInput
         :count="12"
-        hideValidator
         hideIcon
       />
-      <InputDynamicWrapped
+      <InputDynamic
         type="dropdown"
         class="year"
         :model-value="calendar.dropdownYear"
@@ -27,9 +26,8 @@
         hideInput
         :count="15"
         hideIcon
-        hideValidator
       />
-      <ButtonNext class="button" @click="() => MoveMonth(1)" type="icon" />
+      <ButtonNext @click="() => MoveMonth(1)" type="icon" />
     </header>
     <table class="calendar-body">
       <tr id="row-header">
@@ -77,12 +75,17 @@
         </td>
       </tr>
     </table>
-    <ButtonText label="Save" @click="Save" v-show="!saveOnChange" />
+    <ButtonText
+      class="button-save"
+      label="Save"
+      @click="Save"
+      v-show="!saveOnChange"
+    />
   </section>
 </template>
 
 <script setup lang="ts">
-import { InputDynamicWrapped } from ".";
+import { InputDynamic } from ".";
 import { ButtonBack, ButtonNext, ButtonText } from "../Buttons";
 import { paw as calendarMark } from "ionicons/icons";
 import { reactive, onMounted } from "vue";
@@ -158,11 +161,7 @@ const MoveMonth = (increment: 1 | -1) => {
     calendar.month + increment < 0 || calendar.month + increment > 11
       ? calendar.year + increment
       : calendar.year;
-  if (
-    !!props.disableFuture &&
-    new Date(year, month, calendar.date) > new Date()
-  )
-    return;
+  if (!!props.disableFuture && new Date(year, month, 1) > new Date()) return;
   SetMonth(constants.months[month]);
   SetYear(year);
 };
@@ -222,12 +221,15 @@ onMounted(() => {
 
 <style scoped>
 .input-calendar {
-  outline: 2px solid var(--theme-black);
+  --background: var(--theme-secondary-background);
+  --outline: var(--theme-black);
+
+  outline: 2px solid var(--outline);
   min-width: 280px;
   min-height: 313px;
   padding: 10px;
   border-radius: 10px;
-  background-color: var(--theme-secondary);
+  background-color: var(--background);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -247,19 +249,25 @@ onMounted(() => {
 }
 
 .button {
-  background-color: var(--theme-secondary);
+  background-color: var(--theme-secondary-background);
   font-size: 35px;
   border-radius: 6px;
+  color: var(--theme-black);
 }
 
 .month {
-  max-width: 100px;
+  max-width: 120px;
   font-weight: 700;
+  z-index: 1;
+  --input-background: none;
+  transform: translateX(3px);
 }
 
 .year {
   max-width: 60px;
   font-weight: 700;
+  transform: translateX(-15px);
+  --input-background: none;
 }
 
 .calendar-body {
@@ -286,25 +294,30 @@ onMounted(() => {
 
 #calendar-mark {
   position: absolute;
-  color: var(--theme-tertiary);
-  font-size: 40px;
-  transform: translateY(-7px);
+  color: var(--theme-tertiary-background);
+  font-size: 50px;
+  transform: translateY(-10px);
 }
 
 .calendar-number {
   position: relative;
 }
 
-.selected div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.selected {
+  color: var(--theme-tertiary-text);
+
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
-.button-text {
+.button-save {
   margin-top: auto;
   width: 100%;
   max-height: 35px;
-  background-color: var(--theme-tertiary);
+  background-color: var(--theme-tertiary-background);
+  color: var(--theme-tertiary-text);
 }
 </style>

@@ -18,7 +18,7 @@
     <template #button><ButtonText label="Sign Up" /></template>
 
     <section class="state-indicator" v-show="hideForm">
-      <div class="media" :class="{loading:hideForm}" >
+      <div class="media" :class="{ loading: hideForm }">
         <IonSpinner name="crescent" />
         <Logo />
       </div>
@@ -231,7 +231,6 @@ export default {
 };
 </script>
 <style scoped>
-
 .logo {
   --scale: 100%;
   --size: 200px;
@@ -240,15 +239,15 @@ export default {
   overflow: hidden;
   border-radius: 100%;
 }
-.loading{
+.loading {
   height: 260px;
-  > .logo{
+  > .logo {
     --scale: 80%;
   }
 }
 
 ion-spinner {
-  color: var(--theme-tertiary);
+  color: var(--theme-tertiary-background);
 }
 
 .navigation-link {
@@ -265,6 +264,10 @@ ion-spinner {
   align-items: center;
   transition: all 200ms ease-out;
   overflow: hidden;
+}
+
+.input-dynamic-wrapped {
+  width: calc(100% - 4px);
 }
 
 .button-text {

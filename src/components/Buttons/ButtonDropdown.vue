@@ -32,12 +32,14 @@ const emit = defineEmits(["update:modelValue", "click", "expand", "collapse"]);
 </script>
 <style scoped>
 .button-dropdown {
+  --background: var(--theme-secondary-background);
+  --color: var(--theme-tertiary-background);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: var(--theme-tertiary);
-  background-color: var(--theme-secondary);
+  color: var(--color);
+  background-color: var(--background);
   width: 30px;
   height: 30px;
   border-radius: 5px;

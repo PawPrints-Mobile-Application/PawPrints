@@ -1,5 +1,8 @@
 <template>
-  <section class="input-textarea text small poppins">
+  <section
+    class="input-textarea text small poppins"
+    :class="{ selected: state.focused }"
+  >
     <textarea
       v-if="!freeze"
       ref="reference"
@@ -93,26 +96,33 @@ defineExpose({ state, ForceFocus, ForceBlur });
 </script>
 <style scoped>
 .input-textarea {
-  --outline: var(--theme-black);
+  --background: var(--theme-secondary-background);
+  --text: var(--theme-secondary-text);
+  --outline: var(--theme-tertiary-background);
   height: 100px;
   border-radius: 6px;
   overflow: scroll;
   display: flex;
   justify-content: center;
+  align-items: center;
+  background-color: var(--background);
 
   > textarea:is(:active, :hover, :focus) {
-    outline: 2px solid var(--theme-tertiary);
+    outline: none;
   }
+}
+
+.selected {
+  outline: 2px solid var(--outline);
 }
 
 textarea,
 div {
   min-height: 100%;
-  background-color: var(--theme-secondary-background);
-  /* outline: 2px solid var(--outline); */
-  color: var(--theme-text);
+  background-color: var(--background);
+  color: var(--text);
   border: none;
-  padding: 2px 10px;
+  padding: 10px;
   width: 100%;
   height: 30px;
   border-radius: 6px;

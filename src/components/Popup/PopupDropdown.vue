@@ -1,5 +1,9 @@
 <template>
-  <ButtonPopup v-model="state" @click-backdrop="emit('click-backdrop')">
+  <ButtonPopup
+    class="popup-dropdown"
+    v-model="state"
+    @click-backdrop="emit('click-backdrop')"
+  >
     <template #button>
       <ButtonDropdown v-model="state" @click="Trigger" v-show="!hideIcon" />
     </template>
@@ -53,4 +57,8 @@ const emit = defineEmits(["update:modelValue", "state", "click-backdrop"]);
 defineExpose({ Trigger });
 </script>
 <style scoped>
+.popup-dropdown {
+  --background: var(--theme-secondary-background);
+  --color: var(--theme-secondary-text);
+}
 </style>

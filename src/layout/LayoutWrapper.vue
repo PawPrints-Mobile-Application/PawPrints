@@ -27,12 +27,11 @@
     @ion-scroll-start="emit('scroll-start')"
     @ion-scroll-end="emit('scroll-end')"
   >
-    <main
-      :class="{
-        'default-margin': !noDefaultMargin,
-      }"
-    >
+    <main>
       <section
+        :class="{
+          'default-margin': !noDefaultMargin,
+        }"
         :style="{
           justifyContent: justify,
           marginBottom: !!addMarginBotton ? '5px' : '0',
@@ -109,7 +108,7 @@ const emit = defineEmits([
 </script>
 <style scoped>
 .layout-header {
-  background-color: var(--theme-primary);
+  background-color: var(--theme-primary-background);
   min-width: 320px;
   min-height: 30px;
   max-height: 70px;
@@ -121,7 +120,7 @@ const emit = defineEmits([
 }
 
 .layout-content::part(background) {
-  background-color: var(--theme-primary);
+  background-color: var(--theme-primary-background);
   min-height: 100%;
   min-width: 320px;
   transition: background-color 200ms ease-out;
@@ -166,7 +165,7 @@ const emit = defineEmits([
 }
 
 .layout-footer {
-  background-color: var(--theme-primary);
+  background-color: var(--theme-primary-background);
   min-width: 320px;
   min-height: 30px;
   max-height: 70px;

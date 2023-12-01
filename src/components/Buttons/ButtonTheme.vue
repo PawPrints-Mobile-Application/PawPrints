@@ -3,7 +3,7 @@
     class="button-theme text small"
     :style="{
       backgroundColor: ObjectToMap(theme?.light).get('tertiary-background'),
-      color: theme?.light.primary,
+      color: ObjectToMap(theme?.light).get('tertiary-text'),
     }"
     :class="{ selected: isTheme }"
     @click="Click"
@@ -48,7 +48,7 @@ onMounted(() => {
 }
 
 .selected {
-  outline: 2px solid var(--theme-quadratic-background);
+  outline: 2px solid var(--theme-tertiary-text);
   opacity: 1;
   font-weight: 700;
 }

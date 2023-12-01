@@ -71,6 +71,7 @@ const emit = defineEmits(["update:modelValue"]);
 </script>
 <style scoped>
 .input-check {
+  --label-color: var(--theme-primary-text);
   width: 100%;
 }
 
@@ -98,7 +99,7 @@ const emit = defineEmits(["update:modelValue"]);
 }
 
 .option-input {
-  background-color: var(--theme-secondary);
+  background-color: var(--theme-secondary-background);
   width: var(--size);
   height: var(--size);
   display: flex;
@@ -113,7 +114,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 .option-input > .custom-input {
   opacity: 0.7;
-  background-color: var(--theme-black);
+  background-color: var(--theme-secondary-text);
   border-radius: var(--border-radius);
   position: absolute;
   width: var(--cover-size);
@@ -123,7 +124,7 @@ const emit = defineEmits(["update:modelValue"]);
 .option-label {
   flex: 1 0 0;
   font-size: var(--fs4);
-  color: var(--theme-text);
+  color: var(--label-color);
 
   > input {
     width: 100%;

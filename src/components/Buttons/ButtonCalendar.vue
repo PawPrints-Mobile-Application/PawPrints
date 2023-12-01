@@ -58,14 +58,14 @@ const emit = defineEmits(["update:modelValue", "expand", "collapse", "click"]);
   > .background {
     width: 30px;
     aspect-ratio: 1;
-    background-color: var(--theme-tertiary);
+    background-color: var(--theme-tertiary-background);
   }
 
   > .line {
     position: absolute;
     width: 30px;
     height: 3px;
-    background-color: var(--theme-secondary);
+    background-color: var(--theme-secondary-background);
     transform: translateY(-8px);
   }
 
@@ -73,7 +73,7 @@ const emit = defineEmits(["update:modelValue", "expand", "collapse", "click"]);
     position: absolute;
     width: 3px;
     aspect-ratio: 1;
-    background-color: var(--theme-secondary);
+    background-color: var(--theme-secondary-background);
     transition: all 200ms ease-out;
   }
 }

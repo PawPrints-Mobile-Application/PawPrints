@@ -1,8 +1,5 @@
 <template>
-  <section
-    class="input-select default-input"
-    :style="{ '--count': count + (!!allowOthers && selected === -1 ? 1 : 0) }"
-  >
+  <section class="input-select default-input" :style="{ '--count': count }">
     <ul class="items">
       <li
         class="item"
@@ -72,33 +69,39 @@ onMounted(() => {
 </script>
 <style scoped>
 .input-select {
+  --default-background: var(--theme-secondary-background);
+  --default-text: var(--theme-secondary-text);
+  --active-background: var(--theme-tertiary-background);
+  --active-text: var(--theme-tertiary-text);
+  --outline: var(--theme-black);
+
   --item-height: 30px;
   --count: 5;
-
-  outline: 2px solid var(--theme-black);
+  outline: 2px solid var(--outline);
   min-width: 100px;
   width: max-content;
   border-radius: 5px;
   padding: 0;
   overflow: scroll;
   height: calc(var(--item-height) * var(--count));
-  background-color: inherit;
+  background-color: var(--default-background);
+}
 
-  > .items {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    list-style-type: none;
+.items {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  list-style-type: none;
+  background-color: var(--default-background);
+}
 
-    > .item {
-      padding-inline: 10px;
-      height: var(--item-height);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--theme-text);
-    }
-  }
+.item {
+  padding-inline: 10px;
+  height: var(--item-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--default-text);
 }
 
 .input-select::-webkit-scrollbar {
@@ -107,7 +110,7 @@ onMounted(() => {
 
 .selected {
   font-weight: 700;
-  background-color: var(--theme-tertiary);
-  color: var(--theme-text);
+  background-color: var(--active-background);
+  color: var(--active-text);
 }
 </style>

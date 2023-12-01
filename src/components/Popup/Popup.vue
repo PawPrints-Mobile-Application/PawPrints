@@ -38,12 +38,10 @@ const emit = defineEmits(["update:modelValue", "click-backdrop"]);
 .popup {
   --outline: 2px solid var(--theme-black);
   --border-radius: 6px;
-  --background-color: var(--theme-primary);
+  --background-color: var(--theme-primary-background);
 }
 
 ion-modal::part(content) {
-  /* height: auto;
-  width: auto; */
   outline: var(--outline);
   border-radius: var(--border-radius);
   background-color: var(--background-color);
