@@ -145,18 +145,35 @@ const dropdownValue = computed({
   },
 });
 
+const TwoCharactersFormat = (value: number) =>
+  value < 10 ? `0${value}` : value;
+
+const StringToLocalTime = () => {
+  if (typeof props.modelValue! === "number")
+    return new LocalTime(props.modelValue!);
+  const colonIdx = props.modelValue!.indexOf(":");
+  const hoursConverted = Number(props.modelValue!.substring(0, colonIdx));
+  const minutes = Number(
+    props.modelValue!.substring(colonIdx + 1, colonIdx + 3)
+  );
+  const ampm = props.modelValue!.indexOf("AM") !== -1 ? "AM" : "PM";
+  const hours = hoursConverted + (ampm === "AM" ? 0 : 12);
+  return new LocalTime(
+    `${TwoCharactersFormat(hours)}${TwoCharactersFormat(minutes)}`
+  );
+};
+
 const timeValue = computed({
   get() {
     if (!props.modelValue || props.modelValue === "") {
-      timeValue.value = new LocalTime(1);
+      timeValue.value = new LocalTime(101);
     }
-    return new LocalTime(props.modelValue!);
+    return StringToLocalTime();
   },
   set(value) {
-    console.log(value);
     const temp = value.value;
-    emit("update:modelValue", temp);
-    emit("change", temp);
+    emit("update:modelValue", temp.toString());
+    emit("change", temp.toString());
   },
 });
 

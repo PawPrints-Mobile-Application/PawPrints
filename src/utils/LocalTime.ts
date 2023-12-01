@@ -18,7 +18,7 @@ export default class LocalTime {
     } else {
       this.value = value;
     }
-    toString();
+    this.toString();
   }
 
   toString(format: "24" | "12" = "12") {

@@ -50,7 +50,7 @@ const ConvertToLocalTime = () => {
   const hours =
     form.hours.value + (form.ampm.label === options.ampm[0].label ? 0 : 12);
   const minutes = form.minutes.value;
-  console.log(Number(`${hours}${minutes}`));
+  console.log(form.ampm.label, options.ampm[0].label);
   return new LocalTime(Number(`${hours}${minutes}`));
 };
 
@@ -63,7 +63,7 @@ const SetValue = () => {
 const emit = defineEmits(["update:modelValue", "change"]);
 
 onMounted(() => {
-  form.hours = options.hours[props.modelValue!.hours - 1];
+  form.hours = options.hours[props.modelValue!.hoursConverted - 1];
   form.minutes = options.minutes[props.modelValue!.minutes - 1];
   form.ampm = options.ampm[props.modelValue!.ampm === "AM" ? 0 : 1];
 });
