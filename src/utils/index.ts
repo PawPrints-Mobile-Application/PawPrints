@@ -25,6 +25,7 @@ import SegmentOption from "./SegmentOption";
 import SetRootStyle from "./SetRootStyle";
 
 import Calendar from "./Calendar";
+import TwoCharactersFormat from "./TwoCharactersFormat";
 
 export {
   RouteInfo,
@@ -47,5 +48,6 @@ export {
   ArrayToDropdownOptions,
   SegmentOption,
   SetRootStyle,
-  Calendar
+  Calendar,
+  TwoCharactersFormat
 };

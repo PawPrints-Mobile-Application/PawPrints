@@ -67,7 +67,7 @@ onMounted(() => {
   FindIndex();
   setTimeout(() => {
     input.value?.scrollIntoView({ behavior: "smooth" });
-  }, 1);
+  }, 10);
 });
 </script>
 <style scoped>
@@ -107,6 +107,7 @@ onMounted(() => {
 
 .selected {
   font-weight: 700;
-  background-color: inherit;
+  background-color: var(--theme-tertiary);
+  color: var(--theme-text);
 }
 </style>

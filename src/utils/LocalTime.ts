@@ -1,6 +1,4 @@
-const TwoCharactersFormat = (value: number) =>
-  value < 10 ? `0${value}` : value;
-
+import { TwoCharactersFormat } from ".";
 export default class LocalTime {
   value: number = 0;
   minutes: number = 0;
@@ -14,7 +12,18 @@ export default class LocalTime {
 
   Set(value: number | string) {
     if (typeof value === "string") {
-      this.value = Number(value);
+      if (value.indexOf(":") === -1) {
+        this.value = Number(value);
+      } else {
+        const colonIdx = value.indexOf(":");
+        const hoursConverted = Number(value.substring(0, colonIdx));
+        const minutes = Number(value.substring(colonIdx + 1, colonIdx + 3));
+        const ampm = value.indexOf("AM") == -1 ? "AM" : "PM";
+        const hours = hoursConverted + (ampm === "AM" ? 0 : 12);
+        this.value = Number(
+          `${TwoCharactersFormat(hours)}${TwoCharactersFormat(minutes)}`
+        );
+      }
     } else {
       this.value = value;
     }

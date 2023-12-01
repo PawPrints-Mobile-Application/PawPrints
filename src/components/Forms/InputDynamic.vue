@@ -56,7 +56,7 @@
 import { computed, ref } from "vue";
 import { InputBox, InputColorPicker } from ".";
 import { PopupCalendar, PopupDropdown, PopupTime } from "../Popup";
-import { DropdownOption, LocalDate, LocalTime } from "../../utils";
+import { DropdownOption, LocalDate, LocalTime, TwoCharactersFormat } from "../../utils";
 import { ButtonShow } from "../Buttons";
 
 const props = defineProps({
@@ -144,9 +144,6 @@ const dropdownValue = computed({
     emit("change", temp);
   },
 });
-
-const TwoCharactersFormat = (value: number) =>
-  value < 10 ? `0${value}` : value;
 
 const StringToLocalTime = () => {
   if (typeof props.modelValue! === "number")

@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { InputSelect } from ".";
 import { reactive } from "vue";
-import { DropdownOption, LocalTime } from "../../utils";
+import { DropdownOption, LocalTime, TwoCharactersFormat } from "../../utils";
 import { ButtonText } from "../Buttons";
 
 const options = {
@@ -31,7 +31,7 @@ const options = {
   ),
   minutes: Array.from(
     { length: 60 },
-    (_, i) => new DropdownOption((i + 1).toString(), i + 1)
+    (_, i) => new DropdownOption(i.toString(), i)
   ),
   ampm: ["AM", "PM"].map((i) => new DropdownOption(i)),
 };
@@ -42,7 +42,7 @@ const props = defineProps({
 
 const form = reactive({
   hours: options.hours[props.modelValue!.hoursConverted - 1],
-  minutes: options.minutes[props.modelValue!.minutes - 1],
+  minutes: options.minutes[props.modelValue!.minutes],
   ampm: options.ampm[props.modelValue!.ampm === "AM" ? 0 : 1],
 });
 
@@ -50,7 +50,9 @@ const ConvertToLocalTime = () => {
   const hours =
     form.hours.value + (form.ampm.label === options.ampm[0].label ? 0 : 12);
   const minutes = form.minutes.value;
-  return new LocalTime(Number(`${hours}${minutes}`));
+  return new LocalTime(
+    Number(`${TwoCharactersFormat(hours)}${TwoCharactersFormat(minutes)}`)
+  );
 };
 
 const SetValue = () => {

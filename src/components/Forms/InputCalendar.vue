@@ -13,9 +13,10 @@
           }
         "
         :options="constants.months"
-        hide-input
+        hideInput
         :count="12"
-        hide-validator
+        hideValidator
+        hideIcon
       />
       <InputDynamicWrapped
         type="dropdown"
@@ -25,7 +26,8 @@
         :options="GetAllYears()"
         hideInput
         :count="15"
-        hide-validator
+        hideIcon
+        hideValidator
       />
       <ButtonNext class="button" @click="() => MoveMonth(1)" type="icon" />
     </header>
