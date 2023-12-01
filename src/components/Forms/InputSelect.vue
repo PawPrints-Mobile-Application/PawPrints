@@ -64,8 +64,10 @@ const SetValue = (key: number) => {
 const emit = defineEmits(["update:modelValue", "click"]);
 
 onMounted(() => {
-  input.value?.scrollIntoView({ behavior: "smooth" });
   FindIndex();
+  setTimeout(() => {
+    input.value?.scrollIntoView({ behavior: "smooth" });
+  }, 1);
 });
 </script>
 <style scoped>

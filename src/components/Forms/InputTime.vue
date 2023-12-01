@@ -20,7 +20,7 @@
 </template>
 <script setup lang="ts">
 import { InputSelect } from ".";
-import { reactive, onMounted } from "vue";
+import { reactive } from "vue";
 import { DropdownOption, LocalTime } from "../../utils";
 import { ButtonText } from "../Buttons";
 
@@ -36,21 +36,20 @@ const options = {
   ampm: ["AM", "PM"].map((i) => new DropdownOption(i)),
 };
 
-const form = reactive({
-  hours: options.hours[0],
-  minutes: options.minutes[0],
-  ampm: options.ampm[0],
-});
-
 const props = defineProps({
   modelValue: LocalTime,
+});
+
+const form = reactive({
+  hours: options.hours[props.modelValue!.hoursConverted - 1],
+  minutes: options.minutes[props.modelValue!.minutes - 1],
+  ampm: options.ampm[props.modelValue!.ampm === "AM" ? 0 : 1],
 });
 
 const ConvertToLocalTime = () => {
   const hours =
     form.hours.value + (form.ampm.label === options.ampm[0].label ? 0 : 12);
   const minutes = form.minutes.value;
-  console.log(form.ampm.label, options.ampm[0].label);
   return new LocalTime(Number(`${hours}${minutes}`));
 };
 
@@ -61,12 +60,6 @@ const SetValue = () => {
 };
 
 const emit = defineEmits(["update:modelValue", "change"]);
-
-onMounted(() => {
-  form.hours = options.hours[props.modelValue!.hoursConverted - 1];
-  form.minutes = options.minutes[props.modelValue!.minutes - 1];
-  form.ampm = options.ampm[props.modelValue!.ampm === "AM" ? 0 : 1];
-});
 </script>
 <style scoped>
 .input-time {

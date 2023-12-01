@@ -171,9 +171,8 @@ const timeValue = computed({
     return StringToLocalTime();
   },
   set(value) {
-    const temp = value.value;
-    emit("update:modelValue", temp.toString());
-    emit("change", temp.toString());
+    emit("update:modelValue", value.toString());
+    emit("change", value.toString());
   },
 });
 
