@@ -1,38 +1,60 @@
 <template>
-  <section class="popup" v-if="!!props.modelValue">
-    <ion-backdrop
-      :visible="true"
-      stopPropagation
-      tappable
-      @ionBackdropTap="
-        () => {
-          Trigger();
-          emit('click-backdrop');
-        }
-      "
-    />
-    <div class="content">
-      <slot name="content" :Trigger="Trigger"><slot :Trigger="Trigger" /></slot>
-    </div>
+  <section class="popup" v-show="!!props.modelValue">
+    <IonModal
+      :isOpen="!!props.modelValue"
+      :canDismiss="!props.modelValue"
+      :showBackdrop="false"
+    >
+      <div class="wrapper">
+        <ion-backdrop
+          :visible="true"
+          stopPropagation
+          tappable
+          @ionBackdropTap="Trigger"
+        />
+        <div class="content">
+          <slot name="content" :Trigger="Trigger"
+            ><slot :Trigger="Trigger"
+          /></slot>
+        </div>
+      </div>
+    </IonModal>
   </section>
 </template>
 <script setup lang="ts">
-import { IonBackdrop } from "@ionic/vue";
+import { IonModal, IonBackdrop } from "@ionic/vue";
 const props = defineProps({
   modelValue: Boolean,
 });
 
 const Trigger = () => {
   emit("update:modelValue", !props.modelValue);
+  emit("click-backdrop");
 };
 
 const emit = defineEmits(["update:modelValue", "click-backdrop"]);
 </script>
 <style scoped>
 .popup {
-  position: absolute;
-  left: 0;
-  top: 0;
+  --outline: 2px solid var(--theme-black);
+  --border-radius: 6px;
+  --background-color: var(--theme-primary);
+}
+
+ion-modal::part(content) {
+  /* height: auto;
+  width: auto; */
+  outline: var(--outline);
+  border-radius: var(--border-radius);
+  background-color: var(--background-color);
+}
+
+ion-backdrop {
+  background: var(--theme-black);
+  opacity: 0.7;
+}
+
+.wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,13 +62,9 @@ const emit = defineEmits(["update:modelValue", "click-backdrop"]);
   height: 100%;
 }
 
-ion-backdrop {
-  background: var(--theme-black);
-  opacity: 0.3;
-}
-
 .content {
   z-index: 2;
-  width: 90%;
+  width: auto;
+  height: auto;
 }
 </style>

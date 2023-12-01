@@ -9,7 +9,7 @@
         <ButtonBack type="icon" @click="() => ionRouter.back()" />
         <TextHeading>{{ dog?.name }}</TextHeading>
         <section class="edit-profile" @click="EditProfile">
-          <Avatar type="dog" :src="dog?.breed.value" :color="dog?.color" />
+          <Avatar type="dog" :src="dog?.breed" :color="dog?.color" />
           <TextSmall>Edit Profile</TextSmall>
         </section>
       </header>
@@ -27,7 +27,7 @@
     >
       <CardCalendar />
     </section>
-    <section class="view view-log" v-show="!!dog" v-else></section>
+    <section class="view view-list" v-show="!!dog" v-else></section>
     <ModalAddLog
       :isOpen="modalOpen.log"
       @submit="ReloadPage"
@@ -53,7 +53,7 @@ import { CardCalendar } from "../../components/Cards";
 import { CustomEvent, SegmentOption } from "../../utils";
 import { ref, reactive, Ref } from "vue";
 import { onIonViewDidEnter, useIonRouter } from "@ionic/vue";
-import { documents as logView, calendar as calendarView } from "ionicons/icons";
+import { documents as listView, calendar as calendarView } from "ionicons/icons";
 import { useRoute } from "vue-router";
 const ionRouter = useIonRouter();
 
@@ -64,7 +64,7 @@ const dog: Ref<Props | undefined> = ref();
 
 const viewSegments = [
   new SegmentOption("Calendar View", calendarView),
-  new SegmentOption("Log View", logView),
+  new SegmentOption("List View", listView),
 ];
 const state = reactive({
   hideCard: false,
