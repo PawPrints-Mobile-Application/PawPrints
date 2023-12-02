@@ -8,7 +8,6 @@ import CardDog from "./CardDog.vue";
 import CardUser from "./CardUser.vue";
 import CardSettings from "./CardSettings.vue";
 import CardPost from "./CardPost.vue";
-import CardCalendar from "./CardCalendar.vue";
 import CardLog from "./CardLog.vue";
 
 export {
@@ -21,6 +20,5 @@ export {
   CardUser,
   CardSettings,
   CardPost,
-  CardCalendar,
   CardLog,
 };

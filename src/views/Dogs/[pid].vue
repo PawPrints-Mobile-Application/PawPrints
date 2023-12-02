@@ -25,10 +25,10 @@
       v-show="!!dog"
       v-if="state.viewSegment.label === viewSegments[0].label"
     >
-      <CardCalendar />
+      <LayoutPIDCalendarView />
     </section>
     <section class="view view-list" v-show="!!dog" v-else>
-      <LayoutPIDListViewVue />
+      <LayoutPIDListView />
     </section>
     <ModalAddLog
       :isOpen="modalOpen.log"
@@ -44,14 +44,17 @@
   </LayoutPage>
 </template>
 <script setup lang="ts">
-import { LayoutPage, LayoutPIDListViewVue } from "../../layout";
+import {
+  LayoutPage,
+  LayoutPIDListView,
+  LayoutPIDCalendarView,
+} from "../../layout";
 import { Avatar } from "../../components/Avatars";
 import { ButtonBack } from "../../components/Buttons";
 import { TextHeading, TextSmall } from "../../components/Texts";
 import { ModalAddLog, ModalEditDog } from "../../components/Modals";
 import { Get, Props } from "../../server/models/Dogs";
 import { InputSegment } from "../../components/Forms";
-import { CardCalendar } from "../../components/Cards";
 import { CustomEvent, SegmentOption } from "../../utils";
 import { ref, reactive, Ref } from "vue";
 import { onIonViewDidEnter, useIonRouter } from "@ionic/vue";
