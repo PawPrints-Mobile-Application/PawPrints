@@ -19,6 +19,7 @@
         label="Title"
         :placeholder="GetTitle()"
         hideValidator
+        v-model="form.title"
       />
       <InputDynamicWrapped
         type="dropdown"
@@ -32,9 +33,14 @@
       <div class="record-value" v-show="isRecord()">
         <InputLabel value="Record Value" />
         <div>
-          <InputDynamicWrapped placeholder="Record Value" hideValidator />
+          <InputDynamicWrapped
+            :type="hasUnits() ? 'number' : 'text'"
+            placeholder="Record Value"
+            hideValidator
+            v-model="form.recordValue"
+          />
           <InputChoice
-            v-show="hasChoice()"
+            v-show="hasUnits()"
             :options="GetRecordUnitOptions()"
             v-model="form.recordUnits"
           />
@@ -101,27 +107,19 @@ import {
   documents as recordIcon,
   calendar as scheduleIcon,
 } from "ionicons/icons";
-import { Add } from "../../server/models/Logs";
+import { Add, Enums } from "../../server/models/Logs";
 import { SeedGenerator, GetUID } from "../../utils";
 
 const GetTitle = () => (form.recordType === "" ? "Title" : form.recordType);
 
 const isRecord = () => logSegment.value.label === logSegments[0].label;
-const hasChoice = () => ["Weight", "Temperature"].includes(form.recordType);
+const hasUnits = () => new Enums.Record().hasUnits(form.recordType);
 
-const GetRecordTypeOptions = () => {
-  let temp = ["Vaccine", "Medicine", "Symptoms", "Activity"];
-  if (isRecord()) temp = temp.concat(["Weight", "Temperature"]);
-  temp.push("Others");
-  return temp;
-};
+const GetRecordTypeOptions = () =>
+  new Enums.Record().getRecordTypes(!isRecord()).map((value) => value.name);
 
-const GetRecordUnitOptions = () => {
-  if (!isRecord()) return new Array<string>();
-  if (form.recordType === "Weight") return ["kg", "lb"];
-  else if (form.recordType === "Temperature") return ["°C", "°F"];
-  return new Array<string>();
-};
+const GetRecordUnitOptions = () =>
+  new Enums.Record().getUnits(form.recordType, []);
 
 const logSegments = [
   new SegmentOption("Record", recordIcon),
@@ -150,7 +148,7 @@ const form = reactive({
   title: "",
   type: logSegments[0].label!,
   recordType: GetRecordTypeOptions()[0],
-  recordValue: 0,
+  recordValue: "",
   recordUnits: "kg",
   DStart: new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-"),
   TStart: GetCurrentTime(),
@@ -177,7 +175,7 @@ const ClearForm = () => {
   form.title = "";
   form.type = logSegments[0].label!;
   form.recordType = GetRecordTypeOptions()[0];
-  form.recordValue = 0;
+  form.recordValue = "";
   form.recordUnits = "kg";
   form.DStart = new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-");
   form.TStart = GetCurrentTime();

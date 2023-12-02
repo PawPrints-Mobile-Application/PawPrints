@@ -20,7 +20,7 @@
 </template>
 <script setup lang="ts">
 import { InputSelect } from ".";
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
 import { DropdownOption, LocalTime, TwoCharactersFormat } from "../../utils";
 import { ButtonText } from "../Buttons";
 
@@ -62,6 +62,10 @@ const SetValue = () => {
 };
 
 const emit = defineEmits(["update:modelValue", "change"]);
+
+onMounted(() => {
+  console.log(props.modelValue?.ampm);
+});
 </script>
 <style scoped>
 .input-time {

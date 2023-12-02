@@ -9,7 +9,93 @@ import {
 import { SetDocument, GetDocument, GetCollection } from "../firebase";
 import ObjectToMap from "../../utils/ObjectToMap";
 import { Timestamp } from "firebase/firestore";
-import { LocalTime, SeedGenerator } from "../../utils/";
+import { LocalTime, SeedGenerator, EnumConstructor } from "../../utils/";
+
+type RecordType = {
+  name: string;
+  canSchedule: boolean;
+  units?: Array<String>;
+};
+
+class Record extends EnumConstructor {
+  types: Array<RecordType> = [
+    {
+      name: "Weight",
+      canSchedule: false,
+      units: ["kg", "lb"],
+    },
+    {
+      name: "Temperature",
+      canSchedule: false,
+      units: ["°C", "°F"],
+    },
+    {
+      name: "Vaccine",
+      canSchedule: false,
+    },
+    {
+      name: "Medicine",
+      canSchedule: true,
+    },
+    {
+      name: "Symptoms",
+      canSchedule: true,
+    },
+    {
+      name: "Activity",
+      canSchedule: true,
+    },
+    {
+      name: "Others",
+      canSchedule: true,
+    },
+  ];
+  constructor() {
+    super([
+      "Weight",
+      "Temperature",
+      "Vacccine",
+      "Symptoms",
+      "Activity",
+      "Others",
+    ]);
+  }
+  canSchedule(name: string): boolean {
+    let temp = false;
+    this.types.forEach((type) => {
+      if (type.name === name && type.canSchedule) {
+        temp = true;
+      }
+    });
+    return temp;
+  }
+  hasUnits(name: string): boolean {
+    let temp = false;
+    this.types.forEach((type) => {
+      if (type.name === name && !!type.units) {
+        temp = true;
+      }
+    });
+    return temp;
+  }
+  getRecordTypes(canSchedule: boolean = false): RecordType[] {
+    if (!canSchedule) return this.types;
+    return this.types?.filter((type) => type.canSchedule);
+  }
+  get(name: string, defaultValue: any = undefined): RecordType {
+    let temp = this.types?.find((value) => value.name === name);
+    if (!temp) return defaultValue;
+    return temp;
+  }
+  getUnits(name: string, defaultValue: any = undefined) {
+    let temp = this.types?.find((value) => value.name === name)?.units;
+    if (!temp) return defaultValue;
+    return temp;
+  }
+}
+const Enums = {
+  Record,
+};
 
 const constants = {
   collection: "Users",
@@ -19,7 +105,7 @@ const constants = {
         type TEXT,
         title TEXT,
         recordType TEXT,
-        recordValue INTEGER,
+        recordValue TEXT,
         recordUnits TEXT,
         DStart INTEGER,
         TStart INTEGER,
@@ -35,7 +121,7 @@ type Props = {
   type: string;
   title: string;
   recordType: string;
-  recordValue: number;
+  recordValue: string;
   recordUnits: string;
   DStart: Date;
   TStart: LocalTime;
@@ -49,7 +135,7 @@ type LocalProps = {
   type: string;
   title: string;
   recordType: string;
-  recordValue: number;
+  recordValue: string;
   recordUnits: string;
   DStart: number;
   TStart: number;
@@ -63,7 +149,7 @@ type CloudProps = {
   type: string;
   title: string;
   recordType: string;
-  recordValue: number;
+  recordValue: string;
   recordUnits: string;
   DStart: Timestamp;
   TStart: number;
@@ -100,13 +186,11 @@ const ToLocalProps = (
   props: any,
   source: "Props" | "CloudProps"
 ): LocalProps => {
-  let { DStart, DEnd, recordType, TStart, TEnd } = props;
+  let { DStart, DEnd, TStart, TEnd } = props;
   if (source === "CloudProps") {
     DStart = props.DStart.toDate();
     DEnd = props.DEnd.toDate();
-    recordType = props.recordType;
   } else {
-    recordType = props.recordType.label;
     TStart = props.TStart.value;
     TEnd = props.TEnd.value;
   }
@@ -114,7 +198,7 @@ const ToLocalProps = (
     lid: props.lid,
     type: props.type,
     title: props.title,
-    recordType: recordType,
+    recordType: props.recordType,
     recordValue: props.recordValue,
     recordUnits: props.recordUnits,
     note: props.note,
@@ -129,13 +213,11 @@ const ToCloudProps = (
   props: any,
   source: "Props" | "LocalProps"
 ): CloudProps => {
-  let { DStart, DEnd, recordType, TStart, TEnd } = props;
+  let { DStart, DEnd, TStart, TEnd } = props;
   if (source === "LocalProps") {
     DStart = new Date(props.DStart);
     DEnd = new Date(props.DEnd);
-    recordType = props.recordType;
   } else {
-    recordType = props.recordType.label;
     TStart = props.TStart.value;
     TEnd = props.TEnd.value;
   }
@@ -143,7 +225,7 @@ const ToCloudProps = (
     lid: props.lid,
     type: props.type,
     title: props.title,
-    recordType: recordType,
+    recordType: props.recordType,
     recordValue: props.recordValue,
     recordUnits: props.recordUnits,
     note: props.note,
@@ -218,6 +300,7 @@ const SyncAll = async (uid: string) =>
 
 export type { Props, LocalProps, CloudProps };
 export {
+  Enums,
   CreateModel,
   DeleteModel,
   Clear,
