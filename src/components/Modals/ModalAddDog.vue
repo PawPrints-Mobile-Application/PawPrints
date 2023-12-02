@@ -120,6 +120,10 @@ const emit = defineEmits(["submit", "discard"]);
   flex-direction: column;
 }
 
+label {
+  color: var(--theme-secondary-text);
+}
+
 .dropdown {
   --select-active-background: white;
 }

@@ -54,8 +54,8 @@ const props = defineProps({
   width: 100%;
   min-height: 60px;
   background-color: var(--theme-secondary-background);
-  outline: 2px solid var(--theme-primary-text);
-  color: var(--theme-primary-text);
+  outline: 2px solid var(--theme-card-highlight-color);
+  color: var(--theme-secondary-text);
   border-radius: 8px;
   display: flex;
   flex-direction: column;

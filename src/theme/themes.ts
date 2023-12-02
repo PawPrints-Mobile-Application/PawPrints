@@ -1,20 +1,3 @@
-// "primary-background":
-// "primary-text":
-// "secondary-background":
-// "secondary-text":
-// "secondary-dark-background":
-// "secondary-dark-text":
-// "tertiary-background":
-// "tertiary-text":
-// "quadratic-background":
-// "quadratic-text":
-
-// "warning-background":
-// "warning-text":
-// "success-background":
-// "success-text":
-// "button-icon": "#FFD803", // forums button in home
-
 const themes = {
   yellow: {
     light: {
@@ -35,16 +18,19 @@ const themes = {
       "success-background": "#2DD36F",
       "success-text": "#FFFFFE",
       "button-icon": "#FFD803", // forums button in home
-      "list-log": "rgba(255, 216, 3, 0.7)",
+      "list-log-background": "rgba(255, 216, 3, 0.7)",
+      "list-log-text": "#000000",
+      "card-highlight-color":"#000000",
     },
+
     dark: {
       "primary-background": "#15202B",
       "primary-text": "#F7F9F9",
-      "secondary-background": "#242D38",
+      "secondary-background": "#1E2732",
       "secondary-text": "#F7F9F9",
-      "secondary-dark-background": "#242D38",
-      "secondary-dark-text": "#0D0D0D",
-      "tertiary-background": "#FFD803",
+      "secondary-dark-background": "#1E2732",
+      "secondary-dark-text": "#8A9197",
+      "tertiary-background": "#FFE558",
       "tertiary-text": "#F7F9F9",
       "quadratic-background": "#07121D",
       "quadratic-text": "#F7F9F9",
@@ -55,7 +41,9 @@ const themes = {
       "success-background": "#56CF87",
       "success-text": "#FFFFFF",
       "button-icon": "#FFE558", // forums button in home
-      "list-log": "rgba(60, 67, 76, 0.7)",
+      "list-log-background": "rgba(60, 67, 76, 0.7)",
+      "list-log-text": "#F7F9F9",
+      "card-highlight-color":"#242D38",
     },
   },
   pink: {
@@ -77,7 +65,9 @@ const themes = {
       "success-background": "#AFE194",
       "success-text": "#FFFFFF",
       "button-icon": "#EC9CAF", // forums button in home
-      "list-log": "rgba(255, 249, 196, 0.7)",
+      "list-log-background": "rgba(255, 249, 196, 0.7)",
+      "list-log-text": "#33272A",
+      "card-highlight-color":"#33272A",
     },
     dark: {
       "primary-background": "#202020",
@@ -97,7 +87,9 @@ const themes = {
       "success-background": "#AFE194",
       "success-text": "#FFFFFF",
       "button-icon": "#EC9CAF", // forums button in home
-      "list-log": "rgba(255, 249, 196, 0.7)",
+      "list-log-background": "rgba(255, 249, 196, 0.7)",
+      "list-log-text": "#202020",
+      "card-highlight-color":"#202020",
     },
   },
   blue: {
@@ -119,28 +111,32 @@ const themes = {
       "success-background": "#F5D473",
       "success-text": "#FFFFFE",
       "button-icon": "#F5D473", // forums button in home
-      "list-log": "rgb(217, 228, 236)",
+      "list-log-background": "rgb(217, 228, 236)",
+      "list-log-text": "#000000",
+      "card-highlight-color":"#000000",
     },
 
     dark: {
-      primary: "#15202B", // primary bg
-      secondary: "#242D38", // input text area
-      "secondary-dark": "#242D38", // search bar, write
-      tertiary: "#0D3B5C", //button or theme name
-      quadratic: "#8A9197", // dates choices, buttons in input text
+      "primary-background": "#DBEBF5",
+      "primary-text": "#000000",
+      "secondary-background": "#7FA4BF",
+      "secondary-text": "#000000",
+      "secondary-dark-background": "#7FA4BF",
+      "secondary-dark-text": "#000000",
+      "tertiary-background": "#0D3B5C",
+      "tertiary-text": "#000000",
+      "quadratic-background": "#1E5074",
+      "quadratic-text": "#FFFFFF",
 
-      "button-text": "#fefefe", // for color-tertiary
-      "button-normal": "#FFE558", // same as tertiary
-      "button-warning": "#F7677B", // clear/delete button
-      "button-success": "#56CF87", //sign up,get started,save
-      "button-icon": "#FFE558", // forums button in home
-
-      "card-text": "#F7F9F9",
-      "card-background": "#1E2732",
-      "card-highlight-background": "#3C434C",
-      "card-highlight-text": "#F7F9F9",
-      "trivia-background": "#07121D",
-      "trivia-text": "#F7F9F9",
+      "button-middle-text": "#DBEBF5",
+      "warning-background": "#0D3B5C",
+      "warning-text": "#FFFFFE",
+      "success-background": "#F5D473",
+      "success-text": "#FFFFFE",
+      "button-icon": "#F5D473", // forums button in home
+      "list-log-background": "rgb(217, 228, 236)",
+      "list-log-text": "#FEFEFE",
+      "card-highlight-color":"#14354D",
     },
   },
 };

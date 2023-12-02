@@ -67,6 +67,7 @@ export default {
   > .text-heading {
     font-size: var(--fs1);
     font-weight: 700;
+    color: var(--theme-secondary-text);
   }
 }
 </style>

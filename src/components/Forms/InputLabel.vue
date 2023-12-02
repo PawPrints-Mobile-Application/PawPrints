@@ -31,6 +31,7 @@ const props = defineProps({
   justify-content: space-between;
   align-items: center;
   --font-size: var(--fs3);
+  color: var(--theme-primary-text);
 
   > .text {
     font-size: var(--font-size);

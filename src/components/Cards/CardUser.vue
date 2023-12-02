@@ -38,7 +38,7 @@ onMounted(() => {
 <style scoped>
 .card-user {
   background-color: var(--theme-secondary-background);
-  outline: 3px solid var(--theme-secondary-text);
+  outline: 3px solid var(--theme-card-highlight-color);
   color: var(--theme-secondary-text);
   width: 100%;
   border-radius: 10px;

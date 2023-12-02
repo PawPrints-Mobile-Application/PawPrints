@@ -39,8 +39,8 @@ const age: Ref<Age> = ref(new Age(new Date(props.dog?.birthday)));
 <style scoped>
 .card-dog {
   background-color: var(--theme-secondary-background);
-  outline: 3px solid var(--theme-primary-text);
-  color: var(--theme-primary-text);
+  outline: 3px solid var(--theme-card-highlight-color);
+  color: var(--theme-secondary-text);
   width: 100%;
   border-radius: 10px;
   padding: 10px;

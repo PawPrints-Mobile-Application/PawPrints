@@ -95,6 +95,7 @@ export default {
 }
 .add-post {
   background-color: var(--theme-secondary-dark-background);
+  color: var(--theme-secondary-dark-text);
   flex: 1 0 0;
   --justify-content: flex-start;
   --padding: 5px 9px;

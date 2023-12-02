@@ -88,8 +88,8 @@ header {
 }
 
 .data {
-  background-color: var(--theme-list-log);
-  color: var(--theme-tertiary-text);
+  background-color: var(--theme-list-log-background);
+  color: var(--theme-list-log-text);
   border-radius: 8px;
   padding: 7px 7px;
   display: flex;
