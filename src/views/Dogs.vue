@@ -107,4 +107,7 @@ export default {
   flex-direction: column;
   gap: 15px;
 }
+/* .input-dynamic {
+  --input-background: var(--theme-secondary-dark-background);
+} */
 </style>

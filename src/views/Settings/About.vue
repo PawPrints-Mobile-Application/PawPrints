@@ -55,9 +55,10 @@ export default {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  background-color: var(--theme-secondary);
+  background-color: var(--theme-secondary-background);
   font-family: Poppins;
   font-size: var(--fs4);
+  color: var(--theme-secondary-text-background);
 
   > * {
     margin: 0;

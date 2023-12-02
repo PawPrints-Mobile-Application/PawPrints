@@ -1,23 +1,23 @@
 <template>
   <section class="pid-list-view">
     <header>
-      <InputDynamicWrapped
+      <InputDynamic
+        class="list-view-month"
         type="dropdown"
         :options="Calendar.monthsShort"
         v-model="calendar.dropdownMonth"
         :count="12"
         hideInput
         hideIcon
-        hideValidator
       />
-      <InputDynamicWrapped
+      <InputDynamic
+        class="list-view-year"
         type="dropdown"
         :options="Calendar.GetYears(151)"
         v-model="calendar.dropdownYear"
         :count="12"
         hideInput
         hideIcon
-        hideValidator
       />
     </header>
     <div class="content">
@@ -27,7 +27,7 @@
 </template>
 <script setup lang="ts">
 import { reactive, ref, Ref } from "vue";
-import { InputDynamicWrapped } from "../components/Forms";
+import { InputDynamic } from "../components/Forms";
 import { Calendar, LocalTime } from "../utils";
 import { Props } from "../server/models/Logs";
 import { CardLog } from "../components/Cards";
@@ -44,7 +44,7 @@ const datedLogs: Ref<DatedLog[]> = ref([
       {
         lid: "123131",
         type: "record",
-        title: "record",
+        title: "Record",
         recordType: "Weight",
         recordValue: 22,
         recordUnits: "kg",
@@ -57,7 +57,7 @@ const datedLogs: Ref<DatedLog[]> = ref([
       {
         lid: "465135435",
         type: "record",
-        title: "dwa awdawdwadas d awda wdaw ",
+        title: "The quick brown fox jumps over the lazy dog ",
         recordType: "Temp",
         recordValue: 52,
         recordUnits: "°C",
@@ -75,10 +75,9 @@ const datedLogs: Ref<DatedLog[]> = ref([
       {
         lid: "123131",
         type: "record",
-        title: "daw dwad wad",
-        recordType: "Weight",
-        recordValue: 28,
-        recordUnits: "kg",
+        title: "Injection",
+        recordType: "Vaccine",
+        recordValue: "8-in-1",
         DStart: new Date(),
         TStart: new LocalTime(230),
         DEnd: new Date(),
@@ -88,9 +87,9 @@ const datedLogs: Ref<DatedLog[]> = ref([
       {
         lid: "465135435",
         type: "schedule",
-        title: "scheddwadadda",
-        recordType: "Temp",
-        recordValue: 35,
+        title: "Grooming",
+        recordType: "Activity",
+        recordValue: "Grooming",
         recordUnits: "°C",
         DStart: new Date(),
         TStart: new LocalTime(1150),
@@ -101,15 +100,14 @@ const datedLogs: Ref<DatedLog[]> = ref([
     ],
   },
   {
-    date: new Date(2023, 11,15),
+    date: new Date(2023, 11, 15),
     logs: [
       {
         lid: "123131",
         type: "record",
-        title: "record",
-        recordType: "Weight",
-        recordValue: 22,
-        recordUnits: "kg",
+        title: "Vomitting vomitting vomitting",
+        recordType: "Symptoms",
+        recordValue: "Vomitting vomitting vomitting",
         DStart: new Date(),
         TStart: new LocalTime(230),
         DEnd: new Date(),
@@ -156,10 +154,21 @@ header {
   width: 100%;
   justify-content: flex-start;
 }
-
-.input-dynamic-wrapped {
+.input-dynamic {
   flex: none;
   width: min-content;
+}
+.list-view-month {
+  --input-background: var(--theme-quadratic-background);
+  --input-text: var(--theme-quadratic-text);
+  font-weight: 500;
+  padding: 2px;
+}
+.list-view-year {
+  --input-background: var(--theme-quadratic-background);
+  --input-text: var(--theme-quadratic-text);
+  font-weight: 500;
+  padding: 2px;
 }
 
 .content {

@@ -250,6 +250,7 @@ defineExpose({ Clear, Discard, Submit, Back, Next });
 
     > .button-back {
       flex: 0 0 44px;
+      max-width: 20px;
     }
   }
 }

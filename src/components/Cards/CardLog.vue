@@ -63,7 +63,7 @@ defineProps({
 
 header {
   display: flex;
-  gap: 20px;
+  gap: 14px;
 
   > .text-subheading {
     font-weight: 700;
@@ -75,7 +75,7 @@ header {
 }
 
 .logs {
-  margin-left: 27px;
+  margin-left: 25px;
   margin-top: 5px;
   display: flex;
   gap: 5px;
@@ -88,14 +88,16 @@ header {
 }
 
 .data {
-  background-color: var(--theme-tertiary-background);
+  background-color: var(--theme-list-log);
   color: var(--theme-tertiary-text);
   border-radius: 8px;
-  padding: 5px 10px;
+  padding: 7px 7px;
   display: flex;
-  gap: 20px;
+  gap: 10px;
   justify-content: space-between;
   align-items: center;
+
+  
 }
 
 .title {
@@ -105,5 +107,6 @@ header {
 .record-value {
   width: 30%;
   text-align: end;
+  font-size: 12px;
 }
 </style>

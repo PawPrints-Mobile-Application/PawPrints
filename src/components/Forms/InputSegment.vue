@@ -51,7 +51,7 @@ const emit = defineEmits(["select", "update:modelValue"]);
   --default-background: var(--theme-secondary-background);
   --default-text: var(--theme-secondary-text);
   --active-background: var(--theme-tertiary-background);
-  --active-text: var(--theme-tertiary-text);
+  --active-text: var(--theme-primary-background);
 
   background-color: var(--default-background);
   color: var(--default-text);
@@ -86,7 +86,7 @@ li {
 
 .selected {
   background-color: var(--active-background);
-
+  
   > * {
     color: var(--active-text);
   }

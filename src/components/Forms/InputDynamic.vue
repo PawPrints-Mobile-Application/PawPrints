@@ -220,8 +220,8 @@ defineExpose({ state, ForceFocus, ForceBlur });
 </script>
 <style scoped>
 .input-dynamic {
-  --input-background: var(--theme-secondary-background);
-  --input-text: var(--theme-secondary-text);
+  --input-background: var(--theme-secondary-dark-background);
+  --input-text: var(--theme-secondary-dark-text);
   --input-outline: 2px solid var(--theme-tertiary-background);
   background-color: var(--input-background);
   color: var(--text);

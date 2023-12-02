@@ -123,7 +123,7 @@ header {
   min-height: 70;
 
   > .button-back {
-    min-width: 40px;
+    max-width: 20px;
   }
 
   > .text-heading {
@@ -139,6 +139,7 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: var(--theme-button-middle-text);
     > .avatar {
       --size: 50px;
       --image-scale: 80%;
@@ -148,7 +149,6 @@ header {
       position: absolute;
       padding: 2px;
       background-color: var(--theme-tertiary-background);
-      color: var(--theme-tertiary-text);
       border-radius: 6px;
       font-size: 10px;
       transform: translateY(27px);

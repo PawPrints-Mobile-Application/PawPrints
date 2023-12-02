@@ -28,13 +28,14 @@ const themes = {
       "tertiary-text": "#0D0D0D",
       "quadratic-background": "#272343",
       "quadratic-text": "#FEFEFE",
-
+      
       "button-middle-text": "#FFFFFE",
       "warning-background": "#EB445A",
       "warning-text": "#FFFFFE",
       "success-background": "#2DD36F",
       "success-text": "#FFFFFE",
       "button-icon": "#FFD803", // forums button in home
+      "list-log": "rgba(255, 216, 3, 0.7)",
     },
     dark: {
       "primary-background": "#15202B",
@@ -54,6 +55,7 @@ const themes = {
       "success-background": "#56CF87",
       "success-text": "#FFFFFF",
       "button-icon": "#FFE558", // forums button in home
+      "list-log": "rgba(60, 67, 76, 0.7)",
     },
   },
   pink: {
@@ -75,6 +77,7 @@ const themes = {
       "success-background": "#AFE194",
       "success-text": "#FFFFFF",
       "button-icon": "#EC9CAF", // forums button in home
+      "list-log": "rgba(255, 249, 196, 0.7)",
     },
     dark: {
       "primary-background": "#202020",
@@ -83,9 +86,9 @@ const themes = {
       "secondary-text": "#202020",
       "secondary-dark-background": "#C4CEDF",
       "secondary-dark-text": "#202020",
-      "tertiary-background": "#C7EAB4",
-      "tertiary-text": "#0D0D0D",
-      "quadratic-background": "#272343",
+      "tertiary-background": "#EC9CAF",
+      "tertiary-text": "#FFFFFE",
+      "quadratic-background": "#C7EAB4",
       "quadratic-text": "#202020",
 
       "button-middle-text": "#FFFFFF",
@@ -94,6 +97,7 @@ const themes = {
       "success-background": "#AFE194",
       "success-text": "#FFFFFF",
       "button-icon": "#EC9CAF", // forums button in home
+      "list-log": "rgba(255, 249, 196, 0.7)",
     },
   },
   blue: {
@@ -105,7 +109,7 @@ const themes = {
       "secondary-dark-background": "#7FA4BF",
       "secondary-dark-text": "#000000",
       "tertiary-background": "#0D3B5C",
-      "tertiary-text": "#FFFFFE",
+      "tertiary-text": "#000000",
       "quadratic-background": "#1E5074",
       "quadratic-text": "#FFFFFF",
 
@@ -115,6 +119,7 @@ const themes = {
       "success-background": "#F5D473",
       "success-text": "#FFFFFE",
       "button-icon": "#F5D473", // forums button in home
+      "list-log": "rgb(217, 228, 236)",
     },
 
     dark: {

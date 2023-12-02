@@ -132,6 +132,7 @@ defineExpose({ state, ForceFocus, ForceBlur });
   --outline: var(--theme-tertiary-background);
   background-color: inherit;
   border-radius: 6px;
+  font-weight: var(--font-weight);
   > input:is(:active, :hover, :focus) {
     outline: 2px solid var(--outline);
   }

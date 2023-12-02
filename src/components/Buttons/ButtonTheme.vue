@@ -3,7 +3,7 @@
     class="button-theme text small"
     :style="{
       backgroundColor: ObjectToMap(theme?.light).get('tertiary-background'),
-      color: ObjectToMap(theme?.light).get('tertiary-text'),
+      color: ObjectToMap(theme?.light).get('button-middle-text'),
     }"
     :class="{ selected: isTheme }"
     @click="Click"
