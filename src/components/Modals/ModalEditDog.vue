@@ -22,6 +22,7 @@
       v-model="form.name"
       placeholder="Doggo Name"
       label="Doggo Name"
+      hideValidator
     />
     <InputDynamicWrapped
       type="date"
@@ -29,6 +30,7 @@
       label="Birthday"
       hide-input
       disable-future
+      hideValidator
     />
     <InputDynamicWrapped
       type="dropdown"
@@ -38,13 +40,16 @@
       placeholder="Choose a breed"
       :count="6"
       searchable
+      hideValidator
     />
     <InputDynamicWrapped
       type="color"
       v-model="form.color"
       placeholder="Colour"
       label="Colour"
+      hideValidator
     />
+    <ButtonText label="Delete Dog" />
   </LayoutModal>
 </template>
 
@@ -54,24 +59,21 @@ import { LayoutModal } from "../../layout";
 
 import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
-import {
-  GetUID,
-  breeds,
-  ObjectToMap,
-} from "../../utils";
+import { GetUID, breeds, ObjectToMap } from "../../utils";
 import { InputDynamicWrapped } from "../Forms";
+import { ButtonText } from "../Buttons";
 
 const form = reactive({
   name: "",
   birthday: "",
-  breed: '',
+  breed: "",
   color: "#FFD80A",
 });
 
 const defaultValues = reactive({
   name: "",
   birthday: "",
-  breed: '',
+  breed: "",
   color: "#FFD80A",
 });
 
@@ -84,7 +86,7 @@ const isBlank = () => {
     else temp ||= value === "";
   });
   return temp;
-}
+};
 
 const disableClear = computed(() => {
   let temp = true;
@@ -94,7 +96,7 @@ const disableClear = computed(() => {
     else temp &&= value === defVal.get(key);
   });
   return temp;
-})
+});
 
 const Discard = () => {
   emit("discard");
@@ -152,5 +154,11 @@ watch(
 .avatar {
   --size: 100px;
   --image-scale: 90%;
+}
+
+.button-text {
+  background-color: var(--theme-warning-background);
+  color: var(--theme-warning-text);
+  width: 100%;
 }
 </style>

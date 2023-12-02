@@ -147,8 +147,8 @@ header {
     > .text-small {
       position: absolute;
       padding: 2px;
-      background-color: var(--theme-tertiary);
-      color: var(--theme-primary);
+      background-color: var(--theme-tertiary-background);
+      color: var(--theme-tertiary-text);
       border-radius: 6px;
       font-size: 10px;
       transform: translateY(27px);
