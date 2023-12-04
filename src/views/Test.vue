@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <section>
     <InputDynamicWrapped v-model="value" type="time" label="Yes" />
   </section>
@@ -21,4 +21,4 @@ section {
   gap: 10px;
   flex-direction: column;
 }
-</style>
+</style> -->
