@@ -32,6 +32,7 @@
     </section>
     <ModalAddLog
       :isOpen="modalOpen.log"
+      :pid="pid"
       @submit="ReloadPage"
       @discard="CloseModalLog"
     />

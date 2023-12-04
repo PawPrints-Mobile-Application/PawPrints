@@ -19,6 +19,7 @@
         label="Title"
         :placeholder="GetTitle()"
         hideValidator
+        v-model="form.title"
       />
       <InputDynamicWrapped
         type="dropdown"
@@ -29,12 +30,17 @@
         :count="7"
         hideValidator
       />
-      <div class="record-value" v-show="isRecord()">
+      <div class="record-value">
         <InputLabel value="Record Value" />
         <div>
-          <InputDynamicWrapped placeholder="Record Value" hideValidator />
+          <InputDynamicWrapped
+            :type="hasUnits() ? 'number' : 'text'"
+            placeholder="Record Value"
+            hideValidator
+            v-model="form.recordValue"
+          />
           <InputChoice
-            v-show="hasChoice()"
+            v-show="hasUnits()"
             :options="GetRecordUnitOptions()"
             v-model="form.recordUnits"
           />
@@ -101,27 +107,20 @@ import {
   documents as recordIcon,
   calendar as scheduleIcon,
 } from "ionicons/icons";
-import { Add } from "../../server/models/Logs";
-import { SeedGenerator, GetUID } from "../../utils";
+import { Enums } from "../../server/models/Logs";
+import { AddLogs } from "../../server/models/LogAddressingTable";
+import { SeedGenerator, GetUID, CustomEvent } from "../../utils";
 
 const GetTitle = () => (form.recordType === "" ? "Title" : form.recordType);
 
 const isRecord = () => logSegment.value.label === logSegments[0].label;
-const hasChoice = () => ["Weight", "Temperature"].includes(form.recordType);
+const hasUnits = () => new Enums.Record().hasUnits(form.recordType);
 
-const GetRecordTypeOptions = () => {
-  let temp = ["Vaccine", "Medicine", "Symptoms", "Activity"];
-  if (isRecord()) temp = temp.concat(["Weight", "Temperature"]);
-  temp.push("Others");
-  return temp;
-};
+const GetRecordTypeOptions = () =>
+  new Enums.Record().getRecordTypes(!isRecord()).map((value) => value.name);
 
-const GetRecordUnitOptions = () => {
-  if (!isRecord()) return new Array<string>();
-  if (form.recordType === "Weight") return ["kg", "lb"];
-  else if (form.recordType === "Temperature") return ["°C", "°F"];
-  return new Array<string>();
-};
+const GetRecordUnitOptions = () =>
+  new Enums.Record().getUnits(form.recordType, [""]);
 
 const logSegments = [
   new SegmentOption("Record", recordIcon),
@@ -150,7 +149,7 @@ const form = reactive({
   title: "",
   type: logSegments[0].label!,
   recordType: GetRecordTypeOptions()[0],
-  recordValue: 0,
+  recordValue: "",
   recordUnits: "kg",
   DStart: new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-"),
   TStart: GetCurrentTime(),
@@ -166,7 +165,9 @@ watch(
   }
 );
 
-const disabled = computed(() => [form.title].includes(""));
+const disabled = computed(() =>
+  [IdentifyTitle(), form.recordValue].includes("")
+);
 
 const Discard = () => {
   emit("discard");
@@ -177,7 +178,7 @@ const ClearForm = () => {
   form.title = "";
   form.type = logSegments[0].label!;
   form.recordType = GetRecordTypeOptions()[0];
-  form.recordValue = 0;
+  form.recordValue = "";
   form.recordUnits = "kg";
   form.DStart = new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-");
   form.TStart = GetCurrentTime();
@@ -186,34 +187,42 @@ const ClearForm = () => {
   form.note = "";
 };
 
+const IdentifyTitle = () => {
+  if (form.recordType === "Others") return form.title;
+  return form.title.trim() === "" ? form.recordType : form.title;
+};
+
 const Submit = () => {
   const lid = SeedGenerator().toString();
-  Add(
+  AddLogs(
     {
       lid: lid,
+      pid: props.pid!,
       type: form.type,
-      title: form.title,
+      title: IdentifyTitle(),
       recordType: form.recordType,
       recordValue: form.recordValue,
       recordUnits: form.recordUnits,
-      DStart: new Date(form.DStart),
       TStart: new LocalTime(form.TStart),
-      DEnd: new Date(form.DEnd),
       TEnd: new LocalTime(form.TEnd),
+      DStart: new Date(form.DStart),
+      DEnd: new Date(form.DEnd),
       note: form.note,
     },
     GetUID()
   ).then(() => {
     emit("submit", lid);
     Discard();
+    CustomEvent.EventDispatcher("reload-logs");
   });
 };
 
-defineProps({
+const props = defineProps({
   isOpen: {
     type: Boolean,
     required: true,
   },
+  pid: String,
 });
 
 const emit = defineEmits(["submit", "discard"]);

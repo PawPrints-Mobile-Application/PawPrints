@@ -159,7 +159,8 @@ const StringToLocalTime = () => {
     props.modelValue!.substring(colonIdx + 1, colonIdx + 3)
   );
   const ampm = props.modelValue!.indexOf("AM") !== -1 ? "AM" : "PM";
-  const hours = hoursConverted + (ampm === "AM" ? 0 : 12);
+  let hours = hoursConverted + (ampm === "AM" ? 0 : 12);
+  if (hoursConverted === 12) hours = 12;
   return new LocalTime(
     `${TwoCharactersFormat(hours)}${TwoCharactersFormat(minutes)}`
   );
@@ -168,7 +169,7 @@ const StringToLocalTime = () => {
 const timeValue = computed({
   get() {
     if (!props.modelValue || props.modelValue === "") {
-      timeValue.value = new LocalTime(101);
+      timeValue.value = new LocalTime(0);
     }
     return StringToLocalTime();
   },
