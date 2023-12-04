@@ -30,7 +30,7 @@
         :count="7"
         hideValidator
       />
-      <div class="record-value" v-show="isRecord()">
+      <div class="record-value">
         <InputLabel value="Record Value" />
         <div>
           <InputDynamicWrapped
@@ -109,7 +109,7 @@ import {
 } from "ionicons/icons";
 import { Enums } from "../../server/models/Logs";
 import { AddLogs } from "../../server/models/LogAddressingTable";
-import { SeedGenerator, GetUID } from "../../utils";
+import { SeedGenerator, GetUID, CustomEvent } from "../../utils";
 
 const GetTitle = () => (form.recordType === "" ? "Title" : form.recordType);
 
@@ -120,7 +120,7 @@ const GetRecordTypeOptions = () =>
   new Enums.Record().getRecordTypes(!isRecord()).map((value) => value.name);
 
 const GetRecordUnitOptions = () =>
-  new Enums.Record().getUnits(form.recordType, []);
+  new Enums.Record().getUnits(form.recordType, [""]);
 
 const logSegments = [
   new SegmentOption("Record", recordIcon),
@@ -165,7 +165,9 @@ watch(
   }
 );
 
-const disabled = computed(() => [IdentifyTitle()].includes(""));
+const disabled = computed(() =>
+  [IdentifyTitle(), form.recordValue].includes("")
+);
 
 const Discard = () => {
   emit("discard");
@@ -211,6 +213,7 @@ const Submit = () => {
   ).then(() => {
     emit("submit", lid);
     Discard();
+    CustomEvent.EventDispatcher("reload-logs");
   });
 };
 

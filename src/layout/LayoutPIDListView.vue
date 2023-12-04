@@ -9,6 +9,7 @@
         :count="12"
         hideInput
         hideIcon
+        @change="RefreshLogs"
       />
       <InputDynamic
         class="list-view-year"
@@ -18,6 +19,7 @@
         :count="12"
         hideInput
         hideIcon
+        @change="RefreshLogs"
       />
     </header>
     <div class="content">
@@ -32,7 +34,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref } from "vue";
 import { InputDynamic } from "../components/Forms";
-import { Calendar } from "../utils";
+import { Calendar, CustomEvent } from "../utils";
 import { Props } from "../server/models/Logs";
 import { GetLogs } from "../server/models/LogAddressingTable";
 import { CardLog } from "../components/Cards";
@@ -47,9 +49,19 @@ const calendar = reactive({
   dropdownYear: new Date().getFullYear().toString(),
 });
 
-onMounted(() => {
+const RefreshLogs = () => {
   monthlyLogs.value = [];
-  GetLogs(new Date(2023, 11, 1), new Date(2023, 12, 0)).then((value) => {
+  const startDate = new Date(
+    Number(calendar.dropdownYear),
+    Calendar.monthsShort.indexOf(calendar.dropdownMonth),
+    1
+  );
+  const endDate = new Date(
+    Number(calendar.dropdownYear),
+    Calendar.monthsShort.indexOf(calendar.dropdownMonth) + 1,
+    0
+  );
+  GetLogs(startDate, endDate).then((value) => {
     value.forEach((logs, latid) => {
       monthlyLogs.value.push({
         date: new Date(Number(latid)),
@@ -57,6 +69,11 @@ onMounted(() => {
       });
     });
   });
+};
+
+onMounted(() => {
+  CustomEvent.EventListener("reload-logs", RefreshLogs);
+  RefreshLogs();
 });
 </script>
 <style scoped>

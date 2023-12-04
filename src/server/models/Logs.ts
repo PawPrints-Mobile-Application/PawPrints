@@ -43,7 +43,7 @@ class Record extends EnumConstructor {
     },
     {
       name: "Symptoms",
-      canSchedule: true,
+      canSchedule: false,
     },
     {
       name: "Activity",

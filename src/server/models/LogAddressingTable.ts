@@ -91,7 +91,7 @@ const AddBatch = async (
   lid: string,
   uid?: string
 ) => {
-  const startDtate = new Date(
+  const startDate = new Date(
     DStart.getFullYear(),
     DStart.getMonth(),
     DStart.getDate()
@@ -102,7 +102,7 @@ const AddBatch = async (
     DEnd.getDate()
   );
   for (
-    let date = startDtate;
+    let date = startDate;
     date <= endDtate;
     date.setDate(date.getDate() + 1)
   ) {
@@ -171,33 +171,40 @@ const RemoveLogs = async (
   uid?: string
 ) => RemoveBatch(DStart, DEnd, lid, uid);
 
-const GetLogs = async (DStart: Date, DEnd: Date) => {
-  const startDtate = new Date(
-    DStart.getFullYear(),
-    DStart.getMonth(),
-    DStart.getDate()
-  );
-  const endDtate = new Date(
-    DEnd.getFullYear(),
-    DEnd.getMonth(),
-    DEnd.getDate()
-  );
-  let temp = new Map<string, PropsLog[]>();
-  for (
-    let date = startDtate;
-    date <= endDtate;
-    date.setDate(date.getDate() + 1)
-  ) {
-    const props = await Get(date);
-    if (!props) continue;
-    props.logs.forEach(async (lid) => {
-      const propsLog = await FetchLog(lid, date);
+const GetLogs = async (
+  DStart: Date,
+  DEnd: Date
+): Promise<Map<string, PropsLog[]>> => {
+  try {
+    const startDate = new Date(
+      DStart.getFullYear(),
+      DStart.getMonth(),
+      DStart.getDate()
+    );
+    const endDtate = new Date(
+      DEnd.getFullYear(),
+      DEnd.getMonth(),
+      DEnd.getDate()
+    );
+    let temp = new Map<string, PropsLog[]>();
+    for (
+      let date = startDate;
+      date <= endDtate;
+      date.setDate(date.getDate() + 1)
+    ) {
       const latid = SeedGenerator(date).toString();
-      if (!temp.get(latid)) temp.set(latid, [propsLog]);
-      else temp.get(latid)?.push(propsLog);
-    });
+      const props = await Get(date);
+      if (!props) continue;
+      for (let lid of props.logs) {
+        const propsLog = await FetchLog(lid, date);
+        if (!temp.get(latid)) temp.set(latid, [propsLog]);
+        else temp.get(latid)?.push(propsLog);
+      }
+    }
+    return temp;
+  } catch (error) {
+    return await GetLogs(DStart, DEnd);
   }
-  return temp;
 };
 
 // LAT TO/FROM CLOUD CONNECTION
