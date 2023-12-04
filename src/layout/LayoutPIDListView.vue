@@ -21,121 +21,42 @@
       />
     </header>
     <div class="content">
-      <CardLog v-for="{ logs, date } in datedLogs" :logs="logs" :date="date" />
+      <CardLog
+        v-for="{ date, logs } in monthlyLogs"
+        :logs="logs"
+        :date="date"
+      />
     </div>
   </section>
 </template>
 <script setup lang="ts">
-import { reactive, ref, Ref } from "vue";
+import { onMounted, reactive, ref, Ref } from "vue";
 import { InputDynamic } from "../components/Forms";
-import { Calendar, LocalTime } from "../utils";
+import { Calendar } from "../utils";
 import { Props } from "../server/models/Logs";
+import { GetLogs } from "../server/models/LogAddressingTable";
 import { CardLog } from "../components/Cards";
 
-type DatedLog = {
+type DailyLogs = {
   date: Date;
   logs: Props[];
 };
-
-const datedLogs: Ref<DatedLog[]> = ref([
-  {
-    date: new Date(),
-    logs: [
-      {
-        lid: "123131",
-        type: "record",
-        title: "Record",
-        recordType: "Weight",
-        recordValue: 22,
-        recordUnits: "kg",
-        DStart: new Date(),
-        TStart: new LocalTime(230),
-        DEnd: new Date(),
-        TEnd: new LocalTime(230),
-        note: "",
-      },
-      {
-        lid: "465135435",
-        type: "record",
-        title: "The quick brown fox jumps over the lazy dog ",
-        recordType: "Temp",
-        recordValue: 52,
-        recordUnits: "°C",
-        DStart: new Date(),
-        TStart: new LocalTime(1450),
-        DEnd: new Date(),
-        TEnd: new LocalTime(1450),
-        note: "",
-      },
-    ],
-  },
-  {
-    date: new Date(2023, 11, 3),
-    logs: [
-      {
-        lid: "123131",
-        type: "record",
-        title: "Injection",
-        recordType: "Vaccine",
-        recordValue: "8-in-1",
-        DStart: new Date(),
-        TStart: new LocalTime(230),
-        DEnd: new Date(),
-        TEnd: new LocalTime(230),
-        note: "",
-      },
-      {
-        lid: "465135435",
-        type: "schedule",
-        title: "Grooming",
-        recordType: "Activity",
-        recordValue: "Grooming",
-        recordUnits: "°C",
-        DStart: new Date(),
-        TStart: new LocalTime(1150),
-        DEnd: new Date(),
-        TEnd: new LocalTime(1650),
-        note: "",
-      },
-    ],
-  },
-  {
-    date: new Date(2023, 11, 15),
-    logs: [
-      {
-        lid: "123131",
-        type: "record",
-        title: "Vomitting vomitting vomitting",
-        recordType: "Symptoms",
-        recordValue: "Vomitting vomitting vomitting",
-        DStart: new Date(),
-        TStart: new LocalTime(230),
-        DEnd: new Date(),
-        TEnd: new LocalTime(230),
-        note: "",
-      },
-      {
-        lid: "465135435",
-        type: "record",
-        title: "record",
-        recordType: "Temp",
-        recordValue: 52,
-        recordUnits: "°C",
-        DStart: new Date(),
-        TStart: new LocalTime(1450),
-        DEnd: new Date(),
-        TEnd: new LocalTime(1450),
-        note: "",
-      },
-    ],
-  },
-]);
+const monthlyLogs: Ref<DailyLogs[]> = ref([]);
 const calendar = reactive({
-  month: 1,
-  year: 1,
-  days: 1,
-  dropdownMonth: Calendar.monthsShort[new Date().getMonth() - 1],
+  dropdownMonth: Calendar.monthsShort[new Date().getMonth()],
   dropdownYear: new Date().getFullYear().toString(),
+});
+
+onMounted(() => {
+  monthlyLogs.value = [];
+  GetLogs(new Date(2023, 11, 1), new Date(2023, 12, 0)).then((value) => {
+    value.forEach((logs, latid) => {
+      monthlyLogs.value.push({
+        date: new Date(Number(latid)),
+        logs: logs,
+      });
+    });
+  });
 });
 </script>
 <style scoped>

@@ -107,7 +107,8 @@ import {
   documents as recordIcon,
   calendar as scheduleIcon,
 } from "ionicons/icons";
-import { Add, Enums } from "../../server/models/Logs";
+import { Enums } from "../../server/models/Logs";
+import { AddLogs } from "../../server/models/LogAddressingTable";
 import { SeedGenerator, GetUID } from "../../utils";
 
 const GetTitle = () => (form.recordType === "" ? "Title" : form.recordType);
@@ -164,7 +165,7 @@ watch(
   }
 );
 
-const disabled = computed(() => [form.title].includes(""));
+const disabled = computed(() => [IdentifyTitle()].includes(""));
 
 const Discard = () => {
   emit("discard");
@@ -184,20 +185,26 @@ const ClearForm = () => {
   form.note = "";
 };
 
+const IdentifyTitle = () => {
+  if (form.recordType === "Others") return form.title;
+  return form.title.trim() === "" ? form.recordType : form.title;
+};
+
 const Submit = () => {
   const lid = SeedGenerator().toString();
-  Add(
+  AddLogs(
     {
       lid: lid,
+      pid: props.pid!,
       type: form.type,
-      title: form.title,
+      title: IdentifyTitle(),
       recordType: form.recordType,
       recordValue: form.recordValue,
       recordUnits: form.recordUnits,
-      DStart: new Date(form.DStart),
       TStart: new LocalTime(form.TStart),
-      DEnd: new Date(form.DEnd),
       TEnd: new LocalTime(form.TEnd),
+      DStart: new Date(form.DStart),
+      DEnd: new Date(form.DEnd),
       note: form.note,
     },
     GetUID()
@@ -207,11 +214,12 @@ const Submit = () => {
   });
 };
 
-defineProps({
+const props = defineProps({
   isOpen: {
     type: Boolean,
     required: true,
   },
+  pid: String,
 });
 
 const emit = defineEmits(["submit", "discard"]);

@@ -18,7 +18,7 @@ export default class LocalTime {
         const colonIdx = value.indexOf(":");
         const hoursConverted = Number(value.substring(0, colonIdx));
         const minutes = Number(value.substring(colonIdx + 1, colonIdx + 3));
-        const ampm = value.indexOf("AM") == -1 ? "AM" : "PM";
+        const ampm = value.indexOf("PM") === -1 ? "AM" : "PM";
         let hours = hoursConverted + (ampm === "AM" ? 0 : 12);
         if (hoursConverted === 12) hours = 12;
         this.value = Number(
@@ -38,6 +38,8 @@ export default class LocalTime {
     this.ampm = this.hours >= 12 && this.hours <= 23 ? "PM" : "AM";
     return `${TwoCharactersFormat(
       format === "12" ? this.hoursConverted : this.hours
-    )}:${TwoCharactersFormat(this.minutes)}${format === "12" ? ' ' + this.ampm : ""}`;
+    )}:${TwoCharactersFormat(this.minutes)}${
+      format === "12" ? " " + this.ampm : ""
+    }`;
   }
 }

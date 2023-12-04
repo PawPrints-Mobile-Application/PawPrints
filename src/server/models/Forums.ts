@@ -7,9 +7,8 @@ import {
   DeleteRowData,
 } from "../sqlite";
 import { SetDocument, GetDocument, GetCollection } from "../firebase";
-import ObjectToMap from "../../utils/ObjectToMap";
+import { StringToArray, ObjectToMap } from "../../utils/";
 import { Timestamp } from "firebase/firestore";
-import { StringToArray } from "../../utils/";
 
 const constants = {
   collection: "Forums",

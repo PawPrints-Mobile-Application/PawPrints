@@ -7,6 +7,12 @@ import {
   Props as PropsInformation,
 } from "./Information";
 import {
+  CreateModel as CreateModelLAT,
+  DeleteModel as DeleteModelLAT,
+  Clear as ClearLAT,
+  SyncAll as SyncLAT,
+} from "./LogAddressingTable";
+import {
   CreateModel as CreateModelLogs,
   DeleteModel as DeleteModelLogs,
   Clear as ClearLogs,
@@ -27,15 +33,21 @@ import {
 
 const DeleteModels = () =>
   DeleteModelInformation()
+    .then(DeleteModelLAT)
     .then(DeleteModelLogs)
     .then(DeleteModelCalendar)
     .then(DeleteModelDogs);
 
 const ClearModels = () =>
-  ClearInformation().then(ClearLogs).then(ClearCalendar).then(ClearDogs);
+  ClearInformation()
+    .then(ClearLAT)
+    .then(ClearLogs)
+    .then(ClearCalendar)
+    .then(ClearDogs);
 
 const SyncModels = (uid: string) =>
-  SyncLogs(uid)
+  SyncLAT(uid)
+    .then(() => SyncLogs(uid))
     .then(() => SyncCalendar(uid))
     .then(() => SyncDogs(uid))
     .then(() => SyncInformation(uid))
@@ -48,6 +60,7 @@ export { DeleteModels, ClearModels, SyncModels, InitializeModels };
 
 export default async function CreateModels() {
   return CreateModelInformation()
+    .then(CreateModelLAT)
     .then(CreateModelLogs)
     .then(CreateModelCalendar)
     .then(CreateModelDogs);
