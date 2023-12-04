@@ -173,7 +173,8 @@ const RemoveLogs = async (
 
 const GetLogs = async (
   DStart: Date,
-  DEnd: Date
+  DEnd: Date,
+  count: number=0
 ): Promise<Map<string, PropsLog[]>> => {
   try {
     const startDate = new Date(
@@ -202,8 +203,11 @@ const GetLogs = async (
       }
     }
     return temp;
-  } catch (error) {
-    return await GetLogs(DStart, DEnd);
+  } catch (error) { 
+    count++;
+    if (count > 10) return new Map<string, PropsLog[]>();
+    console.log(true)
+    return await GetLogs(DStart, DEnd, count);
   }
 };
 
