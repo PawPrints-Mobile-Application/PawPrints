@@ -40,10 +40,11 @@
         <span class="calendar-number">{{ date }}</span>
         <div v-show="icons.get(Number(date))?.length">
           <ion-icon
-            v-for="icon in icons.get(Number(date))"
+            v-for="icon in getIcons(Number(date)).icons"
             id="calendar-mark"
             :icon="recordTypeIcons(icon.recordType)"
           />
+          <TextSmall v-show="getIcons(Number(date)).extra">{{ getIcons(Number(date)).extra }}</TextSmall>
         </div>
       </div>
     </section>
@@ -52,6 +53,7 @@
 
 <script setup lang="ts">
 import { InputDynamic } from "../components/Forms";
+import { TextSmall } from "../components/Texts";
 import { ButtonBack, ButtonNext } from "../components/Buttons";
 import { computed, ref, onMounted, PropType, Ref } from "vue";
 import { Calendar, CustomEvent } from "../utils";
@@ -117,6 +119,22 @@ const icons = ref(props.logs!);
 const ResetCells = () => {
   icons.value = props.logs!;
   cells.value = CalendarSpaceCells().concat(CalendarCells());
+};
+
+const getIcons = (date: number) => {
+  let extra = 0;
+  const iconsList = icons.value.get(date)?.filter((_, i) => {
+    console.log(i);
+    if (i < 4) return true;
+    else {
+      extra++;
+      return false;
+    }
+  });
+  return {
+    icons: iconsList,
+    extra: extra,
+  };
 };
 
 const recordTypeIcons = (recordType: string) =>
@@ -227,5 +245,14 @@ header {
 .selected {
   outline: 3px solid var(--theme-tertiary-background);
   font-weight: 700;
+}
+
+.text-small {
+  color: var(--theme-tertiary-text);
+  background-color: var(--theme-tertiary-background);
+  border-radius: 6px;
+  font-weight: 700;
+  width: 100%;
+  text-align: center;
 }
 </style>
