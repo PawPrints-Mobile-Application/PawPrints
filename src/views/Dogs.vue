@@ -3,6 +3,9 @@
     <template #header>
       <TextHeading class="title"> DOGGOS </TextHeading>
     </template>
+    <IonRefresher slot="fixed" @ionRefresh="Refresher($event)"
+      ><IonRefresherContent
+    /></IonRefresher>
     <section class="search-box">
       <IonIcon :icon="icon" />
       <InputDynamic v-model="search" @input="Reload" />
@@ -33,6 +36,8 @@ import {
   onIonViewDidEnter,
   onIonViewWillEnter,
   useIonRouter,
+  IonRefresher,
+  IonRefresherContent,
 } from "@ionic/vue";
 import { ref, Ref } from "vue";
 import { ModalAddDog } from "../components/Modals";
@@ -45,6 +50,11 @@ const Navigate = (pid: string) =>
 const dogs: Ref<Props[] | undefined> = ref();
 const filteredDogs = ref(new Array<Props>());
 const search = ref("");
+
+const Refresher = (event: any) => {
+  Reload();
+  event!.target!.complete();
+};
 
 const Reload = () => {
   const temp = new Array<Props>();

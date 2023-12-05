@@ -10,6 +10,8 @@ import CardSettings from "./CardSettings.vue";
 import CardLog from "./CardLog.vue";
 import CardPost from "./CardPost.vue";
 import CardComment from "./CardComment.vue";
+import CardEachLog from "./CardEachLog.vue";
+import CardTrivia from "./CardTrivia.vue";
 
 export {
   ProfileCard,
@@ -22,5 +24,7 @@ export {
   CardSettings,
   CardLog,
   CardPost,
-  CardComment
+  CardComment,
+  CardEachLog,
+  CardTrivia
 };

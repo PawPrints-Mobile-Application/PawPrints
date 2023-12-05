@@ -4,6 +4,9 @@
     @on-scroll-top="() => (state.hideCard = false)"
     @off-scroll-top="() => (state.hideCard = true)"
   >
+    <IonRefresher slot="fixed" @ionRefresh="Refresher($event)"
+      ><IonRefresherContent
+    /></IonRefresher>
     <template #header>
       <header>
         <ButtonBack
@@ -84,6 +87,8 @@ import {
   onIonViewDidEnter,
   onIonViewWillEnter,
   useIonRouter,
+  IonRefresher,
+  IonRefresherContent,
 } from "@ionic/vue";
 import {
   documents as listView,
@@ -143,6 +148,9 @@ const ReloadPage = async () =>
     data.lids = value.logs;
   });
 
+const Refresher = (event: any) =>
+  ReloadPage().then(ReloadLogs).then(event!.target!.complete());
+
 const data = reactive({
   month: new Date().getMonth(),
   year: new Date().getFullYear(),
@@ -190,11 +198,11 @@ onIonViewDidEnter(() => {
     modalOpen.logDate = !value ? new Date() : value;
     modalOpen.logAdd = true;
   });
-  CustomEvent.EventListener("reload-logs", ReloadLogs);
   CustomEvent.EventListener("modal-log-edit", (value: PropsLog) => {
     modalOpen.log = !value ? defaultLog : value;
     modalOpen.logEdit = true;
   });
+  CustomEvent.EventListener("reload-logs", ReloadLogs);
 });
 </script>
 
