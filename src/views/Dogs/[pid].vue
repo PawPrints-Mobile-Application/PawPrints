@@ -39,18 +39,25 @@
         :logs="calendar.logs"
       />
     </section>
-    <ModalAddLog
-      :isOpen="modalOpen.log"
-      :pid="pid"
-      :date="modalOpen.logDate"
-      @submit="ReloadPage"
-      @discard="CloseModalLog"
-    />
     <ModalEditDog
       :isOpen="modalOpen.dog"
       @submit="ReloadPage"
       @discard="CloseModalLog"
       :dog="dog"
+    />
+    <ModalAddLog
+      :isOpen="modalOpen.logAdd"
+      :pid="pid"
+      :date="modalOpen.logDate"
+      @submit="ReloadLogs"
+      @discard="CloseModalLog"
+    />
+    <ModalEditLog
+      :isOpen="modalOpen.logEdit"
+      :pid="pid"
+      :date="modalOpen.logDate"
+      @submit="ReloadLogs"
+      @discard="CloseModalLog"
     />
   </LayoutPage>
 </template>
@@ -63,7 +70,11 @@ import {
 import { Avatar } from "../../components/Avatars";
 import { ButtonBack } from "../../components/Buttons";
 import { TextHeading, TextSmall } from "../../components/Texts";
-import { ModalAddLog, ModalEditDog } from "../../components/Modals";
+import {
+  ModalAddLog,
+  ModalEditDog,
+  ModalEditLog,
+} from "../../components/Modals";
 import { Get as GetDog, Props } from "../../server/models/Dogs";
 import { InputSegment } from "../../components/Forms";
 import { CustomEvent, SegmentOption } from "../../utils";
@@ -103,18 +114,20 @@ const EditProfile = () => {
 
 const modalOpen = reactive({
   dog: false,
-  log: false,
+  logAdd: false,
+  logEdit: false,
   logDate: new Date(),
+  logPID: '',
 });
 const CloseModalLog = () => {
   modalOpen.dog = false;
-  modalOpen.log = false;
+  modalOpen.logAdd = false;
+  modalOpen.logEdit = false;
 };
-const ReloadPage = async () => {
-  return GetDog(pid.value).then((value: Props) => {
+const ReloadPage = async () =>
+  GetDog(pid.value).then((value: Props) => {
     dog.value = value;
   });
-};
 
 const calendar = reactive({
   month: new Date().getMonth(),
@@ -159,9 +172,13 @@ onIonViewWillEnter(async () => {
 onIonViewDidEnter(() => {
   CustomEvent.EventListener("modal-log-add", (value: Date) => {
     modalOpen.logDate = !value ? new Date() : value;
-    modalOpen.log = true;
+    modalOpen.logAdd = true;
   });
   CustomEvent.EventListener("reload-logs", ReloadLogs);
+  CustomEvent.EventListener("modal-log-edit", (value: string) => {
+    modalOpen.logPID = !value ? '' : value;
+    modalOpen.logEdit = true;
+  });
 });
 </script>
 

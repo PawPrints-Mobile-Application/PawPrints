@@ -38,12 +38,13 @@
 import { TextSubheading, TextParagraph, TextSmall } from "../Texts";
 import { Calendar } from "../../utils";
 import { Props } from "../../server/models/Logs";
+import { PropType } from "vue";
 
 const isRecord = (log: Props) => log.type === "record";
 
 defineProps({
   logs: {
-    type: Object,
+    type: Object as PropType<Props[]>,
     required: true,
   },
   date: {

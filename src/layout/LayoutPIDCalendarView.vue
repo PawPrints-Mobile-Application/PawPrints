@@ -44,7 +44,9 @@
             id="calendar-mark"
             :icon="recordTypeIcons(icon.recordType)"
           />
-          <TextSmall v-show="getIcons(Number(date)).extra">{{ getIcons(Number(date)).extra }}</TextSmall>
+          <TextSmall v-show="getIcons(Number(date)).extra">{{
+            getIcons(Number(date)).extra
+          }}</TextSmall>
         </div>
       </div>
     </section>
@@ -124,7 +126,6 @@ const ResetCells = () => {
 const getIcons = (date: number) => {
   let extra = 0;
   const iconsList = icons.value.get(date)?.filter((_, i) => {
-    console.log(i);
     if (i < 4) return true;
     else {
       extra++;
@@ -150,6 +151,7 @@ const MoveMonth = (increment: 1 | -1) => {
       : curYear;
   month.value = Calendar.months[tempMonth];
   year.value = tempYear.toString();
+  ReloadLogs();
 };
 
 const ReloadLogs = () => CustomEvent.EventDispatcher("reload-logs");

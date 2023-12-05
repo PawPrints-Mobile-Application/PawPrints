@@ -28,21 +28,26 @@
         :id="Number(log)"
         :logs="logs?.get(log)!"
         :date="new Date(modelYear!, modelMonth!, Number(log))"
+        @click="OpenLog(log)"
       />
     </div>
   </section>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import { PropType, computed, onMounted } from "vue";
 import { InputDynamic } from "../components/Forms";
 import { Calendar, CustomEvent } from "../utils";
 import { CardLog } from "../components/Cards";
+import { Props } from "../server/models/Logs";
 
 const props = defineProps({
   modelMonth: Number,
   modelYear: Number,
-  logs: Map,
+  logs: Map as PropType<Map<number, Props[]>>,
 });
+
+const OpenLog = (lid: string) =>
+  CustomEvent.EventDispatcher("modal-log-edit", lid);
 
 const month = computed({
   get() {
