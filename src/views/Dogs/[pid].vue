@@ -6,7 +6,10 @@
   >
     <template #header>
       <header>
-        <ButtonBack type="icon" @click="() => ionRouter.back()" />
+        <ButtonBack
+          type="icon"
+          @click="() => ionRouter.navigate('/dogs', 'root', 'replace')"
+        />
         <TextHeading>{{ dog?.name }}</TextHeading>
         <section class="edit-profile" @click="EditProfile">
           <Avatar type="dog" :src="dog?.breed" :color="dog?.color" />
@@ -43,19 +46,18 @@
       :isOpen="modalOpen.dog"
       @submit="ReloadPage"
       @discard="CloseModalLog"
+      @delete="CloseModalLog"
       :dog="dog"
     />
     <ModalAddLog
       :isOpen="modalOpen.logAdd"
       :dog="dog"
       :date="modalOpen.logDate"
-      @submit="ReloadLogs"
       @discard="CloseModalLog"
     />
     <ModalEditLog
       :isOpen="modalOpen.logEdit"
       :log="modalOpen.log"
-      @submit="ReloadLogs"
       @discard="CloseModalLog"
     />
   </LayoutPage>
@@ -106,10 +108,7 @@ const state = reactive({
   viewSegment: viewSegments[0],
 });
 
-const EditProfile = () => {
-  modalOpen.dog = true;
-  console.log(true);
-};
+const EditProfile = () => (modalOpen.dog = true);
 
 const defaultLog = {
   lid: "",
@@ -181,7 +180,6 @@ const ReloadLogs = async () => {
 onIonViewWillEnter(async () => {
   if (typeof params.value.pid === "string") pid.value = params.value.pid;
   else pid.value = params.value.pid.join("");
-  console.log(pid.value);
   await ReloadPage()
     .then(ReloadLogs)
     .then(() => CustomEvent.EventDispatcher("reload-display"));

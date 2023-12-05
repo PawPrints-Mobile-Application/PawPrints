@@ -205,6 +205,7 @@ const IdentifyTitle = () => {
 
 const Submit = () => {
   const lid = SeedGenerator().toString();
+  props.dog!.logs.push(lid);
   AddLogs(
     {
       lid: lid,
@@ -224,9 +225,9 @@ const Submit = () => {
   )
     .then(() => EditDog(props.dog!, GetUID()))
     .then(() => {
+      CustomEvent.EventDispatcher("reload-logs");
       emit("submit", lid);
       Discard();
-      CustomEvent.EventDispatcher("reload-logs");
     });
 };
 

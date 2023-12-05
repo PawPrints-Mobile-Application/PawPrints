@@ -90,7 +90,7 @@ import {
   InputTextareaWrapped,
   InputLabel,
 } from "../Forms";
-import { LocalTime } from "../../utils";
+import { CustomEvent, LocalTime } from "../../utils";
 import { Enums, Props } from "../../server/models/Logs";
 import { AddLogs } from "../../server/models/LogAddressingTable";
 import { GetUID, ObjectToMap } from "../../utils";
@@ -155,6 +155,7 @@ const Discard = () => {
 
 const ClearForm = () => {
   console.log("Clearing...");
+  disableEdit.value = true;
   form.title = defaultValues.title;
   form.recordValue = defaultValues.recordValue;
   form.recordUnits = defaultValues.recordUnits;
@@ -181,6 +182,7 @@ const Submit = () => {
     },
     GetUID()
   ).then(() => {
+    CustomEvent.EventDispatcher("reload-logs");
     emit("submit", props.log!.pid);
     Discard();
   });
