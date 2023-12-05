@@ -5,7 +5,7 @@
       <TextSubheading>{{ Calendar.days[date.getDay()] }}</TextSubheading>
     </header>
     <div class="logs">
-      <div class="log" v-for="log in logs" @click="OpenLog(log)">
+      <div class="log" v-for="log in logs">
         <div class="time">
           <TextSmall>{{ log.TStart.toString() }}</TextSmall>
           <TextSmall
@@ -21,7 +21,7 @@
             >{{ log.TEnd.toString() }}</TextSmall
           >
         </div>
-        <div class="data">
+        <div class="data" @click="OpenLog(log)">
           <TextSubheading class="title">{{ log.title }}</TextSubheading>
           <TextParagraph class="record-value"
             >{{ log.recordType
