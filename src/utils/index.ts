@@ -16,8 +16,9 @@ import GetScreenSize from "./GetScreenSize";
 import SampleColors from "./SampleColors";
 
 import CustomEvent from "./CustomEvent";
-import GetUID from "./GetUID";
 import breeds from "./Breeds";
+import GetUID from "./GetUID";
+import GetUsername from "./GetUsername";
 
 import DropdownOption from "./DropdownOption";
 import ArrayToDropdownOptions from "./ArrayToDropdownOptions";
@@ -42,12 +43,13 @@ export {
   GetScreenSize,
   SampleColors,
   CustomEvent,
-  GetUID,
   breeds,
+  GetUID,
+  GetUsername,
   DropdownOption,
   ArrayToDropdownOptions,
   SegmentOption,
   SetRootStyle,
   Calendar,
-  TwoCharactersFormat
+  TwoCharactersFormat,
 };

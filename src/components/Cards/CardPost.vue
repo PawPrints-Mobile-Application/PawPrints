@@ -4,10 +4,10 @@
       <Avatar type="user" />
       <aside>
         <TextSubheading>
-          {{ post!.uid }}
+          {{ post!.username }}
         </TextSubheading>
         <TextSmall>
-          {{ post!.date.toLocaleString() }}
+          {{ post!.DTPost.toLocaleString() }}
         </TextSmall>
       </aside>
     </header>
@@ -42,11 +42,13 @@ import {
   heartCircle as likeIcon,
 } from "ionicons/icons";
 import { useIonRouter } from "@ionic/vue";
+import { Props } from "../../server/models/Forums";
+import { PropType } from "vue";
 const ionRouter = useIonRouter();
 const Navigate = () => ionRouter.navigate(`/forums/${props.post!.fid}`);
 
 const props = defineProps({
-  post: Object,
+  post: Object as PropType<Props>,
 });
 </script>
 <style scoped>

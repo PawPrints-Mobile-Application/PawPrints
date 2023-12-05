@@ -6,8 +6,7 @@ import {
   ReadRowData,
 } from "../sqlite";
 import { SetDocument, GetDocument, GetCollection } from "../firebase";
-import ObjectToMap from "../../utils/ObjectToMap";
-import { SeedGenerator, StringToArray } from "../../utils";
+import { SeedGenerator, StringToArray, ObjectToMap } from "../../utils";
 import { DocumentData } from "firebase/firestore";
 import { Props as PropsLog, Add as SaveLog, Get as FetchLog } from "./Logs";
 

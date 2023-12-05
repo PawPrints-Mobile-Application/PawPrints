@@ -16,6 +16,7 @@ const constants = {
   data: `
             cid TEXT PRIMARY KEY NOT NULL,
             uid TEXT,
+            username TEXT,
             pid TEXT,
             content TEXT,
             DTPost INTEGER
@@ -26,6 +27,7 @@ const constants = {
 type Props = {
   cid: string;
   uid: string;
+  username: string;
   pid: string;
   content: string;
   DTPost: Date;
@@ -42,6 +44,7 @@ type LocalProps = {
 type CloudProps = {
   cid: string;
   uid: string;
+  username: string;
   pid: string;
   content: string;
   DTPost: Timestamp;
@@ -57,6 +60,7 @@ const ToProps = (props: any, source: "LocalProps" | "CloudProps"): Props => {
   return {
     cid: props.cid,
     uid: props.uid,
+    username: props.username,
     pid: props.uid,
     content: props.content,
     DTPost: DTPost,
@@ -95,6 +99,7 @@ const ToCloudProps = (
   return {
     cid: props.cid,
     uid: props.uid,
+    username: props.username,
     pid: props.uid,
     content: props.content,
     DTPost: DTPost,
@@ -129,10 +134,14 @@ const Add = async (props: Props, uid?: string) => {
       DocumentPath(props.pid, props.cid),
       ToCloudProps(props, "Props")
     );
-  return InsertRowData(constants.document, {
-    keys: Array.from(data.keys()),
-    values: Array.from(data.values()),
-  }).then(() => props);
+  return InsertRowData(
+    constants.document,
+    {
+      keys: Array.from(data.keys()),
+      values: Array.from(data.values()),
+    },
+    true
+  ).then(() => props);
 };
 
 const Remove = (cid: string) =>

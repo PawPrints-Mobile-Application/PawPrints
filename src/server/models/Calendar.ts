@@ -7,9 +7,8 @@ import {
   DeleteRowData,
 } from "../sqlite";
 import { SetDocument, GetDocument, GetCollection } from "../firebase";
-import ObjectToMap from "../../utils/ObjectToMap";
 import { DocumentData } from "firebase/firestore";
-import { StringToArray } from "../../utils";
+import { StringToArray, ObjectToMap } from "../../utils";
 
 const constants = {
   collection: "Users",
@@ -77,10 +76,14 @@ const Add = async (props: Props, uid?: string) => {
   const localProps = ToLocalProps(props);
   const data = ObjectToMap(localProps);
   if (!!uid) await SetDocument(documentPath(uid, props.did), props);
-  return InsertRowData(constants.document, {
-    keys: Array.from(data.keys()),
-    values: Array.from(data.values()),
-  }).then(() => props);
+  return InsertRowData(
+    constants.document,
+    {
+      keys: Array.from(data.keys()),
+      values: Array.from(data.values()),
+    },
+    true
+  ).then(() => props);
 };
 
 const Sync = async (uid: string, did: string) =>

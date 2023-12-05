@@ -22,7 +22,13 @@
       />
     </section>
     <section class="post-wrapper">
-      <CardPost v-for="post in posts" :post="post" />
+      <IonRefresher slot="fixed" @ionRefresh="Refresher($event)"
+        ><IonRefresherContent
+      /></IonRefresher>
+      <CardPost
+        v-for="post in isPublic() ? posts : filteredPosts"
+        :post="post[1]"
+      />
     </section>
     <ModalAddPost :isOpen="modalOpen" @discard="() => (modalOpen = false)" />
   </LayoutPage>
@@ -32,37 +38,26 @@
 import { LayoutPage } from "../layout";
 import { TextHeading } from "../components/Texts";
 import { InputSegment } from "../components/Forms";
-import { SegmentOption } from "../utils";
-import { reactive, ref } from "vue";
+import { CustomEvent, GetUID, SegmentOption } from "../utils";
+import { reactive, ref, Ref } from "vue";
 import { ButtonText } from "../components/Buttons";
 import { ModalAddPost } from "../components/Modals";
 import { Avatar } from "../components/Avatars";
 import { CardPost } from "../components/Cards";
+import { Props, SyncAll } from "../server/models/Forums";
+import {
+  onIonViewDidEnter,
+  onIonViewWillEnter,
+  IonRefresher,
+  IonRefresherContent,
+} from "@ionic/vue";
 
 const modalOpen = ref(false);
 
-const posts = [
-  {
-    fid: 1111111,
-    uid: "123",
-    content: "hello",
-    date: new Date(),
-    tags: ["new", "post", "new", "post"],
-    comments: [1, 2],
-    likes: [1, 8, 9],
-  },
+const posts: Ref<Map<string, Props>> = ref(new Map());
+const filteredPosts: Ref<Map<string, Props>> = ref(new Map());
 
-  {
-    fid: 11525,
-    uid: "1230",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis justo sollicitudin, varius dui at, tincidunt erat. Quisque et erat sit amet mauris scelerisque scelerisque. Ut at mi non dolor imperdiet porttitor.",
-    date: new Date(2023, 11, 27),
-    tags: ["newsss", "postssss"],
-    comments: [1, 12],
-    likes: [1, 8, 1],
-  },
-];
+const isPublic = () => state.viewSegment === viewSegments[0];
 
 const viewSegments = [
   new SegmentOption("Public Feed"),
@@ -72,6 +67,28 @@ const viewSegments = [
 const state = reactive({
   hideCard: false,
   viewSegment: viewSegments[0],
+});
+
+const Refresher = (event: any) =>
+  ReloadForums().then(event!.target!.complete());
+
+const ReloadForums = () => {
+  posts.value = new Map();
+  return SyncAll((value, fid) => {
+    posts.value.set(fid, value);
+    if (value.uid === GetUID()) filteredPosts.value.set(fid, value);
+  });
+};
+
+onIonViewWillEnter(async () => {});
+
+onIonViewDidEnter(async () => {
+  CustomEvent.EventListener("reload-forums", ReloadForums);
+  if (sessionStorage.getItem("forumsInitialized") !== "true") {
+    ReloadForums().then(() =>
+      sessionStorage.setItem("forumsInitialized", "true")
+    );
+  }
 });
 </script>
 

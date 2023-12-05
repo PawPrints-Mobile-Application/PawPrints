@@ -16,7 +16,7 @@ const constants = {
             uid TEXT PRIMARY KEY NOT NULL,
             posts TEXT,
             commentedPosts TEXT,
-            likedPosts TEXT,
+            likedPosts TEXT
             `,
   arraySplitter: ", ",
 };
@@ -72,14 +72,18 @@ const Get = (uid: string) =>
     ToProps(response.values![0])
   );
 
-const Add = async (props: Props, uid?: string) => {
+const Add = async (props: Props) => {
   const localProps = ToLocalProps(props);
   const data = ObjectToMap(localProps);
-  if (!!uid) await SetDocument(DocumentPath(props.uid), props);
-  return InsertRowData(constants.document, {
-    keys: Array.from(data.keys()),
-    values: Array.from(data.values()),
-  }).then(() => props);
+  await SetDocument(DocumentPath(props.uid), props);
+  return InsertRowData(
+    constants.document,
+    {
+      keys: Array.from(data.keys()),
+      values: Array.from(data.values()),
+    },
+    true
+  ).then(() => props);
 };
 
 const Remove = (uid: string) =>

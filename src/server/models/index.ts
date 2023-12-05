@@ -30,20 +30,42 @@ import {
   Clear as ClearDogs,
   SyncAll as SyncDogs,
 } from "./Dogs";
+// Forums
+import {
+  CreateModel as CreateModelForums,
+  DeleteModel as DeleteModelForums,
+  Clear as ClearForums,
+} from "./Forums";
+import {
+  CreateModel as CreateModelComments,
+  DeleteModel as DeleteModelComments,
+  Clear as ClearComments,
+} from "./Comments";
+import {
+  CreateModel as CreateModelUsers,
+  DeleteModel as DeleteModelUsers,
+  Clear as ClearUsers,
+} from "./Users";
 
 const DeleteModels = () =>
   DeleteModelInformation()
     .then(DeleteModelLAT)
     .then(DeleteModelLogs)
     .then(DeleteModelCalendar)
-    .then(DeleteModelDogs);
+    .then(DeleteModelDogs)
+    .then(DeleteModelForums)
+    .then(DeleteModelComments)
+    .then(DeleteModelUsers);
 
 const ClearModels = () =>
   ClearInformation()
     .then(ClearLAT)
     .then(ClearLogs)
     .then(ClearCalendar)
-    .then(ClearDogs);
+    .then(ClearDogs)
+    .then(ClearForums)
+    .then(ClearComments)
+    .then(ClearUsers);
 
 const SyncModels = (uid: string) =>
   SyncLAT(uid)
@@ -63,5 +85,8 @@ export default async function CreateModels() {
     .then(CreateModelLAT)
     .then(CreateModelLogs)
     .then(CreateModelCalendar)
-    .then(CreateModelDogs);
+    .then(CreateModelDogs)
+    .then(CreateModelForums)
+    .then(CreateModelComments)
+    .then(CreateModelUsers);
 }

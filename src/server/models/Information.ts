@@ -6,8 +6,7 @@ import {
   ReadFirstRow,
 } from "../sqlite";
 import { SetDocument, GetDocument } from "../firebase";
-import ObjectToMap from "../../utils/ObjectToMap";
-import EnumConstructor from "../../utils/EnumConstructor";
+import { ObjectToMap, EnumConstructor } from "../../utils";
 
 class Subscription extends EnumConstructor {
   guest: "guest" = "guest";

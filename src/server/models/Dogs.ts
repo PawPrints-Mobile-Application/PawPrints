@@ -12,8 +12,7 @@ import {
   GetCollection,
   DeleteDocument,
 } from "../firebase";
-import ObjectToMap from "../../utils/ObjectToMap";
-import { DropdownOption, EnumConstructor, StringToArray } from "../../utils";
+import { DropdownOption, EnumConstructor, StringToArray, ObjectToMap } from "../../utils";
 import { DocumentData } from "firebase/firestore";
 
 class InOutdoor extends EnumConstructor {

@@ -41,6 +41,8 @@ import { TextSubheading, TextParagraph } from "../Texts";
 import { ButtonText } from "../../components/Buttons";
 import { IonIcon, IonChip } from "@ionic/vue";
 import { closeCircle as closeIcon } from "ionicons/icons";
+import { Add } from "../../server/models/Forums";
+import { CustomEvent, GetUID, SeedGenerator, GetUsername } from "../../utils";
 
 const user = {
   username: localStorage.getItem("authUsername"),
@@ -72,7 +74,23 @@ const RemoveTag = (key: number) => {
   form.tags.splice(key, 1);
 };
 
-const Submit = () => {};
+const Submit = () => {
+  const fid = SeedGenerator().toString();
+  Add({
+    fid: fid,
+    uid: GetUID()!,
+    username: GetUsername()!,
+    content: form.description,
+    DTPost: new Date(),
+    tags: form.tags,
+    comments: [],
+    likes: [],
+  }).then(() => {
+    CustomEvent.EventDispatcher("reload-forums");
+    emit("submit", fid);
+    Discard();
+  });
+};
 
 const Discard = () => {
   emit("discard");

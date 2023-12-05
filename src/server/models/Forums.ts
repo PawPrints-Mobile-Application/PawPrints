@@ -7,7 +7,7 @@ import {
   DeleteRowData,
 } from "../sqlite";
 import { SetDocument, GetDocument, GetCollection } from "../firebase";
-import { StringToArray, ObjectToMap } from "../../utils/";
+import { StringToArray, ObjectToMap, SeedGenerator } from "../../utils/";
 import { Timestamp } from "firebase/firestore";
 
 const constants = {
@@ -16,6 +16,7 @@ const constants = {
   data: `
           fid TEXT PRIMARY KEY NOT NULL,
           uid TEXT,
+          username TEXT,
           content TEXT,
           DTPost INTEGER,
           tags TEXT,
@@ -28,6 +29,7 @@ const constants = {
 type Props = {
   fid: string;
   uid: string;
+  username: string;
   content: string;
   DTPost: Date;
   tags: Array<string>;
@@ -38,6 +40,7 @@ type Props = {
 type LocalProps = {
   fid: string;
   uid: string;
+  username: string;
   content: string;
   DTPost: number;
   tags: string;
@@ -48,6 +51,7 @@ type LocalProps = {
 type CloudProps = {
   fid: string;
   uid: string;
+  username: string;
   content: string;
   DTPost: Timestamp;
   tags: Array<string>;
@@ -58,16 +62,17 @@ type CloudProps = {
 const ToProps = (props: any, source: "LocalProps" | "CloudProps"): Props => {
   let { DTPost, tags, comments, likes } = props;
   if (source === "LocalProps") {
+    tags = StringToArray(props.tags, constants.arraySplitter);
+    comments = StringToArray(props.comments, constants.arraySplitter);
+    likes = StringToArray(props.likes, constants.arraySplitter);
     DTPost = new Date(props.DTPost);
-    tags = StringToArray(props.tags);
-    comments = StringToArray(props.comments);
-    likes = StringToArray(props.likes);
   } else {
     DTPost = props.DTPost.toDate();
   }
   return {
     fid: props.fid,
     uid: props.uid,
+    username: props.username,
     content: props.content,
     DTPost: DTPost,
     tags: tags,
@@ -82,11 +87,14 @@ const ToLocalProps = (
 ): LocalProps => {
   let { DTPost } = props;
   if (source === "CloudProps") {
-    DTPost = props.DTPost.toDate();
+    DTPost = SeedGenerator(props.DTPost.toDate());
+  } else {
+    DTPost = SeedGenerator(props.DTPost);
   }
   return {
     fid: props.fid,
     uid: props.uid,
+    username: props.username,
     content: props.content,
     DTPost: DTPost,
     tags: props.tags.join(constants.arraySplitter),
@@ -99,18 +107,24 @@ const ToCloudProps = (
   props: any,
   source: "Props" | "LocalProps"
 ): CloudProps => {
-  let { DTPost } = props;
+  let { DTPost, tags, comments, likes } = props;
   if (source === "LocalProps") {
-    DTPost = new Date(props.DTPost);
+    tags = StringToArray(props.tags, constants.arraySplitter);
+    comments = StringToArray(props.comments, constants.arraySplitter);
+    likes = StringToArray(props.likes, constants.arraySplitter);
+    DTPost = Timestamp.fromDate(new Date(props.DTPost));
+  } else {
+    DTPost = Timestamp.fromDate(props.DTPost);
   }
   return {
     fid: props.fid,
     uid: props.uid,
+    username: props.username,
     content: props.content,
     DTPost: DTPost,
-    tags: props.tags.join(constants.arraySplitter),
-    comments: props.comments.join(constants.arraySplitter),
-    likes: props.likes.join(constants.arraySplitter),
+    tags: tags,
+    comments: comments,
+    likes: likes,
   };
 };
 
@@ -133,15 +147,19 @@ const Get = (fid: string) =>
     ToProps(response.values![0], "LocalProps")
   );
 
-const Add = async (props: Props, uid?: string) => {
+const Add = async (props: Props) => {
   const localProps = ToLocalProps(props, "Props");
   const data = ObjectToMap(localProps);
-  if (!!uid)
-    await SetDocument(DocumentPath(props.fid), ToCloudProps(props, "Props"));
-  return InsertRowData(constants.document, {
-    keys: Array.from(data.keys()),
-    values: Array.from(data.values()),
-  }).then(() => props);
+  console.log(data);
+  await SetDocument(DocumentPath(props.fid), ToCloudProps(props, "Props"));
+  return InsertRowData(
+    constants.document,
+    {
+      keys: Array.from(data.keys()),
+      values: Array.from(data.values()),
+    },
+    true
+  );
 };
 
 const Remove = (fid: string) =>
@@ -159,15 +177,16 @@ const Sync = async (fid: string) =>
         values: Array.from(data.values()),
       },
       true
-    ).then(() => Get(fid));
+    ).then(() => ToProps(cloudProps, "CloudProps"));
   });
 
-const SyncAll = async () =>
+const SyncAll = async (callback: (value: Props, fid: string) => void) =>
   GetCollection(CollectionPath()).then(async (value) => {
     let temp = new Array<Props>();
     for (let cloudProps of value!.values) {
       const response = await Sync(cloudProps.fid);
       temp.push(response);
+      callback(response, cloudProps.fid);
     }
     return temp;
   });

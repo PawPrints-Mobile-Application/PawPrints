@@ -12,8 +12,7 @@ import {
   GetCollection,
   DeleteDocument,
 } from "../firebase";
-import ObjectToMap from "../../utils/ObjectToMap";
-import { LocalTime, EnumConstructor } from "../../utils/";
+import { LocalTime, EnumConstructor, ObjectToMap } from "../../utils/";
 import {
   ellipsisHorizontal as othersIcon,
 } from "ionicons/icons";
