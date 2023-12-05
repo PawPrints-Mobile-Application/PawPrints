@@ -54,8 +54,7 @@
     />
     <ModalEditLog
       :isOpen="modalOpen.logEdit"
-      :pid="pid"
-      :date="modalOpen.logDate"
+      :log="modalOpen.log"
       @submit="ReloadLogs"
       @discard="CloseModalLog"
     />
@@ -75,9 +74,9 @@ import {
   ModalEditDog,
   ModalEditLog,
 } from "../../components/Modals";
-import { Get as GetDog, Props } from "../../server/models/Dogs";
+import { Get as GetDog, Props as PropsDog } from "../../server/models/Dogs";
 import { InputSegment } from "../../components/Forms";
-import { CustomEvent, SegmentOption } from "../../utils";
+import { CustomEvent, SegmentOption, LocalTime } from "../../utils";
 import { ref, reactive, Ref } from "vue";
 import {
   onIonViewDidEnter,
@@ -96,7 +95,7 @@ const ionRouter = useIonRouter();
 const route = useRoute();
 const params = ref(route.params);
 const pid = ref();
-const dog: Ref<Props | undefined> = ref();
+const dog: Ref<PropsDog | undefined> = ref();
 
 const viewSegments = [
   new SegmentOption("Calendar View", calendarView),
@@ -112,12 +111,27 @@ const EditProfile = () => {
   console.log(true);
 };
 
+const defaultLog = {
+  lid: "",
+  pid: "",
+  type: "",
+  title: "",
+  recordType: "",
+  recordValue: "",
+  recordUnits: "",
+  DStart: new Date(),
+  DEnd: new Date(),
+  TStart: new LocalTime(new Date().getSeconds()),
+  TEnd: new LocalTime(new Date().getSeconds()),
+  note: "",
+};
+
 const modalOpen = reactive({
   dog: false,
   logAdd: false,
   logEdit: false,
   logDate: new Date(),
-  logPID: '',
+  log: defaultLog,
 });
 const CloseModalLog = () => {
   modalOpen.dog = false;
@@ -125,7 +139,7 @@ const CloseModalLog = () => {
   modalOpen.logEdit = false;
 };
 const ReloadPage = async () =>
-  GetDog(pid.value).then((value: Props) => {
+  GetDog(pid.value).then((value: PropsDog) => {
     dog.value = value;
   });
 
@@ -175,8 +189,8 @@ onIonViewDidEnter(() => {
     modalOpen.logAdd = true;
   });
   CustomEvent.EventListener("reload-logs", ReloadLogs);
-  CustomEvent.EventListener("modal-log-edit", (value: string) => {
-    modalOpen.logPID = !value ? '' : value;
+  CustomEvent.EventListener("modal-log-edit", (value: PropsLog) => {
+    modalOpen.log = !value ? defaultLog : value;
     modalOpen.logEdit = true;
   });
 });

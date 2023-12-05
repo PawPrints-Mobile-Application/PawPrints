@@ -28,7 +28,6 @@
         :id="Number(log)"
         :logs="logs?.get(log)!"
         :date="new Date(modelYear!, modelMonth!, Number(log))"
-        @click="OpenLog(log)"
       />
     </div>
   </section>
@@ -45,9 +44,6 @@ const props = defineProps({
   modelYear: Number,
   logs: Map as PropType<Map<number, Props[]>>,
 });
-
-const OpenLog = (lid: string) =>
-  CustomEvent.EventDispatcher("modal-log-edit", lid);
 
 const month = computed({
   get() {

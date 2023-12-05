@@ -5,7 +5,7 @@
       <TextSubheading>{{ Calendar.days[date.getDay()] }}</TextSubheading>
     </header>
     <div class="logs">
-      <div class="log" v-for="log in logs">
+      <div class="log" v-for="log in logs" @click="OpenLog(log)">
         <div class="time">
           <TextSmall>{{ log.TStart.toString() }}</TextSmall>
           <TextSmall
@@ -36,7 +36,7 @@
 </template>
 <script setup lang="ts">
 import { TextSubheading, TextParagraph, TextSmall } from "../Texts";
-import { Calendar } from "../../utils";
+import { Calendar, CustomEvent } from "../../utils";
 import { Props } from "../../server/models/Logs";
 import { PropType } from "vue";
 
@@ -52,6 +52,9 @@ defineProps({
     required: true,
   },
 });
+
+const OpenLog = (log: Props) =>
+  CustomEvent.EventDispatcher("modal-log-edit", log);
 </script>
 <style scoped>
 .card-log {
