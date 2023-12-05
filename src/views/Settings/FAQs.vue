@@ -1,73 +1,49 @@
 <template>
-  <LayoutSettings label="FAQS">
-    <InputRadio
-      :label="form[0].name"
-      :options="form[0].options"
-      v-model="form[0].value.value"
-      :id="form[0].name"
-    />
-    <InputLabel value="Systems of Measurement"/>
-    <InputRadio
-      v-for="(item, key) in form"
-      v-show="key !== 0"
-      :label="item.name"
-      :options="item.options"
-      v-model="item.value.value"
-      :id="item.name"
-    />
-    <section class="buttons">
-      <ButtonText label="Reset" />
-      <ButtonText label="Save" />
+  <LayoutSettings label="FAQS" target="/settings">
+    <section class="faq1">
+      <TextSubheading>How do I delete a Dog Profile? </TextSubheading>
+      <TextParagraph
+        >In the Dogs Tab, select the dog you want to delete. Then click the Edit
+        Profile button located at the upper right corner.
+      </TextParagraph>
+      <section class="screenshots">
+        <img :src="dogTab" />
+        <img :src="dogTroy" />
+      </section>
+      <TextParagraph> Click the Delete Dog button </TextParagraph>
+        <img :src="deleteDog" />
     </section>
   </LayoutSettings>
 </template>
 <script setup lang="ts">
-import { ButtonText } from "../../components/Buttons";
+import { TextParagraph, TextSubheading } from "../../components/Texts";
 import { LayoutSettings } from "../../layout";
-import { InputRadio, InputLabel } from "../../components/Forms";
-import { watch, ref } from "vue";
-
-const form = [
-  {
-    name: "Theme",
-    value: ref("Light Mode"),
-    options: ["Light Mode", "Dark Mode"],
-  },
-  {
-    name: "Length",
-    value: ref("Meter"),
-    options: ["Meter", "Feet"],
-  },
-  {
-    name: "Weight",
-    value: ref("Kilogram"),
-    options: ["Kilogram", "Pound"],
-  },
-  {
-    name: "Temperature",
-    value: ref("Celsius"),
-    options: ["Celsius", "Fahrenheit"],
-  },
-];
-
-watch(
-  () => form[0].value.value,
-  () => console.log(form[0].value.value)
-);
+import { dogTab, dogTroy, deleteDog } from "../../assets/images";
 </script>
+
 
 <script lang="ts">
 export default {
   name: "FAQs",
 };
 </script>
-<style scoped>
 
-.buttons {
-    margin-top: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+<style scoped>
+.faq1 {
+  background-color: var(--theme-secondary-background);
+  color: var(--theme-secondary-text-background);
+  padding: 10px 10px;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  gap: 10px;
+  border-radius: 10px;
+}
+.screenshots {
+  display: flex;
+  height: 30%;
+  width: 50%;
+  align-items: center;
 }
 </style>
