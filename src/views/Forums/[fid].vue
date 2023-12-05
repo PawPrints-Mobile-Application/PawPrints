@@ -9,39 +9,7 @@
       </section>
     </template>
     <section class="wrapper">
-      <section class="card card-post">
-        <header>
-          <Avatar type="user" />
-          <aside>
-            <TextSubheading>
-              {{ placeholder.uid }}
-            </TextSubheading>
-            <TextSmall>
-              {{ placeholder.DTPost.toLocaleString() }}
-            </TextSmall>
-          </aside>
-        </header>
-        <div class="content">
-          {{ placeholder.content }}
-        </div>
-        <div class="tags">
-          <IonChip v-for="tag in placeholder.tags"> # {{ tag }} </IonChip>
-        </div>
-        <footer>
-          <div class="button-interaction">
-            <IonIcon :icon="commentIcon" />
-            <TextParagraph>
-              {{ placeholder.comments.length }}
-            </TextParagraph>
-          </div>
-          <div class="button-interaction">
-            <IonIcon :icon="likeIcon" />
-            <TextParagraph>
-              {{ placeholder.likes.length }}
-            </TextParagraph>
-          </div>
-        </footer>
-      </section>
+      <CardPost :post="post" v-if="!!post" />
 
       <section class="card-comment">
         <header>
@@ -85,22 +53,14 @@
 <script setup lang="ts">
 import { LayoutPage } from "../../layout";
 import { Avatar } from "../../components/Avatars";
-import {
-  TextHeading,
-  TextSubheading,
-  TextParagraph,
-  TextSmall,
-} from "../../components/Texts";
-import { IonIcon, IonChip, useIonRouter } from "@ionic/vue";
-import {
-  chatbubbleEllipses as commentIcon,
-  heartCircle as likeIcon,
-  arrowUndo as commentContentIcon,
-} from "ionicons/icons";
-import { onMounted, ref, Ref } from "vue";
+import { TextHeading, TextParagraph, TextSmall } from "../../components/Texts";
+import { IonIcon, useIonRouter, onIonViewWillEnter } from "@ionic/vue";
+import { arrowUndo as commentContentIcon } from "ionicons/icons";
+import { ref, Ref } from "vue";
 import { useRoute } from "vue-router";
-import { Props } from "../../server/models/Forums";
+import { Props, Get } from "../../server/models/Forums";
 import { ButtonText, ButtonBack } from "../../components/Buttons";
+import { CardPost } from "../../components/Cards";
 const ionRouter = useIonRouter();
 
 const placeholder = {
@@ -119,9 +79,11 @@ const route = useRoute();
 const params = ref(route.params);
 const fid = ref();
 const post: Ref<Props | undefined> = ref();
-onMounted(() => {
+onIonViewWillEnter(async () => {
   if (typeof params.value.fid === "string") fid.value = params.value.fid;
   else fid.value = params.value.fid.join("");
+  post.value = await Get(fid.value);
+  console.log(post.value);
 });
 </script>
 

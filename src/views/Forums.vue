@@ -44,7 +44,7 @@ import { LayoutPage } from "../layout";
 import { TextHeading } from "../components/Texts";
 import { InputSegment } from "../components/Forms";
 import { CustomEvent, GetUID, SegmentOption } from "../utils";
-import { reactive, ref, Ref } from "vue";
+import { reactive, ref, Ref, onMounted } from "vue";
 import { ButtonText } from "../components/Buttons";
 import { ModalAddPost } from "../components/Modals";
 import { Avatar } from "../components/Avatars";
@@ -89,13 +89,16 @@ const ReloadForums = () => {
 
 onIonViewWillEnter(async () => {});
 
-onIonViewDidEnter(async () => {
+onIonViewDidEnter(async () => {});
+
+onMounted(async () => {
   CustomEvent.EventListener("reload-forums", ReloadForums);
   if (sessionStorage.getItem("forumsInitialized") !== "true") {
     ReloadForums().then(() =>
       sessionStorage.setItem("forumsInitialized", "true")
     );
   }
+  await ReloadForums();
 });
 </script>
 
