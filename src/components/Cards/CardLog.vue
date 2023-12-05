@@ -96,8 +96,6 @@ header {
   gap: 10px;
   justify-content: space-between;
   align-items: center;
-
-  
 }
 
 .title {

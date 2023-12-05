@@ -5,75 +5,72 @@
         class="list-view-month"
         type="dropdown"
         :options="Calendar.monthsShort"
-        v-model="calendar.dropdownMonth"
+        v-model="month"
         :count="12"
         hideInput
         hideIcon
-        @change="RefreshLogs"
+        @change="ReloadLogs"
       />
       <InputDynamic
         class="list-view-year"
         type="dropdown"
         :options="Calendar.GetYears(151)"
-        v-model="calendar.dropdownYear"
+        v-model="year"
         :count="12"
         hideInput
         hideIcon
-        @change="RefreshLogs"
+        @change="ReloadLogs"
       />
     </header>
     <div class="content">
       <CardLog
-        v-for="{ date, logs } in monthlyLogs"
-        :logs="logs"
-        :date="date"
+        v-for="log in logs?.keys()"
+        :id="Number(log)"
+        :logs="logs?.get(log)!"
+        :date="new Date(modelYear!, modelMonth!, Number(log))"
       />
     </div>
   </section>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive, ref, Ref } from "vue";
+import { computed, onMounted } from "vue";
 import { InputDynamic } from "../components/Forms";
 import { Calendar, CustomEvent } from "../utils";
-import { Props } from "../server/models/Logs";
-import { GetLogs } from "../server/models/LogAddressingTable";
 import { CardLog } from "../components/Cards";
 
-type DailyLogs = {
-  date: Date;
-  logs: Props[];
-};
-const monthlyLogs: Ref<DailyLogs[]> = ref([]);
-const calendar = reactive({
-  dropdownMonth: Calendar.monthsShort[new Date().getMonth()],
-  dropdownYear: new Date().getFullYear().toString(),
+const props = defineProps({
+  modelMonth: Number,
+  modelYear: Number,
+  logs: Map,
 });
 
-const RefreshLogs = () => {
-  monthlyLogs.value = [];
-  const startDate = new Date(
-    Number(calendar.dropdownYear),
-    Calendar.monthsShort.indexOf(calendar.dropdownMonth),
-    1
-  );
-  const endDate = new Date(
-    Number(calendar.dropdownYear),
-    Calendar.monthsShort.indexOf(calendar.dropdownMonth) + 1,
-    0
-  );
-  GetLogs(startDate, endDate).then((value) => {
-    value.forEach((logs, latid) => {
-      monthlyLogs.value.push({
-        date: new Date(Number(latid)),
-        logs: logs,
-      });
-    });
-  });
-};
+const month = computed({
+  get() {
+    return Calendar.monthsShort[props.modelMonth!];
+  },
+  set(value) {
+    emit("update:modelMonth", Calendar.monthsShort.indexOf(value));
+  },
+});
+const year = computed({
+  get() {
+    return props.modelYear!.toString();
+  },
+  set(value) {
+    emit("update:modelYear", Number(value));
+  },
+});
+
+const ReloadLogs = () => CustomEvent.EventDispatcher("reload-logs");
+
+const emit = defineEmits(["update:modelMonth", "update:modelYear"]);
 
 onMounted(() => {
-  CustomEvent.EventListener("reload-logs", RefreshLogs);
-  RefreshLogs();
+  setTimeout(() => {
+    document
+      .getElementById(Math.max(new Date().getDate() - 2, 0).toString())
+      ?.scrollIntoView({ behavior: "smooth" });
+  }, 10);
 });
 </script>
 <style scoped>

@@ -25,14 +25,23 @@
       v-show="!!dog"
       v-if="state.viewSegment.label === viewSegments[0].label"
     >
-      <LayoutPIDCalendarView />
+      <LayoutPIDCalendarView
+        v-model:model-month="calendar.month"
+        v-model:model-year="calendar.year"
+        :logs="calendar.logs"
+      />
     </section>
     <section class="view view-list" v-show="!!dog" v-else>
-      <LayoutPIDListView />
+      <LayoutPIDListView
+        v-model:model-month="calendar.month"
+        v-model:model-year="calendar.year"
+        :logs="calendar.logs"
+      />
     </section>
     <ModalAddLog
       :isOpen="modalOpen.log"
       :pid="pid"
+      :date="modalOpen.logDate"
       @submit="ReloadPage"
       @discard="CloseModalLog"
     />
@@ -54,16 +63,22 @@ import { Avatar } from "../../components/Avatars";
 import { ButtonBack } from "../../components/Buttons";
 import { TextHeading, TextSmall } from "../../components/Texts";
 import { ModalAddLog, ModalEditDog } from "../../components/Modals";
-import { Get, Props } from "../../server/models/Dogs";
+import { Get as GetDog, Props } from "../../server/models/Dogs";
 import { InputSegment } from "../../components/Forms";
 import { CustomEvent, SegmentOption } from "../../utils";
 import { ref, reactive, Ref } from "vue";
-import { onIonViewDidEnter, useIonRouter } from "@ionic/vue";
+import {
+  onIonViewDidEnter,
+  onIonViewWillEnter,
+  useIonRouter,
+} from "@ionic/vue";
 import {
   documents as listView,
   calendar as calendarView,
 } from "ionicons/icons";
 import { useRoute } from "vue-router";
+import { Get as GetLog, Props as PropsLog } from "../../server/models/Logs";
+import { Get as GetLAT } from "../../server/models/LogAddressingTable";
 const ionRouter = useIonRouter();
 
 const route = useRoute();
@@ -88,22 +103,62 @@ const EditProfile = () => {
 const modalOpen = reactive({
   dog: false,
   log: false,
+  logDate: new Date(),
 });
 const CloseModalLog = () => {
   modalOpen.dog = false;
   modalOpen.log = false;
 };
-const ReloadPage = () => {
-  Get(pid.value).then((value: Props) => {
+const ReloadPage = async () => {
+  return GetDog(pid.value).then((value: Props) => {
     dog.value = value;
   });
 };
 
-onIonViewDidEnter(() => {
-  CustomEvent.EventListener("modal-log-add", () => (modalOpen.log = true));
+const calendar = reactive({
+  month: new Date().getMonth(),
+  year: new Date().getFullYear(),
+  logs: new Map<number, PropsLog[]>(),
+});
+
+const ReloadLogs = async () => {
+  calendar.logs = new Map<number, PropsLog[]>();
+  const startDate = new Date(calendar.year, calendar.month, 1);
+  const endDate = new Date(calendar.year, calendar.month + 1, 0);
+  for (
+    let date = startDate;
+    date <= endDate;
+    date.setDate(date.getDate() + 1)
+  ) {
+    let temp = new Array<PropsLog>();
+    const props = await GetLAT(date);
+    if (!!props) {
+      for (let lid of props.logs) {
+        const propsLog = await GetLog(lid.toString(), date);
+        temp.push(propsLog);
+      }
+    }
+    temp.sort((a, b) => {
+      const TStart = a.TStart.value - b.TStart.value;
+      if (TStart !== 0) return TStart;
+      return a.TEnd.value - b.TEnd.value;
+    });
+    calendar.logs.set(date.getDate(), temp);
+  }
+};
+
+onIonViewWillEnter(async () => {
   if (typeof params.value.pid === "string") pid.value = params.value.pid;
   else pid.value = params.value.pid.join("");
-  ReloadPage();
+  await ReloadPage().then(() => CustomEvent.EventDispatcher("reload-logs"));
+});
+
+onIonViewDidEnter(() => {
+  CustomEvent.EventListener("modal-log-add", (value: Date) => {
+    modalOpen.logDate = !value ? new Date() : value;
+    modalOpen.log = true;
+  });
+  CustomEvent.EventListener("reload-logs", ReloadLogs);
 });
 </script>
 

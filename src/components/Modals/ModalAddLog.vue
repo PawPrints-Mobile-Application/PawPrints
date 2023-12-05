@@ -29,6 +29,7 @@
         hideInput
         :count="7"
         hideValidator
+        @change="SetRecordUnits"
       />
       <div class="record-value">
         <InputLabel value="Record Value" />
@@ -88,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, ref, onMounted, watch } from "vue";
+import { reactive, computed, ref, onMounted } from "vue";
 import { LayoutModal } from "../../layout";
 import {
   InputSegment,
@@ -110,6 +111,18 @@ import {
 import { Enums } from "../../server/models/Logs";
 import { AddLogs } from "../../server/models/LogAddressingTable";
 import { SeedGenerator, GetUID, CustomEvent } from "../../utils";
+
+const props = defineProps({
+  isOpen: {
+    type: Boolean,
+    required: true,
+  },
+  pid: String,
+  date: {
+    type: Date,
+    default: new Date(),
+  },
+});
 
 const GetTitle = () => (form.recordType === "" ? "Title" : form.recordType);
 
@@ -135,8 +148,14 @@ const logSegment = computed({
     _logSegment.value = value;
     form.recordType = GetRecordTypeOptions()[0];
     form.type = value.label!;
+    SetRecordUnits();
   },
 });
+
+const SetRecordUnits = () => {
+  if (isRecord()) form.recordUnits = GetRecordUnitOptions()[0];
+  else form.recordUnits = "";
+};
 
 const GetCurrentTime = () =>
   new LocalTime(
@@ -147,23 +166,16 @@ const GetCurrentTime = () =>
 
 const form = reactive({
   title: "",
-  type: logSegments[0].label!,
-  recordType: GetRecordTypeOptions()[0],
+  type: "",
+  recordType: "",
   recordValue: "",
-  recordUnits: "kg",
-  DStart: new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-"),
-  TStart: GetCurrentTime(),
-  DEnd: new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-"),
-  TEnd: GetCurrentTime(),
+  recordUnits: "",
+  DStart: "",
+  TStart: "",
+  DEnd: "",
+  TEnd: "",
   note: "",
 });
-
-watch(
-  () => form.recordType,
-  () => {
-    if (isRecord()) form.recordUnits = GetRecordUnitOptions()[0];
-  }
-);
 
 const disabled = computed(() =>
   [IdentifyTitle(), form.recordValue].includes("")
@@ -175,14 +187,12 @@ const Discard = () => {
 };
 
 const ClearForm = () => {
+  logSegment.value = logSegments[0];
   form.title = "";
-  form.type = logSegments[0].label!;
-  form.recordType = GetRecordTypeOptions()[0];
   form.recordValue = "";
-  form.recordUnits = "kg";
-  form.DStart = new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-");
+  form.DStart = new LocalDate(props.date).toLocaleDateString("YYYY/MM/DD", "-");
   form.TStart = GetCurrentTime();
-  form.DEnd = new LocalDate(new Date()).toLocaleDateString("YYYY/MM/DD", "-");
+  form.DEnd = new LocalDate(props.date).toLocaleDateString("YYYY/MM/DD", "-");
   form.TEnd = GetCurrentTime();
   form.note = "";
 };
@@ -217,17 +227,10 @@ const Submit = () => {
   });
 };
 
-const props = defineProps({
-  isOpen: {
-    type: Boolean,
-    required: true,
-  },
-  pid: String,
-});
-
 const emit = defineEmits(["submit", "discard"]);
 
 onMounted(() => {
+  CustomEvent.EventListener("modal-log-add", () => setTimeout(ClearForm, 1));
   form.recordType = GetRecordTypeOptions()[0];
 });
 </script>

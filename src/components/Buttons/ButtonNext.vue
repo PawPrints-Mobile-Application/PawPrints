@@ -8,6 +8,7 @@ import { chevronForward as icon } from "ionicons/icons";
 <style scoped>
 .button-next {
   color: var(--theme-tertiary-background);
+  background-color: var(--theme-primary-background);
   font-size: 40px;
 }
 </style>

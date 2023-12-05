@@ -14,11 +14,21 @@ import {
 } from "../firebase";
 import ObjectToMap from "../../utils/ObjectToMap";
 import { LocalTime, EnumConstructor } from "../../utils/";
+import {
+  barbell as weightIcon,
+  thermometer as temperatureIcon,
+  eyedrop as vaccineIcon,
+  medical as medicineIcon,
+  bandage as symptomsIcon,
+  bicycle as activityIcon,
+  ellipsisHorizontal as othersIcon,
+} from "ionicons/icons";
 
 type RecordType = {
   name: string;
   canSchedule: boolean;
   units?: Array<String>;
+  icon: string;
 };
 
 class Record extends EnumConstructor {
@@ -27,31 +37,38 @@ class Record extends EnumConstructor {
       name: "Weight",
       canSchedule: false,
       units: ["kg", "lb"],
+      icon: weightIcon,
     },
     {
       name: "Temperature",
       canSchedule: false,
       units: ["°C", "°F"],
+      icon: temperatureIcon,
     },
     {
       name: "Vaccine",
       canSchedule: false,
+      icon: vaccineIcon,
     },
     {
       name: "Medicine",
       canSchedule: true,
+      icon: medicineIcon,
     },
     {
       name: "Symptoms",
       canSchedule: false,
+      icon: symptomsIcon,
     },
     {
       name: "Activity",
       canSchedule: true,
+      icon: activityIcon,
     },
     {
       name: "Others",
       canSchedule: true,
+      icon: othersIcon,
     },
   ];
   constructor() {
@@ -187,8 +204,7 @@ const CollectionPath = (uid: string) =>
 const documentPath = (uid: string, lid: string) =>
   `${CollectionPath(uid)}/${lid}`;
 
-const CreateModel = () =>
-  CreateTable(constants.document, constants.data);
+const CreateModel = () => CreateTable(constants.document, constants.data);
 const DeleteModel = () => DeleteTable(constants.document);
 const Clear = () => ResetTable(constants.document);
 
