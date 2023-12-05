@@ -16,8 +16,8 @@ const constants = {
   data: `
             cid TEXT PRIMARY KEY NOT NULL,
             uid TEXT,
+            fid TEXT,
             username TEXT,
-            pid TEXT,
             content TEXT,
             DTPost INTEGER
             `,
@@ -26,26 +26,27 @@ const constants = {
 
 type Props = {
   cid: string;
+  fid: string;
   uid: string;
   username: string;
-  pid: string;
   content: string;
   DTPost: Date;
 };
 
 type LocalProps = {
   cid: string;
+  fid: string;
   uid: string;
-  pid: string;
+  username: string;
   content: string;
   DTPost: number;
 };
 
 type CloudProps = {
   cid: string;
+  fid: string;
   uid: string;
   username: string;
-  pid: string;
   content: string;
   DTPost: Timestamp;
 };
@@ -61,7 +62,7 @@ const ToProps = (props: any, source: "LocalProps" | "CloudProps"): Props => {
     cid: props.cid,
     uid: props.uid,
     username: props.username,
-    pid: props.uid,
+    fid: props.uid,
     content: props.content,
     DTPost: DTPost,
   };
@@ -80,7 +81,8 @@ const ToLocalProps = (
   return {
     cid: props.cid,
     uid: props.uid,
-    pid: props.uid,
+    username: props.username,
+    fid: props.uid,
     content: props.content,
     DTPost: DTPost,
   };
@@ -100,17 +102,17 @@ const ToCloudProps = (
     cid: props.cid,
     uid: props.uid,
     username: props.username,
-    pid: props.uid,
+    fid: props.uid,
     content: props.content,
     DTPost: DTPost,
   };
 };
 
-const CollectionPath = (pid: string) =>
-  `${constants.collection}/Posts/Posts/${pid}/${constants.document}`;
+const CollectionPath = (fid: string) =>
+  `${constants.collection}/Posts/Posts/${fid}/${constants.document}`;
 
-const DocumentPath = (pid: string, cid: string) =>
-  `${CollectionPath(pid)}/${cid}`;
+const DocumentPath = (fid: string, cid: string) =>
+  `${CollectionPath(fid)}/${cid}`;
 
 const CreateModel = () => CreateTable(constants.document, constants.data);
 const DeleteModel = () => DeleteTable(constants.document);
@@ -126,29 +128,14 @@ const Get = (cid: string) =>
     ToProps(response.values![0], "LocalProps")
   );
 
-const Add = async (props: Props, uid?: string) => {
-  const localProps = ToLocalProps(props, "Props");
-  const data = ObjectToMap(localProps);
-  if (!!uid)
-    await SetDocument(
-      DocumentPath(props.pid, props.cid),
-      ToCloudProps(props, "Props")
-    );
-  return InsertRowData(
-    constants.document,
-    {
-      keys: Array.from(data.keys()),
-      values: Array.from(data.values()),
-    },
-    true
-  ).then(() => props);
-};
+const Add = async (props: Props) =>
+  SetDocument(DocumentPath(props.fid, props.cid), ToCloudProps(props, "Props"));
 
 const Remove = (cid: string) =>
   DeleteRowData(constants.document, { key: "cid", value: cid });
 
-const Sync = async (pid: string, cid: string) =>
-  GetDocument(DocumentPath(pid, cid)).then(async (response) => {
+const Sync = async (fid: string, cid: string) =>
+  GetDocument(DocumentPath(fid, cid)).then(async (response) => {
     const cloudProps = response!.data()!;
     const localProps = ToLocalProps(cloudProps, "CloudProps");
     const data = ObjectToMap(localProps);
@@ -162,8 +149,8 @@ const Sync = async (pid: string, cid: string) =>
     ).then(() => Get(cid));
   });
 
-const SyncAll = async (pid: string) =>
-  GetCollection(CollectionPath(pid)).then(async (value) => {
+const SyncAll = async (fid: string) =>
+  GetCollection(CollectionPath(fid)).then(async (value) => {
     for (let cloudProps of value!.values) {
       const localProps = ToLocalProps(cloudProps, "CloudProps");
       const data = ObjectToMap(localProps);

@@ -7,8 +7,9 @@ import PhotoCard from "./PhotoCard.vue";
 import CardDog from "./CardDog.vue";
 import CardUser from "./CardUser.vue";
 import CardSettings from "./CardSettings.vue";
-import CardPost from "./CardPost.vue";
 import CardLog from "./CardLog.vue";
+import CardPost from "./CardPost.vue";
+import CardComment from "./CardComment.vue";
 
 export {
   ProfileCard,
@@ -19,6 +20,7 @@ export {
   CardDog,
   CardUser,
   CardSettings,
-  CardPost,
   CardLog,
+  CardPost,
+  CardComment
 };

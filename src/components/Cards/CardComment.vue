@@ -7,16 +7,16 @@
       <Avatar type="user" />
       <aside>
         <TextSmall>
-          {{ placeholder.uid }}
+          {{ comment?.username }}
         </TextSmall>
         <TextParagraph>
-          {{ placeholder.DTPost.toLocaleString() }}
+          {{ comment?.DTPost.toLocaleString() }}
         </TextParagraph>
       </aside>
     </header>
     <div class="card-comment-content">
       <TextParagraph>
-        {{ placeholder.commentcontent }}
+        {{ comment?.content }}
       </TextParagraph>
     </div>
   </section>
@@ -25,21 +25,15 @@
 import { Avatar } from "../Avatars";
 import { arrowUndo as commentContentIcon } from "ionicons/icons";
 import { TextParagraph, TextSmall } from "../Texts";
-import { IonIcon, IonChip } from "@ionic/vue";
-import {
-  chatbubbleEllipses as commentIcon,
-  heartCircle as likeIcon,
-} from "ionicons/icons";
-import { useIonRouter } from "@ionic/vue";
-import { Props } from "../../server/models/Forums";
+import { IonIcon, onIonViewWillEnter } from "@ionic/vue";
+import { Props } from "../../server/models/Comments";
 import { PropType } from "vue";
-const ionRouter = useIonRouter();
-const Navigate = () =>
-  ionRouter.navigate(`/forums/${props.post!.fid}`, "forward", "replace");
 
-const props = defineProps({
+defineProps({
   comment: Object as PropType<Props>,
 });
+
+onIonViewWillEnter(async () => {});
 </script>
 <style scoped>
 .card-comment {

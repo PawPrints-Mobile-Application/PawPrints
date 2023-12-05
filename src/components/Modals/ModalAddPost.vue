@@ -14,7 +14,7 @@
         <TextSubheading>{{ user.username }} </TextSubheading>
       </header>
       <InputTextareaWrapped
-        v-model="form.description"
+        v-model="form.content"
         label="Description"
         placeholder="What’s on your mind, hooman?"
       />
@@ -64,11 +64,11 @@ const tags = computed({
 });
 
 const form = reactive({
-  description: "",
+  content: "",
   tags: new Array<string>(),
 });
 
-const disabled = computed(() => form.description === "");
+const disabled = computed(() => form.content === "");
 
 const RemoveTag = (key: number) => {
   form.tags.splice(key, 1);
@@ -80,7 +80,7 @@ const Submit = () => {
     fid: fid,
     uid: GetUID()!,
     username: GetUsername()!,
-    content: form.description,
+    content: form.content,
     DTPost: new Date(),
     tags: form.tags,
     comments: [],
@@ -98,7 +98,7 @@ const Discard = () => {
 };
 
 const ClearForm = () => {
-  form.description = "";
+  form.content = "";
   form.tags = new Array<string>();
   _tags.value = "";
 };
@@ -125,6 +125,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  width: 100%;
 }
 
 header {

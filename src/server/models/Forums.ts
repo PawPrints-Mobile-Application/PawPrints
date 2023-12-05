@@ -147,19 +147,8 @@ const Get = (fid: string) =>
     ToProps(response.values![0], "LocalProps")
   );
 
-const Add = async (props: Props) => {
-  const localProps = ToLocalProps(props, "Props");
-  const data = ObjectToMap(localProps);
-  await SetDocument(DocumentPath(props.fid), ToCloudProps(props, "Props"));
-  return InsertRowData(
-    constants.document,
-    {
-      keys: Array.from(data.keys()),
-      values: Array.from(data.values()),
-    },
-    true
-  );
-};
+const Add = async (props: Props) =>
+  SetDocument(DocumentPath(props.fid), ToCloudProps(props, "Props"));
 
 const Remove = (fid: string) =>
   DeleteRowData(constants.document, { key: "fid", value: fid });

@@ -5,6 +5,7 @@ import ModalEditDog from "./ModalEditDog.vue";
 import ModalSignin from "./ModalSignin.vue";
 import ModalSignup from "./ModalSignup.vue";
 import ModalAddPost from "./ModalAddPost.vue";
+import ModalAddComment from "./ModalAddComment.vue";
 
 export {
   ModalAddLog,
@@ -14,5 +15,5 @@ export {
   ModalSignin,
   ModalSignup,
   ModalAddPost,
-
+  ModalAddComment,
 };

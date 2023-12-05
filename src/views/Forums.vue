@@ -34,8 +34,8 @@
           :post="post[1]"
         />
       </section>
-      <ModalAddPost :isOpen="modalOpen" @discard="() => (modalOpen = false)" />
     </section>
+    <ModalAddPost :isOpen="modalOpen" @discard="() => (modalOpen = false)" />
   </LayoutPage>
 </template>
 
