@@ -76,10 +76,11 @@ const GetAll = () =>
     response.values!.map((localProps: LocalProps) => ToProps(localProps))
   );
 
-const Get = (date: Date) =>
+const Get = (date: Date) => GetByID(SeedGenerator(date).toString());
+const GetByID = (latid: string) =>
   ReadRowData(constants.document, {
     key: "latid",
-    value: SeedGenerator(date).toString(),
+    value: latid,
   }).then((response) => {
     if (!response.values || response.values.length === 0) return undefined;
     return ToProps(response.values[0]);
@@ -174,7 +175,7 @@ const RemoveLogs = async (
 const GetLogs = async (
   DStart: Date,
   DEnd: Date,
-  count: number=0
+  count: number = 0
 ): Promise<Map<string, PropsLog[]>> => {
   try {
     const startDate = new Date(
@@ -203,10 +204,10 @@ const GetLogs = async (
       }
     }
     return temp;
-  } catch (error) { 
+  } catch (error) {
     count++;
     if (count > 10) return new Map<string, PropsLog[]>();
-    console.log(true)
+    console.log(true);
     return await GetLogs(DStart, DEnd, count);
   }
 };
@@ -254,6 +255,7 @@ export {
   Add,
   GetAll,
   Get,
+  GetByID,
   Remove,
   AddLogs,
   RemoveLogs,

@@ -22,21 +22,21 @@
       @select="CustomEvent.EventDispatcher('reload-display')"
     />
     <section
-      class="view view-calendar"
+      class="view view-data"
       v-show="!!dog"
       v-if="state.viewSegment.label === viewSegments[0].label"
     >
       <LayoutPIDCalendarView
-        v-model:model-month="calendar.month"
-        v-model:model-year="calendar.year"
-        :logs="calendar.logs"
+        v-model:model-month="data.month"
+        v-model:model-year="data.year"
+        :logs="data.logs"
       />
     </section>
     <section class="view view-list" v-show="!!dog" v-else>
       <LayoutPIDListView
-        v-model:model-month="calendar.month"
-        v-model:model-year="calendar.year"
-        :logs="calendar.logs"
+        v-model:model-month="data.month"
+        v-model:model-year="data.year"
+        :logs="data.logs"
       />
     </section>
     <ModalEditDog
@@ -47,7 +47,7 @@
     />
     <ModalAddLog
       :isOpen="modalOpen.logAdd"
-      :pid="pid"
+      :dog="dog"
       :date="modalOpen.logDate"
       @submit="ReloadLogs"
       @discard="CloseModalLog"
@@ -141,18 +141,20 @@ const CloseModalLog = () => {
 const ReloadPage = async () =>
   GetDog(pid.value).then((value: PropsDog) => {
     dog.value = value;
+    data.lids = value.logs;
   });
 
-const calendar = reactive({
+const data = reactive({
   month: new Date().getMonth(),
   year: new Date().getFullYear(),
   logs: new Map<number, PropsLog[]>(),
+  lids: new Array<string>(),
 });
 
 const ReloadLogs = async () => {
-  calendar.logs = new Map<number, PropsLog[]>();
-  const startDate = new Date(calendar.year, calendar.month, 1);
-  const endDate = new Date(calendar.year, calendar.month + 1, 0);
+  data.logs = new Map<number, PropsLog[]>();
+  const startDate = new Date(data.year, data.month, 1);
+  const endDate = new Date(data.year, data.month + 1, 0);
   for (
     let date = startDate;
     date <= endDate;
@@ -162,7 +164,8 @@ const ReloadLogs = async () => {
     const props = await GetLAT(date);
     if (!!props) {
       for (let lid of props.logs) {
-        const propsLog = await GetLog(lid.toString(), date);
+        if (!data.lids.includes(lid)) continue;
+        const propsLog = await GetLog(lid, date);
         temp.push(propsLog);
       }
     }
@@ -171,13 +174,14 @@ const ReloadLogs = async () => {
       if (TStart !== 0) return TStart;
       return a.TEnd.value - b.TEnd.value;
     });
-    calendar.logs.set(date.getDate(), temp);
+    data.logs.set(date.getDate(), temp);
   }
 };
 
 onIonViewWillEnter(async () => {
   if (typeof params.value.pid === "string") pid.value = params.value.pid;
   else pid.value = params.value.pid.join("");
+  console.log(pid.value);
   await ReloadPage()
     .then(ReloadLogs)
     .then(() => CustomEvent.EventDispatcher("reload-display"));
