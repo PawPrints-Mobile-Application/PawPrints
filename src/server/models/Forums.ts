@@ -150,7 +150,6 @@ const Get = (fid: string) =>
 const Add = async (props: Props) => {
   const localProps = ToLocalProps(props, "Props");
   const data = ObjectToMap(localProps);
-  console.log(data);
   await SetDocument(DocumentPath(props.fid), ToCloudProps(props, "Props"));
   return InsertRowData(
     constants.document,

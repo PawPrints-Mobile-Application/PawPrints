@@ -100,6 +100,7 @@ const Discard = () => {
 const ClearForm = () => {
   form.description = "";
   form.tags = new Array<string>();
+  _tags.value = "";
 };
 
 defineProps({

@@ -24,15 +24,24 @@ const ConnectDB = async (
 
   await db.open();
   let response;
-  if (!!values) {
-    response = await db.query(query, values);
-  } else {
-    response = await db.query(query);
+  try {
+    if (!!values) {
+      response = await db.query(query, values);
+    } else {
+      response = await db.query(query);
+    }
+  } catch (error: any) {
+    await db.open();
+    if (!!values) {
+      response = await db.query(query, values);
+    } else {
+      response = await db.query(query);
+    }
+  } finally {
+    if (log) console.log("Response: " + response);
+    await db.close();
   }
 
-  if (log) console.log("Response: " + response);
-
-  await db.close();
   return response;
 };
 
@@ -55,7 +64,9 @@ const InsertRowData = async (
   allowReplace: boolean = false
 ) =>
   ConnectDB(
-    `INSERT ${allowReplace ? 'OR REPLACE ' : '' }INTO ${tableName} (${data.keys.join(", ")}) VALUES (${"?,".repeat(
+    `INSERT ${
+      allowReplace ? "OR REPLACE " : ""
+    }INTO ${tableName} (${data.keys.join(", ")}) VALUES (${"?,".repeat(
       data.values.length - 1
     )}?);`,
     data.values
@@ -169,7 +180,6 @@ const ResetDatabase = async () => {
 export {
   CreateTable,
   DeleteTable,
-
   ResetDatabase,
   ResetTable,
 

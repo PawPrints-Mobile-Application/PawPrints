@@ -83,7 +83,6 @@ onIonViewWillEnter(async () => {
   if (typeof params.value.fid === "string") fid.value = params.value.fid;
   else fid.value = params.value.fid.join("");
   post.value = await Get(fid.value);
-  console.log(post.value);
 });
 </script>
 
