@@ -49,7 +49,7 @@
       label="Colour"
       hideValidator
     />
-    <ButtonText label="Delete Dog" />
+    <ButtonText label="Delete Dog" @click="DeleteDog" />
   </LayoutModal>
 </template>
 
@@ -58,10 +58,12 @@ import { reactive, computed, watch } from "vue";
 import { LayoutModal } from "../../layout";
 
 import { Avatar } from "../Avatars";
-import { Add } from "../../server/models/Dogs";
-import { GetUID, breeds, ObjectToMap } from "../../utils";
+import { Add, Remove } from "../../server/models/Dogs";
+import { GetUID, breeds, ObjectToMap, CustomEvent } from "../../utils";
 import { InputDynamicWrapped } from "../Forms";
 import { ButtonText } from "../Buttons";
+import { useIonRouter } from "@ionic/vue";
+const ionRouter = useIonRouter();
 
 const form = reactive({
   name: "",
@@ -97,6 +99,12 @@ const disableClear = computed(() => {
   });
   return temp;
 });
+
+const DeleteDog = () =>
+  Remove(props.dog?.pid, GetUID())
+    .then(() => CustomEvent.EventDispatcher("reload-dogs"))
+    .then(() => ionRouter.navigate("/dogs", "root", "replace"))
+    .then(() => emit("delete"));
 
 const Discard = () => {
   emit("discard");
@@ -136,7 +144,7 @@ const props = defineProps({
   dog: Object,
 });
 
-const emit = defineEmits(["submit", "discard"]);
+const emit = defineEmits(["submit", "discard", "delete"]);
 
 watch(
   () => props.dog,

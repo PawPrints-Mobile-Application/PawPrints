@@ -46,6 +46,7 @@
       :isOpen="modalOpen.dog"
       @submit="ReloadPage"
       @discard="CloseModalLog"
+      @delete="CloseModalLog"
       :dog="dog"
     />
     <ModalAddLog
@@ -107,10 +108,7 @@ const state = reactive({
   viewSegment: viewSegments[0],
 });
 
-const EditProfile = () => {
-  modalOpen.dog = true;
-  console.log(true);
-};
+const EditProfile = () => (modalOpen.dog = true);
 
 const defaultLog = {
   lid: "",

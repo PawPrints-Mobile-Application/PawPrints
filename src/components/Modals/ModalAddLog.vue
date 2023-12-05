@@ -225,11 +225,9 @@ const Submit = () => {
   )
     .then(() => EditDog(props.dog!, GetUID()))
     .then(() => {
-      setTimeout(() => {
-        emit("submit", lid);
-        Discard();
-        CustomEvent.EventDispatcher("reload-logs");
-      }, 10);
+      CustomEvent.EventDispatcher("reload-logs");
+      emit("submit", lid);
+      Discard();
     });
 };
 

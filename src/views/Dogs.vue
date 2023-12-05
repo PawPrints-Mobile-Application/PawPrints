@@ -75,6 +75,7 @@ const SubmitModalDog = (pid: string) => {
 // Heavy Functions
 onIonViewDidEnter(() => {
   CustomEvent.EventListener("modal-dog-add", OpenModalDog);
+  CustomEvent.EventListener("reload-dogs", Reload);
 });
 </script>
 
