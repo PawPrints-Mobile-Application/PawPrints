@@ -102,13 +102,15 @@ const AddBatch = async (
     DEnd.getMonth(),
     DEnd.getDate()
   );
+  const temp = [];
   for (
     let date = startDate;
     date <= endDtate;
     date.setDate(date.getDate() + 1)
   ) {
-    await Add(date, lid, uid);
+    temp.push(await Add(date, lid, uid));
   }
+  return Promise.all(temp);
 };
 
 const Add = async (date: Date, lid: string, uid?: string) => {
