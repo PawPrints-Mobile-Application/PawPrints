@@ -14,6 +14,7 @@ const independentRoutes = [
   { name: "Test" },
   { name: "Auth" },
   { name: "Splash" },
+  { name: "Tutorial" },
 ];
 
 export { navigationRecords, forumsRecords, settingsRecords };

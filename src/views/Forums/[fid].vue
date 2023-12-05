@@ -10,29 +10,6 @@
     </template>
     <section class="wrapper">
       <CardPost :post="post" v-if="!!post" />
-
-      <section class="card-comment">
-        <header>
-          <div class="commentContentIcon">
-            <IonIcon :icon="commentContentIcon" />
-          </div>
-          <Avatar type="user" />
-          <aside>
-            <TextSmall>
-              {{ placeholder.uid }}
-            </TextSmall>
-            <TextParagraph>
-              {{ placeholder.DTPost.toLocaleString() }}
-            </TextParagraph>
-          </aside>
-        </header>
-        <div class="card-comment-content">
-          <TextParagraph>
-            {{ placeholder.commentcontent }}
-          </TextParagraph>
-        </div>
-      </section>
-
       <section class="card-comment">
         <header>
           <div class="commentContentIcon">
@@ -53,7 +30,7 @@
 <script setup lang="ts">
 import { LayoutPage } from "../../layout";
 import { Avatar } from "../../components/Avatars";
-import { TextHeading, TextParagraph, TextSmall } from "../../components/Texts";
+import { TextHeading, TextSmall } from "../../components/Texts";
 import { IonIcon, useIonRouter, onIonViewWillEnter } from "@ionic/vue";
 import { arrowUndo as commentContentIcon } from "ionicons/icons";
 import { ref, Ref } from "vue";
@@ -115,6 +92,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
 }
 .card-post {
   width: 100%;

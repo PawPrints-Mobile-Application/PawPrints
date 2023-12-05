@@ -1,5 +1,5 @@
 <template>
-  <LayoutPage justify="flex-start" hide-scrollbar>
+  <LayoutPage justify="flex-start">
     <Theme/>
     <CardUser />
     <CardSettings

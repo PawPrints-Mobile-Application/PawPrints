@@ -1,41 +1,30 @@
 <template>
-  <section class="card card-comment" @click="Navigate">
+  <section class="card-comment">
     <header>
+      <div class="commentContentIcon">
+        <IonIcon :icon="commentContentIcon" />
+      </div>
       <Avatar type="user" />
       <aside>
-        <TextSubheading>
-          {{ post!.username }}
-        </TextSubheading>
         <TextSmall>
-          {{ post!.DTPost.toLocaleString() }}
+          {{ placeholder.uid }}
         </TextSmall>
+        <TextParagraph>
+          {{ placeholder.DTPost.toLocaleString() }}
+        </TextParagraph>
       </aside>
     </header>
-    <div class="content">
-      {{ post!.content }}
+    <div class="card-comment-content">
+      <TextParagraph>
+        {{ placeholder.commentcontent }}
+      </TextParagraph>
     </div>
-    <div class="tags">
-      <IonChip v-for="tag in post!.tags"> # {{ tag }} </IonChip>
-    </div>
-    <footer>
-      <div class="button-interaction">
-        <IonIcon :icon="commentIcon" />
-        <TextParagraph>
-          {{ post!.comments.length }}
-        </TextParagraph>
-      </div>
-      <div class="button-interaction">
-        <IonIcon :icon="likeIcon" />
-        <TextParagraph>
-          {{ post!.likes.length }}
-        </TextParagraph>
-      </div>
-    </footer>
   </section>
 </template>
 <script setup lang="ts">
 import { Avatar } from "../Avatars";
-import { TextSubheading, TextParagraph, TextSmall } from "../Texts";
+import { arrowUndo as commentContentIcon } from "ionicons/icons";
+import { TextParagraph, TextSmall } from "../Texts";
 import { IonIcon, IonChip } from "@ionic/vue";
 import {
   chatbubbleEllipses as commentIcon,
@@ -49,7 +38,7 @@ const Navigate = () =>
   ionRouter.navigate(`/forums/${props.post!.fid}`, "forward", "replace");
 
 const props = defineProps({
-  post: Object as PropType<Props>,
+  comment: Object as PropType<Props>,
 });
 </script>
 <style scoped>
