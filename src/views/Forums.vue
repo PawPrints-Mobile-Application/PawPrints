@@ -64,7 +64,7 @@ const modalOpen = ref(false);
 const posts: Ref<Map<string, Props>> = ref(new Map());
 const filteredPosts: Ref<Map<string, Props>> = ref(new Map());
 
-const isPublic = () => state.viewSegment === viewSegments[0];
+const isPublic = () => state.viewSegment.label === viewSegments[0].label;
 
 const viewSegments = [
   new SegmentOption("Public Feed"),
