@@ -7,30 +7,35 @@
     <template #header>
       <TextHeading class="title"> FORUM </TextHeading>
     </template>
-    <InputSegment
-      class="forums-segment"
-      :options="viewSegments"
-      v-model="state.viewSegment"
-      show="label"
-    />
-    <section class="add-post-wrapper">
-      <Avatar type="user" />
-      <ButtonText
-        class="add-post"
-        label="Write something..."
-        @click="() => (modalOpen = true)"
-      />
+    <section v-if="UserTypeRestriction()">
+      This is only available on Non-guest Users
     </section>
-    <section class="post-wrapper">
-      <IonRefresher slot="fixed" @ionRefresh="Refresher($event)"
-        ><IonRefresherContent
-      /></IonRefresher>
-      <CardPost
-        v-for="post in isPublic() ? posts : filteredPosts"
-        :post="post[1]"
+    <section class="content" v-else>
+      <InputSegment
+        class="forums-segment"
+        :options="viewSegments"
+        v-model="state.viewSegment"
+        show="label"
       />
+      <section class="add-post-wrapper">
+        <Avatar type="user" />
+        <ButtonText
+          class="add-post"
+          label="Write something..."
+          @click="() => (modalOpen = true)"
+        />
+      </section>
+      <section class="post-wrapper">
+        <IonRefresher slot="fixed" @ionRefresh="Refresher($event)"
+          ><IonRefresherContent
+        /></IonRefresher>
+        <CardPost
+          v-for="post in isPublic() ? posts : filteredPosts"
+          :post="post[1]"
+        />
+      </section>
+      <ModalAddPost :isOpen="modalOpen" @discard="() => (modalOpen = false)" />
     </section>
-    <ModalAddPost :isOpen="modalOpen" @discard="() => (modalOpen = false)" />
   </LayoutPage>
 </template>
 
@@ -51,6 +56,8 @@ import {
   IonRefresher,
   IonRefresherContent,
 } from "@ionic/vue";
+
+const UserTypeRestriction = () => !GetUID();
 
 const modalOpen = ref(false);
 
@@ -100,6 +107,15 @@ export default {
 </script>
 
 <style scoped>
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .add-post-wrapper {
   display: flex;
   align-items: center;
