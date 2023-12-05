@@ -19,6 +19,7 @@
       :options="viewSegments"
       v-model="state.viewSegment"
       show="both"
+      @select="CustomEvent.EventDispatcher('reload-display')"
     />
     <section
       class="view view-calendar"
@@ -150,7 +151,9 @@ const ReloadLogs = async () => {
 onIonViewWillEnter(async () => {
   if (typeof params.value.pid === "string") pid.value = params.value.pid;
   else pid.value = params.value.pid.join("");
-  await ReloadPage().then(() => CustomEvent.EventDispatcher("reload-logs"));
+  await ReloadPage()
+    .then(ReloadLogs)
+    .then(() => CustomEvent.EventDispatcher("reload-display"));
 });
 
 onIonViewDidEnter(() => {

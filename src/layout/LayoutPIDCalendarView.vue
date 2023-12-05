@@ -59,9 +59,35 @@ import { Enums, Props } from "../server/models/Logs";
 import { IonIcon } from "@ionic/vue";
 
 const props = defineProps({
-  modelMonth: Number,
-  modelYear: Number,
-  logs: Object as PropType<Map<number, Props[]>>,
+  modelMonth: {
+    type: Number,
+    default: new Date().getMonth(),
+  },
+  modelYear: {
+    type: Number,
+    default: new Date().getFullYear(),
+  },
+  logs: {
+    type: Object as PropType<Map<number, Props[]>>,
+    default: new Map<number, Props[]>(),
+  },
+});
+
+const month = computed({
+  get() {
+    return Calendar.months[props.modelMonth!];
+  },
+  set(value) {
+    emit("update:modelMonth", Calendar.months.indexOf(value));
+  },
+});
+const year = computed({
+  get() {
+    return props.modelYear!.toString();
+  },
+  set(value) {
+    emit("update:modelYear", Number(value));
+  },
 });
 
 const isCurrentDate = (date: number) => {
@@ -80,16 +106,14 @@ const CalendarSpaceCells = (): string[] => {
 };
 
 const CalendarCells = () => {
-  const curMonth = Calendar.months.indexOf(month.value);
-  const curYear = Number(year.value);
   return Array.from(
-    { length: new Date(curYear, curMonth + 1, 0).getDate() },
+    { length: new Date(props.modelYear!, props.modelMonth! + 1, 0).getDate() },
     (_, i) => (i + 1).toString()
   );
 };
 
-const cells: Ref<string[]> = ref([]);
-const icons = ref(new Map<number, Props[]>());
+const cells: Ref<string[]> = ref(CalendarSpaceCells().concat(CalendarCells()));
+const icons = ref(props.logs!);
 const ResetCells = () => {
   icons.value = props.logs!;
   cells.value = CalendarSpaceCells().concat(CalendarCells());
@@ -110,23 +134,6 @@ const MoveMonth = (increment: 1 | -1) => {
   year.value = tempYear.toString();
 };
 
-const month = computed({
-  get() {
-    return Calendar.months[props.modelMonth!];
-  },
-  set(value) {
-    emit("update:modelMonth", Calendar.months.indexOf(value));
-  },
-});
-const year = computed({
-  get() {
-    return props.modelYear!.toString();
-  },
-  set(value) {
-    emit("update:modelYear", Number(value));
-  },
-});
-
 const ReloadLogs = () => CustomEvent.EventDispatcher("reload-logs");
 
 const AddLog = (date: number) =>
@@ -139,6 +146,7 @@ const emit = defineEmits(["update:modelMonth", "update:modelYear"]);
 
 onMounted(() => {
   CustomEvent.EventListener("reload-logs", () => setTimeout(ResetCells, 1));
+  CustomEvent.EventListener("reload-display", ResetCells);
 });
 </script>
 
