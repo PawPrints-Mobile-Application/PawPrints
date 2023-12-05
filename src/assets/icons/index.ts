@@ -12,6 +12,7 @@ import settingsProfile from './settingsProfile.svg';
 import settingsPreferences from './settingsPreferences.svg';
 import settingsSubscriptions from './settingsSubscriptions.svg';
 import settingsAbout from './settingsAbout.svg';
+import weight from './weight.svg';
 
 const settingsCardIcons = {settingsProfile, settingsPreferences, settingsSubscriptions, settingsAbout};
 
@@ -22,6 +23,7 @@ const iconsFilled = [homeFilled, factsFilled, mapsFilled, settingsFilled];
 const icons = [iconsOutline, iconsFilled]
 
 export {
+    weight,
     homeFilled,
     factsFilled,
     mapsFilled,
