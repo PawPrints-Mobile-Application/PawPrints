@@ -10,7 +10,7 @@ import {
 
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
-const Redirect = () => ionRouter.navigate("/home", "forward", "replace");
+const Redirect = () => ionRouter.navigate("/tutorial", "forward", "replace");
 
 const GuestSignIn = () =>
   DatabaseInitialization().then(WindowDatabaseInitialization).then(Redirect);

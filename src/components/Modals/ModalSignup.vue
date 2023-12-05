@@ -97,8 +97,8 @@ const modal = ref();
 
 const ionRouter = useIonRouter();
 const Redirect = () => {
-  console.log("Redirecting to Home Page...");
-  ionRouter.navigate("/home", "forward", "replace");
+  console.log("Redirecting to Tutorial Page...");
+  ionRouter.navigate("/tutorial", "forward", "replace");
 };
 
 const form = reactive({
