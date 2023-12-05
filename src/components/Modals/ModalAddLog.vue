@@ -89,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, ref, onMounted } from "vue";
+import { reactive, computed, ref, onMounted, PropType } from "vue";
 import { LayoutModal } from "../../layout";
 import {
   InputSegment,
@@ -110,6 +110,7 @@ import {
 } from "ionicons/icons";
 import { Enums } from "../../server/models/Logs";
 import { AddLogs } from "../../server/models/LogAddressingTable";
+import { Add as EditDog, Props } from "../../server/models/Dogs";
 import { SeedGenerator, GetUID, CustomEvent } from "../../utils";
 
 const props = defineProps({
@@ -117,7 +118,7 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
-  pid: String,
+  dog: Object as PropType<Props>,
   date: {
     type: Date,
     default: new Date(),
@@ -207,7 +208,7 @@ const Submit = () => {
   AddLogs(
     {
       lid: lid,
-      pid: props.pid!,
+      pid: props.dog?.pid!,
       type: form.type,
       title: IdentifyTitle(),
       recordType: form.recordType,
@@ -220,11 +221,13 @@ const Submit = () => {
       note: form.note,
     },
     GetUID()
-  ).then(() => {
-    emit("submit", lid);
-    Discard();
-    CustomEvent.EventDispatcher("reload-logs");
-  });
+  )
+    .then(() => EditDog(props.dog!, GetUID()))
+    .then(() => {
+      emit("submit", lid);
+      Discard();
+      CustomEvent.EventDispatcher("reload-logs");
+    });
 };
 
 const emit = defineEmits(["submit", "discard"]);

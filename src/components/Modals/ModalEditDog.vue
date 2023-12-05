@@ -8,9 +8,9 @@
     @discard="Discard"
     :disable-submit="disableSave"
     :disable-clear="disableClear"
+    button-submit-text="Save"
     close-on-submit
     :canDismiss="!isOpen"
-    button-submit-text="Save"
   >
     <Avatar
       type="dog"

@@ -12,9 +12,8 @@ import { Timestamp } from "firebase/firestore";
 
 const constants = {
   collection: "Forums",
-  documentPosts: "Posts",
-  documentComments: "Comments",
-  dataPosts: `
+  document: "Posts",
+  data: `
           fid TEXT PRIMARY KEY NOT NULL,
           uid TEXT,
           content TEXT,
@@ -23,15 +22,6 @@ const constants = {
           comments TEXT,
           likes TEXT
           `,
-  dataComments: `
-          cid TEXT PRIMARY KEY NOT NULL,
-          uid TEXT,
-          content TEXT,
-          DTPost INTEGER,
-          tags TEXT,
-          comments TEXT,
-          likes TEXT
-                  `,
   arraySplitter: ", ",
 };
 
@@ -124,67 +114,56 @@ const ToCloudProps = (
   };
 };
 
-const CollectionPathPosts = (uid: string) =>
-  `${constants.collection}/${uid}/${constants.documentPosts}`;
+const CollectionPath = () =>
+  `${constants.collection}/Forums/${constants.document}`;
 
-const documentPathPosts = (uid: string, fid: string) =>
-  `${CollectionPathPosts(uid)}/${fid}`;
+const DocumentPath = (fid: string) => `${CollectionPath()}/${fid}`;
 
-const CollectionPathComment = (uid: string, fid: string) =>
-  `${documentPathPosts(uid, fid)}/${constants.documentComments}`;
-
-const documentPathComments = (uid: string, fid: string, cid: string) =>
-  `${CollectionPathComment(uid, fid)}/${cid}`;
-
-const CreateModel = () =>
-  CreateTable(constants.documentPosts, constants.dataPosts);
-const DeleteModel = () => DeleteTable(constants.documentPosts);
-const Clear = () => ResetTable(constants.documentPosts);
+const CreateModel = () => CreateTable(constants.document, constants.data);
+const DeleteModel = () => DeleteTable(constants.document);
+const Clear = () => ResetTable(constants.document);
 
 const GetAll = () =>
-  ReadRowData(constants.documentPosts).then((response) =>
+  ReadRowData(constants.document).then((response) =>
     response.values!.map((note) => ToProps(note, "LocalProps"))
   );
 
 const Get = (fid: string) =>
-  ReadRowData(constants.documentPosts, { key: "fid", value: fid }).then(
-    (response) => ToProps(response.values![0], "LocalProps")
+  ReadRowData(constants.document, { key: "fid", value: fid }).then((response) =>
+    ToProps(response.values![0], "LocalProps")
   );
 
 const Add = async (props: Props, uid?: string) => {
   const localProps = ToLocalProps(props, "Props");
-  const dataPosts = ObjectToMap(localProps);
+  const data = ObjectToMap(localProps);
   if (!!uid)
-    await SetDocument(
-      documentPathPosts(uid, props.fid),
-      ToCloudProps(props, "Props")
-    );
-  return InsertRowData(constants.documentPosts, {
-    keys: Array.from(dataPosts.keys()),
-    values: Array.from(dataPosts.values()),
+    await SetDocument(DocumentPath(props.fid), ToCloudProps(props, "Props"));
+  return InsertRowData(constants.document, {
+    keys: Array.from(data.keys()),
+    values: Array.from(data.values()),
   }).then(() => props);
 };
 
 const Remove = (fid: string) =>
-  DeleteRowData(constants.documentPosts, { key: "fid", value: fid });
+  DeleteRowData(constants.document, { key: "fid", value: fid });
 
 const Sync = async (uid: string, fid: string) =>
-  GetDocument(documentPathPosts(uid, fid)).then(async (response) => {
+  GetDocument(DocumentPath(fid)).then(async (response) => {
     const cloudProps = response!.data()!;
     const localProps = ToLocalProps(cloudProps, "CloudProps");
-    const dataPosts = ObjectToMap(localProps);
+    const data = ObjectToMap(localProps);
     return InsertRowData(
-      constants.documentPosts,
+      constants.document,
       {
-        keys: Array.from(dataPosts.keys()),
-        values: Array.from(dataPosts.values()),
+        keys: Array.from(data.keys()),
+        values: Array.from(data.values()),
       },
       true
     ).then(() => Get(fid));
   });
 
 const SyncAll = async (uid: string) =>
-  GetCollection(CollectionPathPosts(uid)).then(async (value) => {
+  GetCollection(CollectionPath()).then(async (value) => {
     let temp = new Array<Props>();
     for (let cloudProps of value!.values) {
       const response = await Sync(uid, cloudProps.fid);

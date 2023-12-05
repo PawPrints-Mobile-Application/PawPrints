@@ -11,12 +11,13 @@
     <section class="body">
       <header>
         <Avatar type="user" />
-        <aside>
-          <TextSubheading>Lee </TextSubheading>
-          <TextSubheading>123 </TextSubheading>
-        </aside>
+        <TextSubheading>{{ user.username }} </TextSubheading>
       </header>
-      <InputTextareaWrapped v-model="form.description" label="Description" />
+      <InputTextareaWrapped
+        v-model="form.description"
+        label="Description"
+        placeholder="What’s on your mind, hooman?"
+      />
       <InputDynamicWrapped v-model="tags" label="Tags" hide-validator />
       <section class="tags" v-show="form.tags.length > 0">
         <IonChip v-for="(tag, key) in form.tags">
@@ -40,6 +41,10 @@ import { TextSubheading, TextParagraph } from "../Texts";
 import { ButtonText } from "../../components/Buttons";
 import { IonIcon, IonChip } from "@ionic/vue";
 import { closeCircle as closeIcon } from "ionicons/icons";
+
+const user = {
+  username: localStorage.getItem("authUsername"),
+};
 
 const _tags = ref("");
 const tags = computed({

@@ -188,7 +188,7 @@ const Click = () => {
   if (props.type === "date") dateRef.value.Trigger();
   if (props.type === "dropdown" && !!props.hideInput)
     dropdownRef.value.Trigger();
-  if (props.type === "time") timeRef.value.Trigger();
+  if (props.type === "time" && !props.freeze) timeRef.value.Trigger();
   emit("click");
 };
 
@@ -221,8 +221,8 @@ defineExpose({ state, ForceFocus, ForceBlur });
 </script>
 <style scoped>
 .input-dynamic {
-  --input-background: var(--theme-secondary-dark-background);
-  --input-text: var(--theme-secondary-dark-text);
+  --input-background: var(--theme-secondary-background);
+  --input-text: var(--theme-secondary-text);
   --input-outline: 2px solid var(--theme-tertiary-background);
   background-color: var(--input-background);
   color: var(--text);
