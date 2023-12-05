@@ -31,6 +31,9 @@
       </section>
 
       <section class="next-section" v-else>
+      <section class="picture">
+        <img :src="data[page - 1].picture" />
+      </section>
         <section class="subheading">
           <TextSubheading>
             {{ data[page - 1].subtitle }}
@@ -65,6 +68,7 @@ import {
 import { PageCounter } from "../components/Others";
 import { ref } from "vue";
 import { useIonRouter } from "@ionic/vue";
+import { tutorialPage2, tutorialPage3, tutorialPage4, tutorialPage5 } from "../assets/images";
 
 const ionRouter = useIonRouter();
 
@@ -81,24 +85,28 @@ const data = [
     button: "Get Started",
   },
   {
+    picture: tutorialPage2,
     subtitle: "Holistic Health Monitoring",
     description:
       "Record your dog’s vaccinations, set medication reminders and schedule their activities effortlessly.",
     button: "Continue",
   },
   {
+    picture: tutorialPage3,
     subtitle: "Join the Pawsome Community",
     description:
       "Connect with like-minded dog lovers, share tips, and seek advice in our vibrant community forum.",
     button: "Continue",
   },
   {
+    picture: tutorialPage4,
     subtitle: "Locate Nearby Vet Clinics",
     description:
       "In times of need, finding a trustworthy vet is crucial. PawPrints makes this easier by locating nearby veterinary facilities.",
     button: "Continue",
   },
   {
+    picture: tutorialPage5,
     description:
       "Embark on a journey of unparalleled canine care with PawPrints to keep your furry friend happy, healthy, and full of tail-wagging vitality!",
     button: "Get Started",
@@ -166,6 +174,7 @@ header {
 .logo {
   position: relative;
   align-items: center;
+  height: 150px;
 }
 .text-heading {
   text-align: center;
@@ -179,5 +188,16 @@ header {
 .button-text {
   background-color: var(--theme-tertiary-background);
   color: var(--theme-tertiary-text);
+}
+
+.picture{
+  height: 150px;
+}
+.button-back{
+  width: 20px;
+}
+
+.button-next{
+  width: 20px;
 }
 </style>
