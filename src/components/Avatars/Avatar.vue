@@ -31,12 +31,11 @@ const importer = (name: string) =>
 const GetAvatar = async () => {
   img.value = props.type === "dog" ? DogDefault : UserDefault;
   if (!props.src) return;
-  const path = `../../assets/images/dogs/${props.src}.svg`;
+  const path = `./src/assets/images/dogs/${props.src}.svg`;
   let icon;
   try {
     icon = await importer(props.src);
     img.value = path;
-    console.log(true);
   } catch (error) {}
 };
 

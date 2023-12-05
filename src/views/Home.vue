@@ -142,6 +142,10 @@ header {
   width: 100%;
 }
 
+.daily-logs {
+  min-height: 100px;
+}
+
 .text-subheading {
   font-weight: 700;
   text-align: left;
