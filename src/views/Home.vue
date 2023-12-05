@@ -95,8 +95,6 @@ const ReloadLogs = async () => {
       logs.value.set(pid, propsLog);
     })
   );
-  console.log(logs.value);
-  console.log(dogs.value);
 };
 
 // Light Functions, preferrably async functions only
@@ -155,6 +153,9 @@ header {
   padding: 10px;
   border-radius: 10px;
   width: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .dog-logs {
@@ -164,7 +165,10 @@ header {
 }
 
 aside {
-  flex: 1 0 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .avatar {

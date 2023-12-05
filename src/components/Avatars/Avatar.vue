@@ -4,7 +4,7 @@
     :style="{ backgroundColor: !color ? 'none' : color }"
   >
     <IonSkeletonText v-if="!!lazyLoad && !src" />
-    <img :src="GetAvatar()" v-else />
+    <img :src="img" v-else />
   </section>
 </template>
 
@@ -12,6 +12,7 @@
 import { IonSkeletonText } from "@ionic/vue";
 import { personCircleOutline as UserDefault } from "ionicons/icons";
 import { PawPrints as DogDefault } from "../../assets/images";
+import { ref, onMounted } from "vue";
 const props = defineProps({
   type: {
     type: String,
@@ -23,19 +24,25 @@ const props = defineProps({
   color: String,
 });
 
-const GetAvatar = () => {
-  if (props.type === "dog") {
-    switch (props.src) {
-      default:
-        return DogDefault;
-    }
-  } else {
-    switch (props.src) {
-      default:
-        return UserDefault;
-    }
-  }
+const img = ref(DogDefault);
+const importer = (name: string) =>
+  import(`../../assets/images/dogs/${name}.svg`);
+
+const GetAvatar = async () => {
+  img.value = props.type === "dog" ? DogDefault : UserDefault;
+  if (!props.src) return;
+  const path = `../../assets/images/dogs/${props.src}.svg`;
+  let icon;
+  try {
+    icon = await importer(props.src);
+    img.value = path;
+    console.log(true);
+  } catch (error) {}
 };
+
+onMounted(async () => {
+  await GetAvatar();
+});
 </script>
 
 <style scoped>

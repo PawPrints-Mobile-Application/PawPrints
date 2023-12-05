@@ -46,7 +46,7 @@ const OpenLog = (log: Props) =>
   border-radius: 6px;
   background-color: var(--theme-secondary-background);
   color: var(--theme-secondary-text);
-  padding: 10px 20px;
+  padding: 5px 10px;
 }
 
 header {

@@ -121,7 +121,6 @@ const state = reactive({
 const clickMiddle = () => {
   if (state.navigating) return;
   if (!isOnTab("/dogs")) {
-    console.log(true);
     state.navigating = true;
     state.dogs = true;
     setTimeout(() => {
