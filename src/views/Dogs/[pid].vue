@@ -8,7 +8,7 @@
       <header>
         <ButtonBack
           type="icon"
-          @click="() => ionRouter.navigate('/dogs', 'root', 'replace')"
+          @click="() => ionRouter.navigate('/dogs', 'forward', 'replace')"
         />
         <TextHeading>{{ dog?.name }}</TextHeading>
         <section class="edit-profile" @click="EditProfile">

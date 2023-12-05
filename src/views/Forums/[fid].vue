@@ -2,7 +2,9 @@
   <LayoutPage justify="flex-start">
     <template #header>
       <section class="header">
-        <ButtonBack type="icon" @click="() => ionRouter.back()" />
+        <ButtonBack
+          @click="() => ionRouter.navigate('/forums', 'forward', 'replace')"
+        />
         <TextHeading>FORUM</TextHeading>
       </section>
     </template>
@@ -139,7 +141,7 @@ export default {
   min-height: 70;
 
   > .button-back {
-    max-width: 20px;
+    max-width: 40px;
   }
 
   > .text-heading {
@@ -225,7 +227,7 @@ ion-icon {
   font-style: italic;
 }
 
-aside{
+aside {
   width: 100%;
 }
 .add-post {

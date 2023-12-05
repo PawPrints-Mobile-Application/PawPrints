@@ -142,7 +142,7 @@ const Navigate = (
 ) => {
   if (state.navigating && !offResetriction) return;
   state.navigating = true;
-  ionRouter.navigate(target, "forward", "push");
+  ionRouter.navigate(target, 'forward', "push");
   if (resetTime) setTimeout(() => (state.navigating = false), 100);
 };
 </script>

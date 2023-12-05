@@ -1,5 +1,5 @@
 <template>
-  <LayoutSettings label="MY PROFILE" target="/settings">
+  <LayoutSettings label="MY PROFILE">
     <InputPhoto name="Photo" v-model:value="form.photo" has-change-button />
     <InputDynamicWrapped
       ref="username"

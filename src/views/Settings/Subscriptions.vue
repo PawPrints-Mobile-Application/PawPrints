@@ -1,7 +1,6 @@
 <template>
   <LayoutSettings
     label="MY SUBSCRIPTION"
-    target="/settings"
     disableHeaderOnScroll
   >
     <SubscriptionCard

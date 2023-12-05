@@ -1,5 +1,5 @@
 <template>
-  <LayoutSettings label="ABOUT" target="/settings">
+  <LayoutSettings label="ABOUT">
     <section class="logo">
       <Logo />
       <TextHeading class="app-name">PawPrints</TextHeading>

@@ -1,5 +1,5 @@
 <template>
-  <LayoutSettings label="FAQS" target="/settings">
+  <LayoutSettings label="FAQS">
     <InputRadio
       :label="form[0].name"
       :options="form[0].options"

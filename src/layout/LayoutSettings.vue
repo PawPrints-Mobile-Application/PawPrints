@@ -2,7 +2,7 @@
   <LayoutPage class="layout-settings" justify="flex-start">
     <template #header>
       <header>
-        <ButtonBack state="transparent" type="icon" @click="Redirect" />
+        <ButtonBack @click="Redirect" />
         <TextHeading>{{ label }}</TextHeading>
       </header>
     </template>
@@ -15,22 +15,17 @@ import { LayoutPage } from ".";
 import { useIonRouter } from "@ionic/vue";
 import { TextHeading } from "../components/Texts";
 
-const props = defineProps({
+defineProps({
   label: {
     type: String,
     required: true,
-  },
-  target: {
-    type: String,
-    required: true,
-    validator: (value: string) => value.startsWith("/"),
   },
 });
 
 const ionRouter = useIonRouter();
 const Redirect = () => {
   emit("back");
-  ionRouter.navigate(props.target, "back", "pop");
+  ionRouter.navigate("/settings", 'forward', 'replace');
 };
 const emit = defineEmits(["back"]);
 </script>
@@ -46,7 +41,7 @@ header {
 }
 
 .button-back {
-  max-width: 20px;
+  max-width: 40px;
 }
 
 .body {

@@ -115,7 +115,7 @@ const ToCloudProps = (
 };
 
 const CollectionPath = () =>
-  `${constants.collection}/Forums/${constants.document}`;
+  `${constants.collection}/${constants.document}/${constants.document}`;
 
 const DocumentPath = (fid: string) => `${CollectionPath()}/${fid}`;
 
@@ -147,7 +147,7 @@ const Add = async (props: Props, uid?: string) => {
 const Remove = (fid: string) =>
   DeleteRowData(constants.document, { key: "fid", value: fid });
 
-const Sync = async (uid: string, fid: string) =>
+const Sync = async (fid: string) =>
   GetDocument(DocumentPath(fid)).then(async (response) => {
     const cloudProps = response!.data()!;
     const localProps = ToLocalProps(cloudProps, "CloudProps");
@@ -162,11 +162,11 @@ const Sync = async (uid: string, fid: string) =>
     ).then(() => Get(fid));
   });
 
-const SyncAll = async (uid: string) =>
+const SyncAll = async () =>
   GetCollection(CollectionPath()).then(async (value) => {
     let temp = new Array<Props>();
     for (let cloudProps of value!.values) {
-      const response = await Sync(uid, cloudProps.fid);
+      const response = await Sync(cloudProps.fid);
       temp.push(response);
     }
     return temp;
