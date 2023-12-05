@@ -15,14 +15,16 @@ import {
 import ObjectToMap from "../../utils/ObjectToMap";
 import { LocalTime, EnumConstructor } from "../../utils/";
 import {
-  thermometer as temperatureIcon,
-  eyedrop as vaccineIcon,
-  medical as medicineIcon,
-  bandage as symptomsIcon,
-  bicycle as activityIcon,
   ellipsisHorizontal as othersIcon,
 } from "ionicons/icons";
-import { weight as weightIcon } from "../../assets/icons";
+import {
+  weight as weightIcon,
+  temperature as temperatureIcon,
+  vaccine as vaccineIcon,
+  medicine as medicineIcon,
+  symptom as symptomsIcon,
+  activity as activityIcon,
+} from "../../assets/icons";
 
 type RecordType = {
   name: string;

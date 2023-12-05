@@ -13,6 +13,11 @@ import settingsPreferences from './settingsPreferences.svg';
 import settingsSubscriptions from './settingsSubscriptions.svg';
 import settingsAbout from './settingsAbout.svg';
 import weight from './weight.svg';
+import temperature from './temperature.svg';
+import vaccine from './vaccine.svg';
+import medicine from './medicine.svg';
+import symptom from './symptom.svg';
+import activity from './activity.svg';
 
 const settingsCardIcons = {settingsProfile, settingsPreferences, settingsSubscriptions, settingsAbout};
 
@@ -24,6 +29,11 @@ const icons = [iconsOutline, iconsFilled]
 
 export {
     weight,
+    temperature,
+    vaccine,
+    medicine,
+    symptom,
+    activity,
     homeFilled,
     factsFilled,
     mapsFilled,
