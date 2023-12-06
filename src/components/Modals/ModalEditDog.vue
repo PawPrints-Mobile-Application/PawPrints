@@ -14,6 +14,7 @@
   >
     <Avatar
       type="dog"
+      root="../../../"
       :src="form.breed"
       :style="{ backgroundColor: form.color }"
     />

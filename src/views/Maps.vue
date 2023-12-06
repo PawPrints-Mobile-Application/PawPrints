@@ -15,10 +15,10 @@
 <script lang="ts" setup>
 import { LayoutPage } from "../layout";
 
-const appDimesions = {
-  width: window.innerWidth,
-  height: window.innerHeight,
-};
+// const appDimesions = {
+//   width: window.innerWidth,
+//   height: window.innerHeight,
+// };
 </script>
 
 <script lang="ts">

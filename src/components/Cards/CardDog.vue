@@ -3,6 +3,7 @@
     <header>
       <Avatar
         type="dog"
+        root="../../"
         :src="dog?.breed"
         :style="{
           backgroundColor: !!dog

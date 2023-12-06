@@ -22,10 +22,10 @@ const state = computed({
 });
 
 const Click = () => {
-  state.value = !state.value;
-  emit("click", state.value);
-  emit("update:modelValue", state.value);
-  if (state.value) emit("expand");
+  const temp = !state.value;
+  emit("click", temp);
+  emit("update:modelValue", temp);
+  if (temp) emit("expand");
   else emit("collapse");
 };
 

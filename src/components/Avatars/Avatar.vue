@@ -12,7 +12,7 @@
 import { IonSkeletonText } from "@ionic/vue";
 import { personCircleOutline as UserDefault } from "ionicons/icons";
 import { PawPrints as DogDefault } from "../../assets/images";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 const props = defineProps({
   type: {
     type: String,
@@ -20,24 +20,30 @@ const props = defineProps({
     validator: (value: string) => ["dog", "user"].includes(value),
   },
   src: String,
+  root: String,
   lazyLoad: Boolean,
   color: String,
 });
 
 const img = ref(DogDefault);
-const importer = (name: string) =>
-  import(`../../assets/images/dogs/${name}.svg`);
+const importer = (root: string, name: string) =>
+  import(`${root}assets/images/dogs/${name}.svg`);
 
 const GetAvatar = async () => {
   img.value = props.type === "dog" ? DogDefault : UserDefault;
-  if (!props.src) return;
+  if (!props.src || !props.root) return;
   const path = `./src/assets/images/dogs/${props.src}.svg`;
-  let icon;
   try {
-    icon = await importer(props.src);
+    await importer(props.root, props.src);
+    console.log(props.src);
     img.value = path;
   } catch (error) {}
 };
+
+watch(
+  () => props.src,
+  async () => GetAvatar()
+);
 
 onMounted(async () => {
   await GetAvatar();

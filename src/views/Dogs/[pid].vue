@@ -15,7 +15,12 @@
         />
         <TextHeading>{{ dog?.name }}</TextHeading>
         <section class="edit-profile" @click="EditProfile">
-          <Avatar type="dog" :src="dog?.breed" :color="dog?.color" />
+          <Avatar
+            type="dog"
+            :src="dog?.breed!"
+            root="../../../"
+            :color="dog?.color"
+          />
           <TextSmall>Edit Profile</TextSmall>
         </section>
       </header>

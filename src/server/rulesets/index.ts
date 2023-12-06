@@ -3,8 +3,10 @@ import { InputValidator } from "../../utils";
 
 const reservedUsernames = ["Guest"];
 
-const StringMinMax = (value: string, min: number, max: number = -1) => value.length >= min && (max === -1 || value.length <= max);
-const EmailFormatDetector = (value: string) => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value);
+const StringMinMax = (value: string, min: number, max: number = -1) =>
+  value.length >= min && (max === -1 || value.length <= max);
+const EmailFormatDetector = (value: string) =>
+  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value);
 const UpperCaseDetector = (value: string) => /[A-Z]/.test(value);
 const LowerCaseDetector = (value: string) => /[a-z]/.test(value);
 const NumberDetector = (value: string) => /\d/.test(value);
@@ -22,8 +24,7 @@ const SignupValidator = {
   ],
   email: [
     new InputValidator(
-      (value: string) =>
-        EmailFormatDetector(value),
+      (value: string) => EmailFormatDetector(value),
       "Email must be valid",
       "danger"
     ),
@@ -35,26 +36,22 @@ const SignupValidator = {
       "danger"
     ),
     new InputValidator(
-      (value: string) =>
-      LowerCaseDetector(value),
+      (value: string) => LowerCaseDetector(value),
       "Must have at least one lowercase letter!",
       "danger"
     ),
     new InputValidator(
-      (value: string) =>
-      NumberDetector(value),
+      (value: string) => NumberDetector(value),
       "Must have at least one number!",
       "danger"
     ),
     new InputValidator(
-      (value: string) =>
-      UpperCaseDetector(value),
+      (value: string) => UpperCaseDetector(value),
       "Could have at least one uppercase letter!",
       "warning"
     ),
     new InputValidator(
-      (value: string) =>
-      SpecialCharacterDetector(value),
+      (value: string) => SpecialCharacterDetector(value),
       "Could have at least one special character!",
       "warning"
     ),
@@ -73,8 +70,7 @@ const SigninValidator = {
     //   "danger"
     // ),
     new InputValidator(
-      (value: string) =>
-        EmailFormatDetector(value),
+      (value: string) => EmailFormatDetector(value),
       "Email must be valid",
       "danger"
     ),

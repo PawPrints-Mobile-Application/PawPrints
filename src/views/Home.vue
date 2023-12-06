@@ -2,7 +2,7 @@
   <LayoutPage justify="flex-start" disableHeaderOnScroll addMarginBotton>
     <template #header>
       <header>
-        <Avatar type="user" />
+        <Avatar type="user" root="../../" />
         <TextHeading>{{ authGreetings }}</TextHeading>
       </header>
     </template>
@@ -17,6 +17,7 @@
         <section class="wrapper">
           <div class="dog-logs" v-for="log of logs">
             <Avatar
+              root="../../"
               type="dog"
               :color="dogs.get(log[0])?.color"
               :src="dogs.get(log[0])?.breed"

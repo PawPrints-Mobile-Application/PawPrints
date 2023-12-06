@@ -12,6 +12,7 @@
   >
     <Avatar
       type="dog"
+      root="../../../"
       :src="form.breed"
       :style="{ backgroundColor: form.color }"
     />
@@ -30,7 +31,7 @@
         disable-future
       />
       <InputDynamicWrapped
-      class="dropdown"
+        class="dropdown"
         type="dropdown"
         v-model="form.breed"
         label="Doggo Breed"
