@@ -35,7 +35,6 @@ const GetAvatar = async () => {
   const path = `./src/assets/images/dogs/${props.src}.svg`;
   try {
     await importer(props.root, props.src);
-    console.log(props.src);
     img.value = path;
   } catch (error) {}
 };

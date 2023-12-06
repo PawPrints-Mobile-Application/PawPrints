@@ -35,7 +35,7 @@
     <section
       class="view view-data"
       v-show="!!dog"
-      v-if="state.viewSegment.label === viewSegments[0].label"
+      v-if="state.viewSegment.label === viewSegments[1].label"
     >
       <LayoutPIDCalendarView
         v-model:model-month="data.month"
@@ -110,8 +110,8 @@ const pid = ref();
 const dog: Ref<PropsDog | undefined> = ref();
 
 const viewSegments = [
-  new SegmentOption("Calendar View", calendarView),
   new SegmentOption("List View", listView),
+  new SegmentOption("Calendar View", calendarView),
 ];
 const state = reactive({
   hideCard: false,

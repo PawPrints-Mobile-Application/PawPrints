@@ -12,19 +12,22 @@
     <section class="content">
       <TextHeading class="date">{{ dateText }}</TextHeading>
       <CardTrivia />
-      <TextSubheading>Today’s Schedules</TextSubheading>
+      <TextSubheading class="todays-sched">Today’s Schedules</TextSubheading>
       <section class="daily-logs">
         <section class="wrapper">
           <div class="dog-logs" v-for="log of logs">
-            <Avatar
-              root="../../"
-              type="dog"
-              :color="dogs.get(log[0])?.color"
-              :src="dogs.get(log[0])?.breed"
-            />
-            <aside>
-              <CardEachLog v-for="eachLog in log[1]" :log="eachLog" />
-            </aside>
+            <TextSubheading>{{ dogs.get(log[0])?.name }}</TextSubheading>
+            <div class="below">
+              <Avatar
+                root="../../"
+                type="dog"
+                :color="dogs.get(log[0])?.color"
+                :src="dogs.get(log[0])?.breed"
+              />
+              <aside>
+                <CardEachLog v-for="eachLog in log[1]" :log="eachLog" />
+              </aside>
+            </div>
           </div>
         </section>
       </section>
@@ -133,6 +136,11 @@ header {
   width: 100%;
 }
 
+.todays-sched {
+  margin-top: 20px;
+  color: var(--theme-primary-text);
+}
+
 .date {
   font-size: 40px;
   margin-block: 20px;
@@ -164,8 +172,19 @@ header {
 }
 
 .dog-logs {
-  width: 100%;
   display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 3px;
+
+  > .text-subheading {
+    color: var(--theme-secondary-dark-text);
+  }
+}
+
+.below {
+  display: flex;
+  width: 100%;
   gap: 10px;
 }
 
