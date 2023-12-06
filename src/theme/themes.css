@@ -3,4 +3,25 @@
   --theme-white: #fefefe;
   --theme-grey: #cecece;
   --theme-pawprints: #ffd803;
+
+  --primary-background: #fefefe;
+  --primary-text: #0d0d0d;
+  --secondary-background: #e3f6f5;
+  --secondary-text: #0d0d0d;
+  --secondary-dark-background: #bae8e8;
+  --secondary-dark-text: #0d0d0d;
+  --tertiary-background: #ffd803;
+  --tertiary-text: #0d0d0d;
+  --quadratic-background: #272343;
+  --quadratic-text: #fefefe;
+
+  --button-middle-text: #fffffe;
+  --warning-background: #eb445a;
+  --warning-text: #fffffe;
+  --success-background: #2dd36f;
+  --success-text: #fffffe;
+  --button-icon: #ffd803;
+  --list-log-background: rgba(255, 216, 3, 0.7);
+  --list-log-text: #000000;
+  --card-highlight-color: #000000;
 }
