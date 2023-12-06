@@ -31,18 +31,6 @@
         v-model="dateValue"
         :disableFuture="disableFuture"
       />
-      <PopupDropdown
-        ref="dropdownRef"
-        v-else-if="type === 'dropdown'"
-        v-model="dropdownValue"
-        :options="
-          options?.map((option) => new DropdownOption(option.toString()))
-        "
-        :count="count"
-        :searchable="searchable"
-        :hideInput="hideInput"
-        :hideIcon="hideDropdownIcon"
-      />
       <PopupTime
         ref="timeRef"
         v-else-if="type === 'time'"
@@ -55,7 +43,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { InputBox, InputColorPicker } from ".";
-import { PopupCalendar, PopupDropdown, PopupTime } from "../Popup";
+import { PopupCalendar, PopupTime } from "../Popup";
 import {
   DropdownOption,
   LocalDate,
@@ -134,21 +122,7 @@ const dateValue = computed({
     emit("update:modelValue", temp);
     emit("change", temp);
   },
-});
-
-const dropdownValue = computed({
-  get() {
-    if (!props.modelValue || props.modelValue === "") {
-      dropdownValue.value = new DropdownOption("");
-    }
-    return new DropdownOption(props.modelValue!.toString());
-  },
-  set(value) {
-    const temp = value.label;
-    emit("update:modelValue", temp);
-    emit("change", temp);
-  },
-});
+});q
 
 const StringToLocalTime = () => {
   if (typeof props.modelValue! === "number")
