@@ -28,5 +28,8 @@ export {
     tutorialPage2,
     tutorialPage3,
     tutorialPage4,
-    tutorialPage5
+    tutorialPage5,
+
 }
+
+

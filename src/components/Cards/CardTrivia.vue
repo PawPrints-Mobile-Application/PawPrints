@@ -49,5 +49,7 @@ article {
   color: var(--theme-quadratic-background);
   margin: 0;
   align-self: flex-end;
+  height: 30px;
+  width: 30px;
 }
 </style>
