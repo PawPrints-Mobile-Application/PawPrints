@@ -1,3 +1,4 @@
+import { PawPrints } from "../assets/images";
 import { Affenpinscher } from "../assets/images/dogs";
 
 const breeds: Array<{ name: string; icon: string } | string> = [
@@ -14,7 +15,10 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   "American Cocker Spaniel",
   "American Eskimo",
   "American Hairless Terrier",
-  "American Leopard Hound",
+  {
+    name: "American Leopard Hound",
+    icon: PawPrints,
+  },
   "American Pit Bull Terrier",
   "American Staffordshire Terrier",
   "American Water Spaniel",
