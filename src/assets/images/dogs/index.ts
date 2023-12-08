@@ -1,4 +1,4 @@
-import Affenpinscher from "./Affenpinscher.png";
+import Affenpinscher from "./Affenpinscher.svg";
 import AfghanHound from "./AfghanHound.svg";
 import AiredaleTerrier from "./AiredaleTerrier.svg";
 import Akita from "./Akita.svg";
