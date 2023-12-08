@@ -18,7 +18,9 @@
     />
     <section class="main-content" :class="{ 'show-auth': state.showAuth }">
       <TextTitle>PawPrints</TextTitle>
-      <TextSubheading>Your Ultimate Canine<br/>Companion Care App</TextSubheading>
+      <TextSubheading
+        >Your Ultimate Canine<br />Companion Care App</TextSubheading
+      >
       <ButtonText label="Guest" />
       <ButtonText label="Sign In" />
       <ButtonText label="Sign Up" />
@@ -48,11 +50,13 @@ const state = reactive({
   backgroundGrow: false,
   logoOut: false,
   showAuth: false,
+  connectionFeedback: "none",
 });
 
-const user = ref();
+const user = ref(localStorage.getItem("authType") !== "");
 onAuthStateChanged(auth, (currentUser) => {
-  user.value = localStorage.getItem("authType") !== "" || !!currentUser;
+  user.value = !!currentUser;
+  state.connectionFeedback = !currentUser ? "none" : "established";
 });
 
 const ionRouter = useIonRouter();
@@ -74,8 +78,7 @@ const Redirect = () => {
   }, 1000);
 };
 
-watch(user, () => (state.readyRedirect = true));
-watch(() => state.doneAnimation && state.readyRedirect, Redirect);
+watch(() => state.doneAnimation && user.value, Redirect);
 
 onIonViewDidEnter(() => {
   setTimeout(async () => {
@@ -84,6 +87,8 @@ onIonViewDidEnter(() => {
     CreateModels().then(() =>
       setTimeout(() => {
         state.doneAnimation = true;
+        if (user.value) return;
+        setTimeout(() => (state.connectionFeedback = "timeout"), 3000);
       }, 1000)
     );
   }, 1000);
@@ -104,8 +109,8 @@ export default {
   position: relative;
   --size: 10px;
   opacity: 0;
-  transition: opacity 250ms ease-out, width 500ms ease-in, height 450ms ease-out 100ms,
-    transform 300ms ease-out;
+  transition: opacity 250ms ease-out, width 500ms ease-in,
+    height 450ms ease-out 100ms, transform 300ms ease-out;
 }
 
 .logo.show-thumbnail {

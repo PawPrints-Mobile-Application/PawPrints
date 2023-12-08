@@ -151,10 +151,6 @@ header {
   width: 100%;
 }
 
-.daily-logs {
-  min-height: 100px;
-}
-
 .text-subheading {
   font-weight: 700;
   text-align: left;
@@ -163,6 +159,7 @@ header {
 
 .wrapper {
   background-color: var(--theme-secondary-dark-background);
+  min-height: 120px;
   padding: 10px;
   border-radius: 10px;
   width: 100;
