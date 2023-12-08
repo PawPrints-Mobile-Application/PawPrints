@@ -1,5 +1,10 @@
-const breeds = [
-  "Affenpinscher",
+import { Affenpinscher } from "../assets/images/dogs";
+
+const breeds: Array<{ name: string; icon: string } | string> = [
+  {
+    name: "Affenpinscher",
+    icon: Affenpinscher,
+  },
   "Afghan Hound",
   "Airedale Terrier",
   "Akita",
