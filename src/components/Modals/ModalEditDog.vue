@@ -33,7 +33,7 @@
       disable-future
       hideValidator
     />
-    <InputDynamicWrapped
+    <InputDropdown
       type="dropdown"
       v-model="form.breed"
       label="Doggo Breed"
@@ -61,7 +61,7 @@ import { LayoutModal } from "../../layout";
 import { Avatar } from "../Avatars";
 import { Add, Remove } from "../../server/models/Dogs";
 import { GetUID, breeds, ObjectToMap, CustomEvent } from "../../utils";
-import { InputDynamicWrapped } from "../Forms";
+import { InputDropdown, InputDynamicWrapped } from "../Forms";
 import { ButtonText } from "../Buttons";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();

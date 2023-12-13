@@ -30,12 +30,12 @@
         hide-input
         disable-future
       />
-      <InputDynamicWrapped
+      <InputDropdown
         class="dropdown"
         type="dropdown"
         v-model="form.breed"
         label="Doggo Breed"
-        :options="breeds"
+        :options="breeds.map((breed) => breed.name)"
         placeholder="Choose a breed"
         :count="6"
         searchable
@@ -57,7 +57,7 @@ import { LayoutModal } from "../../layout";
 import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
 import { SeedGenerator, GetUID, breeds } from "../../utils";
-import { InputDynamicWrapped } from "../Forms";
+import { InputDropdown, InputDynamicWrapped } from "../Forms";
 
 const form = reactive({
   name: "",

@@ -21,7 +21,7 @@
         hideValidator
         v-model="form.title"
       />
-      <InputDynamicWrapped
+      <InputDropdown
         type="dropdown"
         :options="GetRecordTypeOptions()"
         v-model="form.recordType"
@@ -94,6 +94,7 @@ import { LayoutModal } from "../../layout";
 import {
   InputSegment,
   InputDynamicWrapped,
+  InputDropdown,
   InputChoice,
   InputTextareaWrapped,
   InputLabel,

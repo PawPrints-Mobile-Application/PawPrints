@@ -35,7 +35,6 @@ const props = defineProps({
         "time",
         "color",
         "date",
-        "dropdown",
 
         // value type Number
         "number",
@@ -55,7 +54,7 @@ const GetType = () => {
   if (!!props.hidden) return "password";
   if (
     (props.type === "password" && !!props.show) ||
-    ["color", "date", "dropdown", "time"].includes(props.type)
+    ["color", "date", "time"].includes(props.type)
   )
     return "text";
   return props.type;

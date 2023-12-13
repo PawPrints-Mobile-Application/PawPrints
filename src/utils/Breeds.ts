@@ -20,7 +20,12 @@ import { Pug } from "../assets/images/dogs";
 import { ShihTzu } from "../assets/images/dogs";
 import { SiberianHusky } from "../assets/images/dogs";
 
-const breeds: Array<{ name: string; icon: string } | string> = [
+type Breed = {
+  name: string;
+  icon: string;
+};
+
+const breeds: Array<Breed> = [
   {
     name: "Affenpinscher",
     icon: Affenpinscher,
