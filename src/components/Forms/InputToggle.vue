@@ -1,61 +1,62 @@
 <template>
-  <section class="input-toggle default-input">
-    <div class="option-input" @click="Toggle">
-      <div class="custom-input" v-show="modelValue" />
-    </div>
-    <label class="option-label">
-      <slot>{{ content }}</slot>
-    </label>
+  <section class="forms input-toggle text poppins paragraph">
+    <aside class="input" @click="SetValue">
+      <ion-icon :class="{show: !!props.modelValue}" :icon="icon" />
+    </aside>
+    <aside class="content">
+      <slot>{{ label }}</slot>
+    </aside>
   </section>
 </template>
 <script setup lang="ts">
+import { paw as icon } from "ionicons/icons";
+import { IonIcon } from "@ionic/vue";
 const props = defineProps({
   modelValue: Boolean,
-  content: String,
+  label: String,
 });
 
-const Toggle = () => {
+const SetValue = () => {
   emit("update:modelValue", !props.modelValue);
+  emit("toggle", !props.modelValue);
 };
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "toggle"]);
 </script>
 <style scoped>
 .input-toggle {
-  --label-color: var(--theme-primary-text);
-  width: 100%;
-  min-width: calc(50% - var(--gap));
-  --size: 15px;
-  --cover-size: calc(var(--size) * 0.6);
-  --border-radius: 10px;
-  height: max-content;
+  --background: var(--theme-secondary-background);
+  --color: var(--theme-secondary-text);
+  --outline: var(--theme-tertiary-background);
+  --radius: 5px;
+  --text-align: left;
+  --size: 25px;
   display: flex;
-  gap: 5px;
-  align-items: center;
+  gap: 15px;
 }
-
-.option-input {
-  background-color: var(--theme-secondary-background);
+.input {
   width: var(--size);
   height: var(--size);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: var(--border-radius);
+  border-radius: var(--radius);
+  background-color: var(--background);
 
-  > .custom-input {
-    opacity: 0.7;
-    background-color: var(--theme-secondary-text);
-    border-radius: var(--border-radius);
-    position: relative;
-    width: var(--cover-size);
-    height: var(--cover-size);
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.option-label {
-  color: var(--label-color);
-  font-size: var(--fs4);
-  flex: 1 0 0;
+ion-icon {
+  position: absolute;
+  color: var(--theme-tertiary-background);
+  font-size: 0px;
+  opacity: 0;
+  transition: all 200ms ease-out;
+}
+
+.show {
+  color: var(--theme-tertiary-background);
+  transform: rotate(30deg) translateY(-5px);
+  font-size: 45px;
+  opacity: 1;
 }
 </style>

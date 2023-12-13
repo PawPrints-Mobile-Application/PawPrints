@@ -1,73 +1,138 @@
 <template>
-  <section class="input-dropdown default-input">
-    <InputBox v-model="filter" v-show="!!searchable" />
-    <br />
-    <InputSelect
-      v-model="value"
-      :options="GetOptions()"
-      @click="emit('select', value)"
-      :count="count"
-      :allow-others="!hideInput"
-    />
+  <section class="forms input-dropdown" @click="expanded = !expanded">
+    <div class="output text poppins paragraph">{{ props.modelValue }}</div>
+    <div
+      class="icons theme color tertiary"
+      :class="{ expanded: expanded }"
+      v-show="!hideIcon"
+    >
+      <ion-icon id="icon-up" :icon="chevronUp" />
+      <ion-icon id="icon-down" :icon="chevronDown" />
+    </div>
+    <Popup v-model="expanded">
+      <section class="dropdown">
+        <InputText
+          v-model="searchValue"
+          @input="Filter"
+          v-show="!!searchable"
+        />
+        <InputSelect
+          v-model="value"
+          @update:model-index="UpdateIndex"
+          :options="filteredOptions"
+          @select="() => (expanded = false)"
+        />
+      </section>
+    </Popup>
   </section>
 </template>
 <script setup lang="ts">
-import { InputSelect, InputBox } from ".";
-import { ref, computed } from "vue";
-import { DropdownOption } from "../../utils";
+import { computed, ref } from "vue";
+import { IonIcon } from "@ionic/vue";
+import { chevronUp, chevronDown } from "ionicons/icons";
+import { Popup } from "../Popup";
+import { InputText, InputSelect } from ".";
 
 const props = defineProps({
-  label: String,
-  hideInput: Boolean,
-  placeholder: {
-    type: String,
-    default: "Select a value",
-  },
-
-  // For Input Select
-  options: Array<DropdownOption>,
-  modelValue: DropdownOption,
-  count: {
-    type: Number,
-    default: 5,
-    validate: (value: number) => value <= 10 && value > 0,
-  },
+  modelValue: [Object, String, Number, Date],
+  options: Array<Object | String | Number | Date>,
+  show: Boolean,
   searchable: Boolean,
+  hideIcon: Boolean,
 });
 
-const filter = ref("");
-const GetOptions = () => {
-  if (!props.options || props.options.length === 0) return [];
-  let temp: DropdownOption[] = [];
-  props.options.forEach((option) => {
-    if (
-      filter.value === "" ||
-      option.label.toLowerCase().includes(filter.value)
-    )
-      temp.push(option);
-  });
-  return temp;
+const filteredOptions = ref(props.options);
+const searchValue = ref("");
+const Filter = (value: string) => {
+  filteredOptions.value =
+    value.trim() === ""
+      ? props.options
+      : props.options?.filter((element) => element.toString().includes(value));
 };
+
+const expanded = ref(false);
 
 const value = computed({
   get() {
-    return props.modelValue!;
+    return props.modelValue;
   },
   set(value) {
-    emit("update:modelValue", value!);
-    emit("change", value!);
+    emit("update:modelValue", value);
+    emit("select", value);
   },
 });
 
-const emit = defineEmits(["update:modelValue", "change", "select"]);
+const UpdateIndex = (value: number) => emit("update:modelIndex", value);
+
+const emit = defineEmits(["update:modelValue", "select", "update:modelIndex"]);
 </script>
 <style scoped>
 .input-dropdown {
+  --background: var(--theme-secondary-background);
+  --color: var(--theme-secondary-text);
+  --outline: var(--theme-tertiary-background);
+  --radius: 5px;
+  --icon: var(--theme-tertiary-background);
+  --text-align: left;
+  --font-weight: 400;
+  background-color: var(--background);
+  color: var(var(--color));
   width: 100%;
-  --dropdown-width: 100%;
+  height: 30px;
+  border-radius: var(--radius);
+  padding: 5px 10px;
+  display: flex;
+  gap: 5px;
+
+  &:is(:active, :hover, :focus) {
+    outline: 2px solid var(--outline);
+  }
 }
 
-.input-box {
-  outline: 2px solid var(--theme-black);
+.output {
+  flex: 1 0 0;
+  text-align: var(--text-align);
+  font-weight: var(--font-weight);
+}
+
+.icons {
+  height: 100%;
+  width: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: scroll;
+  --translateYUp: -7px;
+  --translateYDown: 7px;
+
+  &.expanded {
+    --translateYUp: 7px;
+    --translateYDown: -7px;
+  }
+}
+
+ion-icon {
+  font-size: 35px;
+  position: absolute;
+  transition: all 100ms ease-out;
+}
+
+#icon-up {
+  transform: translateY(var(--translateYUp));
+}
+
+#icon-down {
+  transform: translateY(var(--translateYDown));
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-select {
+  width: 100%;
 }
 </style>

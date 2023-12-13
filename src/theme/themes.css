@@ -16,12 +16,68 @@
   --quadratic-text: #fefefe;
 
   --button-middle-text: #fffffe;
-  --warning-background: #eb445a;
-  --warning-text: #fffffe;
+  --danger-background: #eb445a;
+  --danger-text: #fffffe;
   --success-background: #2dd36f;
   --success-text: #fffffe;
   --button-icon: #ffd803;
   --list-log-background: rgba(255, 216, 3, 0.7);
   --list-log-text: #000000;
   --card-highlight-color: #000000;
+}
+
+.theme {
+  &.color {
+    &.primary {
+      color: var(--theme-primary-background);
+    }
+
+    &.secondary {
+      color: var(--theme-secondary-background);
+    }
+
+    &.tertiary {
+      color: var(--theme-tertiary-background);
+    }
+
+    &.quadratic {
+      color: var(--theme-quadratic-background);
+    }
+  }
+
+  &.font {
+    &.primary {
+      color: var(--theme-primary-text);
+    }
+
+    &.secondary {
+      color: var(--theme-secondary-text);
+    }
+
+    &.tertiary {
+      color: var(--theme-tertiary-text);
+    }
+
+    &.quadratic {
+      color: var(--theme-quadratic-text);
+    }
+  }
+
+  &.background {
+    &.primary {
+      background-color: var(--theme-primary-background);
+    }
+
+    &.secondary {
+      background-color: var(--theme-secondary-background);
+    }
+
+    &.tertiary {
+      background-color: var(--theme-tertiary-background);
+    }
+
+    &.quadratic {
+      background-color: var(--theme-quadratic-background);
+    }
+  }
 }

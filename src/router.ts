@@ -1,67 +1,14 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 
-import independentRoutes, { navigationRecords, settingsRecords } from "./views";
-
-const UrlCatcher = () =>
-  [...new Array(6).keys()].map((key: number) => {
-    return {
-      path: "/:" + [...new Array(key + 1).keys()].join("/:"),
-      component: () => import(`./views/PageNotFound.vue`),
-    };
-  });
-
 let routes: Array<RouteRecordRaw> = [
   {
     path: "",
     redirect: "/splash",
   },
   {
-    path: "/",
-    component: () => import(`./views/AntiNavigation.vue`),
-    children: [
-      {
-        path: "",
-        redirect: "/test",
-      },
-      ...independentRoutes.map((record) => {
-        return {
-          path: "/" + record.name,
-          component: () => import(`./views/${record.name}.vue`),
-        };
-      }),
-    ],
-  },
-  ...UrlCatcher(),
-  {
-    path: "/",
-    component: () => import(`./views/Navigation.vue`),
-    children: [
-      {
-        path: "",
-        redirect: "/home",
-      },
-      ...navigationRecords.map((record) => {
-        return {
-          path: "/" + record.name,
-          component: () => import(`./views/${record.name}.vue`),
-        };
-      }),
-      {
-        path: "/dogs/:pid",
-        component: () => import("./views/Dogs/[pid].vue"),
-      },
-      {
-        path: "/forums/:fid",
-        component: () => import("./views/Forums/[fid].vue"),
-      },
-      ...settingsRecords.map((record) => {
-        return {
-          path: "/Settings/" + record.name,
-          component: () => import(`./views/Settings/${record.name}.vue`),
-        };
-      }),
-    ],
+    path: "/test",
+    component: () => import("./views/Test.vue"),
   },
 ];
 

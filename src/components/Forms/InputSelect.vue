@@ -1,116 +1,89 @@
 <template>
-  <section class="input-select default-input" :style="{ '--count': count }">
-    <ul class="items">
-      <li
-        class="item"
-        v-for="(element, key) in props.options"
-        :class="{ selected: key === selected }"
-        @click="SetValue(key)"
-        :ref="(value) => {
-            if (props.options?.length! < 1 || props.modelValue!.value !== props.options![Math.min(key + Math.floor(count / 2), props.options!.length - 1)].value || !!input) return;
-            input = value;
-        }"
+  <section class="forms input-select theme font background secondary">
+    <div class="wrapper" :style="{ height: `${30 * count}px` }">
+      <p
+        class="text subheading poppins"
+        v-for="(option, i) in options"
+        @click="SetValue(i)"
+        :class="{ selected: selected === i }"
+        :ref="
+          (value) => {
+            if (selected === -1 && i === 0) {
+              anchorRef = value;
+            } else if (selected !== -1 && i === anchorRefIndex) {
+              anchorRef = value;
+            }
+          }
+        "
       >
-        {{ element.label }}
-      </li>
-      <li
-        class="item"
-        v-show="!!allowOthers && selected === -1"
-        :class="{ selected: selected === -1 }"
-        :ref="(value) => {
-            if (props.modelValue !== options![Math.min(options?.length! - 1 + Math.floor(count / 2), options!.length - 1)] || !!input) return;
-            input = value;
-        }"
-      >
-        Others
-      </li>
-    </ul>
+        {{ option.toString() }}
+      </p>
+    </div>
   </section>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { DropdownOption } from "../../utils";
-
+import { ref, onMounted } from "vue";
 const props = defineProps({
-  options: Array<DropdownOption>,
-  modelValue: DropdownOption,
+  modelValue: [Object, String, Number, Date],
+  options: Array<Object | String | Number | Date>,
   count: {
     type: Number,
     default: 5,
+    validator: (value: number) => value >= 2 && value <= 8,
   },
-  allowOthers: Boolean,
 });
 
-const input = ref();
-const count = Math.min(props.options!.length, props.count);
-const selected = ref(-1);
-
-const FindIndex = () => {
-  props.options?.forEach((option, key) => {
-    if (option.label === props.modelValue?.label) selected.value = key;
-  });
+const selected = ref(props.options!.indexOf(props.modelValue!));
+const anchorRefIndex = ref(Math.max(selected.value - 2, 0));
+const anchorRef = ref();
+const SetValue = (index: number, doEmit: boolean = true) => {
+  selected.value = index;
+  anchorRefIndex.value = Math.max(index - 2, 0);
+  if (!doEmit) return;
+  emit("update:modelIndex", index);
+  emit("update:modelValue", props.options![index]);
+  emit("select");
 };
 
-const SetValue = (key: number) => {
-  selected.value = key;
-  const value = props.options![key];
-  emit("update:modelValue", value);
-  emit("click");
-};
+const emit = defineEmits(["update:modelValue", "update:modelIndex", "select"]);
 
-const emit = defineEmits(["update:modelValue", "click"]);
+const Initialize = () => setTimeout(ScrollIntoView, 5);
 
-onMounted(() => {
-  FindIndex();
-  setTimeout(() => {
-    input.value?.scrollIntoView({ behavior: "smooth" });
-  }, 10);
-});
+const ScrollIntoView = () =>
+  anchorRef.value?.scrollIntoView({ behavior: "smooth" });
+
+onMounted(Initialize);
 </script>
 <style scoped>
 .input-select {
-  --default-background: var(--theme-secondary-background);
-  --default-text: var(--theme-secondary-text);
-  --active-background: var(--theme-tertiary-background);
-  --active-text: var(--theme-tertiary-text);
-  --outline: var(--theme-black);
-
-  --item-height: 30px;
-  --count: 5;
-  outline: 2px solid var(--outline);
+  outline: 2px solid black;
+  width: min-content;
+  height: min-content;
+  padding: 0;
   min-width: 100px;
-  width: max-content;
-  border-radius: 5px;
-  padding: 0;
+  border-radius: 6px;
   overflow: scroll;
-  height: calc(var(--item-height) * var(--count));
-  background-color: var(--default-background);
 }
 
-.items {
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  list-style-type: none;
-  background-color: var(--default-background);
-}
-
-.item {
-  padding-inline: 10px;
-  height: var(--item-height);
+.wrapper {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--default-text);
+  align-items: stretch;
+  flex-direction: column;
 }
 
-.input-select::-webkit-scrollbar {
-  display: none;
+p {
+  margin: 0;
+  flex: 1 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  max-height: 30px;
 }
 
 .selected {
+  background-color: var(--theme-tertiary-background);
+  color: var(--theme-tertiary-text);
   font-weight: 700;
-  background-color: var(--active-background);
-  color: var(--active-text);
 }
 </style>

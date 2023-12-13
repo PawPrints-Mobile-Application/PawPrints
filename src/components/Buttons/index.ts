@@ -12,8 +12,6 @@ import ButtonNext from "./ButtonNext.vue";
 
 import ButtonPopup from "./ButtonPopup.vue";
 
-import ButtonModal from "./ButtonModal.vue";
-
 import ButtonCalendar from "./ButtonCalendar.vue";
 import ButtonDropdown from "./ButtonDropdown.vue";
 import ButtonShow from "./ButtonShow.vue";
@@ -37,8 +35,6 @@ export {
   ButtonNext,
 
   ButtonPopup,
-
-  ButtonModal,
 
   ButtonCalendar,
   ButtonDropdown,
