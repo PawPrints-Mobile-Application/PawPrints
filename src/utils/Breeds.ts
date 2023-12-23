@@ -1,17 +1,126 @@
 import { PawPrints } from "../assets/images";
-import { Affenpinscher } from "../assets/images/dogs";
-import { AfghanHound } from "../assets/images/dogs";
-import { AiredaleTerrier } from "../assets/images/dogs";
-import { Akita } from "../assets/images/dogs";
-import { AlaskanKleeKai } from "../assets/images/dogs";
-import { AlaskanMalamute } from "../assets/images/dogs";
-import { AmericanBulldog } from "../assets/images/dogs";
-import { AmericanCockerSpaniel } from "../assets/images/dogs";
-import { AmericanEskimo } from "../assets/images/dogs";
-import { AmericanHairlessTerrier } from "../assets/images/dogs";
-import { Beagle } from "../assets/images/dogs";
-import { Chihuahua } from "../assets/images/dogs";
-import { ChowChow } from "../assets/images/dogs";
+
+import {
+  Affenpinscher,
+  AfghanHound,
+  AiredaleTerrier,
+  Akita,
+  AlaskanKleeKai,
+  AlaskanMalamute,
+  AmericanBulldog,
+  AmericanCockerSpaniel,
+  AmericanEskimo,
+  AmericanHairlessTerrier,
+  AmericanPitBullTerrier,
+  AmericanStaffordshireTerrier,
+  AmericanWaterSpaniel,
+  AnatolianShepherd,
+  Aussiedoodle,
+  AustralianCattle,
+  AustralianKelpie,
+  AustralianLabradoodle,
+  AustralianShepherd,
+  AustralianSilkyTerrier,
+  AustralianTerrier,
+} from "../assets/images/dogs";
+
+import {
+  BassetBleuDeGascogne,
+  BassetHound,
+  Bassugg,
+  BavarianMountainHound,
+  Beagador,
+  Beagle,
+  Beaglier,
+  BeardedCollie,
+  Beauceron,
+  BedlingtonTerrier,
+  BedlingtonWhippet,
+  BelgianGroenendael,
+  BelgianLaekenois,
+  BelgianMalinois,
+  BelgianTervuren,
+  Bergamasco,
+  Bernedoodle,
+  BerneseMountain,
+  BichonYorkie,
+  Bichpoo,
+  BiewerTerrier,
+  BlackandTanCoonhound,
+  BlackRussianTerrier,
+  Bloodhound,
+  BlueLacy,
+  BluetickCoonhound,
+  Boerboel,
+  Bolognese,
+  Borador,
+  BorderCollie,
+  BorderJack,
+  BorderTerrier,
+  Bordoodle,
+  Borzoi,
+  BostonTerrier,
+  BouvierDesFlandres,
+  Boxador,
+  Boxer,
+  BraccoItaliano,
+  BraqueDAuvergne,
+  Briard,
+  Brittany,
+  Bugg,
+  Bullmastiff,
+  BullPei,
+  BullTerrier,
+} from "../assets/images/dogs";
+
+import {
+  CairnTerrier,
+  Canaan,
+  CanadianEskimo,
+  CaneCorsoItaliano,
+  CardiganWelshCorgi,
+  CatahoulaLeopard,
+  CatalanSheepDog,
+  CaucasianShepherd,
+  Cavachon,
+  CavalierKingCharlesSpaniel,
+  Cavapom,
+  Cavapoo,
+  Cavapoochon,
+  CavaTzu,
+  CeskyTerrier,
+  Cheagle,
+  ChesapeakeBayRetriever,
+  Chihuahua,
+  Chinook,
+  Chipoo,
+  ChiStaffyBull,
+  Chiweenie,
+  Chorkie,
+  ChowChow,
+  ChowShepherd,
+  Chug,
+  Chusky,
+  CirnecoDellEtna,
+  ClumberSpaniel,
+  Cockachon,
+  Cockador,
+  Cockapoo,
+  CockerSpaniel,
+  Cojack,
+  Corgi,
+  CotonDeTulear,
+  CurlyCoatedRetriever,
+} from "../assets/images/dogs";
+
+import {
+  Dachshund,
+  Dalmatian,
+  Dameranian,
+  DandieDinmontTerrier,
+  Deerhound,
+  Dobermann,
+} from "../assets/images/dogs";
 import { GermanShepherd } from "../assets/images/dogs";
 import { LabradorRetriever } from "../assets/images/dogs";
 import { Pomeranian } from "../assets/images/dogs";
@@ -67,47 +176,47 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "American Pit Bull Terrier",
-    icon: PawPrints,
+    icon: AmericanPitBullTerrier,
   },
   {
     name: "American Staffordshire Terrier",
-    icon: PawPrints,
+    icon: AmericanStaffordshireTerrier,
   },
   {
     name: "American Water Spaniel",
-    icon: PawPrints,
+    icon: AmericanWaterSpaniel,
   },
   {
     name: "Anatolian Shepherd",
-    icon: PawPrints,
+    icon: AnatolianShepherd,
   },
   {
     name: "Aussiedoodle",
-    icon: PawPrints,
+    icon: Aussiedoodle,
   },
   {
     name: "Australian Cattle",
-    icon: PawPrints,
+    icon: AustralianCattle,
   },
   {
     name: "Australian Kelpie",
-    icon: PawPrints,
+    icon: AustralianKelpie,
   },
   {
     name: "Australian Labradoodle",
-    icon: PawPrints,
+    icon: AustralianLabradoodle,
   },
   {
     name: "Australian Shepherd",
-    icon: PawPrints,
+    icon: AustralianShepherd,
   },
   {
     name: "Australian Silky Terrier",
-    icon: PawPrints,
+    icon: AustralianSilkyTerrier,
   },
   {
     name: "Australian Terrier",
-    icon: PawPrints,
+    icon: AustralianTerrier,
   },
   {
     name: "Australian Working Kelpie",
@@ -127,7 +236,7 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Basset Bleu De Gascogne",
-    icon: PawPrints,
+    icon: BassetBleuDeGascogne,
   },
   {
     name: "Basset Fauve De Bretagne",
@@ -135,19 +244,19 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Basset Hound",
-    icon: PawPrints,
+    icon: BassetHound,
   },
   {
     name: "Bassugg",
-    icon: PawPrints,
+    icon: Bassugg,
   },
   {
     name: "Bavarian Mountain Hound",
-    icon: PawPrints,
+    icon: BavarianMountainHound,
   },
   {
     name: "Beagador",
-    icon: PawPrints,
+    icon: Beagador,
   },
   {
     name: "Beagle",
@@ -155,36 +264,36 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Beaglier",
-    icon: PawPrints,
+    icon: Beaglier,
   },
   {
     name: "Bearded Collie",
-    icon: PawPrints,
+    icon: BeardedCollie,
   },
   {
     name: "Beauceron",
-    icon: PawPrints,
+    icon: Beauceron,
   },
   {
     name: "Bedlington Terrier",
-    icon: PawPrints,
+    icon: BedlingtonTerrier,
   },
 
   {
     name: "Bedlington Whippet",
-    icon: PawPrints,
+    icon: BedlingtonWhippet,
   },
   {
     name: "Belgian Groenendael",
-    icon: PawPrints,
+    icon: BelgianGroenendael,
   },
   {
     name: "Belgian Laekenois",
-    icon: PawPrints,
+    icon: BelgianLaekenois,
   },
   {
     name: "Belgian Malinois",
-    icon: PawPrints,
+    icon: BelgianMalinois,
   },
   {
     name: "Belgian Shepherd",
@@ -192,19 +301,19 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Belgian Tervuren",
-    icon: PawPrints,
+    icon: BelgianTervuren,
   },
   {
     name: "Bergamasco",
-    icon: PawPrints,
+    icon: Bergamasco,
   },
   {
     name: "Bernedoodle",
-    icon: PawPrints,
+    icon: Bernedoodle,
   },
   {
     name: "Bernese Mountain",
-    icon: PawPrints,
+    icon: BerneseMountain,
   },
   {
     name: "Bichon Frise",
@@ -212,183 +321,183 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Bichon Yorkie",
-    icon: PawPrints,
+    icon: BichonYorkie,
   },
   {
     name: "Bich-poo",
-    icon: PawPrints,
+    icon: Bichpoo,
   },
   {
     name: "Biewer Terrier",
-    icon: PawPrints,
+    icon: BiewerTerrier,
   },
   {
     name: "Black and Tan Coonhound",
-    icon: PawPrints,
+    icon: BlackandTanCoonhound,
   },
   {
     name: "Black Russian Terrier",
-    icon: PawPrints,
+    icon: BlackRussianTerrier,
   },
   {
     name: "Bloodhound",
-    icon: PawPrints,
+    icon: Bloodhound,
   },
   {
     name: "Blue Lacy",
-    icon: PawPrints,
+    icon: BlueLacy,
   },
   {
     name: "Bluetick Coonhound",
-    icon: PawPrints,
+    icon: BluetickCoonhound,
   },
   {
     name: "Boerboel",
-    icon: PawPrints,
+    icon: Boerboel,
   },
   {
     name: "Bolognese",
-    icon: PawPrints,
+    icon: Bolognese,
   },
   {
     name: "Borador",
-    icon: PawPrints,
+    icon: Borador,
   },
   {
     name: "Border Collie",
-    icon: PawPrints,
+    icon: BorderCollie,
   },
   {
     name: "Border Jack",
-    icon: PawPrints,
+    icon: BorderJack,
   },
   {
     name: "Border Terrier",
-    icon: PawPrints,
+    icon: BorderTerrier,
   },
   {
     name: "Bordoodle",
-    icon: PawPrints,
+    icon: Bordoodle,
   },
   {
     name: "Borzoi",
-    icon: PawPrints,
+    icon: Borzoi,
   },
   {
     name: "Boston Terrier",
-    icon: PawPrints,
+    icon: BostonTerrier,
   },
   {
     name: "Bouvier Des Flandres",
-    icon: PawPrints,
+    icon: BouvierDesFlandres,
   },
   {
     name: "Boxador",
-    icon: PawPrints,
+    icon: Boxador,
   },
   {
     name: "Boxer",
-    icon: PawPrints,
+    icon: Boxer,
   },
   {
     name: "Bracco Italiano",
-    icon: PawPrints,
+    icon: BraccoItaliano,
   },
   {
     name: "Braque D'Auvergne",
-    icon: PawPrints,
+    icon: BraqueDAuvergne,
   },
   {
     name: "Briard",
-    icon: PawPrints,
+    icon: Briard,
   },
   {
     name: "Brittany",
-    icon: PawPrints,
+    icon: Brittany,
   },
   {
     name: "Bugg",
-    icon: PawPrints,
+    icon: Bugg,
   },
   {
     name: "Bullmastiff",
-    icon: PawPrints,
+    icon: Bullmastiff,
   },
   {
     name: "Bull Pei",
-    icon: PawPrints,
+    icon: BullPei,
   },
   {
     name: "Bull Terrier",
-    icon: PawPrints,
+    icon: BullTerrier,
   },
   {
     name: "Cairn Terrier",
-    icon: PawPrints,
+    icon: CairnTerrier,
   },
   {
     name: "Canaan",
-    icon: PawPrints,
+    icon: Canaan,
   },
   {
     name: "Canadian Eskimo",
-    icon: PawPrints,
+    icon: CanadianEskimo,
   },
   {
     name: "Cane Corso Italiano",
-    icon: PawPrints,
+    icon: CaneCorsoItaliano,
   },
   {
     name: "Cardigan Welsh Corgi",
-    icon: PawPrints,
+    icon: CardiganWelshCorgi,
   },
   {
     name: "Catahoula Leopard",
-    icon: PawPrints,
+    icon: CatahoulaLeopard,
   },
   {
     name: "Catalan Sheepdog",
-    icon: PawPrints,
+    icon: CatalanSheepDog,
   },
   {
     name: "Caucasian Shepherd",
-    icon: PawPrints,
+    icon: CaucasianShepherd,
   },
   {
     name: "Cavachon",
-    icon: PawPrints,
+    icon: Cavachon,
   },
   {
     name: "Cavalier King Charles Spaniel",
-    icon: PawPrints,
+    icon: CavalierKingCharlesSpaniel,
   },
   {
     name: "Cavapom",
-    icon: PawPrints,
+    icon: Cavapom,
   },
   {
     name: "Cavapoo",
-    icon: PawPrints,
+    icon: Cavapoo,
   },
   {
     name: "Cavapoochon",
-    icon: PawPrints,
+    icon: Cavapoochon,
   },
   {
     name: "Cava Tzu",
-    icon: PawPrints,
+    icon: CavaTzu,
   },
   {
     name: "Cesky Terrier",
-    icon: PawPrints,
+    icon: CeskyTerrier,
   },
   {
     name: "Cheagle",
-    icon: PawPrints,
+    icon: Cheagle,
   },
   {
     name: "Chesapeake Bay Retriever",
-    icon: PawPrints,
+    icon: ChesapeakeBayRetriever,
   },
   {
     name: "Chihuahua",
@@ -396,24 +505,23 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Chinook",
-    icon: PawPrints,
+    icon: Chinook,
   },
   {
     name: "Chipoo",
-    icon: PawPrints,
+    icon: Chipoo,
   },
-
   {
     name: "Chi Staffy Bull",
-    icon: PawPrints,
+    icon: ChiStaffyBull,
   },
   {
     name: "Chiweenie",
-    icon: PawPrints,
+    icon: Chiweenie,
   },
   {
     name: "Chorkie",
-    icon: PawPrints,
+    icon: Chorkie,
   },
 
   {
@@ -423,76 +531,79 @@ const breeds: Array<{ name: string; icon: string } | string> = [
 
   {
     name: "Chow Shepherd",
-    icon: PawPrints,
+    icon: ChowShepherd,
   },
   {
     name: "Chug",
-    icon: PawPrints,
+    icon: Chug,
   },
   {
     name: "Chusky",
-    icon: PawPrints,
+    icon: Chusky,
   },
   {
     name: "Cirneco Dell'Etna",
-    icon: PawPrints,
+    icon: CirnecoDellEtna,
   },
   {
     name: "Clumber Spaniel",
-    icon: PawPrints,
+    icon: ClumberSpaniel,
   },
   {
     name: "Cockachon",
-    icon: PawPrints,
+    icon: Cockachon,
   },
   {
     name: "Cockador",
-    icon: PawPrints,
+    icon: Cockador,
   },
   {
     name: "Cockapoo",
-    icon: PawPrints,
+    icon: Cockapoo,
   },
   {
     name: "Cocker Spaniel",
-    icon: PawPrints,
+    icon: CockerSpaniel,
   },
   {
     name: "Cojack",
-    icon: PawPrints,
+    icon: Cojack,
   },
   {
     name: "Corgi",
-    icon: PawPrints,
+    icon: Corgi,
   },
   {
     name: "Coton De Tulear",
-    icon: PawPrints,
+    icon: CotonDeTulear,
   },
   {
     name: "Curly Coated Retriever",
-    icon: PawPrints,
+    icon: CurlyCoatedRetriever,
   },
   {
     name: "Dachshund",
-    icon: PawPrints,
+    icon: Dachshund,
   },
-
+  {
+    name: "Dalmatian",
+    icon: Dalmatian,
+  },
   {
     name: "Dameranian",
-    icon: PawPrints,
+    icon: Dameranian,
   },
   {
     name: "Dandie Dinmont Terrier",
-    icon: PawPrints,
+    icon: DandieDinmontTerrier,
   },
   {
     name: "Deerhound",
-    icon: PawPrints,
+    icon: Deerhound,
   },
   {
     name: "Dobermann",
-    icon: PawPrints,
+    icon: Dobermann,
   },
   {
     name: "Dogue de Bordeaux",
