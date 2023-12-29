@@ -1,4 +1,4 @@
-import { PawPrints } from "../assets/images";
+//import { PawPrints } from "../assets/images";
 
 import {
   Affenpinscher,
@@ -11,6 +11,7 @@ import {
   AmericanCockerSpaniel,
   AmericanEskimo,
   AmericanHairlessTerrier,
+  AmericanLeopardHound,
   AmericanPitBullTerrier,
   AmericanStaffordshireTerrier,
   AmericanWaterSpaniel,
@@ -22,10 +23,15 @@ import {
   AustralianShepherd,
   AustralianSilkyTerrier,
   AustralianTerrier,
+  AustralianWorkingKelpie,
+  Azawakh,
 } from "../assets/images/dogs";
 
 import {
+  Basenji,
+  Bassador,
   BassetBleuDeGascogne,
+  BassetFauveDeBretagne,
   BassetHound,
   Bassugg,
   BavarianMountainHound,
@@ -39,10 +45,12 @@ import {
   BelgianGroenendael,
   BelgianLaekenois,
   BelgianMalinois,
+  BelgianShepherd,
   BelgianTervuren,
   Bergamasco,
   Bernedoodle,
   BerneseMountain,
+  BichonFrise,
   BichonYorkie,
   Bichpoo,
   BiewerTerrier,
@@ -120,14 +128,280 @@ import {
   DandieDinmontTerrier,
   Deerhound,
   Dobermann,
+  DogueDeBordeaux,
+  Dorkie,
+  Doxiepoo,
+  DutchShepherd,
 } from "../assets/images/dogs";
-import { GermanShepherd } from "../assets/images/dogs";
-import { LabradorRetriever } from "../assets/images/dogs";
-import { Pomeranian } from "../assets/images/dogs";
-import { Poodle } from "../assets/images/dogs";
-import { Pug } from "../assets/images/dogs";
-import { ShihTzu } from "../assets/images/dogs";
-import { SiberianHusky } from "../assets/images/dogs";
+
+import {
+  EnglishBulldog,
+  EnglishCoonhound,
+  EnglishSetter,
+  EnglishToyTerrier,
+  EntlebucherMountain,
+  EstrelaMountain,
+  Eurasier,
+} from "../assets/images/dogs";
+
+import {
+  FieldSpaniel,
+  FinnishLapphund,
+  FinnishSpitz,
+  FlatCoatedRetriever,
+  Foxhound,
+  FoxTerrier,
+  FrenchBulldog,
+  FrenchBullJack,
+  FrenchieStaff,
+  FrenchPin,
+  Frug,
+} from "../assets/images/dogs";
+
+import {
+  GerberianShepsky,
+  GermanLonghairedPointer,
+  GermanPinscher,
+  GermanShepherd,
+  GermanShorthairedPointer,
+  GermanSpitz,
+  GermanWirehairedPointer,
+  GiantSchnauzer,
+  GlenOfImaalTerrier,
+  Goberian,
+  Goldendoodle,
+  GoldenDox,
+  GoldenLabrador,
+  GoldenRetriever,
+  GoldenShepherd,
+  GordonSetter,
+  GrandBassetGriffonVendeen,
+  GrandBleuDeGascogne,
+  GreatDane,
+  GreatPyrenees,
+  GreekHarehound,
+  Greenland,
+  Greyhound,
+  GriffonBruxellois,
+  GriffonFauveDeBretagne,
+  GreaterSwissMountain,
+} from "../assets/images/dogs";
+
+import {
+  HairlessChineseCrested,
+  Hamiltonstovare,
+  Harrier,
+  Havanese,
+  Horgi,
+  Hovawart,
+  HungarianKuvasz,
+  HungarianPuli,
+  HungarianPumi,
+  HungarianVizsla,
+} from "../assets/images/dogs";
+
+import {
+  IbizanHound,
+  IcelandicSheepdog,
+  IrishDoodle,
+  IrishRedWhiteSetter,
+  IrishSetter,
+  IrishTerrier,
+  IrishWaterSpaniel,
+  IrishWolfhound,
+  ItalianGreyhound,
+  ItalianSpinone,
+} from "../assets/images/dogs";
+
+import {
+  Jackabee,
+  Jackahuahua,
+  Jackapoo,
+  JackRussellTerrier,
+  Jackshund,
+  Jacktzu,
+  JapaneseAkita,
+  JapaneseChin,
+  JapaneseShiba,
+  JapaneseSpitz,
+  JohnsonAmericanBulldog,
+  Jug,
+} from "../assets/images/dogs";
+
+import {
+  Keeshond,
+  KerryBlueTerrier,
+  KingCharlesSpaniel,
+  Kokoni,
+  Komondor,
+  Kooikerhondje,
+  KoreanJindo,
+  KorthalsGriffon,
+} from "../assets/images/dogs";
+
+import {
+  LabradorRetriever,
+  Labradoodle,
+  Lachon,
+  LagottoRomagnolo,
+  LakelandTerrier,
+  LancashireHeeler,
+  LargeMunsterlander,
+  Leonberger,
+  LhasaApso,
+  Lhasapoo,
+  Lhatese,
+  Löwchen,
+  Lurcher,
+} from "../assets/images/dogs";
+
+import {
+  MalShi,
+  Maltese,
+  Maltichon,
+  Maltipom,
+  MaltiPoo,
+  ManchesterTerrier,
+  MaremmaSheepdog,
+  Mastiff,
+  MexicanHairless,
+  MiniatureBullTerrier,
+  MiniaturePinscher,
+  MiniaturePoodle,
+  MiniatureSchnauzer,
+  MiniatureSchnoxie,
+  MixedBreed,
+  Morkie,
+} from "../assets/images/dogs";
+
+import {
+  NeapolitanMastiff,
+  Newfoundland,
+  NewZealandHuntaway,
+  NorfolkTerrier,
+  NorthernInuit,
+  NorwegianBuhund,
+  NorwegianElkhound,
+  NorwichTerrier,
+  NovaScotiaDuckTollingRetriever,
+} from "../assets/images/dogs";
+
+import { OldEnglishSheepdog, Otterhound } from "../assets/images/dogs";
+
+import {
+  Papillon,
+  ParsonRussellTerrier,
+  PatterdaleTerrier,
+  Peekapoo,
+  Pekingese,
+  PembrokeWelshCorgi,
+  PetitBassetGriffonVendeen,
+  PharaohHound,
+  PicardySheepdog,
+  Pitsky,
+  PlottHound,
+  Pointer,
+  PolishLowlandSheepdog,
+  Pomapoo,
+  Pomchi,
+  Pomeranian,
+  Pomsky,
+  Poodle,
+  PortuguesePodengo,
+  PortuguesePointer,
+  PortugueseWater,
+  PowderpuffChineseCrested,
+  Pug,
+  Pugalier,
+  Pugapoo,
+  Puggle,
+  Pugzu,
+  PyreneanMastiff,
+  PyreneanShepherd,
+} from "../assets/images/dogs";
+
+import {
+  RatTerrier,
+  RedboneCoonhound,
+  Rescue,
+  RhodesianRidgeback,
+  Rottweiler,
+  RoughCollie,
+  RussianToy,
+} from "../assets/images/dogs";
+
+import {
+  Saluki,
+  Samoyed,
+  Schipperke,
+  Schnauzer,
+  Schnoodle,
+  ScottishTerrier,
+  SealyhamTerrier,
+  SegugioItaliano,
+  SharPei,
+  Sheepadoodle,
+  ShetlandSheepdog,
+  Shihpoo,
+  ShihTzu,
+  Shollie,
+  Shorkie,
+  SiberianCocker,
+  SiberianHusky,
+  Sloughi,
+  SlovakianRoughHairedPointer,
+  SmallMunsterlander,
+  SmoothCollie,
+  SoftCoatedWheatenTerrier,
+  SpanishWater,
+  SportingLucasTerrier,
+  Springador,
+  SpringerSpaniel,
+  Sprocker,
+  Sprollie,
+  Sproodle,
+  Stabyhoun,
+  Staffador,
+  StaffordshireBullTerrier,
+  StaffyJack,
+  StBernard,
+  SussexSpaniel,
+  SwedishLapphund,
+  SwedishVallhund,
+  SkyeTerrier,
+} from "../assets/images/dogs";
+
+import {
+  Tamaskan,
+  TerriPoo,
+  TibetanMastiff,
+  TibetanSpaniel,
+  TibetanTerrier,
+  ToyFoxTerrier,
+  ToyPoodle,
+  Trailhound,
+  TreeingWalkerCoonhound,
+  TurkishKangal,
+} from "../assets/images/dogs";
+
+import {
+  Weimaraner,
+  WelshSpringerSpaniel,
+  WelshTerrier,
+  WestHighlandWhiteTerrier,
+  Westiepoo,
+  Whippet,
+  WhiteSwissShepherd,
+  WorkingCockerSpaniel,
+} from "../assets/images/dogs";
+
+import {
+  YorkieRussell,
+  Yorkipoo,
+  YorkshireTerrier,
+} from "../assets/images/dogs";
+
+import { Zuchon } from "../assets/images/dogs";
 
 const breeds: Array<{ name: string; icon: string } | string> = [
   {
@@ -172,7 +446,7 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "American Leopard Hound",
-    icon: PawPrints,
+    icon: AmericanLeopardHound,
   },
   {
     name: "American Pit Bull Terrier",
@@ -220,19 +494,19 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Australian Working Kelpie",
-    icon: PawPrints,
+    icon: AustralianWorkingKelpie,
   },
   {
     name: "Azawakh",
-    icon: PawPrints,
+    icon: Azawakh,
   },
   {
     name: "Basenji",
-    icon: PawPrints,
+    icon: Basenji,
   },
   {
     name: "Bassador",
-    icon: PawPrints,
+    icon: Bassador,
   },
   {
     name: "Basset Bleu De Gascogne",
@@ -240,7 +514,7 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Basset Fauve De Bretagne",
-    icon: PawPrints,
+    icon: BassetFauveDeBretagne,
   },
   {
     name: "Basset Hound",
@@ -278,7 +552,6 @@ const breeds: Array<{ name: string; icon: string } | string> = [
     name: "Bedlington Terrier",
     icon: BedlingtonTerrier,
   },
-
   {
     name: "Bedlington Whippet",
     icon: BedlingtonWhippet,
@@ -297,7 +570,7 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Belgian Shepherd",
-    icon: PawPrints,
+    icon: BelgianShepherd,
   },
   {
     name: "Belgian Tervuren",
@@ -317,7 +590,7 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Bichon Frise",
-    icon: PawPrints,
+    icon: BichonFrise,
   },
   {
     name: "Bichon Yorkie",
@@ -607,577 +880,575 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Dogue de Bordeaux",
-    icon: PawPrints,
+    icon: DogueDeBordeaux,
   },
   {
     name: "Dorkie",
-    icon: PawPrints,
+    icon: Dorkie,
   },
   {
     name: "Doxiepoo",
-    icon: PawPrints,
+    icon: Doxiepoo,
   },
   {
     name: "Dutch Shepherd",
-    icon: PawPrints,
+    icon: DutchShepherd,
   },
   {
     name: "English Bulldog",
-    icon: PawPrints,
+    icon: EnglishBulldog,
   },
   {
     name: "English Coonhound",
-    icon: PawPrints,
+    icon: EnglishCoonhound,
   },
   {
     name: "English Setter",
-    icon: PawPrints,
+    icon: EnglishSetter,
   },
   {
     name: "English Toy Terrier",
-    icon: PawPrints,
+    icon: EnglishToyTerrier,
   },
   {
     name: "Entlebucher Mountain",
-    icon: PawPrints,
+    icon: EntlebucherMountain,
   },
   {
     name: "Estrela Mountain",
-    icon: PawPrints,
+    icon: EstrelaMountain,
   },
   {
     name: "Eurasier",
-    icon: PawPrints,
+    icon: Eurasier,
   },
   {
     name: "Field Spaniel",
-    icon: PawPrints,
+    icon: FieldSpaniel,
   },
   {
     name: "Finnish Lapphund",
-    icon: PawPrints,
+    icon: FinnishLapphund,
   },
   {
     name: "Finnish Spitz",
-    icon: PawPrints,
+    icon: FinnishSpitz,
   },
   {
     name: "Flat-Coated Retriever",
-    icon: PawPrints,
+    icon: FlatCoatedRetriever,
   },
   {
     name: "Foxhound",
-    icon: PawPrints,
+    icon: Foxhound,
   },
   {
     name: "Fox Terrier",
-    icon: PawPrints,
+    icon: FoxTerrier,
   },
   {
     name: "French Bulldog",
-    icon: PawPrints,
+    icon: FrenchBulldog,
   },
   {
     name: "French Bull Jack",
-    icon: PawPrints,
+    icon: FrenchBullJack,
   },
   {
     name: "Frenchie Staff",
-    icon: PawPrints,
+    icon: FrenchieStaff,
   },
   {
     name: "French Pin",
-    icon: PawPrints,
+    icon: FrenchPin,
   },
   {
     name: "Frug",
-    icon: PawPrints,
+    icon: Frug,
   },
   {
     name: "Gerberian Shepsky",
-    icon: PawPrints,
+    icon: GerberianShepsky,
   },
   {
     name: "German Longhaired Pointer",
-    icon: PawPrints,
+    icon: GermanLonghairedPointer,
   },
   {
     name: "German Pinscher",
-    icon: PawPrints,
+    icon: GermanPinscher,
   },
   {
     name: "German Shepherd",
     icon: GermanShepherd,
   },
-
   {
     name: "German Shorthaired Pointer",
-    icon: PawPrints,
+    icon: GermanShorthairedPointer,
   },
   {
     name: "German Spitz",
-    icon: PawPrints,
+    icon: GermanSpitz,
   },
   {
     name: "German Wirehaired Pointer",
-    icon: PawPrints,
+    icon: GermanWirehairedPointer,
   },
   {
     name: "Giant Schnauzer",
-    icon: PawPrints,
+    icon: GiantSchnauzer,
   },
   {
     name: "Glen Of Imaal Terrier",
-    icon: PawPrints,
+    icon: GlenOfImaalTerrier,
   },
   {
     name: "Goberian",
-    icon: PawPrints,
+    icon: Goberian,
   },
   {
     name: "Goldendoodle",
-    icon: PawPrints,
+    icon: Goldendoodle,
   },
   {
     name: "Golden Dox",
-    icon: PawPrints,
+    icon: GoldenDox,
   },
   {
     name: "Golden Labrador",
-    icon: PawPrints,
+    icon: GoldenLabrador,
   },
   {
     name: "Golden Retriever",
-    icon: PawPrints,
+    icon: GoldenRetriever,
   },
   {
     name: "Golden Shepherd",
-    icon: PawPrints,
+    icon: GoldenShepherd,
   },
   {
     name: "Gordon Setter",
-    icon: PawPrints,
+    icon: GordonSetter,
   },
   {
     name: "Grand Basset Griffon Vendeen",
-    icon: PawPrints,
+    icon: GrandBassetGriffonVendeen,
   },
   {
     name: "Grand Bleu De Gascogne",
-    icon: PawPrints,
+    icon: GrandBleuDeGascogne,
   },
   {
     name: "Great Dane",
-    icon: PawPrints,
+    icon: GreatDane,
   },
   {
     name: "Great Pyrenees",
-    icon: PawPrints,
+    icon: GreatPyrenees,
   },
   {
     name: "Greater Swiss Mountain",
-    icon: PawPrints,
+    icon: GreaterSwissMountain,
   },
   {
     name: "Greek Harehound",
-    icon: PawPrints,
+    icon: GreekHarehound,
   },
   {
     name: "Greenland",
-    icon: PawPrints,
+    icon: Greenland,
   },
   {
     name: "Greyhound",
-    icon: PawPrints,
+    icon: Greyhound,
   },
   {
     name: "Griffon Bruxellois",
-    icon: PawPrints,
+    icon: GriffonBruxellois,
   },
   {
     name: "Griffon Fauve De Bretagne",
-    icon: PawPrints,
+    icon: GriffonFauveDeBretagne,
   },
   {
     name: "Hairless Chinese Crested",
-    icon: PawPrints,
+    icon: HairlessChineseCrested,
   },
   {
     name: "Hamiltonstovare",
-    icon: PawPrints,
+    icon: Hamiltonstovare,
   },
   {
     name: "Harrier",
-    icon: PawPrints,
+    icon: Harrier,
   },
   {
     name: "Havanese",
-    icon: PawPrints,
+    icon: Havanese,
   },
   {
     name: "Horgi",
-    icon: PawPrints,
+    icon: Horgi,
   },
   {
     name: "Hovawart",
-    icon: PawPrints,
+    icon: Hovawart,
   },
   {
     name: "Hungarian Kuvasz",
-    icon: PawPrints,
+    icon: HungarianKuvasz,
   },
   {
     name: "Hungarian Puli",
-    icon: PawPrints,
+    icon: HungarianPuli,
   },
   {
     name: "Hungarian Pumi",
-    icon: PawPrints,
+    icon: HungarianPumi,
   },
   {
     name: "Hungarian Vizsla",
-    icon: PawPrints,
+    icon: HungarianVizsla,
   },
   {
     name: "Ibizan Hound",
-    icon: PawPrints,
+    icon: IbizanHound,
   },
   {
     name: "Icelandic Sheepdog",
-    icon: PawPrints,
+    icon: IcelandicSheepdog,
   },
   {
     name: "Irish Doodle",
-    icon: PawPrints,
+    icon: IrishDoodle,
   },
   {
     name: "Irish Red & White Setter",
-    icon: PawPrints,
+    icon: IrishRedWhiteSetter,
   },
   {
     name: "Irish Setter",
-    icon: PawPrints,
+    icon: IrishSetter,
   },
   {
     name: "Irish Terrier",
-    icon: PawPrints,
+    icon: IrishTerrier,
   },
   {
     name: "Irish Water Spaniel",
-    icon: PawPrints,
+    icon: IrishWaterSpaniel,
   },
   {
-    name: "Irish Wolfhound",
-    icon: PawPrints,
+    name: "IrishWolfhound",
+    icon: IrishWolfhound,
   },
   {
     name: "Italian Greyhound",
-    icon: PawPrints,
+    icon: ItalianGreyhound,
   },
   {
     name: "Italian Spinone",
-    icon: PawPrints,
+    icon: ItalianSpinone,
   },
   {
     name: "Jack-A-Bee",
-    icon: PawPrints,
+    icon: Jackabee,
   },
   {
     name: "Jackahuahua",
-    icon: PawPrints,
+    icon: Jackahuahua,
   },
   {
     name: "Jack-A-Poo",
-    icon: PawPrints,
+    icon: Jackapoo,
   },
   {
     name: "Jack Russell Terrier",
-    icon: PawPrints,
+    icon: JackRussellTerrier,
   },
   {
     name: "Jackshund",
-    icon: PawPrints,
+    icon: Jackshund,
   },
   {
     name: "Jacktzu",
-    icon: PawPrints,
+    icon: Jacktzu,
   },
   {
     name: "Japanese Akita",
-    icon: PawPrints,
+    icon: JapaneseAkita,
   },
   {
     name: "Japanese Chin",
-    icon: PawPrints,
+    icon: JapaneseChin,
   },
   {
     name: "Japanese Shiba",
-    icon: PawPrints,
+    icon: JapaneseShiba,
   },
   {
     name: "Japanese Spitz",
-    icon: PawPrints,
+    icon: JapaneseSpitz,
   },
   {
     name: "Johnson American Bulldog",
-    icon: PawPrints,
+    icon: JohnsonAmericanBulldog,
   },
   {
     name: "Jug",
-    icon: PawPrints,
+    icon: Jug,
   },
   {
     name: "Keeshond",
-    icon: PawPrints,
+    icon: Keeshond,
   },
   {
     name: "Kerry Blue Terrier",
-    icon: PawPrints,
+    icon: KerryBlueTerrier,
   },
   {
     name: "King Charles Spaniel",
-    icon: PawPrints,
+    icon: KingCharlesSpaniel,
   },
   {
     name: "Kokoni",
-    icon: PawPrints,
+    icon: Kokoni,
   },
   {
     name: "Komondor",
-    icon: PawPrints,
+    icon: Komondor,
   },
   {
     name: "Kooikerhondje",
-    icon: PawPrints,
+    icon: Kooikerhondje,
   },
   {
     name: "Korean Jindo",
-    icon: PawPrints,
+    icon: KoreanJindo,
   },
   {
     name: "Korthals Griffon",
-    icon: PawPrints,
+    icon: KorthalsGriffon,
   },
   {
     name: "Labradoodle",
-    icon: PawPrints,
+    icon: Labradoodle,
   },
   {
     name: "Labrador Retriever",
     icon: LabradorRetriever,
   },
-
   {
     name: "Lachon",
-    icon: PawPrints,
+    icon: Lachon,
   },
   {
     name: "Lagotto Romagnolo",
-    icon: PawPrints,
+    icon: LagottoRomagnolo,
   },
   {
     name: "Lakeland Terrier",
-    icon: PawPrints,
+    icon: LakelandTerrier,
   },
   {
     name: "Lancashire Heeler",
-    icon: PawPrints,
+    icon: LancashireHeeler,
   },
   {
     name: "Large Munsterlander",
-    icon: PawPrints,
+    icon: LargeMunsterlander,
   },
   {
     name: "Leonberger",
-    icon: PawPrints,
+    icon: Leonberger,
   },
   {
     name: "Lhasa Apso",
-    icon: PawPrints,
+    icon: LhasaApso,
   },
   {
     name: "Lhasapoo",
-    icon: PawPrints,
+    icon: Lhasapoo,
   },
   {
     name: "Lhatese",
-    icon: PawPrints,
+    icon: Lhatese,
   },
   {
     name: "Löwchen",
-    icon: PawPrints,
+    icon: Löwchen,
   },
   {
     name: "Lurcher",
-    icon: PawPrints,
+    icon: Lurcher,
   },
   {
     name: "Mal-Shi",
-    icon: PawPrints,
+    icon: MalShi,
   },
   {
     name: "Maltese",
-    icon: PawPrints,
+    icon: Maltese,
   },
   {
     name: "Maltichon",
-    icon: PawPrints,
+    icon: Maltichon,
   },
   {
     name: "Maltipom",
-    icon: PawPrints,
+    icon: Maltipom,
   },
   {
     name: "Malti-Poo",
-    icon: PawPrints,
+    icon: MaltiPoo,
   },
   {
     name: "Manchester Terrier",
-    icon: PawPrints,
+    icon: ManchesterTerrier,
   },
   {
     name: "Maremma Sheepdog",
-    icon: PawPrints,
+    icon: MaremmaSheepdog,
   },
   {
     name: "Mastiff",
-    icon: PawPrints,
+    icon: Mastiff,
   },
   {
     name: "Mexican Hairless",
-    icon: PawPrints,
+    icon: MexicanHairless,
   },
   {
     name: "Miniature Bull Terrier",
-    icon: PawPrints,
+    icon: MiniatureBullTerrier,
   },
   {
     name: "Miniature Pinscher",
-    icon: PawPrints,
+    icon: MiniaturePinscher,
   },
   {
     name: "Miniature Poodle",
-    icon: PawPrints,
+    icon: MiniaturePoodle,
   },
   {
     name: "Miniature Schnauzer",
-    icon: PawPrints,
+    icon: MiniatureSchnauzer,
   },
   {
     name: "Miniature Schnoxie",
-    icon: PawPrints,
+    icon: MiniatureSchnoxie,
   },
   {
     name: "Mixed Breed",
-    icon: PawPrints,
+    icon: MixedBreed,
   },
   {
     name: "Morkie",
-    icon: PawPrints,
+    icon: Morkie,
   },
   {
     name: "Neapolitan Mastiff",
-    icon: PawPrints,
+    icon: NeapolitanMastiff,
   },
   {
     name: "Newfoundland",
-    icon: PawPrints,
+    icon: Newfoundland,
   },
   {
     name: "New Zealand Huntaway",
-    icon: PawPrints,
+    icon: NewZealandHuntaway,
   },
   {
     name: "Norfolk Terrier",
-    icon: PawPrints,
+    icon: NorfolkTerrier,
   },
   {
     name: "Northern Inuit",
-    icon: PawPrints,
+    icon: NorthernInuit,
   },
   {
     name: "Norwegian Buhund",
-    icon: PawPrints,
+    icon: NorwegianBuhund,
   },
   {
     name: "Norwegian Elkhound",
-    icon: PawPrints,
+    icon: NorwegianElkhound,
   },
   {
     name: "Norwich Terrier",
-    icon: PawPrints,
+    icon: NorwichTerrier,
   },
   {
     name: "Nova Scotia Duck Tolling Retriever",
-    icon: PawPrints,
+    icon: NovaScotiaDuckTollingRetriever,
   },
   {
     name: "Old English Sheepdog",
-    icon: PawPrints,
+    icon: OldEnglishSheepdog,
   },
   {
     name: "Otterhound",
-    icon: PawPrints,
+    icon: Otterhound,
   },
   {
     name: "Papillon",
-    icon: PawPrints,
+    icon: Papillon,
   },
   {
     name: "Parson Russell Terrier",
-    icon: PawPrints,
+    icon: ParsonRussellTerrier,
   },
   {
     name: "Patterdale Terrier",
-    icon: PawPrints,
+    icon: PatterdaleTerrier,
   },
   {
     name: "Peek-a-poo",
-    icon: PawPrints,
+    icon: Peekapoo,
   },
   {
     name: "Pekingese",
-    icon: PawPrints,
+    icon: Pekingese,
   },
   {
     name: "Pembroke Welsh Corgi",
-    icon: PawPrints,
+    icon: PembrokeWelshCorgi,
   },
   {
     name: "Petit Basset Griffon Vendeen",
-    icon: PawPrints,
+    icon: PetitBassetGriffonVendeen,
   },
   {
     name: "Pharaoh Hound",
-    icon: PawPrints,
+    icon: PharaohHound,
   },
   {
     name: "Picardy Sheepdog",
-    icon: PawPrints,
+    icon: PicardySheepdog,
   },
   {
     name: "Pitsky",
-    icon: PawPrints,
+    icon: Pitsky,
   },
   {
     name: "Plott Hound",
-    icon: PawPrints,
+    icon: PlottHound,
   },
   {
     name: "Pointer",
-    icon: PawPrints,
+    icon: Pointer,
   },
   {
     name: "Polish Lowland Sheepdog",
-    icon: PawPrints,
+    icon: PolishLowlandSheepdog,
   },
   {
     name: "Pomapoo",
-    icon: PawPrints,
+    icon: Pomapoo,
   },
   {
     name: "Pomchi",
-    icon: PawPrints,
+    icon: Pomchi,
   },
   {
     name: "Pomeranian",
@@ -1185,7 +1456,7 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Pomsky",
-    icon: Pomeranian,
+    icon: Pomsky,
   },
   {
     name: "Poodle",
@@ -1194,19 +1465,19 @@ const breeds: Array<{ name: string; icon: string } | string> = [
 
   {
     name: "Portuguese Podengo",
-    icon: PawPrints,
+    icon: PortuguesePodengo,
   },
   {
     name: "Portuguese Pointer",
-    icon: PawPrints,
+    icon: PortuguesePointer,
   },
   {
     name: "Portuguese Water",
-    icon: PawPrints,
+    icon: PortugueseWater,
   },
   {
     name: "Powderpuff Chinese Crested",
-    icon: PawPrints,
+    icon: PowderpuffChineseCrested,
   },
 
   {
@@ -1215,103 +1486,103 @@ const breeds: Array<{ name: string; icon: string } | string> = [
   },
   {
     name: "Pugalier",
-    icon: PawPrints,
+    icon: Pugalier,
   },
   {
     name: "Pugapoo",
-    icon: PawPrints,
+    icon: Pugapoo,
   },
   {
     name: "Puggle",
-    icon: PawPrints,
+    icon: Puggle,
   },
   {
     name: "Pugzu",
-    icon: PawPrints,
+    icon: Pugzu,
   },
   {
     name: "Pyrenean Mastiff",
-    icon: PawPrints,
+    icon: PyreneanMastiff,
   },
   {
     name: "Pyrenean Shepherd",
-    icon: PawPrints,
+    icon: PyreneanShepherd,
   },
   {
-    name: "Rat Terrier",
-    icon: PawPrints,
+    name: "RatTerrier",
+    icon: RatTerrier,
   },
   {
     name: "Redbone Coonhound",
-    icon: PawPrints,
+    icon: RedboneCoonhound,
   },
   {
     name: "Rescue",
-    icon: PawPrints,
+    icon: Rescue,
   },
   {
     name: "Rhodesian Ridgeback",
-    icon: PawPrints,
+    icon: RhodesianRidgeback,
   },
   {
     name: "Rottweiler",
-    icon: PawPrints,
+    icon: Rottweiler,
   },
   {
     name: "Rough Collie",
-    icon: PawPrints,
+    icon: RoughCollie,
   },
   {
     name: "Russian Toy",
-    icon: PawPrints,
+    icon: RussianToy,
   },
   {
     name: "Saluki",
-    icon: PawPrints,
+    icon: Saluki,
   },
   {
     name: "Samoyed",
-    icon: PawPrints,
+    icon: Samoyed,
   },
   {
     name: "Schipperke",
-    icon: PawPrints,
+    icon: Schipperke,
   },
   {
     name: "Schnauzer",
-    icon: PawPrints,
+    icon: Schnauzer,
   },
   {
     name: "Schnoodle",
-    icon: PawPrints,
+    icon: Schnoodle,
   },
   {
     name: "Scottish Terrier",
-    icon: PawPrints,
+    icon: ScottishTerrier,
   },
   {
     name: "Sealyham Terrier",
-    icon: PawPrints,
+    icon: SealyhamTerrier,
   },
   {
     name: "Segugio Italiano",
-    icon: PawPrints,
+    icon: SegugioItaliano,
   },
   {
     name: "Shar Pei",
-    icon: PawPrints,
+    icon: SharPei,
   },
   {
     name: "Sheepadoodle",
-    icon: PawPrints,
+    icon: Sheepadoodle,
   },
   {
     name: "Shetland Sheepdog",
-    icon: PawPrints,
+    icon: ShetlandSheepdog,
   },
   {
     name: "Shih-poo",
-    icon: PawPrints,
+    icon: Shihpoo,
   },
 
   {
@@ -1321,15 +1592,15 @@ const breeds: Array<{ name: string; icon: string } | string> = [
 
   {
     name: "Shollie",
-    icon: PawPrints,
+    icon: Shollie,
   },
   {
     name: "Shorkie",
-    icon: PawPrints,
+    icon: Shorkie,
   },
   {
     name: "Siberian Cocker",
-    icon: PawPrints,
+    icon: SiberianCocker,
   },
   {
     name: "Siberian Husky",
@@ -1338,175 +1609,175 @@ const breeds: Array<{ name: string; icon: string } | string> = [
 
   {
     name: "Skye Terrier",
-    icon: PawPrints,
+    icon: SkyeTerrier,
   },
   {
     name: "Sloughi",
-    icon: PawPrints,
+    icon: Sloughi,
   },
   {
     name: "Slovakian Rough Haired Pointer",
-    icon: PawPrints,
+    icon: SlovakianRoughHairedPointer,
   },
   {
     name: "Small Munsterlander",
-    icon: PawPrints,
+    icon: SmallMunsterlander,
   },
   {
     name: "Smooth Collie",
-    icon: PawPrints,
+    icon: SmoothCollie,
   },
   {
     name: "Soft Coated Wheaten Terrier",
-    icon: PawPrints,
+    icon: SoftCoatedWheatenTerrier,
   },
   {
     name: "Spanish Water",
-    icon: PawPrints,
+    icon: SpanishWater,
   },
   {
     name: "Sporting Lucas Terrier",
-    icon: PawPrints,
+    icon: SportingLucasTerrier,
   },
   {
     name: "Springador",
-    icon: PawPrints,
+    icon: Springador,
   },
   {
     name: "Springer Spaniel",
-    icon: PawPrints,
+    icon: SpringerSpaniel,
   },
   {
     name: "Sprocker",
-    icon: PawPrints,
+    icon: Sprocker,
   },
   {
     name: "Sprollie",
-    icon: PawPrints,
+    icon: Sprollie,
   },
   {
     name: "Sproodle",
-    icon: PawPrints,
+    icon: Sproodle,
   },
   {
     name: "Stabyhoun",
-    icon: PawPrints,
+    icon: Stabyhoun,
   },
   {
     name: "Staffador",
-    icon: PawPrints,
+    icon: Staffador,
   },
   {
     name: "Staffordshire Bull Terrier",
-    icon: PawPrints,
+    icon: StaffordshireBullTerrier,
   },
   {
     name: "Staffy Jack",
-    icon: PawPrints,
+    icon: StaffyJack,
   },
   {
     name: "St. Bernard",
-    icon: PawPrints,
+    icon: StBernard,
   },
   {
     name: "Sussex Spaniel",
-    icon: PawPrints,
+    icon: SussexSpaniel,
   },
   {
     name: "Swedish Lapphund",
-    icon: PawPrints,
+    icon: SwedishLapphund,
   },
   {
     name: "Swedish Vallhund",
-    icon: PawPrints,
+    icon: SwedishVallhund,
   },
   {
     name: "Tamaskan",
-    icon: PawPrints,
+    icon: Tamaskan,
   },
   {
     name: "Terri-Poo",
-    icon: PawPrints,
+    icon: TerriPoo,
   },
   {
     name: "Tibetan Mastiff",
-    icon: PawPrints,
+    icon: TibetanMastiff,
   },
   {
     name: "Tibetan Spaniel",
-    icon: PawPrints,
+    icon: TibetanSpaniel,
   },
   {
     name: "Tibetan Terrier",
-    icon: PawPrints,
+    icon: TibetanTerrier,
   },
   {
     name: "Toy Fox Terrier",
-    icon: PawPrints,
+    icon: ToyFoxTerrier,
   },
   {
     name: "Toy Poodle",
-    icon: PawPrints,
+    icon: ToyPoodle,
   },
   {
     name: "Trailhound",
-    icon: PawPrints,
+    icon: Trailhound,
   },
   {
     name: "Treeing Walker Coonhound",
-    icon: PawPrints,
+    icon: TreeingWalkerCoonhound,
   },
   {
     name: "Turkish Kangal",
-    icon: PawPrints,
+    icon: TurkishKangal,
   },
   {
     name: "Weimaraner",
-    icon: PawPrints,
+    icon: Weimaraner,
   },
   {
     name: "Welsh Springer Spaniel",
-    icon: PawPrints,
+    icon: WelshSpringerSpaniel,
   },
   {
     name: "Welsh Terrier",
-    icon: PawPrints,
+    icon: WelshTerrier,
   },
   {
     name: "West Highland White Terrier",
-    icon: PawPrints,
+    icon: WestHighlandWhiteTerrier,
   },
   {
     name: "Westiepoo",
-    icon: PawPrints,
+    icon: Westiepoo,
   },
   {
     name: "Whippet",
-    icon: PawPrints,
+    icon: Whippet,
   },
   {
     name: "White Swiss Shepherd",
-    icon: PawPrints,
+    icon: WhiteSwissShepherd,
   },
   {
     name: "Working Cocker Spaniel",
-    icon: PawPrints,
+    icon: WorkingCockerSpaniel,
   },
   {
     name: "Yorkie Russell",
-    icon: PawPrints,
+    icon: YorkieRussell,
   },
   {
     name: "Yorkipoo",
-    icon: PawPrints,
+    icon: Yorkipoo,
   },
   {
     name: "Yorkshire Terrier",
-    icon: PawPrints,
+    icon: YorkshireTerrier,
   },
   {
     name: "Zuchon",
-    icon: PawPrints,
+    icon: Zuchon,
   },
 ];
 
