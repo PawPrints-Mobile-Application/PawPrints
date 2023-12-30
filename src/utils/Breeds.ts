@@ -1,3 +1,4 @@
+import { ObjectToMap } from ".";
 import { PawPrints } from "../assets/images";
 
 import {
@@ -129,12 +130,14 @@ import { Pug } from "../assets/images/dogs";
 import { ShihTzu } from "../assets/images/dogs";
 import { SiberianHusky } from "../assets/images/dogs";
 
-type Breed = {
-  name: string;
-  icon: string;
+const temp = {
+  "Affenpinscher": Affenpinscher,
+  "Afghan Hound": AfghanHound,
 };
 
-const breeds: Array<Breed> = [
+const names = ObjectToMap(temp).keys();
+
+const breeds = [
   {
     name: "Affenpinscher",
     icon: Affenpinscher,
@@ -1516,3 +1519,4 @@ const breeds: Array<Breed> = [
 ];
 
 export default breeds;
+export { names };

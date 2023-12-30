@@ -15,31 +15,25 @@
       <InputSegment :options="logSegments" v-model="logSegment" show="both" />
     </template>
     <section class="add-log-form">
-      <InputDynamicWrapped
-        label="Title"
-        :placeholder="GetTitle()"
-        hideValidator
-        v-model="form.title"
-      />
-      <InputDropdown
-        type="dropdown"
-        :options="GetRecordTypeOptions()"
-        v-model="form.recordType"
-        label="Record Type"
-        hideInput
-        :count="7"
-        hideValidator
-        @change="SetRecordUnits"
-      />
+      <div>
+        <TextSubheading>Title</TextSubheading>
+        <InputText :placeholder="GetTitle()" v-model="form.title" />
+      </div>
+      <div>
+        <TextSubheading>Record Type</TextSubheading>
+        <InputDropdown
+          :options="GetRecordTypeOptions()"
+          v-model="form.recordType"
+          hideInput
+          :count="7"
+          hideValidator
+          @change="SetRecordUnits"
+        />
+      </div>
       <div class="record-value">
-        <InputLabel value="Record Value" />
+        <TextSubheading>Record Value</TextSubheading>
         <div>
-          <InputDynamicWrapped
-            :type="hasUnits() ? 'number' : 'text'"
-            placeholder="Record Value"
-            hideValidator
-            v-model="form.recordValue"
-          />
+          <InputText placeholder="Record Value" v-model="form.recordValue" />
           <InputChoice
             v-show="hasUnits()"
             :options="GetRecordUnitOptions()"
@@ -48,42 +42,20 @@
         </div>
       </div>
       <div class="date-time">
-        <InputLabel :value="`Record${isRecord() ? ' ' : ' Start '}Date`" />
+        <TextSubheading :value="`Record${isRecord() ? ' ' : ' Start '}Date`" />
         <div>
-          <InputDynamicWrapped
-            v-model="form.DStart"
-            type="date"
-            hideValidator
-            hide-icon
-          />
-          <InputDynamicWrapped
-            class="time"
-            v-model="form.TStart"
-            type="time"
-            hideValidator
-            hideIcon
-          />
+          <InputDate v-model="form.DStart" hideIcon />
+          <InputTime v-model="form.TStart" hideIcon />
         </div>
       </div>
       <div class="date-time" v-show="!isRecord()">
-        <InputLabel value="Record End Date" />
+        <TextSubheading value="Record End Date" />
         <div>
-          <InputDynamicWrapped
-            v-model="form.DEnd"
-            type="date"
-            hideValidator
-            hideIcon
-          />
-          <InputDynamicWrapped
-            class="time"
-            v-model="form.TEnd"
-            type="time"
-            hideValidator
-            hideIcon
-          />
+          <InputDate v-model="form.DEnd" hideIcon />
+          <InputTime v-model="form.TEnd" hideIcon />
         </div>
       </div>
-      <InputTextareaWrapped v-model="form.note" label="Note (Optional)" />
+      <InputTextarea v-model="form.note" label="Note (Optional)" />
     </section>
   </LayoutModal>
 </template>
@@ -92,19 +64,16 @@
 import { reactive, computed, ref, onMounted, PropType } from "vue";
 import { LayoutModal } from "../../layout";
 import {
+  InputDate,
   InputSegment,
-  InputDynamicWrapped,
+  InputTime,
+  InputTextarea,
   InputDropdown,
-  InputChoice,
-  InputTextareaWrapped,
-  InputLabel,
+  InputText,
+  InputChoice
 } from "../Forms";
-import {
-  LocalDate,
-  LocalTime,
-  SegmentOption,
-  TwoCharactersFormat,
-} from "../../utils";
+import { TextSubheading } from "../Texts";
+import { LocalTime, SegmentOption, TwoCharactersFormat } from "../../utils";
 import {
   documents as recordIcon,
   calendar as scheduleIcon,
@@ -164,7 +133,7 @@ const GetCurrentTime = () =>
     `${TwoCharactersFormat(new Date().getHours())}${TwoCharactersFormat(
       new Date().getMinutes()
     )}`
-  ).toString();
+  );
 
 const form = reactive({
   title: "",
@@ -172,10 +141,10 @@ const form = reactive({
   recordType: "",
   recordValue: "",
   recordUnits: "",
-  DStart: "",
-  TStart: "",
-  DEnd: "",
-  TEnd: "",
+  DStart: new Date(props.date),
+  TStart: GetCurrentTime(),
+  DEnd: new Date(props.date),
+  TEnd: GetCurrentTime(),
   note: "",
 });
 
@@ -192,9 +161,9 @@ const ClearForm = () => {
   logSegment.value = logSegments[0];
   form.title = "";
   form.recordValue = "";
-  form.DStart = new LocalDate(props.date).toLocaleDateString("YYYY/MM/DD", "-");
+  form.DStart = new Date(props.date);
   form.TStart = GetCurrentTime();
-  form.DEnd = new LocalDate(props.date).toLocaleDateString("YYYY/MM/DD", "-");
+  form.DEnd = new Date(props.date);
   form.TEnd = GetCurrentTime();
   form.note = "";
 };
@@ -216,8 +185,8 @@ const Submit = () => {
       recordType: form.recordType,
       recordValue: form.recordValue,
       recordUnits: form.recordUnits,
-      TStart: new LocalTime(form.TStart),
-      TEnd: new LocalTime(form.TEnd),
+      TStart: form.TStart,
+      TEnd: form.TEnd,
       DStart: new Date(form.DStart),
       DEnd: new Date(form.DEnd),
       note: form.note,

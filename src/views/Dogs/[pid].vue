@@ -1,9 +1,5 @@
 <template>
-  <LayoutPage
-    justify="flex-start"
-    @on-scroll-top="() => (state.hideCard = false)"
-    @off-scroll-top="() => (state.hideCard = true)"
-  >
+  <LayoutPage justify="flex-start">
     <IonRefresher slot="fixed" @ionRefresh="Refresher($event)"
       ><IonRefresherContent
     /></IonRefresher>
@@ -114,7 +110,6 @@ const viewSegments = [
   new SegmentOption("Calendar View", calendarView),
 ];
 const state = reactive({
-  hideCard: false,
   viewSegment: viewSegments[0],
 });
 
@@ -245,6 +240,7 @@ header {
     justify-content: center;
     align-items: center;
     color: var(--theme-button-middle-text);
+
     > .avatar {
       --size: 50px;
       --image-scale: 80%;

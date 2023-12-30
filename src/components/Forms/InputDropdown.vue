@@ -1,17 +1,19 @@
 <template>
   <section class="forms input-dropdown" @click="expanded = !expanded">
-    <div class="output text poppins paragraph">{{ props.modelValue }}</div>
-    <div
-      class="icons theme color tertiary"
-      :class="{ expanded: expanded }"
-      v-show="!hideIcon"
-    >
-      <ion-icon id="icon-up" :icon="chevronUp" />
-      <ion-icon id="icon-down" :icon="chevronDown" />
+    <div>
+      <aside class="output text poppins paragraph">{{ props.modelValue }}</aside>
+      <aside
+        class="icons theme color tertiary"
+        :class="{ expanded: expanded }"
+        v-show="!hideIcon"
+      >
+        <ion-icon id="icon-up" :icon="chevronUp" />
+        <ion-icon id="icon-down" :icon="chevronDown" />
+      </aside>
     </div>
     <Popup v-model="expanded">
       <section class="dropdown">
-        <InputBox
+        <InputText
           v-model="searchValue"
           @input="Filter"
           v-show="!!searchable"
@@ -31,7 +33,7 @@ import { computed, ref } from "vue";
 import { IonIcon } from "@ionic/vue";
 import { chevronUp, chevronDown } from "ionicons/icons";
 import { Popup } from "../Popup";
-import { InputBox, InputSelect } from ".";
+import { InputText, InputSelect } from ".";
 
 const props = defineProps({
   modelValue: [Object, String, Number, Date],
@@ -78,7 +80,7 @@ const emit = defineEmits(["update:modelValue", "select", "update:modelIndex"]);
   background-color: var(--background);
   color: var(var(--color));
   width: 100%;
-  min-height: 40px;
+  height: 30px;
   border-radius: var(--radius);
   padding: 5px 10px;
   display: flex;
@@ -87,12 +89,18 @@ const emit = defineEmits(["update:modelValue", "select", "update:modelIndex"]);
   &:is(:active, :hover, :focus) {
     outline: 2px solid var(--outline);
   }
+
+  > div {
+    width: 100%;
+    display: flex;
+  }
 }
 
 .output {
   flex: 1 0 0;
   text-align: var(--text-align);
   font-weight: var(--font-weight);
+  min-height: 21px;
 }
 
 .icons {
@@ -116,6 +124,7 @@ ion-icon {
   font-size: 35px;
   position: absolute;
   transition: all 100ms ease-out;
+  color: var(--theme-tertiary-background);
 }
 
 #icon-up {

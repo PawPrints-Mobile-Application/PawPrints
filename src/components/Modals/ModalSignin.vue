@@ -29,27 +29,20 @@
     </section>
 
     <section class="form" :class="{ hide: hideForm }">
-      <InputDynamicWrapped
-        ref="email"
-        type="email"
-        label="Email"
-        placeholder="Enter Email"
-        v-model="form.email"
-      />
-
-      <InputDynamicWrapped
-        ref="password"
-        type="password"
-        label="Password"
-        placeholder="Enter Password"
-        v-model="form.password"
-      />
+      <div>
+        <TextSubheading>Email</TextSubheading>
+        <InputText placeholder="Enter Email" v-model="form.email" />
+      </div>
+      <div>
+        <TextSubheading>Password</TextSubheading>
+        <InputPassword placeholder="Enter Password" v-model="form.password" />
+      </div>
     </section>
   </ButtonModal>
 </template>
 <script setup lang="ts">
 import { ButtonModal, ButtonText } from "../Buttons";
-import { InputDynamicWrapped } from "../Forms";
+import { InputPassword, InputText } from "../Forms";
 import { NoteWarning, TextSubheading } from "../Texts";
 
 import {
@@ -174,9 +167,17 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 30px;
   transition: all 200ms ease-out;
   overflow: hidden;
+  padding: 2px;
+  gap: 15px;
+
+  > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 
 .input-dynamic-wrapped {

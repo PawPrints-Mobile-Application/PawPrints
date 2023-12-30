@@ -29,7 +29,7 @@
 import { LayoutModal } from "../../layout";
 import { ref, computed, PropType } from "vue";
 import { Avatar } from "../../components/Avatars";
-import { InputTextareaWrapped } from "../Forms";
+// import { InputTextareaWrapped } from "../Forms";
 import { TextSubheading } from "../Texts";
 import { ButtonText } from "../../components/Buttons";
 import { Add as AddComment } from "../../server/models/Comments";

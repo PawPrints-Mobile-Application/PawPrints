@@ -17,35 +17,28 @@
       :style="{ backgroundColor: form.color }"
     />
     <section class="add-dog-form">
-      <InputDynamicWrapped
-        type="text"
-        v-model="form.name"
-        placeholder="Doggo Name"
-        label="Doggo Name"
-      />
-      <InputDynamicWrapped
-        type="date"
-        v-model="form.birthday"
-        label="Date of Birth"
-        hide-input
-        disable-future
-      />
-      <InputDropdown
-        class="dropdown"
-        type="dropdown"
-        v-model="form.breed"
-        label="Doggo Breed"
-        :options="breeds.map((breed) => breed.name)"
-        placeholder="Choose a breed"
-        :count="6"
-        searchable
-      />
-      <InputDynamicWrapped
-        type="color"
-        v-model="form.color"
-        placeholder="Colour"
-        label="Colour"
-      />
+      <div>
+        <TextSubheading>Doggo Name</TextSubheading>
+        <InputText placeholder="Doggo Name" v-model="form.name" />
+      </div>
+      <div>
+        <TextSubheading>Date of Birth</TextSubheading>
+        <InputDate v-model="form.birthday" hide-input disable-future />
+      </div>
+      <div>
+        <TextSubheading>Doggo Breed</TextSubheading>
+        <InputDropdown
+          v-model="form.breed"
+          class="dropdown"
+          :options="breeds.map((breed) => breed.name)"
+          :count="6"
+          searchable
+        />
+      </div>
+      <div>
+        <TextSubheading>Icon Color</TextSubheading>
+        <InputColor v-model="form.color" />
+      </div>
     </section>
   </LayoutModal>
 </template>
@@ -57,11 +50,12 @@ import { LayoutModal } from "../../layout";
 import { Avatar } from "../Avatars";
 import { Add } from "../../server/models/Dogs";
 import { SeedGenerator, GetUID, breeds } from "../../utils";
-import { InputDropdown, InputDynamicWrapped } from "../Forms";
+import { TextSubheading } from "../Texts";
+import { InputDropdown, InputText, InputDate, InputColor } from "../Forms";
 
 const form = reactive({
   name: "",
-  birthday: "",
+  birthday: new Date(),
   breed: "",
   color: "#FFD80A",
 });
@@ -77,7 +71,7 @@ const Discard = () => {
 const ClearForm = () => {
   console.log("Clearing...");
   form.name = "";
-  form.birthday = "";
+  form.birthday = new Date();
   form.breed = "";
   form.color = "#FFD80A";
 };
@@ -88,7 +82,7 @@ const Submit = () => {
     {
       pid: pid,
       name: form.name,
-      birthday: form.birthday,
+      birthday: form.birthday.toString(),
       breed: form.breed,
       color: form.color,
       logs: [],
@@ -117,8 +111,18 @@ const emit = defineEmits(["submit", "discard"]);
 }
 
 .add-dog-form {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  padding: 2px;
+  gap: 15px;
+
+  > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 
 label {

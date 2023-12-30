@@ -1,3 +1,5 @@
+import { Calendar } from ".";
+
 type DateFormat = "MM/DD/YYYY" | "DD/MM/YYYY" | "YYYY/MM/DD";
 
 const TwoCharactersFormat = (value: number) =>
@@ -19,7 +21,7 @@ export default class LocalDate {
   set(_value?: Date) {
     if (!_value) this.value = new Date();
     else this.value = _value;
-    this.month = this.value.getMonth() + 1;
+    this.month = this.value.getMonth();
     this.date = this.value.getDate();
     this.year = this.value.getFullYear();
     this.day = this.value.getDay();
@@ -36,9 +38,14 @@ export default class LocalDate {
       .split("/")
       .map((sector) => {
         let temp = this.year;
-        if (sector === "MM") temp = this.month;
+        if (sector === "MM") temp = this.month + 1;
         else if (sector === "DD") temp = this.date;
         return TwoCharactersFormat(temp);
       })
       .join(separator);
+  toLocaleTextString = (format: "short" | "long" = "long") => {
+    const months = format === "short" ? Calendar.monthsShort : Calendar.months;
+    const month = months[this.month] + (format === "short" ? "." : "");
+    return `${month} ${this.date}, ${this.year}`;
+  };
 }

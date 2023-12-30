@@ -30,41 +30,19 @@
         {{ noteWarning }}
       </NoteWarning>
 
-      <InputDynamicWrapped
-        ref="username"
-        type="text"
-        label="Username"
-        id="username"
-        placeholder="Enter Username"
-        required
-        v-model:modelValid="validations.username"
-        v-model="form.username"
-        :validators="SignupValidator.username"
-      />
+      <div>
+        <TextSubheading>Username</TextSubheading>
+        <InputText placeholder="Enter Username" v-model="form.username" />
+      </div>
 
-      <InputDynamicWrapped
-        ref="email"
-        type="email"
-        label="Email"
-        id="email"
-        placeholder="Enter Email"
-        required
-        v-model:modelValid="validations.email"
-        v-model="form.email"
-        :validators="SignupValidator.email"
-      />
-
-      <InputDynamicWrapped
-        ref="password"
-        type="password"
-        label="Password"
-        id="password"
-        placeholder="Enter Password"
-        required
-        @validate="(value) => (validations.password = value > -1)"
-        v-model="form.password"
-        :validators="SignupValidator.password"
-      />
+      <div>
+        <TextSubheading>Email</TextSubheading>
+        <InputText placeholder="Enter Email" v-model="form.email" />
+      </div>
+      <div>
+        <TextSubheading>Password</TextSubheading>
+        <InputPassword placeholder="Enter Password" v-model="form.password" />
+      </div>
 
       <InputToggle id="TOS" v-model="form.acceptTOS">
         By creating an account you agree to our
@@ -77,7 +55,7 @@
 
 <script setup lang="ts">
 import { ButtonModal, ButtonText } from "../Buttons";
-import { InputDynamicWrapped, InputToggle } from "../Forms";
+import { InputPassword, InputText, InputToggle } from "../Forms";
 import { NoteWarning, TextSubheading } from "../Texts";
 
 import {
@@ -91,7 +69,7 @@ import {
 import { computed, reactive, ref } from "vue";
 import { useIonRouter, IonSpinner } from "@ionic/vue";
 import { Logo } from "../Logo";
-import { SignupValidator } from "../../server/rulesets";
+// import { SignupValidator } from "../../server/rulesets";
 
 const modal = ref();
 
@@ -264,6 +242,15 @@ ion-spinner {
   align-items: center;
   transition: all 200ms ease-out;
   overflow: hidden;
+  padding: 2px;
+  gap: 15px;
+
+  > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 
 .input-dynamic-wrapped {

@@ -1,6 +1,6 @@
 import { HelperConstructor } from ".";
 
-class InputValidator {
+class Validator {
   callback: (value: any) => boolean;
   helper: HelperConstructor;
 
@@ -14,4 +14,4 @@ class InputValidator {
   }
 }
 
-export default InputValidator;
+export default Validator;

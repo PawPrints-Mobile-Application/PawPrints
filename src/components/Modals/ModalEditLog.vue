@@ -14,7 +14,7 @@
     button-submit-text="Save"
     :disable-footer="disableEdit"
   >
-    <template #header>
+    <!-- <template #header>
       <section class="header">
         <TextHeading>{{ disableEdit ? "Preview" : "Edit" }} Log</TextHeading>
         <ButtonLock v-model="disableEdit" @click="ClearForm" />
@@ -76,26 +76,27 @@
         label="Note (Optional)"
         :freeze="disableEdit"
       />
-    </section>
+    </section> -->
   </LayoutModal>
 </template>
 
 <script setup lang="ts">
 import { reactive, watch, ref, PropType, computed } from "vue";
-import { IonIcon } from "@ionic/vue";
+// import { IonIcon } from "@ionic/vue";
 import { LayoutModal } from "../../layout";
 import {
-  InputDynamicWrapped,
-  InputChoice,
-  InputTextareaWrapped,
-  InputLabel,
+  // InputDynamicWrapped,
+  // InputChoice,
+  // InputTextareaWrapped,
+  // InputLabel,
 } from "../Forms";
 import { CustomEvent, LocalTime } from "../../utils";
-import { Enums, Props } from "../../server/models/Logs";
+// import { Enums, Props } from "../../server/models/Logs";
+import { Props } from "../../server/models/Logs";
 import { AddLogs } from "../../server/models/LogAddressingTable";
 import { GetUID, ObjectToMap } from "../../utils";
-import { ButtonLock } from "../Buttons";
-import { TextHeading } from "../Texts";
+// import { ButtonLock } from "../Buttons";
+// import { TextHeading } from "../Texts";
 
 const props = defineProps({
   isOpen: {
@@ -142,9 +143,9 @@ const disableClear = computed(() => {
   return temp;
 });
 
-const hasUnits = () => new Enums.Record().hasUnits(props.log?.recordType!);
-const GetRecordUnitOptions = () =>
-  new Enums.Record().getUnits(props.log?.recordType!, [""]);
+// const hasUnits = () => new Enums.Record().hasUnits(props.log?.recordType!);
+// const GetRecordUnitOptions = () =>
+//   new Enums.Record().getUnits(props.log?.recordType!, [""]);
 
 const disableEdit = ref(true);
 

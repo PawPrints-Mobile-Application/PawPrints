@@ -1,4 +1,3 @@
-import RouteInfo from "./RouteInfo";
 import EnumConstructor from "./EnumConstructor";
 import * as Hash from "./Hash";
 import SeedGenerator from "./SeedGenerator";
@@ -7,7 +6,7 @@ import StringToArray from "./StringToArray";
 import ObjectToMap from "./ObjectToMap";
 
 import HelperConstructor from "./HelperConstructor";
-import InputValidator from "./InputValidator";
+import Validator from "./Validator";
 
 import LocalDate from "./LocalDate";
 import LocalTime from "./LocalTime";
@@ -29,7 +28,6 @@ import Calendar from "./Calendar";
 import TwoCharactersFormat from "./TwoCharactersFormat";
 
 export {
-  RouteInfo,
   EnumConstructor,
   Hash,
   SeedGenerator,
@@ -37,7 +35,7 @@ export {
   StringToArray,
   ObjectToMap,
   HelperConstructor,
-  InputValidator,
+  Validator,
   LocalDate,
   LocalTime,
   GetScreenSize,

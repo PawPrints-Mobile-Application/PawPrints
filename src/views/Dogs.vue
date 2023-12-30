@@ -8,7 +8,7 @@
     /></IonRefresher>
     <section class="search-box">
       <IonIcon :icon="icon" />
-      <InputDynamic v-model="search" @input="Reload" />
+      <InputText v-model="search" @input="Reload" />
     </section>
     <section v-show="!!dogs" class="collection card-collection">
       <CardDog
@@ -42,7 +42,7 @@ import {
 import { ref, Ref } from "vue";
 import { ModalAddDog } from "../components/Modals";
 import { GetAll, Props } from "../server/models/Dogs";
-import { InputDynamic } from "../components/Forms";
+import { InputText } from "../components/Forms";
 const ionRouter = useIonRouter();
 const Navigate = (pid: string) =>
   ionRouter.navigate(`/dogs/${pid}`, "forward", "push");

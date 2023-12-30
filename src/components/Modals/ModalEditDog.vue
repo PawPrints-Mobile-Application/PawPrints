@@ -18,38 +18,31 @@
       :src="form.breed"
       :style="{ backgroundColor: form.color }"
     />
-    <InputDynamicWrapped
-      type="text"
+    <InputText
       v-model="form.name"
       placeholder="Doggo Name"
       label="Doggo Name"
-      hideValidator
     />
-    <InputDynamicWrapped
-      type="date"
+    <InputDate
       v-model="form.birthday"
       label="Birthday"
-      hide-input
-      disable-future
-      hideValidator
     />
     <InputDropdown
-      type="dropdown"
       v-model="form.breed"
       label="Doggo Breed"
-      :options="breeds"
+      :options="breeds.map(breed => breed.name)"
       placeholder="Choose a breed"
       :count="6"
       searchable
       hideValidator
     />
-    <InputDynamicWrapped
+    <!-- <InputDynamicWrapped
       type="color"
       v-model="form.color"
       placeholder="Colour"
       label="Colour"
       hideValidator
-    />
+    /> -->
     <ButtonText label="Delete Dog" @click="DeleteDog" />
   </LayoutModal>
 </template>
@@ -61,21 +54,21 @@ import { LayoutModal } from "../../layout";
 import { Avatar } from "../Avatars";
 import { Add, Remove } from "../../server/models/Dogs";
 import { GetUID, breeds, ObjectToMap, CustomEvent } from "../../utils";
-import { InputDropdown, InputDynamicWrapped } from "../Forms";
+import { InputDropdown, InputText, InputDate } from "../Forms";
 import { ButtonText } from "../Buttons";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 
 const form = reactive({
   name: "",
-  birthday: "",
+  birthday: new Date(),
   breed: "",
   color: "#FFD80A",
 });
 
 const defaultValues = reactive({
   name: "",
-  birthday: "",
+  birthday: new Date(),
   breed: "",
   color: "#FFD80A",
 });
@@ -125,7 +118,7 @@ const Submit = () => {
     {
       pid: props.dog!.pid,
       name: form.name,
-      birthday: form.birthday,
+      birthday: form.birthday.toString(),
       breed: form.breed,
       color: form.color,
       logs: props.dog!.logs,

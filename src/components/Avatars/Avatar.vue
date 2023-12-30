@@ -12,6 +12,7 @@
 import { IonSkeletonText } from "@ionic/vue";
 import { personCircleOutline as UserDefault } from "ionicons/icons";
 import { PawPrints as DogDefault } from "../../assets/images";
+// import breeds from '../../utils/Breeds'
 import { ref } from "vue";
 const props = defineProps({
   type: {

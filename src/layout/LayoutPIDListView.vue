@@ -1,31 +1,28 @@
 <template>
   <section class="pid-list-view">
     <header>
-      <InputDynamic
+      <InputDropdown
         class="list-view-month"
-        type="dropdown"
         :options="Calendar.monthsShort"
         v-model="month"
         :count="12"
         hideInput
         hideIcon
-        @change="ReloadLogs"
+        @select="ReloadLogs"
       />
-      <InputDynamic
+      <InputDropdown
         class="list-view-year"
-        type="dropdown"
         :options="Calendar.GetYears(151)"
         v-model="year"
         :count="12"
         hideInput
         hideIcon
-        @change="ReloadLogs"
+        @select="ReloadLogs"
       />
     </header>
     <div class="content">
       <CardLog
         v-for="log in logs?.keys()"
-        :id="Number(log)"
         :logs="logs?.get(log)!"
         :date="new Date(modelYear!, modelMonth!, Number(log))"
       />
@@ -33,8 +30,8 @@
   </section>
 </template>
 <script setup lang="ts">
-import { PropType, computed, onMounted } from "vue";
-import { InputDynamic } from "../components/Forms";
+import { PropType, computed } from "vue";
+import { InputDropdown } from "../components/Forms";
 import { Calendar, CustomEvent } from "../utils";
 import { CardLog } from "../components/Cards";
 import { Props } from "../server/models/Logs";
@@ -55,7 +52,7 @@ const month = computed({
 });
 const year = computed({
   get() {
-    return props.modelYear!.toString();
+    return props.modelYear!;
   },
   set(value) {
     emit("update:modelYear", Number(value));
@@ -65,14 +62,6 @@ const year = computed({
 const ReloadLogs = () => CustomEvent.EventDispatcher("reload-logs");
 
 const emit = defineEmits(["update:modelMonth", "update:modelYear"]);
-
-onMounted(() => {
-  setTimeout(() => {
-    document
-      .getElementById(Math.max(new Date().getDate() - 2, 0).toString())
-      ?.scrollIntoView({ behavior: "smooth" });
-  }, 10);
-});
 </script>
 <style scoped>
 .pid-list-view {
@@ -90,9 +79,11 @@ header {
   width: 100%;
   justify-content: flex-start;
 }
-.input-dynamic {
+.input-dropdown {
   flex: none;
-  width: min-content;
+  width: 75px;
+  --text-align: center;
+  --font-weight: 700;
 }
 .list-view-month {
   --input-background: var(--theme-quadratic-background);

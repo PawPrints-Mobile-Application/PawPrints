@@ -2,25 +2,23 @@
   <section class="pid-calendar-view">
     <header>
       <ButtonBack @click="() => MoveMonth(-1)" type="icon" />
-      <InputDynamic
+      <InputDropdown
         class="month"
-        type="dropdown"
         :options="Calendar.months"
         v-model="month"
         :count="12"
         hideInput
         hideIcon
-        @change="ReloadLogs"
+        @select="ReloadLogs"
       />
-      <InputDynamic
+      <InputDropdown
         class="year"
-        type="dropdown"
         :options="Calendar.GetYears(151)"
         v-model="year"
         :count="12"
         hideInput
         hideIcon
-        @change="ReloadLogs"
+        @select="ReloadLogs"
       />
       <ButtonNext @click="() => MoveMonth(1)" type="icon" />
     </header>
@@ -54,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { InputDynamic } from "../components/Forms";
+import { InputDropdown } from "../components/Forms";
 import { TextSmall } from "../components/Texts";
 import { ButtonBack, ButtonNext } from "../components/Buttons";
 import { computed, ref, onMounted, PropType, Ref } from "vue";
@@ -87,7 +85,7 @@ const month = computed({
 });
 const year = computed({
   get() {
-    return props.modelYear!.toString();
+    return props.modelYear;
   },
   set(value) {
     emit("update:modelYear", Number(value));
@@ -150,7 +148,7 @@ const MoveMonth = (increment: 1 | -1) => {
       ? curYear + increment
       : curYear;
   month.value = Calendar.months[tempMonth];
-  year.value = tempYear.toString();
+  year.value = tempYear;
   ReloadLogs();
 };
 
@@ -187,22 +185,17 @@ header {
   padding-bottom: 5px;
 }
 
-.input-dynamic {
+.input-dropdown {
   --input-background: var(--theme-primary-background);
 
   &.month {
     max-width: 120px;
     font-weight: 700;
-    z-index: 1;
-    --input-background: none;
-    transform: translateX(3px);
   }
 
   &.year {
     max-width: 60px;
     font-weight: 700;
-    transform: translate(-15px, 1px);
-    --input-background: none;
   }
 }
 
