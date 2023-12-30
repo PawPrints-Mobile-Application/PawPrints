@@ -47,7 +47,7 @@ const SetValue = (index: number, doEmit: boolean = true) => {
 
 const emit = defineEmits(["update:modelValue", "update:modelIndex", "select"]);
 
-const Initialize = () => setTimeout(ScrollIntoView, 5);
+const Initialize = () => setTimeout(ScrollIntoView, 10);
 
 const ScrollIntoView = () =>
   anchorRef.value?.scrollIntoView({ behavior: "smooth" });

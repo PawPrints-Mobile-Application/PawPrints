@@ -9,6 +9,7 @@ import InputDropdown from "./InputDropdown.vue";
 
 import InputCalendar from "./InputCalendar.vue";
 import InputDate from "./InputDate.vue";
+import InputTimeBox from "./InputTimeBox.vue";
 import InputTime from "./InputTime.vue";
 
 import InputToggle from "./InputToggle.vue";
@@ -34,6 +35,7 @@ export {
   InputDropdown,
   InputCalendar,
   InputDate,
+  InputTimeBox,
   InputTime,
   InputToggle,
   InputCheckbox,

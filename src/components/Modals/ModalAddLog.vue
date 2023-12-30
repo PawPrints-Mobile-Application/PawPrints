@@ -44,18 +44,21 @@
       <div class="date-time">
         <TextSubheading :value="`Record${isRecord() ? ' ' : ' Start '}Date`" />
         <div>
-          <InputDate v-model="form.DStart" hideIcon />
+          <InputDate v-model="form.DStart" hideIcon display="number" />
           <InputTime v-model="form.TStart" hideIcon />
         </div>
       </div>
       <div class="date-time" v-show="!isRecord()">
         <TextSubheading value="Record End Date" />
         <div>
-          <InputDate v-model="form.DEnd" hideIcon />
+          <InputDate v-model="form.DEnd" hideIcon display="number" />
           <InputTime v-model="form.TEnd" hideIcon />
         </div>
       </div>
-      <InputTextarea v-model="form.note" label="Note (Optional)" />
+      <div>
+        <TextSubheading value="Note (Optional)" />
+        <InputTextarea v-model="form.note" />
+      </div>
     </section>
   </LayoutModal>
 </template>
@@ -70,7 +73,7 @@ import {
   InputTextarea,
   InputDropdown,
   InputText,
-  InputChoice
+  InputChoice,
 } from "../Forms";
 import { TextSubheading } from "../Texts";
 import { LocalTime, SegmentOption, TwoCharactersFormat } from "../../utils";

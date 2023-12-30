@@ -1,90 +1,92 @@
 <template>
-  <section class="input-time default-input">
-    <div>
-      <InputSelect
-        class="hours"
-        :options="options.hours"
-        v-model="form.hours"
-        :count="6"
-      />
-      <InputSelect
-        class="minutes"
-        :options="options.minutes"
-        v-model="form.minutes"
-        :count="6"
-      />
-      <InputSelect class="ampm" :options="options.ampm" v-model="form.ampm" />
+  <section class="forms input-time" @click="expanded = !expanded">
+    <div class="output text poppins paragraph">
+      {{ GetOutput() }}
     </div>
-    <ButtonText label="Save" @click="SetValue" />
+    <IonIcon class="button-time" :icon="icon" v-show="!hideIcon" />
+    <Popup v-model="expanded">
+      <template #content="{ Trigger }">
+        <section class="time">
+          <InputTimeBox v-model="value" @change="Trigger" />
+        </section>
+      </template>
+    </Popup>
   </section>
 </template>
 <script setup lang="ts">
-import { InputSelect } from ".";
-import { reactive } from "vue";
-import { DropdownOption, LocalTime, TwoCharactersFormat } from "../../utils";
-import { ButtonText } from "../Buttons";
-
-const options = {
-  hours: Array.from(
-    { length: 12 },
-    (_, i) => new DropdownOption((i + 1).toString(), i + 1)
-  ),
-  minutes: Array.from(
-    { length: 60 },
-    (_, i) => new DropdownOption(i.toString(), i)
-  ),
-  ampm: ["AM", "PM"].map((i) => new DropdownOption(i)),
-};
+import { ref, computed } from "vue";
+import { Popup } from "../Popup";
+import { InputTimeBox } from ".";
+import { LocalTime } from "../../utils";
+import { IonIcon } from "@ionic/vue";
+import { time as icon } from "ionicons/icons";
 
 const props = defineProps({
   modelValue: LocalTime,
+  hideIcon: Boolean,
+  display: {
+    type: String,
+    default: "text",
+    validator: (value: string) =>
+      ["text", "number", "text-short"].includes(value),
+  },
 });
 
-const form = reactive({
-  hours: options.hours[props.modelValue!.hoursConverted - 1],
-  minutes: options.minutes[props.modelValue!.minutes],
-  ampm: options.ampm[props.modelValue!.ampm === "AM" ? 0 : 1],
+const expanded = ref(false);
+const GetOutput = () => props.modelValue?.toString("12");
+
+const value = computed({
+  get() {
+    return props.modelValue!;
+  },
+  set(value) {
+    emit("update:modelValue", value);
+    emit("select");
+  },
 });
 
-const ConvertToLocalTime = () => {
-  const hours =
-    form.hours.value + (form.ampm.label === options.ampm[0].label ? 0 : 12);
-  const minutes = form.minutes.value;
-  return new LocalTime(
-    Number(`${TwoCharactersFormat(hours)}${TwoCharactersFormat(minutes)}`)
-  );
-};
-
-const SetValue = () => {
-  const temp = ConvertToLocalTime();
-  emit("update:modelValue", temp);
-  emit("change", temp);
-};
-
-const emit = defineEmits(["update:modelValue", "change"]);
+const emit = defineEmits(["update:modelValue", "select"]);
 </script>
 <style scoped>
 .input-time {
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--theme-primary-background);
-  border-radius: 10px;
-  padding: 10px;
-  outline: 3px solid var(--theme-black);
+  --background: var(--theme-secondary-background);
+  --color: var(--theme-secondary-text);
+  --outline: var(--theme-tertiary-background);
+  --radius: 5px;
+  --icon: var(--theme-tertiary-background);
+  --text-align: left;
+  --font-weight: 400;
+  background-color: var(--background);
+  color: var(var(--color));
+  width: 100%;
+  height: 30px;
+  border-radius: var(--radius);
+  padding: 5px 10px;
+  display: flex;
+  gap: 5px;
+
+  &:is(:active, :hover, :focus) {
+    outline: 2px solid var(--outline);
+  }
 }
 
-.input-time div {
+.output {
+  flex: 1 0 0;
+  text-align: var(--text-align);
+  font-weight: var(--font-weight);
+}
+
+.time {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 10px;
 }
 
-.input-select {
-  min-width: 80px;
-}
-
-.button-text {
-  width: 100%;
-  margin-top: 20px;
+.button-time {
+  position: relative;
+  transform: translateY(-3px);
+  width: 26px;
+  height: 26px;
+  color: var(--theme-tertiary-background);
 }
 </style>

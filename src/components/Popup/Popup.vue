@@ -36,6 +36,7 @@ const emit = defineEmits(["update:modelValue", "click-backdrop"]);
 </script>
 <style scoped>
 .popup {
+  position: absolute;
   --outline: 2px solid var(--theme-black);
   --border-radius: 6px;
   --background-color: var(--theme-primary-background);
