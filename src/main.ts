@@ -21,10 +21,10 @@ import "@ionic/vue/css/flex-utils.css";
 import "@ionic/vue/css/display.css";
 
 /* Theme variables */
-import "./theme/variables.css";
-import "./theme/fonts.css";
-import "./theme/customs.css";
-import "./theme/themes.css";
+import "./themes/themes.css";
+import "./themes/fonts.css";
+// import "./theme/variables.css";
+// import "./theme/customs.css";
 // import "./theme/forms.css";
 
 import { Capacitor } from "@capacitor/core";

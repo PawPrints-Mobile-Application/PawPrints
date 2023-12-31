@@ -1,34 +1,37 @@
 <template>
   <ion-app>
     <ion-router-outlet />
-    <ToastNetwork />
+    <!-- <ToastNetwork /> -->
   </ion-app>
 </template>
 
 <script setup lang="ts">
 import { IonApp, IonRouterOutlet } from "@ionic/vue";
-import { SplashScreen } from "@capacitor/splash-screen";
-import { onBeforeMount, onMounted } from "vue";
-import { ToastNetwork } from "./components/Toasts";
-import { CustomEvent, SetRootStyle, ObjectToMap } from "./utils";
-import themes from "./theme";
+import { onBeforeMount, reactive } from "vue";
+import { UserInfo, Themes, PawprintsEvent } from "./utils";
+
+const state = reactive({
+  userFound: false,
+
+  auth: false,
+  themes: false,
+  localDatabase: false,
+});
+
+const GetAuth = () => {
+  if (!!UserInfo.GetSubscription()) {
+    state.userFound = true;
+    Themes.Set(UserInfo.GetTheme());
+    PawprintsEvent.EventDispatcher("initialized", "themes");
+  }
+  state.auth = true;
+  PawprintsEvent.EventDispatcher("initialized", "auth");
+};
+
+const LocalDatabase = () => {};
 
 onBeforeMount(() => {
-  sessionStorage.setItem("appInitialized", "false");
-});
-onMounted(async () => {
-  SplashScreen.show();
-  setTimeout(() => {
-    SplashScreen.hide();
-  }, 0);
-
-  sessionStorage.setItem("appInitialized", "true");
-  CustomEvent.EventListener("reload-mode", () => {
-    const theme = ObjectToMap(themes).get(localStorage.getItem("colorTheme")!);
-    const mode = ObjectToMap(theme).get(localStorage.getItem("colorMode")!);
-    SetRootStyle(mode);
-  });
-  CustomEvent.EventDispatcher("reload-mode");
+  GetAuth();
 });
 </script>
 

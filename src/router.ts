@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 
-import independentRoutes, { navigationRecords, settingsRecords } from "./views";
-
 const UrlCatcher = () =>
   [...new Array(6).keys()].map((key: number) => {
     return {
@@ -14,55 +12,19 @@ const UrlCatcher = () =>
 let routes: Array<RouteRecordRaw> = [
   {
     path: "",
-    redirect: "/splash",
+    redirect: "/test",
   },
   {
-    path: "/",
-    component: () => import(`./views/AntiNavigation.vue`),
-    children: [
-      {
-        path: "",
-        redirect: "/test",
-      },
-      ...independentRoutes.map((record) => {
-        return {
-          path: "/" + record.name,
-          component: () => import(`./views/${record.name}.vue`),
-        };
-      }),
-    ],
+    path: "/test",
+    name: "test",
+    component: () => import(`./views/Test.vue`),
+  },
+  {
+    path: "/splash",
+    name: "splash",
+    component: () => import(`./views/Splash.vue`),
   },
   ...UrlCatcher(),
-  {
-    path: "/",
-    component: () => import(`./views/Navigation.vue`),
-    children: [
-      {
-        path: "",
-        redirect: "/home",
-      },
-      ...navigationRecords.map((record) => {
-        return {
-          path: "/" + record.name,
-          component: () => import(`./views/${record.name}.vue`),
-        };
-      }),
-      {
-        path: "/dogs/:pid",
-        component: () => import("./views/Dogs/[pid].vue"),
-      },
-      {
-        path: "/forums/:fid",
-        component: () => import("./views/Forums/[fid].vue"),
-      },
-      ...settingsRecords.map((record) => {
-        return {
-          path: "/Settings/" + record.name,
-          component: () => import(`./views/Settings/${record.name}.vue`),
-        };
-      }),
-    ],
-  },
 ];
 
 const router = createRouter({

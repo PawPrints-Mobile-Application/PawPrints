@@ -1,55 +1,24 @@
-import {
-  CreateTable,
-  DeleteTable,
-  ResetTable,
-  InsertRowData,
-  ReadFirstRow,
-} from "../sqlite";
 import { SetDocument, GetDocument } from "../firebase";
-import { ObjectToMap, EnumConstructor } from "../../utils";
+import { ObjectToMap } from "../../utils";
 
-class Subscription extends EnumConstructor {
-  guest: "guest" = "guest";
-  free: "free" = "free";
-  pawmium: "pawmium" = "pawmium";
-
-  constructor() {
-    super(["guest", "free", "pawmium"]);
-  }
-}
-
-class Theme extends EnumConstructor {
-  yellow: "yellow" = "yellow";
-  pink: "pink" = "pink";
-  blue: "blue" = "blue";
-
-  constructor() {
-    super(["yellow", "pink", "blue"]);
-  }
-}
-
-class Mode extends EnumConstructor {
-  light: "light" = "light";
-  dark: "dark" = "dark";
-
-  constructor() {
-    super(["light", "dark"]);
-  }
-}
-
-const Enums = { Subscription, Theme, Mode };
+const Enums = {
+  Subscription: ["guest", "free", "pawmium"],
+  Theme: ["yellow", "pink", "blue"],
+  Mode: ["light", "dark"],
+};
 
 const constants = {
   collection: "Users",
   document: "Information",
   data: `
-    uid TEXT PRIMARY KEY NOT NULL UNIQUE,
-    email TEXT,
-    username TEXT,
-    subscription TEXT,
-    theme TEXT,
-    mode TEXT
-    `,
+      uid TEXT PRIMARY KEY NOT NULL UNIQUE,
+      email TEXT,
+      username TEXT,
+      subscription TEXT,
+      theme TEXT,
+      mode TEXT
+      `,
+  supports: ["cloud"],
 };
 
 type Props = {
@@ -75,41 +44,16 @@ const ToProps = (values: any): Props => {
 const documentPath = (uid: string) =>
   `${constants.collection}/${uid}/Profile/${constants.document}`;
 
-const CreateModel = () => CreateTable(constants.document, constants.data);
-const DeleteModel = () => DeleteTable(constants.document);
-const Clear = () => ResetTable(constants.document);
-
-const Get = () =>
-  ReadFirstRow(constants.document).then((response) =>
-    ToProps(response.values![0])
-  );
-
-const Set = async (props: Props, uid?: string) => {
-  const data = ObjectToMap(props);
-  if (!!uid) await SetDocument(documentPath(uid), props);
-  return InsertRowData(
-    constants.document,
-    {
-      keys: Array.from(data.keys()),
-      values: Array.from(data.values()),
-    },
-    true
-  ).then(() => props);
-};
-
-const Sync = async (uid: string) =>
+const Get = (uid: string) =>
   GetDocument(documentPath(uid)).then(async (response) => {
-    console.log("syncing...");
-    const data = ObjectToMap(response!.data()!);
-    return InsertRowData(
-      constants.document,
-      {
-        keys: Array.from(data.keys()),
-        values: Array.from(data.values()),
-      },
-      true
-    ).then(Get);
+    console.log("Downloading Information");
+    return ToProps(ObjectToMap(response!.data()!));
   });
 
+const Set = async (props: Props) => {
+  console.log("Uploading Information");
+  SetDocument(documentPath(props.uid), props);
+};
+
 export type { Props };
-export { Enums, CreateModel, DeleteModel, Clear, Set, Get, Sync };
+export { Enums, Set, Get };

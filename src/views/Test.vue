@@ -1,15 +1,12 @@
 <template>
-  <LayoutPage>
-    <ModalSignup />
-  </LayoutPage>
+  <section>dwadw</section>
 </template>
 <script setup lang="ts">
-import { LayoutPage } from "../layout";
-import { ModalSignup } from "../components/Modals";
-</script>
-<script lang="ts">
-export default {
-  name: "Test",
-};
+import { onMounted } from "vue";
+import SeedGenerator from "../utils/SeedGenerator";
+
+onMounted(() => {
+  console.log(SeedGenerator());
+});
 </script>
 <style scoped></style>

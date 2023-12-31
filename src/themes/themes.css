@@ -1,0 +1,27 @@
+:root {
+  --theme-black: #0d0d0d;
+  --theme-white: #fefefe;
+  --theme-grey: #cecece;
+  --theme-pawprints: #ffd803;
+
+  --theme-primary-background: #fefefe;
+  --theme-primary-text: #0d0d0d;
+  --theme-secondary-background: #e3f6f5;
+  --theme-secondary-text: #0d0d0d;
+  --theme-secondary-dark-background: #bae8e8;
+  --theme-secondary-dark-text: #0d0d0d;
+  --theme-tertiary-background: #ffd803;
+  --theme-tertiary-text: #0d0d0d;
+  --theme-quadratic-background: #272343;
+  --theme-quadratic-text: #fefefe;
+
+  --theme-button-middle-text: #fffffe;
+  --theme-warning-background: #eb445a;
+  --theme-warning-text: #fffffe;
+  --theme-success-background: #2dd36f;
+  --theme-success-text: #fffffe;
+  --theme-button-icon: #ffd803;
+  --theme-list-log-background: rgba(255, 216, 3, 0.7);
+  --theme-list-log-text: #000000;
+  --theme-card-highlight-color: #000000;
+}
