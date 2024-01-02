@@ -15,8 +15,8 @@ const themes = {
       "quadratic-text": "#FEFEFE",
 
       "button-middle-text": "#FFFFFE",
-      "warning-background": "#EB445A",
-      "warning-text": "#FFFFFE",
+      "danger-background": "#EB445A",
+      "danger-text": "#FFFFFE",
       "success-background": "#2DD36F",
       "success-text": "#FFFFFE",
       "button-icon": "#FFD803", // forums button in home
@@ -38,8 +38,8 @@ const themes = {
       "quadratic-text": "#F7F9F9",
 
       "button-middle-text": "#15202B",
-      "warning-background": "#F7677B",
-      "warning-text": "#FFFFFF",
+      "danger-background": "#F7677B",
+      "danger-text": "#FFFFFF",
       "success-background": "#56CF87",
       "success-text": "#FFFFFF",
       "button-icon": "#FFE558", // forums button in home
@@ -62,8 +62,8 @@ const themes = {
       "quadratic-text": "#33272A",
 
       "button-middle-text": "#FFFFFF",
-      "warning-background": "#EE9DAE",
-      "warning-text": "#FFFFFF",
+      "danger-background": "#EE9DAE",
+      "danger-text": "#FFFFFF",
       "success-background": "#AFE194",
       "success-text": "#FFFFFF",
       "button-icon": "#EC9CAF", // forums button in home
@@ -84,8 +84,8 @@ const themes = {
       "quadratic-text": "#202020",
 
       "button-middle-text": "#FFFFFF",
-      "warning-background": "#EE9DAE",
-      "warning-text": "#FFFFFF",
+      "danger-background": "#EE9DAE",
+      "danger-text": "#FFFFFF",
       "success-background": "#AFE194",
       "success-text": "#FFFFFF",
       "button-icon": "#EC9CAF", // forums button in home
@@ -108,8 +108,8 @@ const themes = {
       "quadratic-text": "#FFFFFF",
 
       "button-middle-text": "#DBEBF5",
-      "warning-background": "#0D3B5C",
-      "warning-text": "#FFFFFE",
+      "danger-background": "#0D3B5C",
+      "danger-text": "#FFFFFE",
       "success-background": "#F5D473",
       "success-text": "#FFFFFE",
       "button-icon": "#F5D473", // forums button in home
@@ -131,8 +131,8 @@ const themes = {
       "quadratic-text": "#FEFEFE",
 
       "button-middle-text": "#FEFEFE",
-      "warning-background": "#0D3B5C",
-      "warning-text": "#FEFEFE",
+      "danger-background": "#0D3B5C",
+      "danger-text": "#FEFEFE",
       "success-background": "#328F65",
       "success-text": "#FEFEFE",
       "button-icon": "#328F65", // forums button in home
@@ -146,12 +146,12 @@ const themes = {
 const Set = (value: string) => {
   const theme = value.split(" | ").map((value) => value.trim());
   const colors: Map<string, string> = ObjectToMap(
-    ObjectToMap(themes).get(theme[0])
-  ).get(theme[1]);
-  if (!colors) return;
-  colors.forEach((value, key) =>
-    document.documentElement.style.setProperty(`--theme-${key}`, value)
+    ObjectToMap(ObjectToMap(themes).get(theme[0])).get(theme[1])
   );
+  if (!colors) return;
+  colors.forEach((value, key) => {
+    document.documentElement.style.setProperty(`--theme-${key}`, value);
+  });
   PawprintsEvent.EventDispatcher("modified", "themes");
 };
 

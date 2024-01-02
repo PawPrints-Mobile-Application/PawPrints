@@ -1,10 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
   -webkit-font-smoothing: antialiased;
-  font-family:'Poppins', 'Rubik', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Poppins", "Rubik", "Segoe UI", Tahoma, Geneva, Verdana,
+    sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --fs0: 30px;
+  --fs1: 24px;
+  --fs2: 16px;
+  --fs3: 14px;
+  --fs4: 12px;
+}
+
+.font {
+  margin: 0;
+}
+
+.font.center {
+  text-align: center;
+}
+
+.font.bold {
+  font-weight: 700;
+}
+.font.normal {
+  font-weight: 400;
+}
+.font.italic {
+  font-style: italic;
+}
+
+.font.title {
+  font-size: var(--fs0);
+}
+
+.font.heading {
+  font-size: var(--fs1);
+}
+
+.font.subheading {
+  font-size: var(--fs2);
+}
+
+.font.paragraph {
+  font-size: var(--fs3);
+}
+
+.font.small {
+  font-size: var(--fs4);
+}
+
+.font.poppins {
+  font-family: Poppins;
+}
+
+.font.rubik {
+  font-family: Rubik;
 }

@@ -9,7 +9,7 @@ const databaseName = {
   prod: "User",
 };
 
-const Database = async () => {
+const Connect = async () => {
   const dbName = databaseName.dev;
   const sqlite = new SQLiteConnection(CapacitorSQLite);
   const ret = await sqlite.checkConnectionsConsistency();
@@ -39,7 +39,7 @@ const InsertRowData = async (
   tableName: string,
   data: {
     keys: Array<string>;
-    values: Array<any>;
+    values: Array<string | number>;
   },
   allowReplace: boolean = false
 ) =>
@@ -162,7 +162,7 @@ const DeleteRowData = async (
 };
 
 export {
-  Database,
+  Connect,
   Open,
   Close,
   CreateTable,

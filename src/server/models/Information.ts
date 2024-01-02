@@ -2,9 +2,20 @@ import { SetDocument, GetDocument } from "../firebase";
 import { ObjectToMap } from "../../utils";
 
 const Enums = {
-  Subscription: ["guest", "free", "pawmium"],
-  Theme: ["yellow", "pink", "blue"],
-  Mode: ["light", "dark"],
+  Subscription: {
+    guest: "guest",
+    free: "free",
+    pawmium: "pawmium",
+  },
+  Theme: {
+    yellow: "yellow",
+    pink: "pink",
+    blue: "blue",
+  },
+  Mode: {
+    light: "light",
+    dark: "dark",
+  },
 };
 
 const constants = {
@@ -47,7 +58,7 @@ const documentPath = (uid: string) =>
 const Get = (uid: string) =>
   GetDocument(documentPath(uid)).then(async (response) => {
     console.log("Downloading Information");
-    return ToProps(ObjectToMap(response!.data()!));
+    return ToProps(response!.data()!);
   });
 
 const Set = async (props: Props) => {

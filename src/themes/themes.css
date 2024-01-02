@@ -16,12 +16,59 @@
   --theme-quadratic-text: #fefefe;
 
   --theme-button-middle-text: #fffffe;
-  --theme-warning-background: #eb445a;
-  --theme-warning-text: #fffffe;
+  --theme-danger-background: #eb445a;
+  --theme-danger-text: #fffffe;
+  --theme-warning-background: #ffd803;
+  --theme-warning-text: #0d0d0d;
   --theme-success-background: #2dd36f;
   --theme-success-text: #fffffe;
   --theme-button-icon: #ffd803;
   --theme-list-log-background: rgba(255, 216, 3, 0.7);
   --theme-list-log-text: #000000;
   --theme-card-highlight-color: #000000;
+}
+
+[data-color="success"],
+.theme.color.success {
+  color: var(--theme-success-text);
+}
+
+[data-color="warning"],
+.theme.color.warning {
+  color: var(--theme-warning-text);
+}
+
+[data-color="danger"],
+.theme.color.danger {
+  color: var(--theme-danger-text);
+}
+
+[data-background-color="success"],
+.theme.background.success {
+  background-color: var(--theme-success-background);
+}
+
+[data-background-color="warning"],
+.theme.background.warning {
+  background-color: var(--theme-warning-background);
+}
+
+[data-background-color="danger"],
+.theme.background.danger {
+  background-color: var(--theme-danger-background);
+}
+
+[data-outline="success"],
+.theme.outline.success {
+  outline: 2px solid var(--theme-success-background);
+}
+
+[data-outline="warning"],
+.theme.outline.warning {
+  outline: 2px solid var(--theme-warning-background);
+}
+
+[data-outline="danger"],
+.theme.outline.danger {
+  outline: 2px solid var(--theme-danger-background);
 }

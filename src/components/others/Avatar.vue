@@ -34,7 +34,6 @@ onMounted(() => {});
 
 <style scoped>
 .avatar {
-  --size: 40px;
   width: var(--size);
   height: var(--size);
 }

@@ -12,7 +12,7 @@ const UrlCatcher = () =>
 let routes: Array<RouteRecordRaw> = [
   {
     path: "",
-    redirect: "/test",
+    redirect: "/splash",
   },
   {
     path: "/test",
@@ -24,7 +24,17 @@ let routes: Array<RouteRecordRaw> = [
     name: "splash",
     component: () => import(`./views/Splash.vue`),
   },
+  {
+    path: "/auth",
+    name: "auth",
+    component: () => import(`./views/Auth.vue`),
+  },
   ...UrlCatcher(),
+  {
+    path: "/home",
+    name: "home",
+    component: () => import(`./views/navigation/Home.vue`),
+  },
 ];
 
 const router = createRouter({
