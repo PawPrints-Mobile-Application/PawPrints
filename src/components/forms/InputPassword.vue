@@ -7,7 +7,7 @@
       v-model="value"
     />
     <ion-icon
-      class="font heading theme color tertiary"
+      class="font heading"
       :icon="!!toggleShow ? showIcon : hideIcon"
       @click="() => (toggleShow = !toggleShow)"
     />
@@ -58,6 +58,10 @@ const emit = defineEmits(["update:modelValue"]);
   &:is(:active, :hover, :focus) {
     outline: 2px solid var(--outline);
   }
+}
+
+ion-icon {
+  color: var(--theme-tertiary-background);
 }
 
 input {

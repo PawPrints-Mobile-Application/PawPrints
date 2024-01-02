@@ -12,7 +12,7 @@
       <ButtonText value="Sign Up" @click="ShowModal('modal-signup')" />
     </section>
     <ModalSignin :db="db" />
-    <ModalSignup />
+    <ModalSignup :db="db" />
   </IonPage>
 </template>
 <script setup lang="ts">

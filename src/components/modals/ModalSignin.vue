@@ -22,7 +22,10 @@
       :class="{ show: state.processing }"
       :value="state.processingText"
     />
-    <NoteWarning v-show="state.authError" :value="state.warningText" />
+    <NoteWarning
+      v-show="state.authError && !state.processing"
+      :value="state.warningText"
+    />
     <section class="form" :class="{ hide: state.processing }">
       <InputWrapper label="Email">
         <InputText placeholder="Enter Email" v-model="form.email" />
@@ -32,7 +35,7 @@
       </InputWrapper>
       <div class="buttons">
         <ButtonDanger value="Clear" />
-        <ButtonSuccess value="Sign In" @click="Signin" />
+        <ButtonSuccess value="Sign In" @click="Process" />
       </div>
     </section>
   </Modal>
@@ -61,7 +64,7 @@ import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 import { PawprintsEvent } from "../../utils";
 const ionRouter = useIonRouter();
 const Navigate = () => {
-  console.log("Redirecting to Home...");
+  console.log("Redirecting to Home Page...");
   ionRouter.navigate("/home", "forward", "replace");
 };
 
@@ -87,7 +90,7 @@ const Clear = () => {
   form.password = "";
 };
 
-const Signin = () => {
+const Process = () => {
   state.processing = true;
   state.processingText = "Connecting to server...";
   setTimeout(() => {

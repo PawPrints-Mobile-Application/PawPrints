@@ -72,3 +72,35 @@
 .theme.outline.danger {
   outline: 2px solid var(--theme-danger-background);
 }
+
+.theme.color.primary {
+  color: var(--theme-primary-text);
+}
+
+.theme.color.secondary {
+  color: var(--theme-secondary-text);
+}
+
+.theme.color.tertiary {
+  color: var(--theme-tertiary-text);
+}
+
+.theme.color.quadratic {
+  color: var(--theme-quadratic-text);
+}
+
+.theme.background.primary {
+  background-color: var(--theme-primary-background);
+}
+
+.theme.background.secondary {
+  background-color: var(--theme-secondary-background);
+}
+
+.theme.background.tertiary {
+  background-color: var(--theme-tertiary-background);
+}
+
+.theme.background.quadratic {
+  background-color: var(--theme-quadratic-background);
+}
