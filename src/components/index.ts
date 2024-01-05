@@ -54,8 +54,14 @@ import TextHeading from "./texts/TextHeading.vue";
 import TextTitle from "./texts/TextTitle.vue";
 import NoteWarning from "./texts/NoteWarning.vue";
 
+// toast
+import Toast from "./toasts/Toast.vue";
+
 //others
 import Avatar from "./others/Avatar.vue";
+import NavigationBar from "./others/NavigationBar.vue";
+import NavigationTab from "./others/NavigationTab.vue";
+import NavigationCenter from "./others/NavigationCenter.vue";
 
 export {
   // buttons
@@ -102,6 +108,11 @@ export {
   TextHeading,
   TextTitle,
   NoteWarning,
+  //toasts
+  Toast,
   //others
   Avatar,
+  NavigationBar,
+  NavigationTab,
+  NavigationCenter,
 };

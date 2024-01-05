@@ -37,17 +37,18 @@ const ShowModal = (trigger: "modal-signin" | "modal-signup") => {
   PawprintsEvent.EventDispatcher(trigger, "show");
 };
 
-onMounted(() => {
-  setTimeout(() => (state.show = true), 100);
-  PawprintsEvent.EventDispatcher("request-db");
-});
-
 const db = ref();
 onBeforeMount(() => {
   PawprintsEvent.AddEventListener("response-db", (value: any) => {
     db.value = value;
   });
 });
+
+onMounted(() => {
+  setTimeout(() => (state.show = true), 100);
+  PawprintsEvent.EventDispatcher("request-db");
+});
+
 onBeforeUnmount(() => {
   PawprintsEvent.RemoveEventListener(
     "response-db",
@@ -62,7 +63,6 @@ onBeforeUnmount(() => {
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: var(--theme-primary-background);
 }
 
 .avatar {

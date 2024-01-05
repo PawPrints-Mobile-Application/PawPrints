@@ -1,12 +1,11 @@
 <template>
-  <IonPage class="splash">
+  <IonPage class="splash" :class="{ show: state.logo }">
     <div
       class="drop"
       :class="{ enlarge: (state.out || state.show) && state.ready }"
     />
     <Avatar
       :class="{
-        show: state.logo,
         out: state.out && state.ready,
       }"
     />
@@ -17,9 +16,9 @@ import { Avatar } from "../components";
 import {
   onBeforeMount,
   onMounted,
-  onBeforeUnmount,
   reactive,
   watch,
+  onUnmounted,
 } from "vue";
 import { PawprintsEvent } from "../utils";
 import { useIonRouter, IonPage } from "@ionic/vue";
@@ -40,6 +39,11 @@ const StateMover = (destination: string) => {
   else state.show = true;
 };
 
+watch(
+  () => state.ready && (state.out || state.show),
+  () => setTimeout(Navigate, state.out ? 1000 : 1000)
+);
+
 onBeforeMount(() => {
   ["home", "auth"].forEach((state) =>
     PawprintsEvent.AddEventListener(`transition to ${state}`, () =>
@@ -48,22 +52,17 @@ onBeforeMount(() => {
   );
 });
 
-onBeforeUnmount(() => {
+onMounted(() => {
+  setTimeout(() => (state.logo = true), 550);
+  setTimeout(() => (state.ready = true), 1300);
+});
+
+onUnmounted(() => {
   ["home", "auth"].forEach((state) =>
     PawprintsEvent.RemoveEventListener(`transition to ${state}`, () =>
       StateMover(state)
     )
   );
-});
-
-watch(
-  () => state.ready && (state.out || state.show),
-  () => setTimeout(Navigate, state.out ? 1000 : 1000)
-);
-
-onMounted(() => {
-  setTimeout(() => (state.logo = true), 50);
-  setTimeout(() => (state.ready = true), 800);
 });
 </script>
 <style scoped>
@@ -73,6 +72,18 @@ onMounted(() => {
   justify-content: center;
   width: 100%;
   height: 100%;
+  background-color: #ffffff;
+  transition: all 200ms ease-out;
+}
+
+.show {
+  background-color: var(--theme-tertiary-background);
+
+  > .avatar {
+    opacity: 1;
+    width: 200px;
+    height: 200px;
+  }
 }
 
 .avatar {
@@ -80,12 +91,6 @@ onMounted(() => {
   --size: 0;
   transition: width 100ms ease-in 800ms, height 200ms ease-out 800ms,
     opacity 20ms ease-out 800ms, transform 500ms ease-out 800ms;
-
-  &.show {
-    opacity: 1;
-    width: 200px;
-    height: 200px;
-  }
 
   &.out {
     transform: translateY(-1000px);
@@ -104,11 +109,5 @@ onMounted(() => {
   &.enlarge {
     width: 5000px;
   }
-}
-</style>
-
-<style>
-:root {
-  background-color: var(--theme-tertiary-background);
 }
 </style>

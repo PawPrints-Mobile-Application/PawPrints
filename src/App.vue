@@ -7,7 +7,14 @@
 
 <script setup lang="ts">
 import { IonApp, IonRouterOutlet } from "@ionic/vue";
-import { onMounted, reactive, ref, watch, onUnmounted } from "vue";
+import {
+  onMounted,
+  reactive,
+  ref,
+  watch,
+  onUnmounted,
+  onBeforeMount,
+} from "vue";
 import { UserInfo, Themes, PawprintsEvent } from "./utils";
 import { Connect, Open, Close } from "./server/sqlite";
 import { CreateModels } from "./server/models";
@@ -39,6 +46,7 @@ const LocalDatabase = () =>
     .then(() => {
       state.localDatabase = true;
       PawprintsEvent.EventDispatcher("initialized-localDatabase");
+      PawprintsEvent.EventDispatcher("response-db", db.value);
     });
 const ResponseDB = () =>
   PawprintsEvent.EventDispatcher("response-db", db.value);
@@ -54,9 +62,12 @@ const GetAuth = () => {
   PawprintsEvent.EventDispatcher("initialized-auth");
 };
 
-onMounted(async () => {
+onBeforeMount(async () => {
   PawprintsEvent.AddEventListener("request-db", ResponseDB);
   await LocalDatabase();
+});
+
+onMounted(() => {
   GetAuth();
 });
 

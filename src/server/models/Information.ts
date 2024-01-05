@@ -1,5 +1,4 @@
 import { SetDocument, GetDocument } from "../firebase";
-import { ObjectToMap } from "../../utils";
 
 const Enums = {
   Subscription: {
@@ -57,6 +56,7 @@ const documentPath = (uid: string) =>
 
 const Get = (uid: string) =>
   GetDocument(documentPath(uid)).then(async (response) => {
+    console.log(response!.data()!);
     console.log("Downloading Information");
     return ToProps(response!.data()!);
   });

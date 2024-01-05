@@ -1,6 +1,12 @@
 <template>
   <section class="popup" v-show="!!state">
-    <IonModal :isOpen="!!state" :canDismiss="!state" :showBackdrop="false">
+    <IonModal
+      :isOpen="!!state"
+      @didDismiss="emit('dismiss')"
+      @didPresent="emit('present')"
+      :canDismiss="!state"
+      :showBackdrop="false"
+    >
       <div class="wrapper">
         <ion-backdrop
           :visible="true"

@@ -31,9 +31,39 @@ let routes: Array<RouteRecordRaw> = [
   },
   ...UrlCatcher(),
   {
-    path: "/home",
-    name: "home",
-    component: () => import(`./views/navigation/Home.vue`),
+    path: "/",
+    component: () => import("./views/navigation/Navigation.vue"),
+    children: [
+      {
+        path: "/",
+        redirect: "/home",
+      },
+      {
+        path: "/home",
+        name: "home",
+        component: () => import(`./views/navigation/Home.vue`),
+      },
+      {
+        path: "/forums",
+        name: "forums",
+        component: () => import(`./views/navigation/Forums.vue`),
+      },
+      {
+        path: "/dogs",
+        name: "dogs",
+        component: () => import(`./views/navigation/Dogs.vue`),
+      },
+      {
+        path: "/map",
+        name: "map",
+        component: () => import(`./views/navigation/Map.vue`),
+      },
+      {
+        path: "/settings",
+        name: "settings",
+        component: () => import(`./views/navigation/Settings.vue`),
+      },
+    ],
   },
 ];
 
