@@ -26,7 +26,7 @@ import {
 } from "../components";
 import { IonPage } from "@ionic/vue";
 import { onMounted, reactive, ref, onBeforeMount, onBeforeUnmount } from "vue";
-import { PawprintsEvent } from "../utils";
+import { DatabaseMounter, PawprintsEvent } from "../utils";
 
 const state = reactive({
   show: false,
@@ -38,22 +38,22 @@ const ShowModal = (trigger: "modal-signin" | "modal-signup") => {
 };
 
 const db = ref();
+const UpdateDB = (value: any) => {
+  if (!value) return;
+  db.value = value;
+};
+
 onBeforeMount(() => {
-  PawprintsEvent.AddEventListener("response-db", (value: any) => {
-    db.value = value;
-  });
+  DatabaseMounter.Mount(UpdateDB);
 });
 
 onMounted(() => {
   setTimeout(() => (state.show = true), 100);
-  PawprintsEvent.EventDispatcher("request-db");
+  DatabaseMounter.Request();
 });
 
 onBeforeUnmount(() => {
-  PawprintsEvent.RemoveEventListener(
-    "response-db",
-    (value: any) => (db.value = value)
-  );
+  DatabaseMounter.Unmount(UpdateDB);
 });
 </script>
 <style scoped>

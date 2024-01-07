@@ -34,6 +34,7 @@ import { PawprintsEvent } from "../../utils";
 
 const animation = reactive({
   grow: false,
+  readyToClick: true,
 });
 
 const ionRouter = useIonRouter();
@@ -45,14 +46,23 @@ const isOnTab = () =>
 const isTab = () =>
   router.currentRoute.value.path.toLowerCase() === props.target.toLowerCase();
 const Navigate = () => {
-  const action = isOnTab() ? (isTab() ? "add-dog" : "add-log") : "move";
+  if (!animation.readyToClick) return;
+  const action = isOnTab()
+    ? isTab()
+      ? "modal-add-dog"
+      : "modal-add-log"
+    : "move";
   switch (action) {
     case "move":
       animation.grow = true;
+      animation.readyToClick = false;
       setTimeout(() => {
         animation.grow = false;
         ionRouter.navigate("/dogs", "forward", "replace");
       }, 400);
+      setTimeout(() => {
+        animation.readyToClick = true;
+      }, 800);
       break;
     default:
       PawprintsEvent.EventDispatcher(action);
@@ -119,8 +129,11 @@ const props = defineProps({
 }
 
 .icon-add {
-    position: absolute;
-    transform: translateY(5px);
+  position: absolute;
+  transform: translateY(6px);
+  color: var(--theme-tertiary-text);
+  transition: all 300ms ease-out;
+  opacity: 0;
 }
 
 .text-small {
@@ -138,6 +151,11 @@ const props = defineProps({
   > .text-small {
     font-weight: 700;
   }
+
+  > div .icon-add {
+    opacity: 1;
+    color: var(--theme-tertiary-background);
+  }
 }
 
 .grow {
@@ -151,6 +169,10 @@ const props = defineProps({
 
   > .text-small {
     transform: scale(1.5) translateY(-5px);
+  }
+
+  > div .icon-add {
+    transform: scale(1.3) translateY(-4px);
   }
 }
 </style>

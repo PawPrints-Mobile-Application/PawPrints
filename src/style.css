@@ -1,7 +1,6 @@
 :root {
   transition: background-color 1s ease-out;
-}
-
-#app {
-  min-width: 320px;
+  #app {
+    min-width: 320px;
+  }
 }

@@ -6,22 +6,24 @@
     :isOpen="!!state"
     :canDismiss="!state"
   >
-    <main>
-      <header>
-        <ButtonBack @click="() => (state = false)" :disabled="disableBack" />
-        <section>
-          <slot name="header" />
-        </section>
-      </header>
-      <footer>
-        <slot name="content"><slot /></slot>
-      </footer>
-    </main>
+    <IonContent>
+      <main>
+        <header>
+          <ButtonBack @click="() => (state = false)" :disabled="disableBack" />
+          <section>
+            <slot name="header" />
+          </section>
+        </header>
+        <footer>
+          <slot name="content"><slot /></slot>
+        </footer>
+      </main>
+    </IonContent>
   </IonModal>
 </template>
 
 <script setup lang="ts">
-import { IonModal } from "@ionic/vue";
+import { IonModal, IonContent } from "@ionic/vue";
 import { onMounted, onUnmounted, ref } from "vue";
 import { PawprintsEvent } from "../../utils";
 import { ButtonBack } from "..";
@@ -70,7 +72,7 @@ const emit = defineEmits(["dismiss", "present"]);
 main {
   width: 100%;
   height: 100%;
-  padding: 10px;
+  padding-inline: 10px;
 }
 
 header {
@@ -93,7 +95,7 @@ header {
 
 footer {
   width: 100%;
-  height: 100%;
+  min-height: min-content;
   display: flex;
   flex-direction: column;
   justify-content: var(--justify-content);

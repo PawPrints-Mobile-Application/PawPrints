@@ -12,6 +12,9 @@ import HelperConstructor from "./HelperConstructor";
 import SampleColors from "./SampleColors";
 import Calendar from "./Calendar";
 import LocalDate from "./LocalDate";
+import Age from "./Age";
+import Breeds from "./Breeds";
+import DatabaseMounter from "./DatabaseMounter";
 
 export {
   Defaulter,
@@ -28,4 +31,7 @@ export {
   SampleColors,
   Calendar,
   LocalDate,
+  Age,
+  Breeds,
+  DatabaseMounter,
 };

@@ -63,6 +63,11 @@ let routes: Array<RouteRecordRaw> = [
         name: "settings",
         component: () => import(`./views/navigation/Settings.vue`),
       },
+      {
+        path: "/dogs/:pid",
+        name: "dog profile",
+        component: () => import(`./views/dynamic/[pid].vue`),
+      },
     ],
   },
 ];

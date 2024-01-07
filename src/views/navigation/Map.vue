@@ -1,7 +1,7 @@
 <template>
-  <IonPage></IonPage>
+  <LayoutPage></LayoutPage>
 </template>
 <script setup lang="ts">
-import { IonPage } from "@ionic/vue";
+import { LayoutPage } from "../../layout";
 </script>
 <style scoped></style>

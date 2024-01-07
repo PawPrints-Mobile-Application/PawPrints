@@ -34,7 +34,7 @@
         <InputPassword placeholder="Enter Password" v-model="form.password" />
       </InputWrapper>
       <div class="buttons">
-        <ButtonDanger value="Clear" />
+        <ButtonDanger value="Clear" @click="Clear" />
         <ButtonSuccess value="Sign In" @click="Process" />
       </div>
     </section>

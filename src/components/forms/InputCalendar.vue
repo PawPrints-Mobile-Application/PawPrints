@@ -9,6 +9,7 @@
         :options="Calendar.months"
         hideIcon
         trigger="popup-month"
+        closeOnSelect
       />
       <InputDropdown
         class="year"
@@ -17,6 +18,7 @@
         :options="calendar.years"
         hideIcon
         trigger="popup-year"
+        closeOnSelect
       />
       <ButtonNext @click="MoveMonth(1)" />
     </header>

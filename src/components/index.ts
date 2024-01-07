@@ -8,6 +8,9 @@ import ButtonBack from "./buttons/ButtonBack.vue";
 import ButtonNext from "./buttons/ButtonNext.vue";
 import ButtonSignout from "./buttons/ButtonSignout.vue";
 
+// cards
+import CardDog from "./cards/CardDog.vue";
+
 // forms
 import InputWrapper from "./forms/InputWrapper.vue";
 
@@ -42,6 +45,7 @@ import InputChoice from "./forms/InputChoice.vue";
 import Modal from "./modals/Modal.vue";
 import ModalSignin from "./modals/ModalSignin.vue";
 import ModalSignup from "./modals/ModalSignup.vue";
+import ModalAddDog from "./modals/ModalAddDog.vue";
 
 // popups
 import Popup from "./popups/Popup.vue";
@@ -73,6 +77,8 @@ export {
   ButtonBack,
   ButtonNext,
   ButtonSignout,
+  // cards
+  CardDog,
   // forms
   InputWrapper,
   InputText,
@@ -99,6 +105,7 @@ export {
   Modal,
   ModalSignin,
   ModalSignup,
+  ModalAddDog,
   // popups
   Popup,
   // texts

@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { personCircleOutline as UserDefault } from "ionicons/icons";
 import { PawPrints as DogDefault } from "../../assets";
-import { map as breeds } from "../../utils/Breeds";
+import { Breeds } from "../../utils";
 import { onMounted } from "vue";
 const props = defineProps({
   value: String,
@@ -24,7 +24,9 @@ const props = defineProps({
 const GetImage = () => {
   if (!props.value) return props.type === "dog" ? DogDefault : UserDefault;
   const image =
-    props.type === "dog" ? breeds.get(props.value!) : breeds.get(props.value!);
+    props.type === "dog"
+      ? Breeds.map.get(props.value!)
+      : Breeds.map.get(props.value!);
   if (!image) return props.type === "dog" ? DogDefault : UserDefault;
   return image;
 };
@@ -36,6 +38,7 @@ onMounted(() => {});
 .avatar {
   width: var(--size);
   height: var(--size);
+  padding: 5px;
 }
 
 .avatar-dog {

@@ -14,10 +14,12 @@ import {
   watch,
   onUnmounted,
   onBeforeMount,
+  Ref,
 } from "vue";
 import { UserInfo, Themes, PawprintsEvent } from "./utils";
 import { Connect, Open, Close } from "./server/sqlite";
 import { CreateModels } from "./server/models";
+import { Props as DogProps, GetAll as GetDogs } from "./server/models/Dogs";
 
 const state = reactive({
   userFound: false,
@@ -26,6 +28,13 @@ const state = reactive({
   themes: false,
   localDatabase: false,
 });
+
+const dogs: Ref<DogProps[]> = ref([]);
+const UpdateDogs = () =>
+  GetDogs(db.value).then((values) => (dogs.value = values));
+const AddToDogs = (value: DogProps) => dogs.value.push(value);
+const SendDogs = () =>
+  PawprintsEvent.EventDispatcher("response-dogs", dogs.value);
 
 watch(
   () => state.auth && state.themes && state.localDatabase === true,
@@ -47,7 +56,8 @@ const LocalDatabase = () =>
       state.localDatabase = true;
       PawprintsEvent.EventDispatcher("initialized-localDatabase");
       PawprintsEvent.EventDispatcher("response-db", db.value);
-    });
+    })
+    .then(UpdateDogs);
 const ResponseDB = () =>
   PawprintsEvent.EventDispatcher("response-db", db.value);
 
@@ -64,6 +74,8 @@ const GetAuth = () => {
 
 onBeforeMount(async () => {
   PawprintsEvent.AddEventListener("request-db", ResponseDB);
+  PawprintsEvent.AddEventListener("add-to-dogs", AddToDogs);
+  PawprintsEvent.AddEventListener("request-dogs", SendDogs);
   await LocalDatabase();
 });
 
@@ -74,6 +86,8 @@ onMounted(() => {
 onUnmounted(async () => {
   await Close(db.value);
   PawprintsEvent.RemoveEventListener("request-db", ResponseDB);
+  PawprintsEvent.RemoveEventListener("add-to-dogs", AddToDogs);
+  PawprintsEvent.RemoveEventListener("request-dogs", SendDogs);
 });
 </script>
 

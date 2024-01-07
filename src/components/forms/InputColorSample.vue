@@ -1,9 +1,12 @@
 <template>
   <section class="input-color-sample">
-    <TextSubheading>Sample Colors ({{ SampleColors.length }} colors)</TextSubheading>
+    <TextSubheading
+      >Sample Colors ({{ SampleColors.length }} colors)</TextSubheading
+    >
     <div class="wrapper">
       <div
         class="color"
+        :class="{ active: modelValue === color }"
         v-for="color in SampleColors"
         :style="{ backgroundColor: color }"
         @click="emit('update:modelValue', color)"
@@ -14,6 +17,10 @@
 <script setup lang="ts">
 import { TextSubheading } from "..";
 import { SampleColors } from "../../utils";
+
+defineProps({
+  modelValue: String,
+});
 
 const emit = defineEmits(["update:modelValue"]);
 </script>
@@ -26,10 +33,6 @@ const emit = defineEmits(["update:modelValue"]);
 }
 
 .wrapper {
-  height: calc(
-    (var(--padding) * 2) + (var(--size) * var(--count)) +
-      (var(--gap) * (var(--count) - 1))
-  );
   padding: var(--padding) 0;
   width: 100%;
   display: flex;
@@ -37,7 +40,6 @@ const emit = defineEmits(["update:modelValue"]);
   justify-content: center;
   align-items: center;
   gap: var(--gap);
-  overflow: scroll;
 }
 
 .color {
@@ -45,5 +47,10 @@ const emit = defineEmits(["update:modelValue"]);
   width: var(--size);
   height: var(--size);
   border-radius: 15px;
+  transition: outline 50ms ease-out;
+}
+
+.active {
+  outline: 3px solid var(--theme-primary-text);
 }
 </style>

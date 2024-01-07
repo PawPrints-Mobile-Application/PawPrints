@@ -1,19 +1,28 @@
 <template>
-  <section class="forms input-dropdown" @click="expanded = !expanded">
+  <section class="forms input-dropdown" @click="Call">
     <div>
-      <aside class="output font poppins paragraph">
-        {{ props.modelValue }}
-      </aside>
       <aside
-        class="icons theme color tertiary"
-        :class="{ expanded: expanded }"
-        v-show="!hideIcon"
+        class="output font poppins paragraph"
+        :class="{ placeholder: !props.modelValue }"
       >
-        <ion-icon id="icon-up" :icon="chevronUp" />
-        <ion-icon id="icon-down" :icon="chevronDown" />
+        {{ !!props.modelValue ? props.modelValue : props.placeholder }}
       </aside>
+      <div>
+        <aside
+          class="icons theme color tertiary"
+          :class="{ expanded: expanded }"
+          v-show="!hideIcon"
+        >
+          <ion-icon id="icon-up" :icon="chevronUp" />
+          <ion-icon id="icon-down" :icon="chevronDown" />
+        </aside>
+      </div>
     </div>
-    <Popup v-model="expanded" :trigger="trigger">
+    <Popup
+      :trigger="trigger"
+      @dismiss="() => (expanded = false)"
+      @present="() => (expanded = true)"
+    >
       <section class="dropdown">
         <InputText
           v-model="searchValue"
@@ -24,7 +33,13 @@
           v-model="value"
           @update:model-index="UpdateIndex"
           :options="filteredOptions"
-          @select="() => (expanded = false)"
+          @select="
+            () => {
+              expanded = false;
+              if (!!closeOnSelect)
+                PawprintsEvent.EventDispatcher(trigger, 'hide');
+            }
+          "
         />
       </section>
     </Popup>
@@ -35,6 +50,7 @@ import { computed, ref } from "vue";
 import { IonIcon } from "@ionic/vue";
 import { chevronUp, chevronDown } from "ionicons/icons";
 import { Popup, InputText, InputSelect } from "..";
+import { PawprintsEvent } from "../../utils";
 
 const props = defineProps({
   modelValue: [Object, String, Number, Date],
@@ -46,6 +62,8 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  placeholder: String,
+  closeOnSelect: Boolean,
 });
 
 const filteredOptions = ref(props.options);
@@ -58,6 +76,7 @@ const Filter = (value: string) => {
 };
 
 const expanded = ref(false);
+const Call = () => PawprintsEvent.EventDispatcher(props.trigger);
 
 const value = computed({
   get() {
@@ -106,16 +125,20 @@ const emit = defineEmits(["update:modelValue", "select", "update:modelIndex"]);
   text-align: var(--text-align);
   font-weight: var(--font-weight);
   min-height: 21px;
+
+  &.placeholder {
+    opacity: 0.7;
+  }
 }
 
 .icons {
+  position: relative;
   height: 100%;
   width: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: scroll;
   --translateYUp: -7px;
   --translateYDown: 7px;
 

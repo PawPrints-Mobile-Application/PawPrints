@@ -4,6 +4,7 @@
       class="font poppins paragraph"
       :placeholder="placeholder"
       v-model="value"
+      disabled
     />
     <InputColorPicker v-model="value" />
   </section>
@@ -60,6 +61,7 @@ input {
   border: none;
   outline: none;
   flex: 1 0 0;
+  opacity: 0.7;
 
   &:is(:active, :hover, :focus) {
     outline: none;

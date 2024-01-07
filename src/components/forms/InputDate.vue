@@ -1,6 +1,6 @@
 <template>
-  <section class="forms input-date" @click="expanded = !expanded">
-    <div class="output text poppins paragraph">
+  <section class="forms input-date" @click="Call">
+    <div class="output font poppins paragraph">
       {{ GetOutput() }}
     </div>
     <div class="button-calendar icons theme color tertiary" v-show="!hideIcon">
@@ -16,12 +16,16 @@
         }"
       />
     </div>
-    <Popup v-model="expanded" :trigger="trigger">
+    <Popup
+      :trigger="trigger"
+      @dismiss="() => (expanded = false)"
+      @present="() => (expanded = true)"
+    >
       <template #content="{ Hide }">
         <section class="calendar">
           <InputCalendar v-model="value" />
-          <ButtonText
-            label="Save"
+          <ButtonSuccess
+            value="Save"
             @click="
               () => {
                 SetValue();
@@ -36,8 +40,8 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { Popup, InputCalendar, ButtonText } from "..";
-import { LocalDate } from "../../utils";
+import { Popup, InputCalendar, ButtonSuccess } from "..";
+import { LocalDate, PawprintsEvent } from "../../utils";
 
 const props = defineProps({
   modelValue: Date,
@@ -55,6 +59,7 @@ const props = defineProps({
 });
 
 const expanded = ref(false);
+const Call = () => PawprintsEvent.EventDispatcher(props.trigger);
 const GetLocation = () => {
   let temp = [];
   for (let i = 0; i < 5; i++) {
@@ -153,5 +158,9 @@ const emit = defineEmits(["update:modelValue", "select"]);
     background-color: var(--background);
     transition: all 200ms ease-out;
   }
+}
+
+.button-success {
+  height: 40px;
 }
 </style>
