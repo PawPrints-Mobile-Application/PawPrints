@@ -14,7 +14,10 @@ import { computed } from "vue";
 import { InputColorPicker } from "..";
 
 const props = defineProps({
-  modelValue: String,
+  modelValue: {
+    type: String,
+    default: "#FFD80A",
+  },
   show: Boolean,
   placeholder: String,
 });

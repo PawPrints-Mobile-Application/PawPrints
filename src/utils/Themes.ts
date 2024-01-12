@@ -1,4 +1,4 @@
-import { ObjectToMap, PawprintsEvent } from ".";
+import { ObjectToMap, PawprintsEvent, UserInfo } from ".";
 
 const themes = {
   yellow: {
@@ -153,6 +153,14 @@ const Set = (value: string) => {
     document.documentElement.style.setProperty(`--theme-${key}`, value);
   });
   PawprintsEvent.EventDispatcher("modified", "themes");
+  UserInfo.SetTheme(theme[0], theme[1]);
 };
 
-export default { themes, Set };
+const Get = () => {
+  const temp = UserInfo.GetTheme().split(" | ");
+  const theme = temp[0];
+  const mode = temp[1];
+  return { theme, mode };
+};
+
+export default { themes, Set, Get };

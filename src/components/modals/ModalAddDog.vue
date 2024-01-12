@@ -113,8 +113,6 @@ const state = reactive({
   processingText: "",
   warningText: "",
   processing: false,
-  userFound: false,
-  authError: false,
 });
 
 const animation = reactive({
@@ -170,11 +168,16 @@ const Process = () => {
     color: form.color,
     logs: [],
   };
-  Add(props.db!, data, UserInfo.GetUID()).then(() => {
-    Navigate(pid);
-    PawprintsEvent.EventDispatcher("modal-add-dog", "hide");
-    emit("success", data);
-  });
+  setTimeout(
+    () =>
+      Add(props.db!, data, UserInfo.GetUID()).then(() => {
+        state.processing = false;
+        Navigate(pid);
+        PawprintsEvent.EventDispatcher("modal-add-dog", "hide");
+        emit("success", data);
+      }),
+    1500
+  );
 };
 
 const emit = defineEmits(["success"]);

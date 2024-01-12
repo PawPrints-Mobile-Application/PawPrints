@@ -73,6 +73,7 @@ main {
   width: 100%;
   height: 100%;
   padding-inline: 10px;
+  background-color: var(--theme-primary-background);
 }
 
 header {

@@ -64,7 +64,7 @@ const ResponseDB = () =>
 const GetAuth = () => {
   if (!!UserInfo.GetSubscription()) {
     state.userFound = true;
-    Themes.Set(UserInfo.GetTheme());
+    SetThemes();
     PawprintsEvent.EventDispatcher("initialized-themes");
   }
   state.auth = true;
@@ -72,10 +72,16 @@ const GetAuth = () => {
   PawprintsEvent.EventDispatcher("initialized-auth");
 };
 
+const SetThemes = () => {
+  Themes.Set(UserInfo.GetTheme());
+  PawprintsEvent.EventDispatcher("updated-themes");
+};
+
 onBeforeMount(async () => {
   PawprintsEvent.AddEventListener("request-db", ResponseDB);
   PawprintsEvent.AddEventListener("add-to-dogs", AddToDogs);
   PawprintsEvent.AddEventListener("request-dogs", SendDogs);
+  PawprintsEvent.AddEventListener("set-themes", SetThemes);
   await LocalDatabase();
 });
 
@@ -88,6 +94,7 @@ onUnmounted(async () => {
   PawprintsEvent.RemoveEventListener("request-db", ResponseDB);
   PawprintsEvent.RemoveEventListener("add-to-dogs", AddToDogs);
   PawprintsEvent.RemoveEventListener("request-dogs", SendDogs);
+  PawprintsEvent.RemoveEventListener("set-themes", SetThemes);
 });
 </script>
 

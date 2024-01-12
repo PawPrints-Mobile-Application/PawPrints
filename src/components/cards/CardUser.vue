@@ -1,11 +1,11 @@
 <template>
-  <section class="card card-dog">
+  <section class="card card-user">
     <header>
-      <Avatar :value="dog?.breed" type="dog" :color="dog?.color" />
+      <Avatar :value="user.avatar" type="user" :color="user.color" />
       <aside>
         <div v-for="detail in details">
           <TextParagraph class="bold" :value="detail[0] + ':'" />
-          <TextParagraph :value="detail[1]" />
+          <TextParagraph :value="detail[1].toString()" />
         </div>
       </aside>
     </header>
@@ -16,24 +16,30 @@
 </template>
 <script setup lang="ts">
 import { Props } from "../../server/models/Dogs";
-import { PropType, ref } from "vue";
+import { PropType, reactive, ref } from "vue";
 import { Avatar, TextParagraph, TextSmall } from "..";
 import { LocalDate, Age } from "../../utils";
 
-const props = defineProps({
-  dog: Object as PropType<Props>,
+const user = reactive({
+  avatar: "",
+  color: "#FFD80A",
+  name: "",
+  email: "",
+  subscription: "",
+  posts: 0,
+  upvotes: 0,
+  paws: 0,
 });
 
 const details = [
-  ["Name", props.dog?.name],
-  [
-    "Date of Birth",
-    new LocalDate(props.dog?.birthday).toLocaleDateString("MM/DD/YYYY", "-"),
-  ],
-  ["Dog Breed", props.dog?.breed],
+  ["Name", user.name],
+  ["Email", user.email],
+  ["Subscription", user.subscription],
+  ["Posts", user.posts],
+  ["Upvotes", user.upvotes],
+  ["Paws", user.paws],
 ];
 
-const computedAge = ref(new Age(props.dog?.birthday!));
 const age = [
   "Age:",
   "Year/s: " + computedAge.value.years,
@@ -42,7 +48,7 @@ const age = [
 ];
 </script>
 <style scoped>
-.card-dog {
+.card-user {
   width: 100%;
   background-color: var(--theme-secondary-dark-background);
   padding: 10px;
@@ -84,10 +90,5 @@ footer {
   > .text-small:nth-child(1) {
     font-weight: 700;
   }
-}
-
-.text-paragraph,
-.text-small {
-  color: var(--theme-secondary-text);
 }
 </style>

@@ -7,9 +7,12 @@ import ButtonIcon from "./buttons/ButtonIcon.vue";
 import ButtonBack from "./buttons/ButtonBack.vue";
 import ButtonNext from "./buttons/ButtonNext.vue";
 import ButtonSignout from "./buttons/ButtonSignout.vue";
+import ButtonTheme from "./buttons/ButtonTheme.vue";
+import ButtonMode from "./buttons/ButtonMode.vue";
 
 // cards
 import CardDog from "./cards/CardDog.vue";
+import CardUser from "./cards/CardUser.vue";
 
 // forms
 import InputWrapper from "./forms/InputWrapper.vue";
@@ -77,8 +80,11 @@ export {
   ButtonBack,
   ButtonNext,
   ButtonSignout,
+  ButtonTheme,
+  ButtonMode,
   // cards
   CardDog,
+  CardUser,
   // forms
   InputWrapper,
   InputText,
