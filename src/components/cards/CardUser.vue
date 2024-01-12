@@ -10,15 +10,13 @@
       </aside>
     </header>
     <footer>
-      <TextSmall v-for="detail in age" :value="detail.toString()" />
+      <TextSmall v-for="detail in forum" :value="detail.toString()" />
     </footer>
   </section>
 </template>
 <script setup lang="ts">
-import { Props } from "../../server/models/Dogs";
-import { PropType, reactive, ref } from "vue";
+import { reactive } from "vue";
 import { Avatar, TextParagraph, TextSmall } from "..";
-import { LocalDate, Age } from "../../utils";
 
 const user = reactive({
   avatar: "",
@@ -35,16 +33,13 @@ const details = [
   ["Name", user.name],
   ["Email", user.email],
   ["Subscription", user.subscription],
-  ["Posts", user.posts],
-  ["Upvotes", user.upvotes],
-  ["Paws", user.paws],
 ];
 
-const age = [
+const forum = [
   "Age:",
-  "Year/s: " + computedAge.value.years,
-  "Month/s: " + computedAge.value.months,
-  "Day/s: " + computedAge.value.days,
+  "Post/s: " + user.posts,
+  "Upvote/s: " + user.upvotes,
+  "Paw/s: " + user.paws,
 ];
 </script>
 <style scoped>
@@ -90,5 +85,10 @@ footer {
   > .text-small:nth-child(1) {
     font-weight: 700;
   }
+}
+
+.text-small,
+.text-paragraph {
+  color: var(--theme-secondary-text);
 }
 </style>
