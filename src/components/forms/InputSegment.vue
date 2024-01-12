@@ -52,7 +52,6 @@ const emit = defineEmits(["select", "update:modelValue"]);
   --default-text: var(--theme-secondary-text);
   --active-background: var(--theme-tertiary-background);
   --active-text: var(--theme-primary-background);
-  --flex: 1 0 0;
 
   background-color: var(--default-background);
   color: var(--default-text);
@@ -82,12 +81,13 @@ li {
   border-radius: 6px;
   transition: all 200ms ease-out;
   flex: var(--flex);
+  padding-inline: var(--padding);
   justify-content: center;
 }
 
 .selected {
   background-color: var(--active-background);
-  
+
   > * {
     color: var(--active-text);
   }
