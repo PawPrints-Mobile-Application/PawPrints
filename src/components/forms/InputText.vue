@@ -37,7 +37,7 @@ const emit = defineEmits(["update:modelValue", "input"]);
   --radius: 5px;
   --text-align: left;
   background-color: var(--background);
-  color: var(var(--color));
+  color: var(--color);
   border: none;
   outline: none;
   border-radius: var(--radius);

@@ -101,7 +101,7 @@ const props = defineProps({
   height: 70px;
   border-radius: 100%;
   background-color: var(--theme-primary-background);
-  outline: 6px double var(--theme-primary-text);
+  border: 5px solid var(--theme-tertiary-background);
   color: var(--theme-tertiary-background);
   display: flex;
   flex-direction: column;

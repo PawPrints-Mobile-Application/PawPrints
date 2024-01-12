@@ -68,6 +68,26 @@ let routes: Array<RouteRecordRaw> = [
         name: "dog profile",
         component: () => import(`./views/dynamic/[pid].vue`),
       },
+      {
+        path: "/settings/profile",
+        name: "profile",
+        component: () => import(`./views/settings/Profile.vue`),
+      },
+      {
+        path: "/settings/subscription",
+        name: "subscription",
+        component: () => import(`./views/settings/Subscription.vue`),
+      },
+      {
+        path: "/settings/faqs",
+        name: "faqs",
+        component: () => import(`./views/settings/FAQs.vue`),
+      },
+      {
+        path: "/settings/about",
+        name: "about",
+        component: () => import(`./views/settings/About.vue`),
+      },
     ],
   },
 ];

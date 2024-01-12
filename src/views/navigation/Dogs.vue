@@ -87,4 +87,8 @@ header {
   flex-direction: column;
   gap: 10px;
 }
+
+.text-heading {
+  color: var(--theme-primary-text);
+}
 </style>
