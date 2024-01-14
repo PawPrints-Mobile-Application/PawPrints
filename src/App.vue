@@ -18,8 +18,10 @@ import {
 } from "vue";
 import { UserInfo, Themes, PawprintsEvent } from "./utils";
 import { Connect, Open, Close } from "./server/sqlite";
-import { CreateModels } from "./server/models";
-import { Props as DogProps, GetAll as GetDogs } from "./server/models/Dogs";
+import { CreateModels, ClearModels, SyncModels } from "./server/models";
+import { Props as PropsDog, GetAll as GetDogs } from "./server/models/Dogs";
+import { Props as PropsLAD } from "./server/models/LogAddressingData";
+import { Get as GetLogs } from "./server/models/Logs";
 
 const state = reactive({
   userFound: false,
@@ -29,21 +31,44 @@ const state = reactive({
   localDatabase: false,
 });
 
-const dogs: Ref<DogProps[]> = ref([]);
-const UpdateDogs = () =>
-  GetDogs(db.value).then((values) => (dogs.value = values));
-const AddToDogs = (value: DogProps) => dogs.value.push(value);
+type DogData = {
+  props: PropsDog;
+  logs: Map<string, Map<string, PropsLAD>>;
+};
+const dogs: Ref<Map<string, DogData>> = ref(new Map());
+
+const ResetData = () => {
+  dogs.value = new Map();
+  return ClearModels(db.value);
+};
+const SyncData = () => SyncModels(db.value, UserInfo.GetUID()).then(FetchDogs);
+
+// Dog Props
+const FetchDogs = () =>
+  GetDogs(db.value).then(async (values) => {
+    for (const value of values) {
+      const latids = value.latids;
+      const logs = new Map<string, Map<string, PropsLAD>>();
+      for (const latid of latids) {
+        logs.set(
+          latid,
+          await GetLogs(db.value, new Date(Number(latid)), value.pid)
+        );
+      }
+      dogs.value.set(value.pid, { props: value, logs: logs });
+    }
+  });
+const AddDog = (value: PropsDog) =>
+  dogs.value.set(value.pid, {
+    props: value,
+    logs: new Map(),
+  });
 const SendDogs = () =>
   PawprintsEvent.EventDispatcher("response-dogs", dogs.value);
+const SendDog = (pid: string) =>
+  PawprintsEvent.EventDispatcher("response-dog-data", dogs.value.get(pid));
 
-watch(
-  () => state.auth && state.themes && state.localDatabase === true,
-  () => {
-    if (state.userFound) PawprintsEvent.EventDispatcher("transition to home");
-    else PawprintsEvent.EventDispatcher("transition to auth");
-  }
-);
-
+// Initialization
 const db = ref();
 const LocalDatabase = () =>
   Connect()
@@ -57,7 +82,8 @@ const LocalDatabase = () =>
       PawprintsEvent.EventDispatcher("initialized-localDatabase");
       PawprintsEvent.EventDispatcher("response-db", db.value);
     })
-    .then(UpdateDogs);
+    .then(SyncData)
+    .then(() => PawprintsEvent.EventDispatcher("ready-data"));
 const ResponseDB = () =>
   PawprintsEvent.EventDispatcher("response-db", db.value);
 
@@ -77,24 +103,38 @@ const SetThemes = () => {
   PawprintsEvent.EventDispatcher("updated-themes");
 };
 
-onBeforeMount(async () => {
+watch(
+  () => state.auth && state.themes && state.localDatabase === true,
+  () => {
+    if (state.userFound) PawprintsEvent.EventDispatcher("transition to home");
+    else PawprintsEvent.EventDispatcher("transition to auth");
+  }
+);
+
+onBeforeMount(() => {
+  PawprintsEvent.AddEventListener("sync-data", SyncData);
+  PawprintsEvent.AddEventListener("reset-data", ResetData);
   PawprintsEvent.AddEventListener("request-db", ResponseDB);
-  PawprintsEvent.AddEventListener("add-to-dogs", AddToDogs);
+  PawprintsEvent.AddEventListener("add-to-dogs", AddDog);
   PawprintsEvent.AddEventListener("request-dogs", SendDogs);
   PawprintsEvent.AddEventListener("set-themes", SetThemes);
-  await LocalDatabase();
+  PawprintsEvent.AddEventListener("request-dog-data", SendDog);
 });
 
-onMounted(() => {
+onMounted(async () => {
+  await LocalDatabase();
   GetAuth();
 });
 
 onUnmounted(async () => {
   await Close(db.value);
+  PawprintsEvent.RemoveEventListener("sync-data", SyncData);
+  PawprintsEvent.RemoveEventListener("reset-data", ResetData);
   PawprintsEvent.RemoveEventListener("request-db", ResponseDB);
-  PawprintsEvent.RemoveEventListener("add-to-dogs", AddToDogs);
+  PawprintsEvent.RemoveEventListener("add-to-dogs", AddDog);
   PawprintsEvent.RemoveEventListener("request-dogs", SendDogs);
   PawprintsEvent.RemoveEventListener("set-themes", SetThemes);
+  PawprintsEvent.RemoveEventListener("request-dog-data", SendDog);
 });
 </script>
 

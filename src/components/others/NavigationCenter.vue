@@ -15,7 +15,7 @@
         />
         <IonIcon class="icon-add" :icon="addIcon" />
       </div>
-      <TextSmall :value="'Dogs'" />
+      <TextSmall :value="!isOnTab() ? 'Dogs' : (isTab() ? '+ Dogs' : '+ Logs')" />
       <ion-ripple-effect />
     </section>
   </section>

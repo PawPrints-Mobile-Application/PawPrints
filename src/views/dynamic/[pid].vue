@@ -2,39 +2,32 @@
   <LayoutPage>
     <header>
       <ButtonBack />
-      <TextHeading :value="dog?.name" />
-      <Avatar type="dog" :value="dog?.breed" :color="dog?.color" />
+      <TextHeading :value="dog?.props.name" />
+      <Avatar type="dog" :value="dog?.props.breed" :color="dog?.props.color" />
     </header>
     <main>
-      <IonRefresher slot="fixed" @ionRefresh="Refresher($event)"
-        ><IonRefresherContent
-      /></IonRefresher>
+      <Refresher @refresh="Refresh" />
       <InputSegment :options="views" v-model="view" show="both" />
       <section
         class="view view-data"
         v-show="!!dog"
-        v-if="view === views[1].label"
+        v-if="view.label === views[0].label"
       >
-        <LayoutPIDCalendarView
-          v-model:model-month="data.month"
-          v-model:model-year="data.year"
-          :logs="data.logs"
-        />
+        <LayoutPIDCalendarView v-model="date" :logs="dog?.logs" />
       </section>
       <section class="view view-list" v-show="!!dog" v-else>
-        <LayoutPIDListView
-          v-model:model-month="data.month"
-          v-model:model-year="data.year"
-          :logs="data.logs"
-        />
+        <!-- <LayoutPIDListView
+          v-model:model-month="calendar.month"
+          v-model:model-year="calendar.year"
+          :logs="calendar.logs"
+        /> -->
       </section>
     </main>
   </LayoutPage>
 </template>
 <script setup lang="ts">
-import { IonRefresher, IonRefresherContent } from "@ionic/vue";
 import { LayoutPage } from "../../layout";
-import { Ref, onMounted, ref } from "vue";
+import { Ref, onBeforeMount, onUnmounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { PawprintsEvent, SegmentOption } from "../../utils";
 import {
@@ -42,26 +35,31 @@ import {
   ButtonBack,
   InputSegment,
   TextHeading,
+  Refresher,
 } from "../../components";
-import { Props } from "../../server/models/Dogs";
 import {
   documents as listView,
   calendar as calendarView,
 } from "ionicons/icons";
+import { LayoutPIDCalendarView } from "../../layout";
+import { Props as PropsDog } from "../../server/models/Dogs";
+import { Props as PropsLAD } from "../../server/models/LogAddressingData";
 
 const route = useRoute();
 const params = ref(route.params);
 
-const Refresher = (_: any) => PawprintsEvent.EventDispatcher("reload-dogs");
+const Refresh = (event: any) => {
+  PawprintsEvent.EventDispatcher("reload-dogs");
+  setTimeout(() => event.target.complete(), 500);
+};
 
-const dog: Ref<Props> = ref({
-  pid: params.value.toString(),
-  name: "Name",
-  birthday: new Date(),
-  breed: "",
-  color: "",
-  logs: [],
-});
+const date = ref(new Date());
+
+type DogData = {
+  props: PropsDog;
+  logs: Map<string, Map<string, PropsLAD>>;
+};
+const dog: Ref<DogData | undefined> = ref();
 
 const views = [
   new SegmentOption("Calendar View", calendarView),
@@ -69,7 +67,19 @@ const views = [
 ];
 const view = ref(views[0]);
 
-onMounted(() => {});
+const SetData = (dogData: DogData) => dog.value = dogData;
+const RequestData = () =>
+  PawprintsEvent.EventDispatcher("request-dog-data", params.value.pid);
+
+onBeforeMount(() => {
+  PawprintsEvent.AddEventListener("response-dog-data", SetData);
+  PawprintsEvent.AddEventListener("ready-data", RequestData);
+});
+
+onUnmounted(() => {
+  PawprintsEvent.RemoveEventListener("response-dog-data", SetData);
+  PawprintsEvent.RemoveEventListener("ready-data", RequestData);
+});
 </script>
 
 <style scoped>
@@ -79,6 +89,12 @@ header {
   gap: 5px;
   justify-content: space-between;
   align-items: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .avatar {

@@ -71,6 +71,7 @@ import Avatar from "./others/Avatar.vue";
 import NavigationBar from "./others/NavigationBar.vue";
 import NavigationTab from "./others/NavigationTab.vue";
 import NavigationCenter from "./others/NavigationCenter.vue";
+import Refresher from "./others/Refresher.vue";
 
 export {
   // buttons
@@ -132,4 +133,5 @@ export {
   NavigationBar,
   NavigationTab,
   NavigationCenter,
+  Refresher,
 };

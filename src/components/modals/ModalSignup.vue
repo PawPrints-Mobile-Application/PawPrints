@@ -44,14 +44,18 @@
         </TextSmall>
       </InputToggle>
       <div class="buttons">
-        <ButtonDanger value="Clear" />
-        <ButtonSuccess value="Sign In" @click="Process" />
+        <ButtonDanger value="Clear" @click="Clear" :disabled="disableClear" />
+        <ButtonSuccess
+          value="Sign In"
+          @click="Process"
+          :disabled="disableSave"
+        />
       </div>
     </section>
   </Modal>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue";
+import { computed, reactive } from "vue";
 import {
   Modal,
   TextHeading,
@@ -86,6 +90,13 @@ const props = defineProps({
   db: SQLiteDBConnection,
 });
 
+const defaultValues = {
+  username: "",
+  email: "",
+  password: "",
+  acceptTOS: false,
+};
+
 const form = reactive({
   username: "",
   email: "",
@@ -102,9 +113,23 @@ const state = reactive({
 });
 
 const Clear = () => {
+  form.username = "";
   form.email = "";
   form.password = "";
+  form.acceptTOS = false;
 };
+
+const disableClear = computed(
+  () =>
+    form.email === defaultValues.email &&
+    form.username === defaultValues.username &&
+    form.password === defaultValues.password &&
+    form.acceptTOS === defaultValues.acceptTOS
+);
+const disableSave = computed(
+  () =>
+    [form.email, form.username, form.password].includes("") || !form.acceptTOS
+);
 
 const Process = () => {
   state.processing = true;
