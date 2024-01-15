@@ -13,6 +13,7 @@ type Form = {
   username: string;
   email: string;
   password: string;
+  avatar: number;
 };
 
 const FirebaseRegistration = (form: Form) =>
@@ -44,7 +45,11 @@ const FirebaseProfileUpdate = (
     return user;
   });
 
-const DatabaseRegistration = async (db: SQLiteDBConnection, user: User) =>
+const DatabaseRegistration = async (
+  db: SQLiteDBConnection,
+  user: User,
+  avatar: number
+) =>
   InitializeModels(db, {
     uid: user.uid,
     email: user.email!,
@@ -52,7 +57,7 @@ const DatabaseRegistration = async (db: SQLiteDBConnection, user: User) =>
     subscription: InformationEnums.Subscription.free,
     theme: InformationEnums.Theme.yellow,
     mode: InformationEnums.Mode.light,
-    avatar: 2,
+    avatar: avatar,
   });
 
 export {
