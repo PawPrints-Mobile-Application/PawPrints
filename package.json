@@ -37,12 +37,14 @@
     "@vue/cli": "^5.0.8",
     "firebase": "^10.5.0",
     "firebase-tools": "^12.6.1",
+    "leaflet": "^1.9.4",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
     "vue2-google-maps": "^0.10.7"
   },
   "devDependencies": {
     "@capacitor/assets": "^3.0.1",
+    "@types/leaflet": "^1.9.8",
     "@vitejs/plugin-vue": "^4.2.3",
     "typescript": "^5.0.2",
     "vite": "^4.0.0-alpha.6",

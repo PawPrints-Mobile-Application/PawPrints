@@ -1,6 +1,11 @@
 <template>
   <section class="forms input-text font poppins paragraph">
-    <input :type="type" v-model="value" v-if="!freeze" />
+    <input
+      :type="type"
+      v-model="value"
+      :placeholder="placeholder"
+      v-if="!freeze"
+    />
     <div v-else>
       <TextParagraph :value="value" />
     </div>
@@ -17,6 +22,7 @@ const props = defineProps({
     default: "text",
     validator: (value: string) => ["text", "email"].includes(value),
   },
+  placeholder: String,
   freeze: Boolean,
 });
 
