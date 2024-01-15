@@ -1,8 +1,6 @@
 <template>
   <LayoutPage>
-    <header>
-      <TextHeading value="MY DOGGOS" class="bold" />
-    </header>
+    <LayoutHeader label="MY DOGGOS" />
     <section class="content">
       <Refresher @refresh="Refresh" />
       <InputText v-model="filter" placeholder="Search" />
@@ -18,25 +16,12 @@
   </LayoutPage>
 </template>
 <script setup lang="ts">
-import {
-  TextHeading,
-  InputText,
-  CardDog,
-  ModalAddDog,
-  Refresher,
-} from "../../components";
-import {
-  onBeforeMount,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  Ref,
-  watch,
-} from "vue";
+import { InputText, CardDog, ModalAddDog, Refresher } from "../../components";
+import { onBeforeMount, onBeforeUnmount, onMounted, ref, Ref } from "vue";
 import { Props as PropsDog } from "../../server/models/Dogs";
 import { Props as PropsLAD } from "../../server/models/LogAddressingData";
 import { PawprintsEvent, DatabaseMounter } from "../../utils";
-import { LayoutPage } from "../../layout";
+import { LayoutHeader, LayoutPage } from "../../layout";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
 const Navigate = (pid: string) => ionRouter.navigate(`/dogs/${pid}`);
@@ -73,6 +58,7 @@ const db = ref();
 const UpdateDB = (value: any) => {
   if (!value) return;
   db.value = value;
+  setTimeout(() => PawprintsEvent.EventDispatcher("request-dogs"), 1);
 };
 
 onBeforeMount(() => {
@@ -88,20 +74,8 @@ onBeforeUnmount(() => {
   PawprintsEvent.RemoveEventListener("response-dogs", UpdateDogs);
   DatabaseMounter.Unmount(UpdateDB);
 });
-
-watch(db, () =>
-  setTimeout(() => PawprintsEvent.EventDispatcher("request-dogs"), 1)
-);
 </script>
 <style scoped>
-header {
-  width: 100%;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .content {
   display: flex;
   flex-direction: column;
@@ -112,9 +86,5 @@ header {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.text-heading {
-  color: var(--theme-primary-text);
 }
 </style>

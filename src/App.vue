@@ -41,7 +41,10 @@ const ResetData = () => {
   dogs.value = new Map();
   return ClearModels(db.value);
 };
-const SyncData = () => SyncModels(db.value, UserInfo.GetUID()).then(FetchDogs);
+const SyncData = () =>
+  SyncModels(db.value, UserInfo.GetUID())
+    .then(FetchDogs)
+    .then(() => PawprintsEvent.EventDispatcher("transition to home"));
 
 // Dog Props
 const FetchDogs = () =>
@@ -81,9 +84,8 @@ const LocalDatabase = () =>
       state.localDatabase = true;
       PawprintsEvent.EventDispatcher("initialized-localDatabase");
       PawprintsEvent.EventDispatcher("response-db", db.value);
-    })
-    .then(SyncData)
-    .then(() => PawprintsEvent.EventDispatcher("ready-data"));
+    });
+
 const ResponseDB = () =>
   PawprintsEvent.EventDispatcher("response-db", db.value);
 
@@ -106,7 +108,10 @@ const SetThemes = () => {
 watch(
   () => state.auth && state.themes && state.localDatabase === true,
   () => {
-    if (state.userFound) PawprintsEvent.EventDispatcher("transition to home");
+    if (state.userFound)
+      return SyncData().then(() =>
+        PawprintsEvent.EventDispatcher("ready-data")
+      );
     else PawprintsEvent.EventDispatcher("transition to auth");
   }
 );
@@ -121,10 +126,12 @@ onBeforeMount(() => {
   PawprintsEvent.AddEventListener("request-dog-data", SendDog);
 });
 
-onMounted(async () => {
-  await LocalDatabase();
-  GetAuth();
-});
+onMounted(() =>
+  setTimeout(async () => {
+    await LocalDatabase();
+    GetAuth();
+  }, 1)
+);
 
 onUnmounted(async () => {
   await Close(db.value);

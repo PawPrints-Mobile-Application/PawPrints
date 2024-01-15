@@ -52,6 +52,7 @@ const DatabaseRegistration = async (db: SQLiteDBConnection, user: User) =>
     subscription: InformationEnums.Subscription.free,
     theme: InformationEnums.Theme.yellow,
     mode: InformationEnums.Mode.light,
+    avatar: 2,
   });
 
 export {

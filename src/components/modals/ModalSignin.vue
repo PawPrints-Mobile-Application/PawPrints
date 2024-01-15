@@ -82,8 +82,8 @@ const defaultValues = {
 };
 
 const form = reactive({
-  email: "",
-  password: "",
+  email: defaultValues.email,
+  password: defaultValues.password,
 });
 
 const state = reactive({
@@ -95,8 +95,8 @@ const state = reactive({
 });
 
 const Clear = () => {
-  form.email = "";
-  form.password = "";
+  form.email = defaultValues.email;
+  form.password = defaultValues.password;
 };
 
 const disableClear = computed(
@@ -123,7 +123,7 @@ const Process = () => {
         return WindowDatabaseInitialization(props);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         switch (error.code) {
           case "auth/invalid-email":
             state.warningText = "Invalid email";

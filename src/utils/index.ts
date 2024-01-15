@@ -15,6 +15,7 @@ import LocalDate from "./LocalDate";
 import Age from "./Age";
 import Breeds from "./Breeds";
 import DatabaseMounter from "./DatabaseMounter";
+import UserIcons from "./UserIcons";
 
 export {
   Defaulter,
@@ -34,4 +35,5 @@ export {
   Age,
   Breeds,
   DatabaseMounter,
+  UserIcons,
 };

@@ -1,7 +1,7 @@
 <template>
   <LayoutPage>
     <header>
-      <ButtonBack />
+      <ButtonBack @click="Navigate" />
       <TextHeading :value="dog?.props.name" />
       <Avatar type="dog" :value="dog?.props.breed" :color="dog?.props.color" />
     </header>
@@ -27,7 +27,7 @@
 </template>
 <script setup lang="ts">
 import { LayoutPage } from "../../layout";
-import { Ref, onBeforeMount, onUnmounted, ref } from "vue";
+import { Ref, onBeforeMount, onMounted, onUnmounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { PawprintsEvent, SegmentOption } from "../../utils";
 import {
@@ -44,6 +44,9 @@ import {
 import { LayoutPIDCalendarView } from "../../layout";
 import { Props as PropsDog } from "../../server/models/Dogs";
 import { Props as PropsLAD } from "../../server/models/LogAddressingData";
+import { useIonRouter } from "@ionic/vue";
+const ionRouter = useIonRouter();
+const Navigate = () => ionRouter.navigate("/dogs", "forward", "replace");
 
 const route = useRoute();
 const params = ref(route.params);
@@ -67,13 +70,17 @@ const views = [
 ];
 const view = ref(views[0]);
 
-const SetData = (dogData: DogData) => dog.value = dogData;
+const SetData = (dogData: DogData) => (dog.value = dogData);
 const RequestData = () =>
   PawprintsEvent.EventDispatcher("request-dog-data", params.value.pid);
 
 onBeforeMount(() => {
   PawprintsEvent.AddEventListener("response-dog-data", SetData);
   PawprintsEvent.AddEventListener("ready-data", RequestData);
+});
+
+onMounted(() => {
+  if (!dog.value) RequestData();
 });
 
 onUnmounted(() => {

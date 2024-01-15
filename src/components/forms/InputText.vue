@@ -1,12 +1,14 @@
 <template>
-  <input
-    class="forms input-text font poppins paragraph"
-    :type="type"
-    v-model="value"
-  />
+  <section class="forms input-text font poppins paragraph">
+    <input :type="type" v-model="value" v-if="!freeze" />
+    <div v-else>
+      <TextParagraph :value="value" />
+    </div>
+  </section>
 </template>
 <script setup lang="ts">
 import { computed } from "vue";
+import { TextParagraph } from "..";
 
 const props = defineProps({
   modelValue: String,
@@ -15,6 +17,7 @@ const props = defineProps({
     default: "text",
     validator: (value: string) => ["text", "email"].includes(value),
   },
+  freeze: Boolean,
 });
 
 const value = computed({
@@ -38,16 +41,32 @@ const emit = defineEmits(["update:modelValue", "input"]);
   --text-align: left;
   background-color: var(--background);
   color: var(--color);
-  border: none;
-  outline: none;
   border-radius: var(--radius);
   padding: 5px 10px;
   width: 100%;
   height: 30px;
   text-align: var(--text-align);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: scroll;
+  overflow-y: hidden;
 
   &:is(:active, :hover, :focus) {
     outline: 2px solid var(--outline);
   }
+}
+
+input {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  color: inherit;
+  flex: 1 0 0;
+  padding: 0;
+}
+
+.text-paragraph {
+  width: max-content;
 }
 </style>

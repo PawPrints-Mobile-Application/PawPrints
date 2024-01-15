@@ -1,8 +1,6 @@
 <template>
   <LayoutPage>
-    <header>
-      <TextHeading value="FORUM" />
-    </header>
+    <LayoutHeader label="FORUMS" />
     <main>
       <InputSegment :options="options" v-model="segment" show="label" />
       <section class="write-post">
@@ -17,13 +15,8 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import {
-  Avatar,
-  InputSegment,
-  PopupAddPost,
-  TextHeading,
-} from "../../components";
-import { LayoutPage } from "../../layout";
+import { Avatar, InputSegment, PopupAddPost } from "../../components";
+import { LayoutHeader, LayoutPage } from "../../layout";
 import { PawprintsEvent, SegmentOption } from "../../utils";
 
 const options = [
@@ -35,18 +28,6 @@ const segment = ref(options[0]);
 const AddPost = () => PawprintsEvent.EventDispatcher("popup-add-post");
 </script>
 <style scoped>
-header {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  padding-block: 10px;
-}
-
-.text-heading {
-  color: var(--theme-primary-text);
-}
-
 .write-post {
   width: 100%;
   display: flex;
@@ -68,5 +49,9 @@ header {
 
 .avatar {
   height: 60px;
+}
+
+.input-segment {
+  --flex: 1 0 0;
 }
 </style>

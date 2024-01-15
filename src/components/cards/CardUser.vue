@@ -1,7 +1,7 @@
 <template>
   <section class="card card-user">
     <header>
-      <Avatar :value="user.avatar" type="user" :color="user.color" />
+      <Avatar :value="user.avatar.toString()" type="user" />
       <aside>
         <div v-for="detail in details">
           <TextParagraph class="bold" :value="detail[0] + ':'" />
@@ -20,7 +20,7 @@ import { Avatar, TextParagraph, TextSmall } from "..";
 import { UserInfo } from "../../utils";
 
 const user = reactive({
-  avatar: "",
+  avatar: 2,
   color: "#FFD80A",
   name: "",
   email: "",
@@ -47,6 +47,8 @@ onMounted(() => {
   user.name = UserInfo.GetUsername();
   user.email = UserInfo.GetEmail();
   user.subscription = UserInfo.GetSubscription();
+  user.avatar = UserInfo.GetAvatar();
+  console.log(user.avatar);
 });
 </script>
 <style scoped>

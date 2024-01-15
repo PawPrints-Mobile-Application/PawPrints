@@ -9,12 +9,15 @@ export default {
     Defaulter(localStorage.getItem("subscription"), ""),
   GetTheme: (): string =>
     Defaulter(localStorage.getItem("theme"), "yellow | light"),
+  GetAvatar: (): number =>
+    Number(Defaulter(localStorage.getItem("avatar"), "2")),
   // Set
-  SetUID: (value: string) => localStorage.setItem("uid", value),
-  SetUsername: (value: string) => localStorage.setItem("username", value),
-  SetEmail: (value: string) => localStorage.setItem("email", value),
-  SetSubscription: (value: string) =>
+  SetUID: (value: string = "") => localStorage.setItem("uid", value),
+  SetUsername: (value: string = "") => localStorage.setItem("username", value),
+  SetEmail: (value: string = "") => localStorage.setItem("email", value),
+  SetSubscription: (value: string = "") =>
     localStorage.setItem("subscription", value),
-  SetTheme: (theme: string, mode: string) =>
+  SetTheme: (theme: string = "yellow", mode: string = "light") =>
     localStorage.setItem("theme", `${theme} | ${mode}`),
+  SetAvatar: (i: number = 2) => localStorage.setItem("avatar", i.toString()),
 };

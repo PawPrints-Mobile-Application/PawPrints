@@ -7,9 +7,8 @@
 </template>
 
 <script setup lang="ts">
-import { personCircleOutline as UserDefault } from "ionicons/icons";
 import { PawPrints as DogDefault } from "../../assets";
-import { Breeds } from "../../utils";
+import { Breeds, UserIcons } from "../../utils";
 import { onMounted } from "vue";
 const props = defineProps({
   value: String,
@@ -22,11 +21,12 @@ const props = defineProps({
 });
 
 const GetImage = () => {
+  const UserDefault = UserIcons.entries[2];
   if (!props.value) return props.type === "dog" ? DogDefault : UserDefault;
   const image =
     props.type === "dog"
       ? Breeds.map.get(props.value!)
-      : Breeds.map.get(props.value!);
+      : UserIcons.get(props.value!);
   if (!image) return props.type === "dog" ? DogDefault : UserDefault;
   return image;
 };
@@ -38,11 +38,11 @@ onMounted(() => {});
 .avatar {
   width: var(--size);
   height: var(--size);
-  padding: 5px;
 }
 
 .avatar-dog {
   border-radius: 15px;
+  padding: 5px;
 }
 
 .avatar-user {

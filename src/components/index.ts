@@ -45,6 +45,8 @@ import InputValidator from "./forms/InputValidator.vue";
 import InputSegment from "./forms/InputSegment.vue";
 import InputChoice from "./forms/InputChoice.vue";
 
+import InputUserAvatar from "./forms/InputUserAvatar.vue";
+
 // modals
 import Modal from "./modals/Modal.vue";
 import ModalSignin from "./modals/ModalSignin.vue";
@@ -111,6 +113,7 @@ export {
   InputValidator,
   InputSegment,
   InputChoice,
+  InputUserAvatar,
   // modals
   Modal,
   ModalSignin,
