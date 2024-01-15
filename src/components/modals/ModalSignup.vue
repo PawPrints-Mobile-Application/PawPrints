@@ -150,7 +150,7 @@ const Process = () => {
       })
       .then((user) => {
         state.processingText = "Creating Cloud Database...";
-        return DatabaseRegistration(props.db!, user);
+        return DatabaseRegistration(props.db!, user, form.avatar);
       })
       .then((props) => {
         state.processingText = "Preparing Application...";

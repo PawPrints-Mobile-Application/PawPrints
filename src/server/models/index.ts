@@ -8,7 +8,7 @@ import {
 import {
   Props as InformationProps,
   Get as SyncAllInformation,
-  Set as InitializeDogs,
+  Set as InitializeInformation,
 } from "./Information";
 
 const CreateModels = (db: SQLiteDBConnection) => DeleteModelDogs(db).then(() =>CreateModelDogs(db));
@@ -17,7 +17,7 @@ const SyncModels = (db: SQLiteDBConnection, uid: string) =>
 const InitializeModels = async (
   db: SQLiteDBConnection,
   props: InformationProps
-) => InitializeDogs(props).then(() => props);
+) => InitializeInformation(props).then(() => props);
 const ClearModels = async (db: SQLiteDBConnection) => ClearModelDogs(db);
 
 export { CreateModels, SyncModels, InitializeModels, ClearModels };
