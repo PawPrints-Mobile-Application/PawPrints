@@ -1,5 +1,9 @@
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { CreateModel as CreateModelDogs, SyncAll as SyncAllDogs } from "./Dogs";
+import {
+  CreateModel as CreateModelDogs,
+  SyncAll as SyncAllDogs,
+  ClearModel as ClearModelDogs
+} from "./Dogs";
 import {
   Props as InformationProps,
   Get as SyncAllInformation,
@@ -13,6 +17,6 @@ const InitializeModels = async (
   db: SQLiteDBConnection,
   props: InformationProps
 ) => InitializeDogs(props).then(() => props);
-const ClearModels = async (db: SQLiteDBConnection) => {};
+const ClearModels = async (db: SQLiteDBConnection) => ClearModelDogs(db);
 
 export { CreateModels, SyncModels, InitializeModels, ClearModels };

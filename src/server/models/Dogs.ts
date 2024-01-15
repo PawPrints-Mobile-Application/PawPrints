@@ -14,7 +14,7 @@ import {
   DeleteDocument,
 } from "../firebase";
 import { ObjectToMap } from "../../utils";
-import { DocumentData, Timestamp } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 const Enums = {
@@ -38,7 +38,7 @@ const constants = {
       birthday TEXT,
       breed TEXT,
       color TEXT,
-      logs TEXT
+      latids TEXT
         `,
   supports: ["local", "cloud"],
 };
@@ -49,7 +49,7 @@ type Props = {
   birthday: Date;
   breed: string;
   color: string;
-  logs: Array<string>;
+  latids: Array<string>;
 };
 
 type LocalProps = {
@@ -58,7 +58,7 @@ type LocalProps = {
   birthday: string;
   breed: string;
   color: string;
-  logs: string;
+  latids: string;
 };
 
 type CloudProps = {
@@ -67,16 +67,16 @@ type CloudProps = {
   birthday: Timestamp;
   breed: string;
   color: string;
-  logs: Array<string>;
+  latids: Array<string>;
 };
 
 const ToProps = (props: any, source: "LocalProps" | "CloudProps"): Props => {
-  let { birthday, logs } = props;
+  let { birthday, latids } = props;
   if (source === "CloudProps") {
     birthday = birthday.toDate();
   } else {
     birthday = new Date(birthday);
-    logs = JSON.parse(logs);
+    latids = JSON.parse(latids);
   }
   return {
     pid: props.pid,
@@ -84,7 +84,7 @@ const ToProps = (props: any, source: "LocalProps" | "CloudProps"): Props => {
     birthday: birthday,
     breed: props.breed,
     color: props.color,
-    logs: logs,
+    latids: latids,
   };
 };
 
@@ -102,7 +102,7 @@ const ToLocalProps = (
     birthday: birthday.toString(),
     breed: props.breed,
     color: props.color,
-    logs: JSON.stringify(props.logs),
+    latids: JSON.stringify(props.latids),
   };
 };
 
@@ -110,11 +110,11 @@ const ToCloudProps = (
   props: any,
   source: "LocalProps" | "Props"
 ): CloudProps => {
-  let { birthday, logs } = props;
+  let { birthday, latids } = props;
   if (source === "Props") {
     birthday = new Date(birthday);
   } else {
-    logs = JSON.parse(logs);
+    latids = JSON.parse(latids);
   }
   return {
     pid: props.pid,
@@ -122,7 +122,7 @@ const ToCloudProps = (
     birthday: Timestamp.fromDate(birthday),
     breed: props.breed,
     color: props.color,
-    logs: logs,
+    latids: latids,
   };
 };
 
@@ -151,7 +151,11 @@ const Get = (db: SQLiteDBConnection, pid: string) =>
 const Add = async (db: SQLiteDBConnection, props: Props, uid?: string) => {
   const localProps = ToLocalProps(props, "Props");
   const data = ObjectToMap(localProps);
-  if (!!uid) await SetDocument(documentPath(uid, props.pid), props);
+  if (!!uid)
+    await SetDocument(
+      documentPath(uid, props.pid),
+      ToCloudProps(props, "Props")
+    );
   return InsertRowData(
     db,
     constants.document,

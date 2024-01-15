@@ -1,11 +1,11 @@
 <template>
   <section class="card card-user">
     <header>
-      <Avatar :value="user.avatar" type="user" :color="user.color" />
+      <Avatar :value="user.avatar.toString()" type="user" />
       <aside>
         <div v-for="detail in details">
           <TextParagraph class="bold" :value="detail[0] + ':'" />
-          <TextParagraph :value="detail[1].toString()" />
+          <TextSmall :value="detail[1].toString()" />
         </div>
       </aside>
     </header>
@@ -15,11 +15,12 @@
   </section>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import { Avatar, TextParagraph, TextSmall } from "..";
+import { UserInfo } from "../../utils";
 
 const user = reactive({
-  avatar: "",
+  avatar: 2,
   color: "#FFD80A",
   name: "",
   email: "",
@@ -29,11 +30,11 @@ const user = reactive({
   paws: 0,
 });
 
-const details = [
+const details = computed(() => [
   ["Name", user.name],
   ["Email", user.email],
   ["Subscription", user.subscription],
-];
+]);
 
 const forum = [
   "Age:",
@@ -41,6 +42,14 @@ const forum = [
   "Upvote/s: " + user.upvotes,
   "Paw/s: " + user.paws,
 ];
+
+onMounted(() => {
+  user.name = UserInfo.GetUsername();
+  user.email = UserInfo.GetEmail();
+  user.subscription = UserInfo.GetSubscription();
+  user.avatar = UserInfo.GetAvatar();
+  console.log(user.avatar);
+});
 </script>
 <style scoped>
 .card-user {

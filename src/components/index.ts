@@ -13,6 +13,7 @@ import ButtonMode from "./buttons/ButtonMode.vue";
 // cards
 import CardDog from "./cards/CardDog.vue";
 import CardUser from "./cards/CardUser.vue";
+import CardSettings from "./cards/CardSettings.vue";
 
 // forms
 import InputWrapper from "./forms/InputWrapper.vue";
@@ -44,6 +45,8 @@ import InputValidator from "./forms/InputValidator.vue";
 import InputSegment from "./forms/InputSegment.vue";
 import InputChoice from "./forms/InputChoice.vue";
 
+import InputUserAvatar from "./forms/InputUserAvatar.vue";
+
 // modals
 import Modal from "./modals/Modal.vue";
 import ModalSignin from "./modals/ModalSignin.vue";
@@ -52,6 +55,7 @@ import ModalAddDog from "./modals/ModalAddDog.vue";
 
 // popups
 import Popup from "./popups/Popup.vue";
+import PopupAddPost from "./popups/PopupAddPost.vue";
 
 // texts
 import TextSmall from "./texts/TextSmall.vue";
@@ -69,6 +73,7 @@ import Avatar from "./others/Avatar.vue";
 import NavigationBar from "./others/NavigationBar.vue";
 import NavigationTab from "./others/NavigationTab.vue";
 import NavigationCenter from "./others/NavigationCenter.vue";
+import Refresher from "./others/Refresher.vue";
 
 export {
   // buttons
@@ -85,6 +90,7 @@ export {
   // cards
   CardDog,
   CardUser,
+  CardSettings,
   // forms
   InputWrapper,
   InputText,
@@ -107,6 +113,7 @@ export {
   InputValidator,
   InputSegment,
   InputChoice,
+  InputUserAvatar,
   // modals
   Modal,
   ModalSignin,
@@ -114,6 +121,7 @@ export {
   ModalAddDog,
   // popups
   Popup,
+  PopupAddPost,
   // texts
   TextSmall,
   TextParagraph,
@@ -128,4 +136,5 @@ export {
   NavigationBar,
   NavigationTab,
   NavigationCenter,
+  Refresher,
 };

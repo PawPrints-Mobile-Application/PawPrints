@@ -34,14 +34,18 @@
         <InputPassword placeholder="Enter Password" v-model="form.password" />
       </InputWrapper>
       <div class="buttons">
-        <ButtonDanger value="Clear" @click="Clear" />
-        <ButtonSuccess value="Sign In" @click="Process" />
+        <ButtonDanger value="Clear" @click="Clear" :disabled="disableClear" />
+        <ButtonSuccess
+          value="Sign In"
+          @click="Process"
+          :disabled="disableSave"
+        />
       </div>
     </section>
   </Modal>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue";
+import { computed, reactive } from "vue";
 import {
   Modal,
   TextHeading,
@@ -72,9 +76,14 @@ const props = defineProps({
   db: SQLiteDBConnection,
 });
 
-const form = reactive({
+const defaultValues = {
   email: "",
   password: "",
+};
+
+const form = reactive({
+  email: defaultValues.email,
+  password: defaultValues.password,
 });
 
 const state = reactive({
@@ -86,9 +95,17 @@ const state = reactive({
 });
 
 const Clear = () => {
-  form.email = "";
-  form.password = "";
+  form.email = defaultValues.email;
+  form.password = defaultValues.password;
 };
+
+const disableClear = computed(
+  () =>
+    form.email === defaultValues.email &&
+    form.password === defaultValues.password
+);
+
+const disableSave = computed(() => [form.email, form.password].includes(""));
 
 const Process = () => {
   state.processing = true;
@@ -106,7 +123,7 @@ const Process = () => {
         return WindowDatabaseInitialization(props);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         switch (error.code) {
           case "auth/invalid-email":
             state.warningText = "Invalid email";
@@ -131,6 +148,7 @@ const Process = () => {
         if (!state.authError) {
           Navigate();
           PawprintsEvent.EventDispatcher("modal-signin");
+          PawprintsEvent.EventDispatcher("sync-data");
         }
         setTimeout(() => {
           state.processing = false;

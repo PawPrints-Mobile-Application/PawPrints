@@ -125,6 +125,7 @@ const emit = defineEmits(["update:modelValue", "select", "update:modelIndex"]);
   text-align: var(--text-align);
   font-weight: var(--font-weight);
   min-height: 21px;
+  color: var(--color);
 
   &.placeholder {
     opacity: 0.7;

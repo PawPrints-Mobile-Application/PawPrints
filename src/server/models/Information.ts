@@ -20,15 +20,6 @@ const Enums = {
 const constants = {
   collection: "Users",
   document: "Information",
-  data: `
-      uid TEXT PRIMARY KEY NOT NULL UNIQUE,
-      email TEXT,
-      username TEXT,
-      subscription TEXT,
-      theme TEXT,
-      mode TEXT
-      `,
-  supports: ["cloud"],
 };
 
 type Props = {
@@ -38,6 +29,7 @@ type Props = {
   subscription: string;
   theme: string;
   mode: string;
+  avatar: number;
 };
 
 const ToProps = (values: any): Props => {
@@ -48,6 +40,7 @@ const ToProps = (values: any): Props => {
     subscription: values.subscription,
     theme: values.theme,
     mode: values.mode,
+    avatar: values.avatar,
   };
 };
 

@@ -15,7 +15,7 @@
         />
         <IonIcon class="icon-add" :icon="addIcon" />
       </div>
-      <TextSmall :value="'Dogs'" />
+      <TextSmall :value="!isOnTab() ? 'Dogs' : (isTab() ? '+ Dogs' : '+ Logs')" />
       <ion-ripple-effect />
     </section>
   </section>
@@ -102,7 +102,7 @@ const props = defineProps({
   height: 70px;
   border-radius: 100%;
   background-color: var(--theme-primary-background);
-  border: 2px solid var(--theme-tertiary-background);
+  border: 5px solid var(--theme-tertiary-background);
   color: var(--theme-tertiary-background);
   display: flex;
   flex-direction: column;

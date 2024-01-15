@@ -16,6 +16,7 @@ const GuestData = {
     subscription: InformationEnums.Subscription.guest,
     theme: InformationEnums.Theme.yellow,
     mode: InformationEnums.Mode.dark,
+    avatar: 2,
   },
 };
 
@@ -49,6 +50,7 @@ const WindowDatabaseInitialization = (props: InformationProps) => {
   UserInfo.SetUID(props.uid);
   UserInfo.SetUsername(props.username);
   UserInfo.SetTheme(props.theme, props.mode);
+  UserInfo.SetAvatar(props.avatar);
   console.log(`${props.username} has logged in.`);
 };
 

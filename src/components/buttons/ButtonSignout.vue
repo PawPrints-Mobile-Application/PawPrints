@@ -16,6 +16,7 @@ import { PawprintsEvent } from "../../utils";
 const ionRouter = useIonRouter();
 const Redirect = () => {
   ionRouter.navigate("/splash", "forward", "replace");
+  PawprintsEvent.EventDispatcher("reset-data")
   setTimeout(() => PawprintsEvent.EventDispatcher("transition to auth"), 1000);
 };
 

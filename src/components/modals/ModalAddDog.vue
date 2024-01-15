@@ -166,7 +166,7 @@ const Process = () => {
     birthday: form.birthday,
     breed: form.breed,
     color: form.color,
-    logs: [],
+    latids: [],
   };
   setTimeout(
     () =>
@@ -271,6 +271,7 @@ const emit = defineEmits(["success"]);
   overflow: hidden;
   height: 610px;
   transition: all 200ms ease-out;
+  padding-inline: 3px;
 
   &.hide {
     height: 0;

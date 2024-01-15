@@ -15,7 +15,7 @@
         :class="{ color: state.userFound }"
         v-show="state.processing"
       />
-      <Avatar :color="'red'" type="user" />
+      <InputUserAvatar v-model="form.avatar" />
     </section>
     <TextSubheading
       class="note-processing"
@@ -44,14 +44,18 @@
         </TextSmall>
       </InputToggle>
       <div class="buttons">
-        <ButtonDanger value="Clear" />
-        <ButtonSuccess value="Sign In" @click="Process" />
+        <ButtonDanger value="Clear" @click="Clear" :disabled="disableClear" />
+        <ButtonSuccess
+          value="Sign In"
+          @click="Process"
+          :disabled="disableSave"
+        />
       </div>
     </section>
   </Modal>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue";
+import { computed, reactive } from "vue";
 import {
   Modal,
   TextHeading,
@@ -62,9 +66,9 @@ import {
   InputToggle,
   ButtonSuccess,
   ButtonDanger,
-  Avatar,
   NoteWarning,
   TextSmall,
+  InputUserAvatar,
 } from "..";
 import { IonSpinner, useIonRouter } from "@ionic/vue";
 import {
@@ -86,11 +90,20 @@ const props = defineProps({
   db: SQLiteDBConnection,
 });
 
-const form = reactive({
+const defaultValues = {
+  avatar: 2,
   username: "",
   email: "",
   password: "",
   acceptTOS: false,
+};
+
+const form = reactive({
+  avatar: defaultValues.avatar,
+  username: defaultValues.username,
+  email: defaultValues.email,
+  password: defaultValues.password,
+  acceptTOS: defaultValues.acceptTOS,
 });
 
 const state = reactive({
@@ -102,9 +115,24 @@ const state = reactive({
 });
 
 const Clear = () => {
-  form.email = "";
-  form.password = "";
+  form.avatar = defaultValues.avatar;
+  form.username = defaultValues.username;
+  form.email = defaultValues.email;
+  form.password = defaultValues.password;
+  form.acceptTOS = defaultValues.acceptTOS;
 };
+
+const disableClear = computed(
+  () =>
+    form.email === defaultValues.email &&
+    form.username === defaultValues.username &&
+    form.password === defaultValues.password &&
+    form.acceptTOS === defaultValues.acceptTOS
+);
+const disableSave = computed(
+  () =>
+    [form.email, form.username, form.password].includes("") || !form.acceptTOS
+);
 
 const Process = () => {
   state.processing = true;
@@ -129,7 +157,7 @@ const Process = () => {
         return WindowDatabaseInitialization(props);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         switch (error.code) {
           case "auth/email-already-in-use":
             state.warningText = `Email address already in use.`;
@@ -154,12 +182,12 @@ const Process = () => {
         state.authError = true;
       })
       .finally(() => {
-        Clear();
         if (!state.authError) {
           Navigate();
           PawprintsEvent.EventDispatcher("modal-signup");
         }
         setTimeout(() => {
+          Clear();
           state.processing = false;
           state.processingText = "";
           state.userFound = false;
@@ -219,8 +247,8 @@ const Process = () => {
   min-height: 150px;
   width: 100%;
 
-  > .avatar {
-    --size: 150px;
+  > .input-user-avatar {
+    width: 150px;
     position: absolute;
     transition: all 200ms ease-out;
   }
@@ -238,8 +266,8 @@ const Process = () => {
 }
 
 .processing {
-  > .avatar {
-    --size: 100px;
+  > .input-user-avatar {
+    width: 100px;
   }
 
   > ion-spinner {
