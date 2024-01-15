@@ -2,7 +2,8 @@ import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 import {
   CreateModel as CreateModelDogs,
   SyncAll as SyncAllDogs,
-  ClearModel as ClearModelDogs
+  ClearModel as ClearModelDogs,
+  DeleteModel as DeleteModelDogs
 } from "./Dogs";
 import {
   Props as InformationProps,
@@ -10,7 +11,7 @@ import {
   Set as InitializeDogs,
 } from "./Information";
 
-const CreateModels = (db: SQLiteDBConnection) => CreateModelDogs(db);
+const CreateModels = (db: SQLiteDBConnection) => DeleteModelDogs(db).then(() =>CreateModelDogs(db));
 const SyncModels = (db: SQLiteDBConnection, uid: string) =>
   SyncAllDogs(db, uid).then(() => SyncAllInformation(uid));
 const InitializeModels = async (
