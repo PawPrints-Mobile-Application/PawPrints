@@ -7,7 +7,7 @@
     >
       <div class="icons">
         <IonIcon class="icon-main" :icon="icon" :class="{ show: !isOnTab() }" />
-        <IonIcon class="icon-main" :icon="pawIcon" :class="{ show: isTab() }" />
+        <IonIcon :style="{color: 'var(--theme-button-middle-text)'}" class="icon-main" :icon="pawIcon" :class="{ show: isTab() }" />
         <IonIcon
           class="icon-main"
           :class="{ show: isOnTab() && !isTab() }"
@@ -31,6 +31,7 @@ import {
   document as documentIcon,
 } from "ionicons/icons";
 import { PawprintsEvent } from "../../utils";
+
 
 const animation = reactive({
   grow: false,
@@ -119,19 +120,20 @@ const props = defineProps({
 
 .icon-main {
   font-size: 40px;
-  color: var(--theme-primary-text);
+  color: var(--theme-tertiary-text);
   transition: all 300ms ease-out;
 
   &:not(.show) {
     position: absolute;
     opacity: 0;
+    color: var(--theme-primary-text);
   }
 }
 
 .icon-add {
   position: absolute;
   transform: translateY(6px);
-  color: var(--theme-tertiary-text);
+  color: var(--theme-button-middle-text);
   transition: all 300ms ease-out;
   opacity: 0;
 }
@@ -150,6 +152,7 @@ const props = defineProps({
 
   > .text-small {
     font-weight: 700;
+    color: var(--theme-button-middle-text);
   }
 
   > div .icon-add {

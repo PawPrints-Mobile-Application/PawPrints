@@ -72,7 +72,7 @@ const Filter = (value: string) => {
   filteredOptions.value =
     value.trim() === ""
       ? props.options
-      : props.options?.filter((element) => element.toString().includes(value));
+      : props.options?.filter((element) => element.toString().toLowerCase().includes(value));
 };
 
 const expanded = ref(false);
