@@ -50,9 +50,12 @@ const ClearModel = (db: SQLiteDBConnection) =>
   DeleteAllData(db, constants.document);
 
 // LAT CRUD Operations
-const Get = (db: SQLiteDBConnection, latid: string) =>
+const Get = async (db: SQLiteDBConnection, latid: string) =>
   ReadRowData(db, constants.document, ObjectToMap({ latid: latid })).then(
-    (response) => ToProps(response.values![0])
+    (response) => {
+      if (response.values!.length === 0) return undefined;
+      return ToProps(response.values![0]);
+    }
   );
 
 const Set = async (db: SQLiteDBConnection, props: Props) => {
