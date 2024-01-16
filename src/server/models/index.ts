@@ -18,8 +18,10 @@ const CreateModels = (db: SQLiteDBConnection) =>
     .then(() => CreateModelDogs(db))
     .then(() => CreateModelLAD(db))
     .then(() => CreateModelLAT(db));
-const SyncModels = (db: SQLiteDBConnection, uid: string) =>
-  SyncAllDogs(db, uid).then(() => SyncAllInformation(uid));
+const SyncModels = (db: SQLiteDBConnection, uid: string) => {
+  console.log(true);
+  return SyncAllDogs(db, uid).then(() => SyncAllInformation(uid));
+};
 const InitializeModels = async (
   db: SQLiteDBConnection,
   props: InformationProps

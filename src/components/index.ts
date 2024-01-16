@@ -9,6 +9,7 @@ import ButtonNext from "./buttons/ButtonNext.vue";
 import ButtonSignout from "./buttons/ButtonSignout.vue";
 import ButtonTheme from "./buttons/ButtonTheme.vue";
 import ButtonMode from "./buttons/ButtonMode.vue";
+import ButtonGuest from "./buttons/ButtonGuest.vue";
 
 // cards
 import CardDog from "./cards/CardDog.vue";
@@ -90,6 +91,7 @@ export {
   ButtonSignout,
   ButtonTheme,
   ButtonMode,
+  ButtonGuest,
   // cards
   CardDog,
   CardUser,
