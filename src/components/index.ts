@@ -16,6 +16,7 @@ import CardUser from "./cards/CardUser.vue";
 import CardSettings from "./cards/CardSettings.vue";
 import CardTrivia from "./cards/CardTrivia.vue";
 import CardLog from "./cards/CardLog.vue";
+import CardSubscription from "./cards/CardSubscription.vue";
 
 // forms
 import InputWrapper from "./forms/InputWrapper.vue";
@@ -96,6 +97,7 @@ export {
   CardSettings,
   CardTrivia,
   CardLog,
+  CardSubscription,
   // forms
   InputWrapper,
   InputText,

@@ -12,13 +12,13 @@
         <img :src="dogTroy" />
       </section>
       <TextParagraph> Click the Delete Dog button </TextParagraph>
-        <img :src="deleteDog" />
+      <img :src="deleteDog" />
     </section>
   </LayoutPage>
 </template>
 <script setup lang="ts">
 import { LayoutHeader, LayoutPage } from "../../layout";
-import { TextParagraph, TextSubheading } from "../../components/Texts";
+import { TextParagraph, TextSubheading } from "../../components";
 import { dogTab, dogTroy, deleteDog } from "../../assets";
 </script>
 <style scoped>

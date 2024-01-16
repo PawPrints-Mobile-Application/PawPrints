@@ -1,6 +1,6 @@
 <template>
   <LayoutPage>
-    <LayoutHeader returnTarget="/settings" label="Profile" />
+    <LayoutHeader returnTarget="/settings" label="PROFILE" />
     <main>
       <InputUserAvatar v-model="form.avatar" />
       <InputWrapper label="Username">
