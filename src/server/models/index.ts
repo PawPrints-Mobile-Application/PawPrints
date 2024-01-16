@@ -3,7 +3,7 @@ import {
   CreateModel as CreateModelDogs,
   SyncAll as SyncAllDogs,
   ClearModel as ClearModelDogs,
-  DeleteModel as DeleteModelDogs,
+  // DeleteModel as DeleteModelDogs,
 } from "./Dogs";
 import {
   Props as InformationProps,

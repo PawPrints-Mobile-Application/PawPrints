@@ -2,7 +2,11 @@ import { Defaulter } from ".";
 
 export default {
   // Get
-  GetUID: (): string => Defaulter(localStorage.getItem("uid")!, ""),
+  GetUID: (strict: boolean = false): string | undefined => {
+    const temp = localStorage.getItem("uid");
+    if (["", null].includes(temp) && strict) return undefined;
+    return Defaulter(localStorage.getItem("uid"), "");
+  },
   GetUsername: (): string => Defaulter(localStorage.getItem("username"), ""),
   GetEmail: (): string => Defaulter(localStorage.getItem("email"), ""),
   GetSubscription: (): string =>

@@ -30,12 +30,12 @@ const state = reactive({
   logo: false,
   ready: false,
 
-  out: false,
-  show: false,
+  out: false, //home
+  show: false, //auth
 });
 
-const StateMover = (destination: string) => {
-  if (destination === "home") state.out = true;
+const StateMover = (userFound: boolean) => {
+  if (userFound) state.out = true;
   else state.show = true;
 };
 
@@ -45,11 +45,7 @@ watch(
 );
 
 onBeforeMount(() => {
-  ["home", "auth"].forEach((state) =>
-    PawprintsEvent.AddEventListener(`transition to ${state}`, () =>
-      StateMover(state)
-    )
-  );
+  PawprintsEvent.AddEventListener('user-finder', StateMover);
 });
 
 onMounted(() => {
@@ -58,11 +54,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  ["home", "auth"].forEach((state) =>
-    PawprintsEvent.RemoveEventListener(`transition to ${state}`, () =>
-      StateMover(state)
-    )
-  );
+  PawprintsEvent.RemoveEventListener('user-finder', StateMover);
 });
 </script>
 <style scoped>
