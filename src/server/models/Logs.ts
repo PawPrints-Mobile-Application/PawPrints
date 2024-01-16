@@ -32,6 +32,14 @@ const GetLATID = (date: Date, pid: string): string =>
   SeedGenerator(
     new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
   ).toString();
+const RemoveLATID = (latid: string, pid: string): Date => {
+  let index: number = latid.indexOf(pid);
+  if (index !== -1)
+    return new Date(
+      Number(latid.slice(0, index) + latid.slice(index + pid.length))
+    );
+  else return new Date();
+};
 
 const SetBatch = async (
   db: SQLiteDBConnection,
@@ -70,7 +78,6 @@ const Set = async (
   uid?: string
 ) => {
   const latid = GetLATID(date, pid);
-  console.log(latid);
   if (!!uid)
     await SetDocument(
       documentPath(uid, latid, propsLAD.lid),
@@ -138,4 +145,4 @@ const Remove = async (
 //   });
 // };
 
-export { SetBatch, Set, Get, Remove, GetLATID };
+export { SetBatch, Set, Get, Remove, GetLATID, RemoveLATID };

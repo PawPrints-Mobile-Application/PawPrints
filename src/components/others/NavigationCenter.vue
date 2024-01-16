@@ -7,15 +7,21 @@
     >
       <div class="icons">
         <IonIcon class="icon-main" :icon="icon" :class="{ show: !isOnTab() }" />
-        <IonIcon :style="{color: 'var(--theme-button-middle-text)'}" class="icon-main" :icon="pawIcon" :class="{ show: isTab() }" />
+        <IonIcon
+          :style="{ color: 'var(--theme-button-middle-text)' }"
+          class="icon-main"
+          :icon="pawIcon"
+          :class="{ show: isTab() }"
+        />
         <IonIcon
           class="icon-main"
           :class="{ show: isOnTab() && !isTab() }"
+          :style="{ color: 'var(--theme-button-middle-text)' }"
           :icon="documentIcon"
         />
         <IonIcon class="icon-add" :icon="addIcon" />
       </div>
-      <TextSmall :value="!isOnTab() ? 'Dogs' : (isTab() ? '+ Dogs' : '+ Logs')" />
+      <TextSmall :value="!isOnTab() ? 'Dogs' : isTab() ? '+ Dogs' : '+ Logs'" />
       <ion-ripple-effect />
     </section>
   </section>
@@ -31,7 +37,6 @@ import {
   document as documentIcon,
 } from "ionicons/icons";
 import { PawprintsEvent } from "../../utils";
-
 
 const animation = reactive({
   grow: false,

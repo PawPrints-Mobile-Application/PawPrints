@@ -1,123 +1,130 @@
-<template lang="">
-  <div>
-    
-  </div>
-</template>
-<script>
-export default {
-  
-}
-</script>
-<style lang="">
-  
-</style>
-
-<!-- <template>
+<template>
   <section class="pid-list-view">
-    <header>
+    <section class="month-year">
       <InputDropdown
-        class="list-view-month"
-        :options="Calendar.monthsShort"
-        v-model="month"
-        :count="12"
-        hideInput
+        class="month"
+        :modelValue="Calendar.months[month]"
+        @update:modelIndex="SetMonth"
+        :options="Calendar.months"
         hideIcon
-        @select="ReloadLogs"
+        trigger="popup-month-calendar-view"
+        closeOnSelect
       />
       <InputDropdown
-        class="list-view-year"
-        :options="Calendar.GetYears(151)"
-        v-model="year"
-        :count="12"
-        hideInput
+        class="year"
+        :modelValue="year.toString()"
+        @update:modelValue="(value) => SetYear(Number(value))"
+        :options="calendar.years"
         hideIcon
-        @select="ReloadLogs"
+        trigger="popup-year-calendar-view"
+        closeOnSelect
       />
-    </header>
-    <div class="content">
-      <CardLog
-        v-for="log in logs?.keys()"
-        :logs="logs?.get(log)!"
-        :date="new Date(modelYear!, modelMonth!, Number(log))"
-      />
-    </div>
+    </section>
+    <section class="logs">
+      <section class="daily-log" v-for="date of GetCells(year, month)">
+        <section class="date-day">
+          <TextSubheading>{{ date }}</TextSubheading>
+          <TextSubheading>{{
+            Calendar.days[new Date(year, month, date).getDay()]
+          }}</TextSubheading>
+        </section>
+        <CardLog
+          v-for="lid of logs
+            ?.get(SeedGenerator(new Date(year, month, date)).toString())
+            ?.keys()"
+          :log="
+            logs
+              ?.get(SeedGenerator(new Date(year, month, date)).toString())
+              ?.get(lid)
+          "
+        />
+      </section>
+    </section>
   </section>
 </template>
 <script setup lang="ts">
-import { PropType, computed } from "vue";
-import { InputDropdown } from "../components/Forms";
-import { Calendar, CustomEvent } from "../utils";
-import { CardLog } from "../components/Cards";
-import { Props } from "../server/models/Logs";
+import { PropType, computed, reactive } from "vue";
+import { Props as PropsLAD } from "../server/models/LogAddressingData";
+import { Calendar, SeedGenerator } from "../utils";
+import { CardLog, InputDropdown, TextSubheading } from "../components";
 
 const props = defineProps({
-  modelMonth: Number,
-  modelYear: Number,
-  logs: Map as PropType<Map<number, Props[]>>,
+  modelValue: Date,
+  logs: Object as PropType<Map<string, Map<string, PropsLAD>>>,
+  pid: String,
 });
 
-const month = computed({
-  get() {
-    return Calendar.monthsShort[props.modelMonth!];
-  },
-  set(value) {
-    emit("update:modelMonth", Calendar.monthsShort.indexOf(value));
-  },
-});
-const year = computed({
-  get() {
-    return props.modelYear!;
-  },
-  set(value) {
-    emit("update:modelYear", Number(value));
-  },
-});
+const GetYears = (): string[] => Calendar.GetYears(75).map((i) => i.toString());
 
-const ReloadLogs = () => CustomEvent.EventDispatcher("reload-logs");
+const GetCells = (year: number, month: number): number[] =>
+  Array.from(
+    { length: new Date(year, month + 1, 0).getDate() },
+    (_, i) => i + 1
+  );
+const GetDayStart = (year: number, month: number) =>
+  new Date(year, month, 1).getDay() + 1;
 
-const emit = defineEmits(["update:modelMonth", "update:modelYear"]);
+const CellsRecalculate = (year: number, month: number) => {
+  calendar.cells = GetCells(year, month);
+  calendar.dayStart = GetDayStart(year, month);
+  const temp = new Date(year, month, props.modelValue!.getDate());
+  emit("update:modelValue", temp);
+};
+
+const month = computed(() => props.modelValue!.getMonth());
+const year = computed(() => props.modelValue!.getFullYear());
+
+const calendar = reactive({
+  cells: new Array<number>(),
+  dayStart: 1,
+  years: GetYears(),
+});
+const SetMonth = (value: number) => CellsRecalculate(year.value, value);
+const SetYear = (value: number) => CellsRecalculate(value, month.value);
+
+const emit = defineEmits(["update:modelValue", "select"]);
 </script>
 <style scoped>
 .pid-list-view {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
   gap: 10px;
 }
 
-header {
+.month-year {
   display: flex;
   gap: 10px;
-  width: 100%;
-  justify-content: flex-start;
 }
+
 .input-dropdown {
-  flex: none;
-  width: 75px;
   --text-align: center;
-  --font-weight: 700;
-}
-.list-view-month {
-  --input-background: var(--theme-quadratic-background);
-  --input-text: var(--theme-quadratic-text);
-  font-weight: 500;
-  padding: 2px;
-}
-.list-view-year {
-  --input-background: var(--theme-quadratic-background);
-  --input-text: var(--theme-quadratic-text);
-  font-weight: 500;
-  padding: 2px;
+  width: 100px;
+  --background: var(--theme-secondary-background);
+  --color: var(--theme-secondary-text);
 }
 
-.content {
+.logs {
   width: 100%;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 }
-</style> -->
+
+.daily-log {
+  background-color: var(--theme-secondary-background);
+  padding: 10px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.date-day {
+  display: flex;
+  gap: 10px;
+}
+
+.card-log {
+  padding-left: 26px;
+}
+</style>

@@ -18,21 +18,17 @@
         v-show="!!dog"
         v-if="view.label === views[0].label"
       >
-        <LayoutPIDCalendarView v-model="date" :logs="dog?.logs" />
+        <LayoutPIDCalendarView v-model="date" :logs="dog?.logs" :pid="pid" />
       </section>
       <section class="view view-list" v-show="!!dog" v-else>
-        <!-- <LayoutPIDListView
-          v-model:model-month="calendar.month"
-          v-model:model-year="calendar.year"
-          :logs="calendar.logs"
-        /> -->
+        <LayoutPIDListView v-model="date" :logs="dog?.logs" :pid="pid" />
       </section>
     </main>
-    <ModalAddLog :db="db" :pid="dog?.props.pid" @success="AddLog" />
+    <ModalAddLog :db="db" :pid="pid" @success="AddLog" />
   </LayoutPage>
 </template>
 <script setup lang="ts">
-import { LayoutPage, LayoutHeader } from "../../layout";
+import { LayoutPage, LayoutHeader, LayoutPIDListView } from "../../layout";
 import { Ref, onBeforeMount, onMounted, onUnmounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { DatabaseMounter, PawprintsEvent, SegmentOption } from "../../utils";
@@ -54,6 +50,7 @@ import { GetLATID } from "../../server/models/Logs";
 
 const route = useRoute();
 const params = ref(route.params);
+const pid = params.value.pid.toString();
 
 const Refresh = (event: any) => {
   PawprintsEvent.EventDispatcher("reload-dogs");
@@ -80,13 +77,30 @@ const SetData = (dogData: DogData) => {
 };
 const RequestData = () =>
   PawprintsEvent.EventDispatcher("request-dog-data", params.value.pid);
-const AddLog = (value: { propsLAD: PropsLAD; date: Date }) => {
-  const latid = GetLATID(value.date, dog.value?.props.pid!);
-  let logs = dog.value?.logs.get(latid);
-  if (!logs) logs = new Map<string, PropsLAD>();
-  else logs.set(value.propsLAD.lid, value.propsLAD);
-  console.log(dog.value?.logs);
-  PawprintsEvent.EventDispatcher("add-to-logs", value);
+const AddLog = (value: { propsLAD: PropsLAD; DStart: Date; DEnd: Date }) => {
+  const startDate = new Date(
+    value.DStart.getFullYear(),
+    value.DStart.getMonth(),
+    value.DStart.getDate()
+  );
+  const endDtate = new Date(
+    value.DEnd.getFullYear(),
+    value.DEnd.getMonth(),
+    value.DEnd.getDate()
+  );
+  for (
+    let date = startDate;
+    date <= endDtate;
+    date.setDate(date.getDate() + 1)
+  ) {
+    const latid = GetLATID(date, pid);
+    let logs = dog.value?.logs.get(latid);
+    if (!logs) logs = new Map<string, PropsLAD>();
+    logs.set(value.propsLAD.lid, value.propsLAD);
+    dog.value?.logs.set(latid, logs);
+    console.log(logs);
+  }
+  PawprintsEvent.EventDispatcher("add-to-logs", dog.value);
 };
 
 const db = ref();

@@ -9,7 +9,7 @@ const FirebaseSignout = () => signOut(auth);
 const DatabaseTermination = (db: SQLiteDBConnection) => ClearModels(db);
 
 const WindowDatabaseTermination = () => {
-  console.log(`${localStorage.getItem("authUsername")} has logged in.`);
+  console.log(`${localStorage.getItem("authUsername")} has logged out.`);
   UserInfo.SetEmail();
   UserInfo.SetSubscription();
   UserInfo.SetUID();

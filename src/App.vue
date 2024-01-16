@@ -70,6 +70,7 @@ const SendDogs = () =>
   PawprintsEvent.EventDispatcher("response-dogs", dogs.value);
 const SendDog = (pid: string) =>
   PawprintsEvent.EventDispatcher("response-dog-data", dogs.value.get(pid));
+const AddLog = (dog: DogData) => dogs.value.set(dog.props.pid, dog);
 
 // Initialization
 const db = ref();
@@ -121,6 +122,7 @@ onBeforeMount(() => {
   PawprintsEvent.AddEventListener("reset-data", ResetData);
   PawprintsEvent.AddEventListener("request-db", ResponseDB);
   PawprintsEvent.AddEventListener("add-to-dogs", AddDog);
+  PawprintsEvent.AddEventListener("add-to-logs", AddLog);
   PawprintsEvent.AddEventListener("request-dogs", SendDogs);
   PawprintsEvent.AddEventListener("set-themes", SetThemes);
   PawprintsEvent.AddEventListener("request-dog-data", SendDog);
@@ -139,6 +141,7 @@ onUnmounted(async () => {
   PawprintsEvent.RemoveEventListener("reset-data", ResetData);
   PawprintsEvent.RemoveEventListener("request-db", ResponseDB);
   PawprintsEvent.RemoveEventListener("add-to-dogs", AddDog);
+  PawprintsEvent.RemoveEventListener("add-to-logs", AddLog);
   PawprintsEvent.RemoveEventListener("request-dogs", SendDogs);
   PawprintsEvent.RemoveEventListener("set-themes", SetThemes);
   PawprintsEvent.RemoveEventListener("request-dog-data", SendDog);

@@ -47,7 +47,7 @@
         </article>
         <TextSmall
           class="extra"
-          v-show="!!GetIcons(date).extra"
+          v-show="GetIcons(date).extra > 0"
           :value="GetIcons(date).extra.toString()"
         />
       </div>
@@ -63,19 +63,22 @@ import {
   TextParagraph,
   TextSmall,
 } from "../components";
-import { Calendar, SeedGenerator } from "../utils";
+import { Calendar } from "../utils";
 import { PropType, computed, onMounted, reactive } from "vue";
 import { Props as PropsLAD } from "../server/models/LogAddressingData";
+import { GetLATID } from "../server/models/Logs";
 
 const props = defineProps({
   modelValue: Date,
   logs: Object as PropType<Map<string, Map<string, PropsLAD>>>,
+  pid: String,
 });
 
 const GetLog = (date: number, lid: string) => {
-  const latid = SeedGenerator(
-    new Date(year.value, month.value, date, 0, 0, 0)
-  ).toString();
+  const latid = GetLATID(
+    new Date(year.value, month.value, date, 0, 0, 0),
+    props.pid!
+  );
   return props.logs?.get(latid)?.get(lid)!;
 };
 
@@ -86,9 +89,10 @@ const GetIcons = (date: number) => {
     extra: 0,
   };
   if (!props.logs) return temp;
-  const latid = SeedGenerator(
-    new Date(year.value, month.value, date, 0, 0, 0)
-  ).toString();
+  const latid = GetLATID(
+    new Date(year.value, month.value, date, 0, 0, 0),
+    props.pid!
+  );
   if (!props.logs?.get(latid)) return temp;
   const lids = Array.from(props.logs?.get(latid)!.keys());
   return {
@@ -113,7 +117,6 @@ const GetCells = (year: number, month: number): number[] =>
     { length: new Date(year, month + 1, 0).getDate() },
     (_, i) => i + 1
   );
-
 const GetDayStart = (year: number, month: number) =>
   new Date(year, month, 1).getDay() + 1;
 
@@ -134,7 +137,6 @@ const MoveMonth = (increment: 1 | -1) => {
   const tempMonth = (month.value + increment + 12) % 12;
   const tempYear =
     year.value + ([-1, 12].includes(month.value + increment) ? increment : 0);
-  console.log(tempMonth, tempYear);
   CellsRecalculate(tempYear, tempMonth);
 };
 const SetMonth = (value: number) => CellsRecalculate(year.value, value);
