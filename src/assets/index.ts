@@ -14,6 +14,11 @@ import subscriptionFree from "./subscriptions/subscriptionFree.svg";
 import subscriptionGuest from "./subscriptions/subscriptionGuest.svg";
 import subscriptionPawmium from "./subscriptions/subscriptionPawmium.svg";
 
+import tutorialPage2 from "./tutorial/tutorialPage2.svg";
+import tutorialPage3 from "./tutorial/tutorialPage3.svg";
+import tutorialPage4 from "./tutorial/tutorialPage4.svg";
+import tutorialPage5 from "./tutorial/tutorialPage5.svg";
+
 export {
   PawPrints,
   weight,
@@ -28,4 +33,8 @@ export {
   subscriptionFree,
   subscriptionGuest,
   subscriptionPawmium,
+  tutorialPage2,
+  tutorialPage3,
+  tutorialPage4,
+  tutorialPage5,
 };
