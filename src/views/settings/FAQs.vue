@@ -12,7 +12,7 @@
         <img :src="dogTroy" />
       </section>
       <TextParagraph> Click the Delete Dog button </TextParagraph>
-        <img :src="deleteDog" />
+      <img :src="deleteDog" />
     </section>
   </LayoutPage>
 </template>

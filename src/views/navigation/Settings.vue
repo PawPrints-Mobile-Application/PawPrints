@@ -43,8 +43,8 @@ import {
 
 const data = [
   { name: "Profile", icon: profileIcon, target: "profile" },
-  { name: "Subscription", icon: subscriptionIcon, target: "subscription" },
-  { name: "Frequently Answered Questions", icon: faqsIcon, target: "faqs" },
+  { name: "Subscriptions", icon: subscriptionIcon, target: "subscription" },
+  { name: "Frequently Asked Questions", icon: faqsIcon, target: "faqs" },
   { name: "About Us", icon: aboutIcon, target: "about" },
 ];
 </script>

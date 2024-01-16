@@ -1,6 +1,6 @@
 <template>
   <LayoutPage>
-    <LayoutHeader returnTarget="/settings" label="Profile" />
+    <LayoutHeader returnTarget="/settings" label="PROFILE" />
     <main>
       <InputUserAvatar v-model="form.avatar" />
       <InputWrapper label="Username">
@@ -9,6 +9,7 @@
       <InputWrapper label="Email">
         <InputText placeholder="Email" v-model="form.email" freeze />
       </InputWrapper>
+      <InputWrapper label="Password"> </InputWrapper>
       <ButtonDanger class="button-reset" value="Reset Password" />
 
       <div class="buttons">
