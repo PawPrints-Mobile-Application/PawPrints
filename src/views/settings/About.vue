@@ -1,8 +1,9 @@
 <template>
   <LayoutPage>
     <LayoutHeader returnTarget="/settings" label="ABOUT US" />
-    <section class="logo">
-      <ImgLogo />
+    <main>
+      <section class="logo">
+      <Avatar />
       <TextHeading class="app-name">PawPrints</TextHeading>
     </section>
     <section class="container">
@@ -13,12 +14,12 @@
       <TextHeading>Contact Us</TextHeading>
       <TextParagraph>Email: pawprints8223@gmail.com</TextParagraph>
     </section>
+    </main>
   </LayoutPage>
 </template>
 <script setup lang="ts">
 import { LayoutHeader, LayoutPage } from "../../layout";
-import { ImgLogo } from "../../components/Logo";
-import { TextHeading, TextParagraph } from "../../components/Texts";
+import { TextHeading, TextParagraph, Avatar } from "../../components";
 
 const devNames = [
   "Alliah Nhoree Galamition",
@@ -28,11 +29,23 @@ const devNames = [
 ];
 </script>
 <style scoped>
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
 .logo {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+}
+
+.avatar {
+  --size:150px;
 }
 
 .app-name {
@@ -50,7 +63,8 @@ const devNames = [
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  background-color: var(--ion-color-secondary);
+  background-color: var(--theme-secondary-background);
+  color: var(--theme-secondary-text);
   font-family: Poppins;
   font-size: var(--fs4);
 
