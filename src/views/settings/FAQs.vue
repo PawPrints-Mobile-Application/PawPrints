@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { LayoutHeader, LayoutPage } from "../../layout";
 import { TextParagraph, TextSubheading } from "../../components/Texts";
-import { dogTab, dogTroy, deleteDog } from "../../assets/images";
+import { dogTab, dogTroy, deleteDog } from "../../assets";
 </script>
 <style scoped>
 .faq1 {
