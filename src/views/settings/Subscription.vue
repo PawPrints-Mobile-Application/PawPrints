@@ -1,18 +1,20 @@
 <template>
   <LayoutPage>
     <LayoutHeader returnTarget="/settings" label="SUBSCRIPTIONS" />
-    <CardSubscription
-      v-show="(key === 0 && current === 0) || key !== 0"
-      v-for="(sub, key) in subscriptions"
-      :selected="current === key"
-      :name="sub.name"
-      :icon="sub.icon"
-      :info="sub.info"
-      :button-text="current === key ? 'Current Plan' : 'Upgrade'"
-      :hide-button="current > key"
-      :disable-button="current === key"
-      :design="Math.max(0, Math.min(1, current))"
-    />
+    <main>
+      <CardSubscription
+        v-show="(key === 0 && current === 0) || key !== 0"
+        v-for="(sub, key) in subscriptions"
+        :selected="current === key"
+        :name="sub.name"
+        :icon="sub.icon"
+        :info="sub.info"
+        :button-text="current === key ? 'Current Plan' : 'Upgrade'"
+        :hide-button="current > key"
+        :disable-button="current === key"
+        :design="Math.max(0, Math.min(1, current))"
+      />
+    </main>
   </LayoutPage>
 </template>
 
@@ -64,4 +66,13 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+main{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+</style>

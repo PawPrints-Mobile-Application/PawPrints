@@ -15,7 +15,7 @@
     </div>
     <ButtonText
       v-show="!hideButton || !buttonText"
-      :label="buttonText!"
+      :value="buttonText!"
       :disabled="!!disableButton"
     />
   </section>
@@ -44,7 +44,7 @@ defineProps({
 }
 
 .subscription-card {
-  background-color: var(--ion-color-secondary);
+  background-color: var(--theme-secondary-dark-background);
   width: 90%;
   display: flex;
   flex-direction: column;
