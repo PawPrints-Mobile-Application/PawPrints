@@ -47,17 +47,22 @@ const emit = defineEmits(["update:modelValue", "input"]);
   height: 100px;
   text-align: var(--text-align);
   overflow-y: scroll;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:is(:active, :hover, :focus) {
     outline: 2px solid var(--outline);
   }
 }
-input {
+textarea {
   border: none;
   outline: none;
   background-color: inherit;
   color: inherit;
   flex: 1 0 0;
   padding: 0;
+  width: 100%;
+  height: calc(100% - 6px);
 }
 </style>

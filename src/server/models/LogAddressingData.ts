@@ -20,39 +20,39 @@ import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 const Enums = {
   Category: {
-    weight: {
+    Weight: {
       name: "Weight",
       canSchedule: false,
       units: ["kg", "lb"],
       icon: weightIcon,
     },
-    temperature: {
+    Temperature: {
       name: "Temperature",
       canSchedule: false,
       units: ["°C", "°F"],
       icon: temperatureIcon,
     },
-    vaccine: {
-      name: "Vaccine",
-      canSchedule: false,
-      icon: vaccineIcon,
-    },
-    medicine: {
-      name: "Medicine",
-      canSchedule: true,
-      icon: medicineIcon,
-    },
-    synmptoms: {
+    Symptoms: {
       name: "Symptoms",
       canSchedule: false,
       icon: symptomsIcon,
     },
-    activity: {
+    Vaccine: {
+      name: "Vaccine",
+      canSchedule: true,
+      icon: vaccineIcon,
+    },
+    Medicine: {
+      name: "Medicine",
+      canSchedule: true,
+      icon: medicineIcon,
+    },
+    Activity: {
       name: "Activity",
       canSchedule: true,
       icon: activityIcon,
     },
-    others: {
+    Others: {
       name: "Others",
       canSchedule: true,
       icon: othersIcon,
@@ -113,7 +113,7 @@ const ToProps = (props: any): Props => {
   };
 };
 
-const ToLocalProps = (props: any): OtherProps => {
+const ToOtherProps = (props: any): OtherProps => {
   return {
     lid: props.lid,
     type: props.type,
@@ -140,7 +140,7 @@ const Get = (db: SQLiteDBConnection, lid: string) =>
   );
 
 const Set = async (db: SQLiteDBConnection, props: Props) => {
-  const data = ObjectToMap(ToLocalProps(props));
+  const data = ObjectToMap(ToOtherProps(props));
   return InsertRowData(
     db,
     constants.document,
@@ -156,4 +156,14 @@ const Remove = (db: SQLiteDBConnection, lid: string) =>
   DeleteRowData(db, constants.document, ObjectToMap({ lid: lid }));
 
 export type { Props, OtherProps };
-export { Enums, CreateModel, DeleteModel, ClearModel, Set, Get, Remove };
+export {
+  Enums,
+  CreateModel,
+  DeleteModel,
+  ClearModel,
+  Set,
+  Get,
+  Remove,
+  ToProps,
+  ToOtherProps,
+};

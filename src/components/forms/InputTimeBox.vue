@@ -20,7 +20,7 @@
         :count="2"
       />
     </div>
-    <ButtonText label="Save" @click="SetValue" />
+    <ButtonText value="Save" @click="SetValue" />
   </section>
 </template>
 <script setup lang="ts">

@@ -14,6 +14,8 @@ import ButtonMode from "./buttons/ButtonMode.vue";
 import CardDog from "./cards/CardDog.vue";
 import CardUser from "./cards/CardUser.vue";
 import CardSettings from "./cards/CardSettings.vue";
+import CardTrivia from "./cards/CardTrivia.vue";
+import CardLog from "./cards/CardLog.vue";
 
 // forms
 import InputWrapper from "./forms/InputWrapper.vue";
@@ -52,6 +54,7 @@ import Modal from "./modals/Modal.vue";
 import ModalSignin from "./modals/ModalSignin.vue";
 import ModalSignup from "./modals/ModalSignup.vue";
 import ModalAddDog from "./modals/ModalAddDog.vue";
+import ModalAddLog from "./modals/ModalAddLog.vue";
 
 // popups
 import Popup from "./popups/Popup.vue";
@@ -91,6 +94,8 @@ export {
   CardDog,
   CardUser,
   CardSettings,
+  CardTrivia,
+  CardLog,
   // forms
   InputWrapper,
   InputText,
@@ -119,6 +124,7 @@ export {
   ModalSignin,
   ModalSignup,
   ModalAddDog,
+  ModalAddLog,
   // popups
   Popup,
   PopupAddPost,

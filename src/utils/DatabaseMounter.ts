@@ -1,13 +1,14 @@
 import { PawprintsEvent } from ".";
 
-const TrigerCall = (trigger: string) => PawprintsEvent.EventDispatcher(trigger);
-const Mount = (callback: Function, trigger?: string) => {
+const Mount = (callback: Function, onReadyCallback?: Function) => {
   PawprintsEvent.AddEventListener("response-db", callback);
-  if (!!trigger) PawprintsEvent.AddEventListener("ready-data", TrigerCall);
+  if (!!onReadyCallback)
+    PawprintsEvent.AddEventListener("ready-data", onReadyCallback);
 };
-const Unmount = (callback: Function, trigger?: string) => {
+const Unmount = (callback: Function, onReadyCallback?: Function) => {
   PawprintsEvent.RemoveEventListener("response-db", callback);
-  if (!!trigger) PawprintsEvent.RemoveEventListener("ready-data", TrigerCall);
+  if (!!onReadyCallback)
+    PawprintsEvent.RemoveEventListener("ready-data", onReadyCallback);
 };
 const Request = () => PawprintsEvent.EventDispatcher("request-db");
 

@@ -1,10 +1,14 @@
 <template>
-  <section class="forms input-time" @click="expanded = !expanded">
+  <section class="forms input-time" @click="Call">
     <div class="output font poppins paragraph">
       {{ GetOutput() }}
     </div>
     <IonIcon class="button-time" :icon="icon" v-show="!hideIcon" />
-    <Popup v-model="expanded" :trigger="trigger">
+    <Popup
+      :trigger="trigger"
+      @dismiss="() => (expanded = false)"
+      @present="() => (expanded = true)"
+    >
       <template #content="{ Hide }">
         <section class="time">
           <InputTimeBox v-model="value" @change="Hide" />
@@ -16,7 +20,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { Popup, InputTimeBox } from "..";
-import { LocalTime } from "../../utils";
+import { LocalTime, PawprintsEvent } from "../../utils";
 import { IonIcon } from "@ionic/vue";
 import { time as icon } from "ionicons/icons";
 
@@ -36,6 +40,7 @@ const props = defineProps({
 });
 
 const expanded = ref(false);
+const Call = () => PawprintsEvent.EventDispatcher(props.trigger);
 const GetOutput = () => props.modelValue?.toString("12");
 
 const value = computed({

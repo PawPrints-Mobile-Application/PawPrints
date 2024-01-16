@@ -1,10 +1,15 @@
 <template>
   <LayoutPage>
-    <header>
-      <ButtonBack @click="Navigate" />
-      <TextHeading :value="dog?.props.name" />
-      <Avatar type="dog" :value="dog?.props.breed" :color="dog?.props.color" />
-    </header>
+    <LayoutHeader returnTarget="/dogs">
+      <section class="header">
+        <TextHeading :value="dog?.props.name" />
+        <Avatar
+          type="dog"
+          :value="dog?.props.breed"
+          :color="dog?.props.color"
+        />
+      </section>
+    </LayoutHeader>
     <main>
       <Refresher @refresh="Refresh" />
       <InputSegment :options="views" v-model="view" show="both" />
@@ -23,19 +28,20 @@
         /> -->
       </section>
     </main>
+    <ModalAddLog :db="db" :pid="dog?.props.pid" />
   </LayoutPage>
 </template>
 <script setup lang="ts">
-import { LayoutPage } from "../../layout";
+import { LayoutPage, LayoutHeader } from "../../layout";
 import { Ref, onBeforeMount, onMounted, onUnmounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { PawprintsEvent, SegmentOption } from "../../utils";
+import { DatabaseMounter, PawprintsEvent, SegmentOption } from "../../utils";
 import {
   Avatar,
-  ButtonBack,
   InputSegment,
   TextHeading,
   Refresher,
+  ModalAddLog,
 } from "../../components";
 import {
   documents as listView,
@@ -44,9 +50,6 @@ import {
 import { LayoutPIDCalendarView } from "../../layout";
 import { Props as PropsDog } from "../../server/models/Dogs";
 import { Props as PropsLAD } from "../../server/models/LogAddressingData";
-import { useIonRouter } from "@ionic/vue";
-const ionRouter = useIonRouter();
-const Navigate = () => ionRouter.navigate("/dogs", "forward", "replace");
 
 const route = useRoute();
 const params = ref(route.params);
@@ -70,46 +73,59 @@ const views = [
 ];
 const view = ref(views[0]);
 
-const SetData = (dogData: DogData) => (dog.value = dogData);
+const SetData = (dogData: DogData) => {
+  if (!dogData) return;
+  dog.value = dogData;
+};
 const RequestData = () =>
   PawprintsEvent.EventDispatcher("request-dog-data", params.value.pid);
 
+const db = ref();
+const UpdateDB = (value: any) => {
+  if (!value) return;
+  db.value = value;
+  setTimeout(() => PawprintsEvent.EventDispatcher("request-dogs"), 1);
+};
+
 onBeforeMount(() => {
   PawprintsEvent.AddEventListener("response-dog-data", SetData);
-  PawprintsEvent.AddEventListener("ready-data", RequestData);
+  DatabaseMounter.Mount(UpdateDB, RequestData);
 });
 
 onMounted(() => {
+  DatabaseMounter.Request();
   if (!dog.value) RequestData();
 });
 
 onUnmounted(() => {
   PawprintsEvent.RemoveEventListener("response-dog-data", SetData);
   PawprintsEvent.RemoveEventListener("ready-data", RequestData);
+  DatabaseMounter.Unmount(UpdateDB, RequestData);
 });
 </script>
 
 <style scoped>
-header {
+.header {
   width: 100%;
   display: flex;
   gap: 5px;
   justify-content: space-between;
   align-items: center;
+  padding-left: 40px;
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.text-heading {
+  color: var(--theme-primary-text);
 }
 
 .avatar {
   width: 60px;
 }
 
-.text-heading {
-  color: var(--theme-primary-text);
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .input-segment {
