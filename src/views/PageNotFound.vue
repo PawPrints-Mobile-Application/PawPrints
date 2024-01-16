@@ -1,8 +1,8 @@
 <template>
-  <PageLayout> 404 Page not found: {{ GetPath() }} </PageLayout>
+  <LayoutPage> 404 Page not found: {{ GetPath() }} </LayoutPage>
 </template>
 <script setup lang="ts">
-import { PageLayout } from "../layout";
+import { LayoutPage } from "../layout";
 import { useRoute } from "vue-router";
 // URL Path Parts: .../:0/:1/:2/:3/:4/:5
 const route = useRoute();

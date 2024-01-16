@@ -28,28 +28,28 @@ import { GetAll } from "../../server/models/Dogs";
 
 const rawDogs = ref<Array<any>>();
 const filteredDogs = ref<Array<any>>();
-const searchDog = ref("");
+// const searchDog = ref("");
 const state = reactive({
   searchExpand: false,
   noDogsFound: false,
 });
 
-const FilterDogs = (searchString: string) => {
-  filteredDogs.value = []; // Clears the filter to render
-  // Rerender the filtered results
-  setTimeout(() => {
-    if (searchString.trim() === "") {
-      filteredDogs.value = rawDogs.value;
-      return;
-    }
-    let temp: any[] = [];
-    rawDogs.value?.forEach((value) => {
-      if (!value.name.includes(searchString)) return;
-      temp.push(value);
-    });
-    filteredDogs.value = temp;
-  }, 10);
-};
+// const FilterDogs = (searchString: string) => {
+//   filteredDogs.value = []; // Clears the filter to render
+//   // Rerender the filtered results
+//   setTimeout(() => {
+//     if (searchString.trim() === "") {
+//       filteredDogs.value = rawDogs.value;
+//       return;
+//     }
+//     let temp: any[] = [];
+//     rawDogs.value?.forEach((value) => {
+//       if (!value.name.includes(searchString)) return;
+//       temp.push(value);
+//     });
+//     filteredDogs.value = temp;
+//   }, 10);
+// };
 
 // Page Manipulator
 const ReloadPage = () => FetchDogs();

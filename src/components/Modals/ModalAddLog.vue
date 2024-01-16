@@ -60,12 +60,12 @@ const props = defineProps({
   date: Date,
 });
 
-import { SeedGenerator } from "../../utils";
+// import { SeedGenerator } from "../../utils";
 import { register1 } from "../../views/_templates/index";
 import { register2 } from "../../views/_templates/index";
-import { Add as AddNote } from "../../server/models/Notes";
-import { Add as AddEvent } from "../../server/models/Events";
-import { Get as GetDog, Add as EditDog } from "../../server/models/Dogs";
+// import { Add as AddNote } from "../../server/models/Notes";
+// import { Add as AddEvent } from "../../server/models/Events";
+// import { Get as GetDog, Add as EditDog } from "../../server/models/Dogs";
 
 const activitySegments = ["Note", "Event"];
 

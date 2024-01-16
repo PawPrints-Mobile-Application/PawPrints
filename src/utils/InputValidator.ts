@@ -1,11 +1,11 @@
 import { HelperConstructor } from ".";
 
 class InputValidator {
-  callback: (value: string | number) => boolean;
+  callback: (value: string) => boolean;
   helper: HelperConstructor;
 
   public constructor(
-    callback: (value: string | number) => boolean,
+    callback: (value: string) => boolean,
     helperText: string,
     intensity: "danger" | "warning"
   ) {

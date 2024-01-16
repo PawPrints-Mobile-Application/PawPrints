@@ -3,7 +3,6 @@
     <template #pageHeader>
       <InputSearch
         v-model:value="searchLocation"
-        @return="(value) => console.log(value)"
         keep-open
       />
     </template>
@@ -20,7 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-import { InputSearch } from "../components/Forms";
 import { LayoutPage } from "../layout";
 import { ref } from "vue";
 
