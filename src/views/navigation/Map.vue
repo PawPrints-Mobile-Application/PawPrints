@@ -11,22 +11,22 @@ import { onMounted, reactive, ref } from "vue";
 import { LayoutPage, LayoutHeader } from "../../layout";
 import Leaflet from "leaflet";
 
-const coords = reactive({
-  latitude: 0,
-  longitude: 0,
-});
-
 const containerMap = ref();
 const map = ref();
 
-const GetLocation = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      coords.latitude = position.coords.latitude;
-      coords.longitude = position.coords.longitude;
-    });
-  }
-};
+// const coords = reactive({
+//   latitude: 0,
+//   longitude: 0,
+// });
+
+// const GetLocation = () => {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition((position) => {
+//       coords.latitude = position.coords.latitude;
+//       coords.longitude = position.coords.longitude;
+//     });
+//   }
+// };
 
 onMounted(() => {
   map.value = Leaflet.map(containerMap.value).fitWorld();

@@ -81,8 +81,8 @@ const GetCollection = async (coll: string) =>
     .then((response) => {
       return {
         values: response.docs.map((doc) => doc.data()),
-        fromCache: response.metadata.fromCache
-      }
+        fromCache: response.metadata.fromCache,
+      };
     })
     .catch((error) => console.log(error.message));
 

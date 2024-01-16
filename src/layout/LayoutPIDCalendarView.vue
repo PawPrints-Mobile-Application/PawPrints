@@ -8,16 +8,16 @@
         @update:modelIndex="SetMonth"
         :options="Calendar.months"
         hideIcon
-        trigger="popup-month"
+        trigger="popup-month-calendar-view"
         closeOnSelect
       />
       <InputDropdown
         class="year"
-        :modelValue="year"
-        @update:modelValue="SetYear"
+        :modelValue="year.toString()"
+        @update:modelValue="(value) => SetYear(Number(value))"
         :options="calendar.years"
         hideIcon
-        trigger="popup-year"
+        trigger="popup-year-calendar-view"
         closeOnSelect
       />
       <ButtonNext @click="MoveMonth(1)" />
@@ -97,33 +97,8 @@ const GetIcons = (date: number) => {
   };
 };
 
-const month = computed({
-  get() {
-    return props.modelValue!.getMonth();
-  },
-  set(value) {
-    const temp = new Date(
-      props.modelValue!.getFullYear(),
-      value,
-      props.modelValue!.getDate()
-    );
-    emit("update:modelValue", temp);
-  },
-});
-
-const year = computed({
-  get() {
-    return props.modelValue!.getFullYear();
-  },
-  set(value) {
-    const temp = new Date(
-      value,
-      props.modelValue!.getMonth(),
-      props.modelValue!.getDate()
-    );
-    emit("update:modelValue", temp);
-  },
-});
+const month = computed(() => props.modelValue!.getMonth());
+const year = computed(() => props.modelValue!.getFullYear());
 
 const currentDate = new Date();
 const isSelected = (i: number) =>
@@ -131,26 +106,22 @@ const isSelected = (i: number) =>
   month.value === currentDate.getMonth() &&
   year.value === currentDate.getFullYear();
 
-const GetYears = (): number[] => {
-  const length = 75;
-  const range = Math.floor(length / 2);
-  return Array.from(
-    { length: range + 1 },
-    (_, i) => i + new Date().getFullYear() - range
-  );
-};
+const GetYears = (): string[] => Calendar.GetYears(75).map((i) => i.toString());
 
-const GetCells = (): number[] =>
+const GetCells = (year: number, month: number): number[] =>
   Array.from(
-    { length: new Date(year.value, month.value + 1, 0).getDate() },
+    { length: new Date(year, month + 1, 0).getDate() },
     (_, i) => i + 1
   );
 
-const GetDayStart = () => new Date(year.value, month.value, 1).getDay() + 1;
+const GetDayStart = (year: number, month: number) =>
+  new Date(year, month, 1).getDay() + 1;
 
-const CellsRecalculate = () => {
-  calendar.cells = GetCells();
-  calendar.dayStart = GetDayStart();
+const CellsRecalculate = (year: number, month: number) => {
+  calendar.cells = GetCells(year, month);
+  calendar.dayStart = GetDayStart(year, month);
+  const temp = new Date(year, month, props.modelValue!.getDate());
+  emit("update:modelValue", temp);
 };
 
 const calendar = reactive({
@@ -164,24 +135,15 @@ const MoveMonth = (increment: 1 | -1) => {
   const tempYear =
     year.value + ([-1, 12].includes(month.value + increment) ? increment : 0);
   console.log(tempMonth, tempYear);
-  SetMonth(tempMonth, false);
-  SetYear(tempYear);
+  CellsRecalculate(tempYear, tempMonth);
 };
-
-const SetMonth = (value: number, doRecalculate: boolean = true) => {
-  month.value = value;
-  if (doRecalculate) CellsRecalculate();
-};
-
-const SetYear = (value: number, doRecalculate: boolean = true) => {
-  year.value = value;
-  if (doRecalculate) CellsRecalculate();
-};
+const SetMonth = (value: number) => CellsRecalculate(year.value, value);
+const SetYear = (value: number) => CellsRecalculate(value, month.value);
 
 const emit = defineEmits(["update:modelValue", "select"]);
 
 onMounted(() => {
-  CellsRecalculate();
+  CellsRecalculate(year.value, month.value);
 });
 </script>
 <style scoped>

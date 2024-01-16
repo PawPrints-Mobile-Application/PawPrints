@@ -39,6 +39,7 @@ type DogData = {
 };
 const dogs: Ref<Map<string, DogData>> = ref(new Map());
 const UpdateDogs = (values: Map<string, DogData>) => {
+  if (values.size < 1) return;
   dogs.value = new Map();
   let i = 0;
   values.forEach((value, key) => {
@@ -58,12 +59,13 @@ const db = ref();
 const UpdateDB = (value: any) => {
   if (!value) return;
   db.value = value;
-  setTimeout(() => PawprintsEvent.EventDispatcher("request-dogs"), 1);
+  setTimeout(RequestDogs, 1);
 };
+const RequestDogs = () => PawprintsEvent.EventDispatcher("request-dogs");
 
 onBeforeMount(() => {
   PawprintsEvent.AddEventListener("response-dogs", UpdateDogs);
-  DatabaseMounter.Mount(UpdateDB);
+  DatabaseMounter.Mount(UpdateDB, RequestDogs);
 });
 
 onMounted(() => {
@@ -72,7 +74,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   PawprintsEvent.RemoveEventListener("response-dogs", UpdateDogs);
-  DatabaseMounter.Unmount(UpdateDB);
+  DatabaseMounter.Unmount(UpdateDB, RequestDogs);
 });
 </script>
 <style scoped>

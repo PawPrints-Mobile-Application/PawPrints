@@ -32,7 +32,7 @@
         <InputSelect
           v-model="value"
           @update:model-index="UpdateIndex"
-          :options="filteredOptions"
+          :options="GetOptions()"
           @select="
             () => {
               expanded = false;
@@ -66,13 +66,26 @@ const props = defineProps({
   closeOnSelect: Boolean,
 });
 
+const GetOptions = () => {
+  let temp = props.options!;
+  if (!!props.searchable && searchValue.value) {
+    temp = filteredOptions.value!;
+  }
+  if (!temp.includes(value.value!.toString())) {
+    value.value = temp[0];
+  }
+  return temp;
+};
+
 const filteredOptions = ref(props.options);
 const searchValue = ref("");
 const Filter = (value: string) => {
   filteredOptions.value =
     value.trim() === ""
       ? props.options
-      : props.options?.filter((element) => element.toString().toLowerCase().includes(value));
+      : props.options?.filter((element) =>
+          element.toString().toLowerCase().includes(value)
+        );
 };
 
 const expanded = ref(false);
