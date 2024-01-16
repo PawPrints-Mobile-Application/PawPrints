@@ -86,6 +86,7 @@ import {
   SegmentOption,
   ObjectToMap,
   UserInfo,
+  PawprintsEvent,
 } from "../../utils";
 import { SetBatch } from "../../server/models/Logs";
 import { Enums, Props } from "../../server/models/LogAddressingData";
@@ -201,8 +202,7 @@ const disableClear = computed(
 const disableSave = computed(
   () =>
     [form.title].includes("") ||
-    form.type.label === viewOptions[0].label &&
-    form.value === ""
+    (form.type.label === viewOptions[0].label && form.value === "")
 );
 
 const Process = () => {
@@ -236,7 +236,11 @@ const Process = () => {
         form.DEnd,
         props.pid!,
         UserInfo.GetUID()
-      ),
+      ).then(() => {
+        state.processing = false;
+        PawprintsEvent.EventDispatcher("modal-add-log", "hide");
+        emit("success", {propsLAD: data, date: });
+      }),
     1500
   );
 };
