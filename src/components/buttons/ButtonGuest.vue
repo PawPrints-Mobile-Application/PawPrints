@@ -11,7 +11,7 @@ import {
 
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
-const Redirect = () => ionRouter.navigate("/tutorial", "forward", "replace");
+const Redirect = () => ionRouter.navigate("/tutorials", "forward", "replace");
 
 const props = defineProps({
   db: SQLiteDBConnection,

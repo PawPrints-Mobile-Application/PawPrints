@@ -25,6 +25,11 @@ let routes: Array<RouteRecordRaw> = [
     component: () => import(`./views/Splash.vue`),
   },
   {
+    path: "/tutorials",
+    name: "tutorials",
+    component: () => import(`./views/static/Tutorials.vue`),
+  },
+  {
     path: "/auth",
     name: "auth",
     component: () => import(`./views/Auth.vue`),
