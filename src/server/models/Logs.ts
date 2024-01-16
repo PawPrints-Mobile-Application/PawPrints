@@ -12,12 +12,7 @@ import {
   Get as GetLAT,
 } from "./LogAddressingTable";
 import { SeedGenerator } from "../../utils";
-import {
-  DeleteDocument,
-  GetCollection,
-  GetDocument,
-  SetDocument,
-} from "../firebase";
+import { DeleteDocument, SetDocument } from "../firebase";
 
 const constants = {
   collection: "Users",
@@ -83,8 +78,13 @@ const Set = async (
     );
   return SetLAD(db, propsLAD)
     .then(() => GetLAT(db, latid))
-    .then((propsLAT: PropsLAT) => {
-      propsLAT.logs.push(propsLAD.lid);
+    .then((propsLAT: PropsLAT | undefined) => {
+      if (!!propsLAT) propsLAT.logs.push(propsLAD.lid);
+      else
+        propsLAT = {
+          latid: latid,
+          logs: [propsLAD.lid],
+        };
       return SetLAT(db, propsLAT);
     });
 };
@@ -92,10 +92,12 @@ const Set = async (
 const Get = async (db: SQLiteDBConnection, date: Date, pid: string) => {
   const latid = GetLATID(date, pid);
   return GetLAT(db, latid)
-    .then(async (propsLAT: PropsLAT) => {
+    .then(async (propsLAT: PropsLAT | undefined) => {
       const temp = new Map<string, PropsLAD>();
-      for (let i = 0; i <= propsLAT.logs.length; i++) {
-        temp.set(propsLAT.logs[i], await GetLAD(db, propsLAT.logs[i]));
+      if (!!propsLAT) {
+        for (let i = 0; i <= propsLAT.logs.length; i++) {
+          temp.set(propsLAT.logs[i], await GetLAD(db, propsLAT.logs[i]));
+        }
       }
       return Promise.all(temp);
     })
@@ -136,4 +138,4 @@ const Remove = async (
 //   });
 // };
 
-export { SetBatch, Set, Get, Remove };
+export { SetBatch, Set, Get, Remove, GetLATID };

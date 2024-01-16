@@ -28,7 +28,7 @@
         /> -->
       </section>
     </main>
-    <ModalAddLog :db="db" :pid="dog?.props.pid" />
+    <ModalAddLog :db="db" :pid="dog?.props.pid" @success="AddLog" />
   </LayoutPage>
 </template>
 <script setup lang="ts">
@@ -50,6 +50,7 @@ import {
 import { LayoutPIDCalendarView } from "../../layout";
 import { Props as PropsDog } from "../../server/models/Dogs";
 import { Props as PropsLAD } from "../../server/models/LogAddressingData";
+import { GetLATID } from "../../server/models/Logs";
 
 const route = useRoute();
 const params = ref(route.params);
@@ -79,6 +80,14 @@ const SetData = (dogData: DogData) => {
 };
 const RequestData = () =>
   PawprintsEvent.EventDispatcher("request-dog-data", params.value.pid);
+const AddLog = (value: { propsLAD: PropsLAD; date: Date }) => {
+  const latid = GetLATID(value.date, dog.value?.props.pid!);
+  let logs = dog.value?.logs.get(latid);
+  if (!logs) logs = new Map<string, PropsLAD>();
+  else logs.set(value.propsLAD.lid, value.propsLAD);
+  console.log(dog.value?.logs);
+  PawprintsEvent.EventDispatcher("add-to-logs", value);
+};
 
 const db = ref();
 const UpdateDB = (value: any) => {
