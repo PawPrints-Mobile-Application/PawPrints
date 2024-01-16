@@ -77,6 +77,7 @@ import NavigationBar from "./others/NavigationBar.vue";
 import NavigationTab from "./others/NavigationTab.vue";
 import NavigationCenter from "./others/NavigationCenter.vue";
 import Refresher from "./others/Refresher.vue";
+import PageCounter from "./others/PageCounter.vue";
 
 export {
   // buttons
@@ -143,4 +144,5 @@ export {
   NavigationTab,
   NavigationCenter,
   Refresher,
+  PageCounter,
 };
