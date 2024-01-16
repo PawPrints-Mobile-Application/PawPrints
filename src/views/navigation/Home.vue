@@ -19,7 +19,10 @@
             <TextParagraph :value="dog[1].props.name" class="bold" />
           </aside>
           <aside class="logs">
-            <CardLog v-for="log of dog[1].logs" :log="log" />
+            <CardLog
+              v-for="log of GetLogs(dog[1])?.keys()"
+              :log="GetLogs(dog[1])?.get(log)"
+            />
           </aside>
         </section>
       </section>
@@ -33,6 +36,7 @@ import {
   Calendar,
   DatabaseMounter,
   PawprintsEvent,
+  SeedGenerator,
   UserInfo,
 } from "../../utils";
 import { Props as PropsDog } from "../../server/models/Dogs";
@@ -51,6 +55,20 @@ const Refresh = (event: any) => {
   PawprintsEvent.EventDispatcher("sync-data");
   setTimeout(() => event.target.complete(), 500);
 };
+
+const GetLogs = (dog: DogData) =>
+  dog.logs.get(
+    SeedGenerator(
+      new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+        0,
+        0,
+        0
+      )
+    ).toString()
+  );
 
 type DogData = {
   props: PropsDog;

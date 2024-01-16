@@ -10,22 +10,30 @@ import {
   Get as SyncAllInformation,
   Set as InitializeInformation,
 } from "./Information";
-import { CreateModel as CreateModelLAD } from "./LogAddressingData";
-import { CreateModel as CreateModelLAT } from "./LogAddressingTable";
+import {
+  CreateModel as CreateModelLAD,
+  ClearModel as ClearModelLAD,
+} from "./LogAddressingData";
+import {
+  CreateModel as CreateModelLAT,
+  ClearModel as ClearModelLAT,
+} from "./LogAddressingTable";
 
-const CreateModels = (db: SQLiteDBConnection) =>
-  DeleteModelDogs(db)
-    .then(() => CreateModelDogs(db))
+const CreateModels = async (db: SQLiteDBConnection) =>
+  CreateModelDogs(db)
     .then(() => CreateModelLAD(db))
     .then(() => CreateModelLAT(db));
-const SyncModels = (db: SQLiteDBConnection, uid: string) => {
+const SyncModels = async (db: SQLiteDBConnection, uid: string) => {
   console.log(true);
   return SyncAllDogs(db, uid).then(() => SyncAllInformation(uid));
 };
 const InitializeModels = async (
-  db: SQLiteDBConnection,
+  _: SQLiteDBConnection,
   props: InformationProps
 ) => InitializeInformation(props).then(() => props);
-const ClearModels = async (db: SQLiteDBConnection) => ClearModelDogs(db);
+const ClearModels = async (db: SQLiteDBConnection) =>
+  ClearModelDogs(db)
+    .then(() => ClearModelLAD(db))
+    .then(() => ClearModelLAT(db));
 
 export { CreateModels, SyncModels, InitializeModels, ClearModels };

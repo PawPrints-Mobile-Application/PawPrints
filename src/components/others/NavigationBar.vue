@@ -56,26 +56,26 @@ import {
   settings as settingsActive,
 } from "ionicons/icons";
 // import { TextSmall } from "../Texts";
-import { reactive } from "vue";
-import { useRouter } from "vue-router";
-import { useIonRouter } from "@ionic/vue";
+// import { reactive } from "vue";
+// import { useRouter } from "vue-router";
+// import { useIonRouter } from "@ionic/vue";
 // import { PawprintsEvent } from '../../utils';
 
-const ionRouter = useIonRouter();
-const router = useRouter();
-const isOnTab = (path: string) =>
-  router.currentRoute.value.path.toLowerCase().includes(path.toLowerCase());
+// const ionRouter = useIonRouter();
+// const router = useRouter();
+// const isOnTab = (path: string) =>
+//   router.currentRoute.value.path.toLowerCase().includes(path.toLowerCase());
 // const isTab = (path: string) =>
 //   router.currentRoute.value.path.toLowerCase() === path.toLowerCase();
 
-const state = reactive({
-  home: false,
-  forums: false,
-  dogs: false,
-  maps: false,
-  settings: false,
-  navigating: false,
-});
+// const state = reactive({
+//   home: false,
+//   forums: false,
+//   dogs: false,
+//   maps: false,
+//   settings: false,
+//   navigating: false,
+// });
 
 // const clickMiddle = () => {
 //   if (state.navigating) return;
@@ -93,16 +93,16 @@ const state = reactive({
 //   else PawprintsEvent.EventDispatcher("modal-dog-add");
 // };
 
-const Navigate = (
-  target: string,
-  resetTime: boolean = true,
-  offResetriction: boolean = false
-) => {
-  if (state.navigating && !offResetriction) return;
-  state.navigating = true;
-  ionRouter.navigate(target, "forward", "push");
-  if (resetTime) setTimeout(() => (state.navigating = false), 100);
-};
+// const Navigate = (
+//   target: string,
+//   resetTime: boolean = true,
+//   offResetriction: boolean = false
+// ) => {
+//   if (state.navigating && !offResetriction) return;
+//   state.navigating = true;
+//   ionRouter.navigate(target, "forward", "push");
+//   if (resetTime) setTimeout(() => (state.navigating = false), 100);
+// };
 </script>
 <style scoped>
 .navigation-bar {
