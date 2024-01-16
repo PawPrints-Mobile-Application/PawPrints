@@ -9,6 +9,7 @@ import ButtonNext from "./buttons/ButtonNext.vue";
 import ButtonSignout from "./buttons/ButtonSignout.vue";
 import ButtonTheme from "./buttons/ButtonTheme.vue";
 import ButtonMode from "./buttons/ButtonMode.vue";
+import ButtonGuest from "./buttons/ButtonGuest.vue";
 
 // cards
 import CardDog from "./cards/CardDog.vue";
@@ -78,6 +79,7 @@ import NavigationBar from "./others/NavigationBar.vue";
 import NavigationTab from "./others/NavigationTab.vue";
 import NavigationCenter from "./others/NavigationCenter.vue";
 import Refresher from "./others/Refresher.vue";
+import PageCounter from "./others/PageCounter.vue";
 
 export {
   // buttons
@@ -91,6 +93,7 @@ export {
   ButtonSignout,
   ButtonTheme,
   ButtonMode,
+  ButtonGuest,
   // cards
   CardDog,
   CardUser,
@@ -145,4 +148,5 @@ export {
   NavigationTab,
   NavigationCenter,
   Refresher,
+  PageCounter,
 };

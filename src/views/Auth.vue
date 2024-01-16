@@ -7,7 +7,7 @@
         class="normal center"
         value="Your Ultimate Canine Companion Care App"
       />
-      <ButtonText value="Guest" />
+      <ButtonGuest :db="db" />
       <ButtonText value="Sign In" @click="ShowModal('modal-signin')" />
       <ButtonText value="Sign Up" @click="ShowModal('modal-signup')" />
     </section>
@@ -23,6 +23,7 @@ import {
   TextSubheading,
   ModalSignin,
   ModalSignup,
+  ButtonGuest,
 } from "../components";
 import { IonPage } from "@ionic/vue";
 import { onMounted, reactive, ref, onBeforeMount, onBeforeUnmount } from "vue";
