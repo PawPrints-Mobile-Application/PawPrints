@@ -10,6 +10,10 @@ import deleteDog from "./settings/faqs/deleteDog.png";
 import dogTab from "./settings/faqs/dogTab.png";
 import dogTroy from "./settings/faqs/dogTroy.png";
 
+import subscriptionFree from "./subscriptions/subscriptionFree.svg";
+import subscriptionGuest from "./subscriptions/subscriptionGuest.svg";
+import subscriptionPawmium from "./subscriptions/subscriptionPawmium.svg";
+
 export {
   PawPrints,
   weight,
@@ -21,4 +25,7 @@ export {
   dogTab,
   deleteDog,
   dogTroy,
+  subscriptionFree,
+  subscriptionGuest,
+  subscriptionPawmium,
 };
