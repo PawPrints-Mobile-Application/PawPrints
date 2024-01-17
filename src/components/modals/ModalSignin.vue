@@ -138,7 +138,7 @@ const Process = () => {
             state.warningText = "Network request failed.";
             break;
           default:
-            state.warningText = "Incorrect Email or Password";
+            state.warningText = error;
             break;
         }
         state.authError = true;

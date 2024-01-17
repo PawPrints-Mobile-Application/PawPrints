@@ -2,8 +2,8 @@ import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 import {
   CreateModel as CreateModelDogs,
   SyncAll as SyncAllDogs,
-  ClearModel as ClearModelDogs,
-  DeleteModel as DeleteModelDogs,
+  DeleteModel as ClearModelDogs,
+  // DeleteModel as DeleteModelDogs,
 } from "./Dogs";
 import {
   Props as InformationProps,
@@ -12,11 +12,11 @@ import {
 } from "./Information";
 import {
   CreateModel as CreateModelLAD,
-  ClearModel as ClearModelLAD,
+  DeleteModel as ClearModelLAD,
 } from "./LogAddressingData";
 import {
   CreateModel as CreateModelLAT,
-  ClearModel as ClearModelLAT,
+  DeleteModel as ClearModelLAT,
 } from "./LogAddressingTable";
 
 const CreateModels = async (db: SQLiteDBConnection) =>
