@@ -12,9 +12,9 @@
       >
     </div>
     <div class="data" @click="OpenLog" :class="[log!.type]">
-      <TextSubheading :value=" `[${log!.type}]\t${log!.title}` " />
+      <TextSubheading :value=" `${log!.type}:\t${log!.title}` " />
       <TextParagraph
-        :value="`> ${log!.category} ${isRecord() ? `(${log!.value} ${(!log!.units ? log!.units : log!.units)})` : ''}` "
+        :value="` ${log!.category} ${isRecord() ? `(${log!.value}${(!log!.units ? log!.units : log!.units)})` : ''}` "
       />
       <TextParagraph v-show="!!log!.note" :value="`Note: ${log!.note}`" />
     </div>

@@ -146,7 +146,9 @@ onMounted(() => {
   width: 100%;
   height: min-content;
   border-radius: 10px;
-  padding: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
