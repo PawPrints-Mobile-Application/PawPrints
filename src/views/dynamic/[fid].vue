@@ -84,6 +84,7 @@ onUnmounted(() => {
 <style scoped>
 .write-comment {
   color: var(--theme-primary-text);
+  margin-top: 10px;
   > header {
     display: flex;
     align-items: center;
