@@ -58,6 +58,12 @@ onUnmounted(() => {
 });
 </script>
 <style scoped>
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .write-post {
   width: 100%;
   display: flex;
