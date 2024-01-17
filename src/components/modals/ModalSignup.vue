@@ -42,7 +42,7 @@
         @click="ShowTermsOfService"
       >
         <TextSmall
-          value="By creating an account you agree to our Terms of Service.F"
+          value="By creating an account you agree to our Terms and Conditions."
         />
       </InputToggle>
       <InputToggle
