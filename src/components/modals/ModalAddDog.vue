@@ -292,4 +292,8 @@ const emit = defineEmits(["update-dog"]);
 .button {
   flex: 1 0 0;
 }
+
+.text-heading {
+  color: var(--theme-primary-text)
+}
 </style>

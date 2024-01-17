@@ -84,7 +84,7 @@ main {
 }
 
 .avatar {
-  height: 60px;
+  height: 40px;
 }
 
 .input-segment {
