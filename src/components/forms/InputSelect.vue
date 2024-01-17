@@ -64,6 +64,7 @@ onMounted(Initialize);
   border-radius: 6px;
   overflow: scroll;
   background-color: var(--theme-secondary-background);
+  color: var(--theme-secondary-text);
 }
 
 .wrapper {

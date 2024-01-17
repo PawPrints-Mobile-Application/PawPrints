@@ -40,8 +40,8 @@ const OpenLog = () =>
 }
 
 .Record {
-  background-color: var(--theme-tertiary-background);
-  color: var(--theme-tertiary-text);
+  background-color: var(--theme-list-log-background);
+  color: var(--theme-list-log-text);
 }
 .Schedule {
   background-color: var(--theme-primary-background);

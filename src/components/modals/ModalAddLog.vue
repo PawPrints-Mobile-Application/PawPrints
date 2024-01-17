@@ -5,7 +5,6 @@
     @dismiss="Clear"
   >
     <template #header><TextHeading class="bold" value="ADD LOG" /> </template>
-
     <section class="form" :class="{ hide: state.processing }">
       <InputSegment :options="viewOptions" v-model="type" show="both" />
       <InputWrapper label="Title">
@@ -262,7 +261,9 @@ const Process = () => {
   height: 500px;
   transition: all 200ms ease-out;
 }
-
+.text-heading {
+  color: var(--theme-primary-text);
+}
 .hide {
   height: 0;
 }

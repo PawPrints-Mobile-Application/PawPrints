@@ -18,5 +18,6 @@ import { IonContent, IonPage } from "@ionic/vue";
 ion-content::part(scroll) {
   padding: 0px 10px 20px;
   background-color: var(--theme-primary-background);
+  color: var(--theme-primary-text);
 }
 </style>

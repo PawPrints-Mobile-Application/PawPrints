@@ -4,11 +4,11 @@
     <main>
       <section class="date-container">
         <TextTitle :value="date" />
-        <CardTrivia />
       </section>
+      <CardTrivia />
       <section class="schedule">
         <Refresher @refresh="Refresh" />
-        <TextSubheading value="Today's Schedule" class="bold" />
+        <TextSubheading value="Today's Schedules" class="bold" />
         <section class="dog-log" v-for="dog in Array.from(dogs.values())">
           <aside class="identity">
             <Avatar type="dog" :value="dog.breed" :color="dog.color" />
@@ -163,6 +163,8 @@ main {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .text-title {
@@ -173,6 +175,7 @@ main {
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
 }
 
 .dog-log {

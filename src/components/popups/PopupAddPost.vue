@@ -75,6 +75,7 @@ header {
 
     > .text-heading {
       font-weight: 700;
+      color: var(--theme-forum-post-text)
     }
   }
 
@@ -102,8 +103,8 @@ header {
 .input-textarea,
 .input-text {
   width: 280px;
-  --background: var(--theme-primary-background);
-  --color: var(--theme-primary-text);
+  --background: var(--theme-forum-post-background);
+  --color: var(--theme-forum-post-text);
 }
 
 .button-success {
