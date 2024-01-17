@@ -239,13 +239,13 @@ const Process = () => {
       ).then(() => {
         state.processing = false;
         PawprintsEvent.EventDispatcher("modal-add-log", "hide");
-        emit("success", {propsLAD: data, DStart: form.DStart, DEnd: form.DEnd});
+        emit("update-log", { log: data, DStart: form.DStart, DEnd: form.DEnd });
       }),
     1500
   );
 };
 
-const emit = defineEmits(["success"]);
+const emit = defineEmits(["update-log"]);
 </script>
 <style scoped>
 .form {
