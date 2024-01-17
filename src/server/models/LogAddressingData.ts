@@ -5,6 +5,7 @@ import {
   InsertRowData,
   ReadRowData,
   DeleteRowData,
+  ReadAllData,
 } from "../sqlite";
 import { LocalTime, ObjectToMap } from "../../utils/";
 import { ellipsisHorizontal as othersIcon } from "ionicons/icons";
@@ -17,6 +18,7 @@ import {
   activity as activityIcon,
 } from "../../assets";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
+import { DeleteDocument, SetDocument } from "../firebase";
 
 const Enums = {
   Category: {
@@ -61,6 +63,7 @@ const Enums = {
 };
 
 const constants = {
+  collection: "Users",
   document: "LogAddressingData",
   data: `
           lid TEXT PRIMARY KEY NOT NULL,
@@ -134,13 +137,28 @@ const DeleteModel = (db: SQLiteDBConnection) =>
 const ClearModel = (db: SQLiteDBConnection) =>
   DeleteAllData(db, constants.document);
 
+const CollectionPath = (uid: string) =>
+  `${constants.collection}/${uid}/${constants.document}`;
+const documentPath = (uid: string, lid: string) =>
+  `${CollectionPath(uid)}/${lid}`;
+
+// LAT CRUD Operations
+const GetAll = (db: SQLiteDBConnection) =>
+  ReadAllData(db, constants.document).then((response) =>
+    response.values!.map((value) => ToProps(value))
+  );
 const Get = (db: SQLiteDBConnection, lid: string) =>
   ReadRowData(db, constants.document, ObjectToMap({ lid: lid })).then(
-    (response) => ToProps(response.values![0])
+    (response) => {
+      if (response.values!.length === 0) return undefined;
+      return ToProps(response.values![0]);
+    }
   );
 
-const Set = async (db: SQLiteDBConnection, props: Props) => {
-  const data = ObjectToMap(ToOtherProps(props));
+const Set = async (db: SQLiteDBConnection, props: Props, uid?: string) => {
+  const otherProps = ToOtherProps(props);
+  const data = ObjectToMap(otherProps);
+  if (!!uid) await SetDocument(documentPath(uid, props.lid), otherProps);
   return InsertRowData(
     db,
     constants.document,
@@ -152,8 +170,10 @@ const Set = async (db: SQLiteDBConnection, props: Props) => {
   ).then(() => props);
 };
 
-const Remove = (db: SQLiteDBConnection, lid: string) =>
-  DeleteRowData(db, constants.document, ObjectToMap({ lid: lid }));
+const Remove = async (db: SQLiteDBConnection, lid: string, uid?: string) => {
+  if (!!uid) await DeleteDocument(documentPath(uid, lid));
+  return DeleteRowData(db, constants.document, ObjectToMap({ lid: lid }));
+};
 
 export type { Props, OtherProps };
 export {
@@ -162,6 +182,7 @@ export {
   DeleteModel,
   ClearModel,
   Set,
+  GetAll,
   Get,
   Remove,
   ToProps,

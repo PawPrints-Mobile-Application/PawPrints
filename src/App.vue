@@ -7,21 +7,22 @@
 
 <script setup lang="ts">
 import { IonApp, IonRouterOutlet } from "@ionic/vue";
-import {
-  onMounted,
-  reactive,
-  ref,
-  watch,
-  onUnmounted,
-  onBeforeMount,
-  Ref,
-} from "vue";
+import { onMounted, reactive, ref, onUnmounted, onBeforeMount, Ref } from "vue";
 import { UserInfo, Themes, PawprintsEvent } from "./utils";
 import { Connect, Open, Close } from "./server/sqlite";
-import { CreateModels, ClearModels, SyncModels } from "./server/models";
-import { Props as PropsDog, GetAll as GetDogs } from "./server/models/Dogs";
-import { Props as PropsLAD } from "./server/models/LogAddressingData";
-import { Get as GetLogs } from "./server/models/Logs";
+import { CreateModels } from "./server/models";
+import {
+  GetAll as GetDogs,
+  Props as PropsDog,
+  SyncAll,
+} from "./server/models/Dogs";
+import {
+  Props as PropsLAD,
+  GetAll as GetLAD,
+} from "./server/models/LogAddressingData";
+import { GetAll as GetLAT } from "./server/models/LogAddressingTable";
+import { SQLiteDBConnection } from "@capacitor-community/sqlite";
+import { GetLATID } from "./server/models/Logs";
 
 const state = reactive({
   userFound: false,
@@ -31,74 +32,31 @@ const state = reactive({
   localDatabase: false,
 });
 
-type DogData = {
-  props: PropsDog;
-  logs: Map<string, Map<string, PropsLAD>>;
-};
-const dogs: Ref<Map<string, DogData>> = ref(new Map());
-
-const ResetData = () => {
-  dogs.value = new Map();
-  return ClearModels(db.value);
-};
-const SyncData = () =>
-  SyncModels(db.value, UserInfo.GetUID())
-    .then(FetchDogs)
-    .then(() => PawprintsEvent.EventDispatcher("transition to home"));
-
-// Dog Props
-const FetchDogs = () =>
-  GetDogs(db.value).then(async (values) => {
-    for (const value of values) {
-      const latids = value.latids;
-      const logs = new Map<string, Map<string, PropsLAD>>();
-      for (const latid of latids) {
-        logs.set(
-          latid,
-          await GetLogs(db.value, new Date(Number(latid)), value.pid)
-        );
-      }
-      dogs.value.set(value.pid, { props: value, logs: logs });
-    }
-  });
-const AddDog = (value: PropsDog) =>
-  dogs.value.set(value.pid, {
-    props: value,
-    logs: new Map(),
-  });
-const SendDogs = () =>
-  PawprintsEvent.EventDispatcher("response-dogs", dogs.value);
-const SendDog = (pid: string) =>
-  PawprintsEvent.EventDispatcher("response-dog-data", dogs.value.get(pid));
-const AddLog = (dog: DogData) => dogs.value.set(dog.props.pid, dog);
-
-// Initialization
-const db = ref();
-const LocalDatabase = () =>
+// -------------------------- DB --------------------------
+const db: Ref<SQLiteDBConnection | undefined> = ref();
+const InitDatabase = () =>
   Connect()
     .then((val) => {
       db.value = val;
       return Open(db.value);
     })
-    .then(() => CreateModels(db.value))
+    .then(() => CreateModels(db.value!))
     .then(() => {
       state.localDatabase = true;
-      PawprintsEvent.EventDispatcher("initialized-localDatabase");
-      PawprintsEvent.EventDispatcher("response-db", db.value);
-    });
-
-const ResponseDB = () =>
+      PawprintsEvent.EventDispatcher("init-db");
+      SendDatabase();
+    })
+    .then(GetAuth)
+    .then(() => PawprintsEvent.EventDispatcher("ready-app"))
+    .then(InitDogs)
+    .then(InitLogs);
+const SendDatabase = () =>
   PawprintsEvent.EventDispatcher("response-db", db.value);
 
 const GetAuth = () => {
-  if (!!UserInfo.GetSubscription()) {
-    state.userFound = true;
-    SetThemes();
-    PawprintsEvent.EventDispatcher("initialized-themes");
-  }
-  state.auth = true;
-  state.themes = true;
-  PawprintsEvent.EventDispatcher("initialized-auth");
+  PawprintsEvent.EventDispatcher("user-finder", !!UserInfo.GetUID(true));
+  SetThemes();
+  PawprintsEvent.EventDispatcher("init-themes");
 };
 
 const SetThemes = () => {
@@ -106,45 +64,104 @@ const SetThemes = () => {
   PawprintsEvent.EventDispatcher("updated-themes");
 };
 
-watch(
-  () => state.auth && state.themes && state.localDatabase === true,
-  () => {
-    if (state.userFound)
-      return SyncData().then(() =>
-        PawprintsEvent.EventDispatcher("ready-data")
+// -------------------------- DOGS --------------------------
+const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
+const SendDogs = () =>
+  PawprintsEvent.EventDispatcher("update-dogs", dogs.value);
+const UpdateDog = (dog: PropsDog) => dogs.value.set(dog.pid, dog);
+const UpdateDogs = (propsDogs: PropsDog[]) => {
+  propsDogs.forEach(UpdateDog);
+  SendDogs();
+};
+const InitDogs = () => GetDogs(db.value!).then(UpdateDogs);
+const SyncDogs = () =>
+  SyncAll(db.value!, UserInfo.GetUID(true)).then(UpdateDogs);
+
+// -------------------------- LOGS --------------------------
+const latids: Ref<Map<string, string[]>> = ref(new Map());
+const logs: Ref<Map<string, PropsLAD>> = ref(new Map());
+const InitLogs = () =>
+  GetLAT(db.value!)
+    .then((propsLATs) => {
+      propsLATs.forEach((propsLAT) =>
+        latids.value.set(propsLAT.latid, propsLAT.lids)
       );
-    else PawprintsEvent.EventDispatcher("transition to auth");
+      return GetLAD(db.value!);
+    })
+    .then((propsLADs) => {
+      propsLADs.forEach((propsLAD) => logs.value.set(propsLAD.lid, propsLAD));
+      SendLogs();
+    });
+const SendLogs = () =>
+  PawprintsEvent.EventDispatcher("update-logs", {
+    latids: latids.value,
+    logs: logs.value,
+  });
+const UpdateLog = (
+  log: PropsLAD,
+  pid: string,
+  date: { DStart: Date; DEnd: Date }
+) => {
+  const startDate = new Date(
+    date.DStart.getFullYear(),
+    date.DStart.getMonth(),
+    date.DStart.getDate()
+  );
+  const endDtate = new Date(
+    date.DEnd.getFullYear(),
+    date.DEnd.getMonth(),
+    date.DEnd.getDate()
+  );
+  for (
+    let date = startDate;
+    date <= endDtate;
+    date.setDate(date.getDate() + 1)
+  ) {
+    const latid = GetLATID(date, pid);
+    logs.value.set(log.lid, log);
+    let lids = latids.value.get(latid);
+    if (!lids) lids = new Array<string>();
+    lids.push(log.lid);
+    latids.value.set(latid, lids);
   }
-);
+};
 
 onBeforeMount(() => {
-  PawprintsEvent.AddEventListener("sync-data", SyncData);
-  PawprintsEvent.AddEventListener("reset-data", ResetData);
-  PawprintsEvent.AddEventListener("request-db", ResponseDB);
-  PawprintsEvent.AddEventListener("add-to-dogs", AddDog);
-  PawprintsEvent.AddEventListener("add-to-logs", AddLog);
-  PawprintsEvent.AddEventListener("request-dogs", SendDogs);
+  PawprintsEvent.AddEventListener("request-db", SendDatabase);
   PawprintsEvent.AddEventListener("set-themes", SetThemes);
-  PawprintsEvent.AddEventListener("request-dog-data", SendDog);
+  PawprintsEvent.AddEventListener("request-dogs", SendDogs);
+  PawprintsEvent.AddEventListener("update-dog", UpdateDog);
+  PawprintsEvent.AddEventListener("sync-dogs", SyncDogs);
+  PawprintsEvent.AddEventListener("request-logs", SendLogs);
+  PawprintsEvent.AddEventListener("update-log", UpdateLog);
+
+  // PawprintsEvent.AddEventListener("sync-data", SyncData);
+  // PawprintsEvent.AddEventListener("reset-data", ResetData);
+  // PawprintsEvent.AddEventListener("request-db", ResponseDB);
+  // PawprintsEvent.AddEventListener("add-to-dogs", AddDog);
+  // PawprintsEvent.AddEventListener("add-to-logs", AddLog);
+  // PawprintsEvent.AddEventListener("request-dogs", SendDogs);
+  // PawprintsEvent.AddEventListener("request-dog-data", SendDog);
 });
 
-onMounted(() =>
-  setTimeout(async () => {
-    await LocalDatabase();
-    GetAuth();
-  }, 1)
-);
+onMounted(() => setTimeout(InitDatabase, 1));
 
 onUnmounted(async () => {
-  await Close(db.value);
-  PawprintsEvent.RemoveEventListener("sync-data", SyncData);
-  PawprintsEvent.RemoveEventListener("reset-data", ResetData);
-  PawprintsEvent.RemoveEventListener("request-db", ResponseDB);
-  PawprintsEvent.RemoveEventListener("add-to-dogs", AddDog);
-  PawprintsEvent.RemoveEventListener("add-to-logs", AddLog);
-  PawprintsEvent.RemoveEventListener("request-dogs", SendDogs);
+  if (!!db.value) await Close(db.value);
+  PawprintsEvent.RemoveEventListener("request-db", SendDatabase);
   PawprintsEvent.RemoveEventListener("set-themes", SetThemes);
-  PawprintsEvent.RemoveEventListener("request-dog-data", SendDog);
+  PawprintsEvent.RemoveEventListener("request-dogs", SendDogs);
+  PawprintsEvent.RemoveEventListener("update-dog", UpdateDog);
+  PawprintsEvent.RemoveEventListener("request-logs", SendLogs);
+  PawprintsEvent.RemoveEventListener("update-log", UpdateLog);
+
+  // PawprintsEvent.RemoveEventListener("sync-data", SyncData);
+  // PawprintsEvent.RemoveEventListener("reset-data", ResetData);
+  // PawprintsEvent.RemoveEventListener("request-db", ResponseDB);
+  // PawprintsEvent.RemoveEventListener("add-to-dogs", AddDog);
+  // PawprintsEvent.RemoveEventListener("add-to-logs", AddLog);
+  // PawprintsEvent.RemoveEventListener("request-dogs", SendDogs);
+  // PawprintsEvent.RemoveEventListener("request-dog-data", SendDog);
 });
 </script>
 

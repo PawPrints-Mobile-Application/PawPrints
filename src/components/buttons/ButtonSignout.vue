@@ -10,35 +10,25 @@ import {
   DatabaseTermination,
   WindowDatabaseTermination,
 } from "../../server/authentication";
-import { onBeforeMount, onBeforeUnmount, ref } from "vue";
 import { PawprintsEvent } from "../../utils";
+import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 const ionRouter = useIonRouter();
 const Redirect = () => {
   ionRouter.navigate("/splash", "forward", "replace");
-  PawprintsEvent.EventDispatcher("reset-data")
-  setTimeout(() => PawprintsEvent.EventDispatcher("transition to auth"), 1000);
+  PawprintsEvent.EventDispatcher("reset-data");
+  setTimeout(() => PawprintsEvent.EventDispatcher("user-finder", false), 1000);
 };
+
+const props = defineProps({
+  db: SQLiteDBConnection,
+});
 
 const SignOut = () =>
   FirebaseSignout()
-    .then(() => DatabaseTermination(db.value))
+    .then(() => DatabaseTermination(props.db!))
     .then(WindowDatabaseTermination)
     .then(Redirect);
-
-const db = ref();
-onBeforeMount(() => {
-  PawprintsEvent.AddEventListener("response-db", (value: any) => {
-    db.value = value;
-  });
-  PawprintsEvent.EventDispatcher("request-db");
-});
-onBeforeUnmount(() => {
-  PawprintsEvent.RemoveEventListener(
-    "response-db",
-    (value: any) => (db.value = value)
-  );
-});
 </script>
 <style scoped>
 .button-signout {

@@ -172,10 +172,12 @@ const Remove = (db: SQLiteDBConnection, pid: string, uid?: string) =>
     if (!!uid) return DeleteDocument(documentPath(uid, pid));
   });
 
-const Sync = async (db: SQLiteDBConnection, uid: string, pid: string) =>
-  GetDocument(documentPath(uid, pid)).then(async (response) => {
+const Sync = async (db: SQLiteDBConnection, pid: string, uid: string) => {
+  if (!uid) return Get(db, pid);
+  return GetDocument(documentPath(uid, pid)).then(async (response) => {
     const documentData = response!.data()!;
     const localProps = ToLocalProps(documentData, "CloudProps");
+    const props = ToProps(documentData, "CloudProps");
     const data = ObjectToMap(localProps);
     return InsertRowData(
       db,
@@ -185,20 +187,23 @@ const Sync = async (db: SQLiteDBConnection, uid: string, pid: string) =>
         values: Array.from(data.values()),
       },
       true
-    ).then(() => Get(db, pid));
+    ).then(() => props);
   });
+};
 
-const SyncAll = async (db: SQLiteDBConnection, uid: string) =>
-  ClearModel(db).then(() =>
+const SyncAll = async (db: SQLiteDBConnection, uid?: string) => {
+  if (!uid) return GetAll(db);
+  return ClearModel(db).then(() =>
     GetCollection(CollectionPath(uid)).then(async (value) => {
       let temp = new Array<Props>();
       for (let cloudProps of value!.values) {
-        const response = await Sync(db, uid, cloudProps.pid);
+        const response = await Sync(db, cloudProps.pid, uid);
         temp.push(response);
       }
       return temp;
     })
   );
+};
 
 export type { Props, LocalProps };
 export {

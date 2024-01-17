@@ -148,7 +148,6 @@ const Process = () => {
         if (!state.authError) {
           Navigate();
           PawprintsEvent.EventDispatcher("modal-signin");
-          PawprintsEvent.EventDispatcher("sync-data");
         }
         setTimeout(() => {
           state.processing = false;

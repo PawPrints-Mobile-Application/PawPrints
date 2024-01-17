@@ -19,11 +19,12 @@
       </section>
     </main>
     <footer>
-      <ButtonSignout />
+      <ButtonSignout :db="db" />
     </footer>
   </LayoutPage>
 </template>
 <script setup lang="ts">
+import { onBeforeMount, onBeforeUnmount, onMounted, ref } from "vue";
 import {
   ButtonMode,
   ButtonTheme,
@@ -33,7 +34,7 @@ import {
 } from "../../components";
 import { LayoutPage } from "../../layout";
 import { Enums } from "../../server/models/Information";
-import { ObjectToMap } from "../../utils";
+import { DatabaseMounter, ObjectToMap } from "../../utils";
 import {
   person as profileIcon,
   pricetags as subscriptionIcon,
@@ -47,6 +48,24 @@ const data = [
   { name: "Frequently Asked Questions", icon: faqsIcon, target: "faqs" },
   { name: "About Us", icon: aboutIcon, target: "about" },
 ];
+
+const db = ref();
+const UpdateDB = (value: any) => {
+  if (!value) return;
+  db.value = value;
+};
+
+onBeforeMount(() => {
+  DatabaseMounter.Mount(UpdateDB);
+});
+
+onMounted(() => {
+  DatabaseMounter.Request();
+});
+
+onBeforeUnmount(() => {
+  DatabaseMounter.Unmount(UpdateDB);
+});
 </script>
 <style scoped>
 header {

@@ -2,8 +2,8 @@ import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 import {
   CreateModel as CreateModelDogs,
   SyncAll as SyncAllDogs,
-  DeleteModel as ClearModelDogs,
-  // DeleteModel as DeleteModelDogs,
+  ClearModel as ClearModelDogs,
+  DeleteModel as DeleteModelDogs,
 } from "./Dogs";
 import {
   Props as InformationProps,
@@ -12,21 +12,21 @@ import {
 } from "./Information";
 import {
   CreateModel as CreateModelLAD,
-  DeleteModel as ClearModelLAD,
+  ClearModel as ClearModelLAD,
+  DeleteModel as DeleteModelLAD,
 } from "./LogAddressingData";
 import {
   CreateModel as CreateModelLAT,
-  DeleteModel as ClearModelLAT,
+  ClearModel as ClearModelLAT,
+  DeleteModel as DeleteModelLAT,
 } from "./LogAddressingTable";
 
 const CreateModels = async (db: SQLiteDBConnection) =>
   CreateModelDogs(db)
     .then(() => CreateModelLAD(db))
     .then(() => CreateModelLAT(db));
-const SyncModels = async (db: SQLiteDBConnection, uid: string) => {
-  console.log(true);
-  return SyncAllDogs(db, uid).then(() => SyncAllInformation(uid));
-};
+const SyncModels = async (db: SQLiteDBConnection, uid: string) =>
+  SyncAllDogs(db, uid).then(() => SyncAllInformation(uid));
 const InitializeModels = async (
   _: SQLiteDBConnection,
   props: InformationProps
@@ -35,5 +35,15 @@ const ClearModels = async (db: SQLiteDBConnection) =>
   ClearModelDogs(db)
     .then(() => ClearModelLAD(db))
     .then(() => ClearModelLAT(db));
+const DeleteModels = async (db: SQLiteDBConnection) =>
+  DeleteModelDogs(db)
+    .then(() => DeleteModelLAD(db))
+    .then(() => DeleteModelLAT(db));
 
-export { CreateModels, SyncModels, InitializeModels, ClearModels };
+export {
+  CreateModels,
+  SyncModels,
+  InitializeModels,
+  ClearModels,
+  DeleteModels,
+};

@@ -5,40 +5,43 @@ import {
   InsertRowData,
   ReadRowData,
   DeleteRowData,
+  ReadAllData,
 } from "../sqlite";
 import { ObjectToMap } from "../../utils";
 import { DocumentData } from "firebase/firestore";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
+import { DeleteDocument, SetDocument } from "../firebase";
 
 const constants = {
+  collection: "Users",
   document: "LogAddressingTable",
   data: `
             latid TEXT PRIMARY KEY NOT NULL,
-            logs TEXT
+            lids TEXT
         `,
 };
 
 type Props = {
   latid: string; // seed id from date
-  logs: Array<string>;
+  lids: Array<string>;
 };
 
 type OtherProps = {
   latid: string;
-  logs: string;
+  lids: string;
 };
 
 const ToProps = (props: OtherProps): Props => {
   return {
     latid: props.latid,
-    logs: JSON.parse(props.logs),
+    lids: JSON.parse(props.lids),
   };
 };
 
-const ToLocalProps = (props: Props | DocumentData): OtherProps => {
+const ToOtherProps = (props: Props | DocumentData): OtherProps => {
   return {
     latid: props.latid,
-    logs: JSON.stringify(props.logs),
+    lids: JSON.stringify(props.lids),
   };
 };
 
@@ -49,7 +52,16 @@ const DeleteModel = (db: SQLiteDBConnection) =>
 const ClearModel = (db: SQLiteDBConnection) =>
   DeleteAllData(db, constants.document);
 
+const CollectionPath = (uid: string) =>
+  `${constants.collection}/${uid}/${constants.document}`;
+const documentPath = (uid: string, latid: string) =>
+  `${CollectionPath(uid)}/${latid}`;
+
 // LAT CRUD Operations
+const GetAll = (db: SQLiteDBConnection) =>
+  ReadAllData(db, constants.document).then((response) =>
+    response.values!.map((value) => ToProps(value))
+  );
 const Get = async (db: SQLiteDBConnection, latid: string) =>
   ReadRowData(db, constants.document, ObjectToMap({ latid: latid })).then(
     (response) => {
@@ -58,8 +70,10 @@ const Get = async (db: SQLiteDBConnection, latid: string) =>
     }
   );
 
-const Set = async (db: SQLiteDBConnection, props: Props) => {
-  const data = ObjectToMap(ToLocalProps(props));
+const Set = async (db: SQLiteDBConnection, props: Props, uid?: string) => {
+  const otherProps = ToOtherProps(props);
+  const data = ObjectToMap(otherProps);
+  if (!!uid) await SetDocument(documentPath(uid, props.latid), otherProps);
   return InsertRowData(
     db,
     constants.document,
@@ -71,8 +85,10 @@ const Set = async (db: SQLiteDBConnection, props: Props) => {
   ).then(() => props);
 };
 
-const Remove = (db: SQLiteDBConnection, latid: string) =>
-  DeleteRowData(db, constants.document, ObjectToMap({ latid: latid }));
+const Remove = async (db: SQLiteDBConnection, latid: string, uid?: string) => {
+  if (!!uid) await DeleteDocument(documentPath(uid, latid));
+  return DeleteRowData(db, constants.document, ObjectToMap({ latid: latid }));
+};
 
 export type { Props, OtherProps };
-export { CreateModel, DeleteModel, ClearModel, Set, Get, Remove };
+export { CreateModel, DeleteModel, ClearModel, Set, GetAll, Get, Remove };

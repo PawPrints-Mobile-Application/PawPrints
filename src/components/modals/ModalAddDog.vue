@@ -174,13 +174,13 @@ const Process = () => {
         state.processing = false;
         Navigate(pid);
         PawprintsEvent.EventDispatcher("modal-add-dog", "hide");
-        emit("success", data);
+        emit("update-dog", data);
       }),
     1500
   );
 };
 
-const emit = defineEmits(["success"]);
+const emit = defineEmits(["update-dog"]);
 </script>
 <style scoped>
 .pseudo-card {
