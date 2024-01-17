@@ -2,9 +2,9 @@ import { SetDocument, GetDocument } from "../firebase";
 
 const Enums = {
   Subscription: {
-    guest: "guest",
-    free: "free",
-    pawmium: "pawmium",
+    guest: "Guest",
+    free: "Free",
+    pawmium: "Pawmium",
   },
   Theme: {
     yellow: "yellow",

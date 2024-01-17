@@ -10,7 +10,7 @@
       </aside>
     </header>
     <footer>
-      <TextSmall v-for="detail in forum" :value="detail.toString()" />
+      <!-- <TextSmall v-for="detail in forum" :value="detail.toString()" /> -->
     </footer>
   </section>
 </template>
@@ -36,12 +36,12 @@ const details = computed(() => [
   ["Subscription", user.subscription],
 ]);
 
-const forum = [
-  "Age:",
-  "Post/s: " + user.posts,
-  "Upvote/s: " + user.upvotes,
-  "Paw/s: " + user.paws,
-];
+// const forum = [
+//   "Age:",
+//   "Post/s: " + user.posts,
+//   "Upvote/s: " + user.upvotes,
+//   "Paw/s: " + user.paws,
+// ];
 
 onMounted(() => {
   user.name = UserInfo.GetUsername();
