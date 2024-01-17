@@ -48,7 +48,6 @@ onMounted(() => {
   user.email = UserInfo.GetEmail();
   user.subscription = UserInfo.GetSubscription();
   user.avatar = UserInfo.GetAvatar();
-  console.log(user.avatar);
 });
 </script>
 <style scoped>

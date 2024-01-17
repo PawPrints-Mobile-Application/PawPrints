@@ -39,6 +39,10 @@ const OpenLog = () =>
   border-radius: 10px;
 }
 
+.time {
+  color: var(--theme-secondary-text);
+}
+
 .Record {
   background-color: var(--theme-list-log-background);
   color: var(--theme-list-log-text);
