@@ -1,31 +1,61 @@
 <template>
   <LayoutPage>
     <LayoutHeader label="FORUMS" />
+    <Refresher @refresh="Refresh" />
     <main>
-      <InputSegment :options="options" v-model="segment" show="label" />
       <section class="write-post">
-        <Avatar type="user" />
-        <div class="button font poppins small" @click="AddPost">
+        <Avatar type="user" :value="UserInfo.GetAvatar().toString()" />
+        <div class="button font poppins small" @click="PostPopup">
           Write Something...
         </div>
+      </section>
+      <section class="posts">
+        <CardPost v-for="post of Array.from(posts.values())" :post="post" />
       </section>
     </main>
     <PopupAddPost />
   </LayoutPage>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
-import { Avatar, InputSegment, PopupAddPost } from "../../components";
+import { Ref, onBeforeMount, onMounted, onUnmounted, ref } from "vue";
+import { Avatar, PopupAddPost, CardPost, Refresher } from "../../components";
 import { LayoutHeader, LayoutPage } from "../../layout";
-import { PawprintsEvent, SegmentOption } from "../../utils";
+import { PawprintsEvent, UserInfo } from "../../utils";
+import {
+  GetAll as GetPosts,
+  Props as PropsPost,
+} from "../../server/models/Posts";
 
-const options = [
-  new SegmentOption("Public Feed"),
-  new SegmentOption("My Posts"),
-];
-const segment = ref(options[0]);
+const Refresh = async (event: any) => {
+  await ReloadForums();
+  setTimeout(() => event.target.complete(), 500);
+};
 
-const AddPost = () => PawprintsEvent.EventDispatcher("popup-add-post");
+const PostPopup = () => PawprintsEvent.EventDispatcher("popup-add-post");
+
+const posts: Ref<Map<string, PropsPost>> = ref(new Map());
+
+const Get = () =>
+  GetPosts().then((propsPosts) =>
+    propsPosts.forEach((post) => posts.value.set(post.fid, post))
+  );
+
+const ReloadForums = async () => {
+  const temp = await GetPosts();
+  temp.map((post) => posts.value.set(post.fid, post));
+};
+
+onBeforeMount(() => {
+  PawprintsEvent.AddEventListener("reload-forums", ReloadForums);
+});
+
+onMounted(() => {
+  Get();
+});
+
+onUnmounted(() => {
+  PawprintsEvent.RemoveEventListener("reload-forums", ReloadForums);
+});
 </script>
 <style scoped>
 .write-post {

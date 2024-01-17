@@ -18,6 +18,8 @@ import CardSettings from "./cards/CardSettings.vue";
 import CardTrivia from "./cards/CardTrivia.vue";
 import CardLog from "./cards/CardLog.vue";
 import CardSubscription from "./cards/CardSubscription.vue";
+import CardPost from "./cards/CardPost.vue";
+import CardComment from "./cards/CardComment.vue";
 
 // forms
 import InputWrapper from "./forms/InputWrapper.vue";
@@ -61,6 +63,7 @@ import ModalAddLog from "./modals/ModalAddLog.vue";
 // popups
 import Popup from "./popups/Popup.vue";
 import PopupAddPost from "./popups/PopupAddPost.vue";
+import PopupAddComment from "./popups/PopupAddComment.vue";
 
 // texts
 import TextSmall from "./texts/TextSmall.vue";
@@ -101,6 +104,8 @@ export {
   CardTrivia,
   CardLog,
   CardSubscription,
+  CardPost,
+  CardComment,
   // forms
   InputWrapper,
   InputText,
@@ -133,6 +138,7 @@ export {
   // popups
   Popup,
   PopupAddPost,
+  PopupAddComment,
   // texts
   TextSmall,
   TextParagraph,

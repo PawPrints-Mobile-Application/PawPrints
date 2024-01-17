@@ -93,6 +93,11 @@ let routes: Array<RouteRecordRaw> = [
         name: "about",
         component: () => import(`./views/settings/About.vue`),
       },
+      {
+        path: "/forums/:fid",
+        name: "posts",
+        component: () => import(`./views/dynamic/[fid].vue`),
+      },
     ],
   },
 ];

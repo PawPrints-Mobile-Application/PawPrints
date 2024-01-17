@@ -1,13 +1,13 @@
 <template>
-  <section class="card-comment">
+  <section class="card card-comment">
     <header>
       <div class="commentContentIcon">
         <IonIcon :icon="commentContentIcon" />
       </div>
-      <Avatar type="user" />
+      <Avatar type="user" :value="avatar" />
       <aside>
         <TextSmall>
-          {{ comment?.username }}
+          {{ username }}
         </TextSmall>
         <TextParagraph>
           {{ comment?.DTPost.toLocaleString() }}
@@ -25,15 +25,31 @@
 import { Avatar } from "..";
 import { arrowUndo as commentContentIcon } from "ionicons/icons";
 import { TextParagraph, TextSmall } from "..";
-import { IonIcon, onIonViewWillEnter } from "@ionic/vue";
-import { Props } from "../../server/models/Comments";
-import { PropType } from "vue";
+import { IonIcon } from "@ionic/vue";
+import { Props as PropsComment } from "../../server/models/Comments";
+import { PropType, onMounted, ref } from "vue";
+import { GetDocument } from "../../server/firebase";
 
-defineProps({
-  comment: Object as PropType<Props>,
+const props = defineProps({
+  comment: Object as PropType<PropsComment>,
 });
 
-onIonViewWillEnter(async () => {});
+const username = ref("");
+const GetUsername = () =>
+  GetDocument(`Users/${props.comment?.uid}/Profile/Information`).then(
+    (response) => (username.value = response!.data()!.username)
+  );
+
+const avatar = ref("");
+const GetAvatar = () =>
+  GetDocument(`Users/${props.comment?.uid}/Profile/Information`).then(
+    (response) => (avatar.value = response!.data()!.avatar.toString())
+  );
+
+onMounted(() => {
+  GetUsername();
+  GetAvatar();
+});
 </script>
 <style scoped>
 .card-comment {
@@ -63,13 +79,6 @@ header {
   width: 100%;
 }
 
-ion-chip {
-  --background: var(--theme-quadratic-background);
-  --color: var(--theme-quadratic-text);
-  font-size: var(--fs4);
-  height: 25px;
-}
-
 footer {
   display: flex;
   align-items: center;
@@ -83,5 +92,6 @@ footer {
 
 ion-icon {
   font-size: 20px;
+  transform: rotate(180deg);
 }
 </style>

@@ -5,86 +5,77 @@ import {
   DeleteDocument,
 } from "../firebase";
 import { Timestamp } from "firebase/firestore";
+import { Get as GetPost, Props as PropsPost, Set as SetPost } from "./Posts";
 
 const constants = {
   collection: "Forums",
   document: "Comments",
-  data: `
-    cid TEXT PRIMARY KEY NOT NULL,
-    uid TEXT,
-    fid TEXT,
-    username TEXT,
-    content TEXT,
-    DTPost INTEGER
-              `,
 };
 
 type Props = {
   cid: string;
   fid: string;
   uid: string;
-  username: string;
   content: string;
   DTPost: Date;
 };
 
-type CloudProps = {
+type OtherProps = {
   cid: string;
   fid: string;
   uid: string;
-  username: string;
   content: string;
   DTPost: Timestamp;
 };
 
 const ToProps = (props: any): Props => {
   return {
-    cid: props.fid,
-    fid: props.uid,
-    uid: props.username,
-    username: props.content,
-    content: props.tags,
+    cid: props.cid,
+    fid: props.fid,
+    uid: props.uid,
+    content: props.content,
     DTPost: props.DTPost.toDate(),
   };
 };
 
-const ToCloudProps = (props: any): CloudProps => {
+const ToOtherProps = (props: any): OtherProps => {
   return {
-    cid: props.fid,
-    fid: props.uid,
-    uid: props.username,
-    username: props.content,
-    content: props.tags,
+    cid: props.cid,
+    fid: props.fid,
+    uid: props.uid,
+    content: props.content,
     DTPost: Timestamp.fromDate(props.DTPost),
   };
 };
 
 const CollectionPath = () =>
   `${constants.collection}/${constants.document}/${constants.document}`;
-const DocumentPath = (fid: string) => `${CollectionPath()}/${fid}`;
+const DocumentPath = (cid: string) => `${CollectionPath()}/${cid}`;
 
-const Get = (fid: string) => GetDocument(DocumentPath(fid));
+const Set = async (props: Props) =>
+  SetDocument(DocumentPath(props.cid), ToOtherProps(props))
+    .then(() => GetPost(props.fid))
+    .then((post: PropsPost) => {
+      post.comments.push(props.cid);
+      return SetPost(post);
+    });
 
-const Add = async (props: Props) =>
-  SetDocument(DocumentPath(props.fid), ToCloudProps(props));
+const Remove = (cid: string) => DeleteDocument(DocumentPath(cid));
 
-const Remove = (fid: string) => DeleteDocument(DocumentPath(fid));
-
-const Sync = async (fid: string) =>
-  GetDocument(DocumentPath(fid)).then(async (response) =>
+const Get = async (cid: string) =>
+  GetDocument(DocumentPath(cid)).then(async (response) =>
     ToProps(response!.data()!)
   );
 
-const SyncAll = async (callback: (value: Props, fid: string) => void) =>
+const GetAll = async () =>
   GetCollection(CollectionPath()).then(async (value) => {
     let temp = new Array<Props>();
     for (let cloudProps of value!.values) {
-      const response = await Sync(cloudProps.fid);
+      const response = await Get(cloudProps.cid);
       temp.push(response);
-      callback(response, cloudProps.fid);
     }
     return temp;
   });
 
-export type { Props, CloudProps };
-export { Add, Get, Remove, Sync, SyncAll };
+export type { Props, OtherProps };
+export { Set, Get, Remove, GetAll };

@@ -1,11 +1,11 @@
 <template>
   <Popup
-    trigger="popup-add-post"
+    trigger="popup-add-comment"
     @dismiss="() => (expanded = false)"
     @present="() => (expanded = true)"
   >
     <template #content="{ Hide }">
-      <section class="add-post">
+      <section class="add-comment">
         <header>
           <aside>
             <Avatar type="user" />
@@ -14,11 +14,11 @@
           <IonIcon :icon="icon" @click="Hide" />
         </header>
         <section class="content">
-          <InputLabel value="Description" />
+          <InputLabel value="Comment" />
           <InputTextarea v-model="form.description" />
         </section>
         <footer>
-          <ButtonSuccess value="Post" @click="AddPost(Hide)" />
+          <ButtonSuccess value="Post" @click="AddComment(Hide)" />
         </footer>
       </section>
     </template>
@@ -37,7 +37,11 @@ import {
 import { IonIcon } from "@ionic/vue";
 import { close as icon } from "ionicons/icons";
 import { PawprintsEvent, SeedGenerator, UserInfo } from "../../utils";
-import { Set } from "../../server/models/Posts";
+import { Set } from "../../server/models/Comments";
+
+const props = defineProps({
+  fid: String,
+});
 
 const expanded = ref(false);
 
@@ -49,24 +53,22 @@ const Clear = () => {
   form.description = "";
 };
 
-const AddPost = (callback: () => void) => {
-  const fid = SeedGenerator().toString();
+const AddComment = (callback: () => void) => {
+  const cid = SeedGenerator().toString();
   return Set({
-    fid: fid,
+    cid: cid,
+    fid: props.fid!,
     uid: UserInfo.GetUID(true)!,
     content: form.description,
     DTPost: new Date(),
-    lastInteraction: new Date(),
-    comments: [],
-    likes: [],
   })
     .then(callback)
     .then(Clear)
-    .then(() => PawprintsEvent.EventDispatcher("reload-forums"));
+    .then(() => PawprintsEvent.EventDispatcher("reload-post"));
 };
 </script>
 <style scoped>
-.add-post {
+.add-comment {
   width: 300px;
   border-radius: 10px;
   background-color: var(--theme-secondary-background);
