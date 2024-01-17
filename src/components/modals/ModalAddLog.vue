@@ -258,6 +258,13 @@ const Process = () => {
   justify-content: center;
   align-items: center;
   gap: 10px;
+  overflow: hidden;
+  height: 500px;
+  transition: all 200ms ease-out;
+}
+
+.hide {
+  height: 0;
 }
 
 .input-segment {

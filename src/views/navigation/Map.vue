@@ -4,30 +4,28 @@
     <main>
       <div ref="containerMap" id="map" />
     </main>
-    <section class="markerDetails">
+    <section class="markerDetails" v-show="data.marked">
       <div class="header">
-        <TextSubheading>Pasig Line Animal Clinic</TextSubheading>
-        <IonIcon :icon="icon" class="close" />
+        <TextSubheading :value="data.name" />
+        <IonIcon :icon="icon" class="close" @click="HideDetails" />
       </div>
       <div class="schedule detail">
-        <ion-icon :icon="time" class="detailIcon"></ion-icon>
-        <TextParagraph> 9:00 AM - 6:00 PM </TextParagraph>
+        <ion-icon :icon="time" class="detailIcon" />
+        <TextParagraph :value="ScheduleEvaluate()" />
       </div>
       <div class="address detail">
-        <ion-icon :icon="location" class="detailIcon"></ion-icon>
-        <TextParagraph>
-          CPL Building, 21 Mercedes Ave, San Miguel, Pasig, 1600 Metro Manila
-        </TextParagraph>
+        <ion-icon :icon="location" class="detailIcon" />
+        <TextParagraph :value="data.address" />
       </div>
       <div class="contact detail">
-        <ion-icon :icon="call" class="detailIcon"></ion-icon>
-        <TextParagraph> 8642 1502 </TextParagraph>
+        <ion-icon :icon="call" class="detailIcon" />
+        <TextParagraph :value="data.contact" />
       </div>
     </section>
   </LayoutPage>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { LayoutPage, LayoutHeader } from "../../layout";
 import { Landmarks, ObjectToMap } from "../../utils";
 import Leaflet from "leaflet";
@@ -38,19 +36,20 @@ import { TextSubheading, TextParagraph } from "../../components";
 const containerMap = ref();
 const map = ref();
 
-// const coords = reactive({
-//   latitude: 0,
-//   longitude: 0,
-// });
+const data = reactive({
+  marked: false,
+  name: "",
+  schedule: {},
+  address: "",
+  contact: "",
+});
 
-// const GetLocation = () => {
-//   if (navigator.geolocation) {
-//     navigator.geolocation.getCurrentPosition((position) => {
-//       coords.latitude = position.coords.latitude;
-//       coords.longitude = position.coords.longitude;
-//     });
-//   }
-// };
+const HideDetails = () => (data.marked = false);
+
+const ScheduleEvaluate = () => {
+  if (!data.marked) return "";
+  return "";
+};
 
 const CenterLatLng = (latlng: { lat: number; lng: number }) => [
   latlng.lat,
@@ -81,14 +80,24 @@ const SetZoom = (e: any) => {
 };
 
 const SetMarkers = () =>
-  Array.from(ObjectToMap(Landmarks.entries).values()).map((landmark) => {
-    Leaflet.marker([landmark.coords.x, landmark.coords.y])
+  Array.from(ObjectToMap(Landmarks.entries).values()).map((landmark: any) => {
+    Leaflet.marker([landmark.coords.x, landmark.coords.y], {
+      title: landmark.name,
+    })
       .addTo(map.value)
       .on("click", FocusOnMarker);
   });
 
-const FocusOnMarker = (e: any) =>
+const FocusOnMarker = (e: any) => {
   map.value.setView(CenterLatLng(e.target.getLatLng()), 15);
+  const temp = ObjectToMap(Landmarks.entries).get(e.target.options.title);
+  if (!temp) return;
+  data.marked = true;
+  data.name = temp.name;
+  data.address = temp.address;
+  data.contact = temp.contact;
+  data.schedule = temp.schedule;
+};
 
 onMounted(() => {
   map.value = Leaflet.map(containerMap.value).fitWorld();
@@ -129,6 +138,7 @@ main {
   background-color: var(--theme-tertiary-background);
   border-radius: 100%;
   color: var(--theme-secondary-background);
+  min-width: 25px;
 }
 .markerDetails {
   left: 0;

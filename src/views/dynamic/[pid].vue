@@ -116,7 +116,7 @@ const UpdateLog = (value: {
     latids.value.set(latid, lids);
   }
 };
-const SyncLogs = () => PawprintsEvent.EventDispatcher("sync-logs");
+const SyncLogs = () => PawprintsEvent.EventDispatcher("request-logs");
 
 const db = ref();
 const UpdateDB = (value: any) => {

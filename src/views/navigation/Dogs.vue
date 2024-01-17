@@ -31,7 +31,7 @@ const filter = ref("");
 const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
 const UpdateDogs = (values: Map<string, PropsDog>) => values.forEach(UpdateDog);
 const UpdateDog = (value: PropsDog) => dogs.value.set(value.pid, value);
-const SyncDogs = () => PawprintsEvent.EventDispatcher("sync-dogs");
+const SyncDogs = () => PawprintsEvent.EventDispatcher("request-dogs");
 
 const db = ref();
 const UpdateDB = (value: any) => {
