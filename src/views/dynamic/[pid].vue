@@ -166,6 +166,7 @@ onBeforeUnmount(() => {
 
 .text-heading {
   color: var(--theme-primary-text);
+  font-weight: bold;
 }
 
 .avatar {
@@ -175,7 +176,7 @@ onBeforeUnmount(() => {
 main {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
 }
 
 .input-segment {
