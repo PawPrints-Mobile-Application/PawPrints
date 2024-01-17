@@ -24,7 +24,7 @@ import { dogTab, dogTroy, deleteDog } from "../../assets";
 <style scoped>
 .faq1 {
   background-color: var(--theme-secondary-background);
-  color: var(--theme-secondary-text-background);
+  color: var(--theme-secondary-text);
   padding: 10px 10px;
   width: 100%;
   display: flex;
