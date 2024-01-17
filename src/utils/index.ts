@@ -17,6 +17,7 @@ import Breeds from "./Breeds";
 import DatabaseMounter from "./DatabaseMounter";
 import UserIcons from "./UserIcons";
 import Landmarks from "./Landmarks";
+import Facts from "./Facts";
 
 export {
   Defaulter,
@@ -38,4 +39,5 @@ export {
   DatabaseMounter,
   UserIcons,
   Landmarks,
+  Facts,
 };

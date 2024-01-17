@@ -8,16 +8,18 @@
   </section>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { ButtonNext } from "..";
 import { useIonRouter } from "@ionic/vue";
+import { Facts } from "../../utils";
 const ionRouter = useIonRouter();
 
 const Navigate = () => ionRouter.navigate("/forums", "forward", "replace");
 
-const trivias = ["Lorem ipsum dolor sit amet, consectetur adipis"];
-
-const trivia = ref(trivias[0]);
+const trivia = ref("");
+onMounted(() => {
+  trivia.value = Facts.Get();
+});
 </script>
 <style scoped>
 .card-trivia {
@@ -33,14 +35,13 @@ article {
   border-radius: 15px;
   color: var(--theme-quadratic-text);
   padding: 10px;
-  text-align: justify;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
-
 .redirect {
+  text-align: justify;
   justify-content: space-around;
 }
 
