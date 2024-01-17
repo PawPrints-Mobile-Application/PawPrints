@@ -230,6 +230,11 @@ header > .forms {
 
 .log {
   font-size: 15px;
+  color: var(--theme-secondary-text);
+}
+
+.Record {
+  color: var(--theme-tertiary-background);
 }
 
 .extra {

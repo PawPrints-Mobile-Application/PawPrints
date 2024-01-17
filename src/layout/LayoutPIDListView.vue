@@ -139,6 +139,7 @@ const emit = defineEmits(["update:modelValue", "select"]);
 .date-day {
   display: flex;
   gap: 10px;
+  color: var(--theme-secondary-text);
 }
 
 .card-log {
