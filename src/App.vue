@@ -14,13 +14,16 @@ import { CreateModels } from "./server/models";
 import {
   GetAll as GetDogs,
   Props as PropsDog,
-  SyncAll,
+  SyncAll as SyncAllDogs,
 } from "./server/models/Dogs";
 import {
   Props as PropsLAD,
   GetAll as GetLAD,
 } from "./server/models/LogAddressingData";
-import { GetAll as GetLAT } from "./server/models/LogAddressingTable";
+import {
+  GetAll as GetLAT,
+  Props as PropsLAT,
+} from "./server/models/LogAddressingTable";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 import { GetLATID } from "./server/models/Logs";
 
@@ -68,6 +71,8 @@ const SetThemes = () => {
 const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
 const SendDogs = () =>
   PawprintsEvent.EventDispatcher("update-dogs", dogs.value);
+const SendDog = (pid: string) =>
+  PawprintsEvent.EventDispatcher("set-dog", dogs.value.get(pid));
 const UpdateDog = (dog: PropsDog) => dogs.value.set(dog.pid, dog);
 const UpdateDogs = (propsDogs: PropsDog[]) => {
   propsDogs.forEach(UpdateDog);
@@ -75,23 +80,11 @@ const UpdateDogs = (propsDogs: PropsDog[]) => {
 };
 const InitDogs = () => GetDogs(db.value!).then(UpdateDogs);
 const SyncDogs = () =>
-  SyncAll(db.value!, UserInfo.GetUID(true)).then(UpdateDogs);
+  SyncAllDogs(db.value!, UserInfo.GetUID(true)).then(UpdateDogs);
 
 // -------------------------- LOGS --------------------------
 const latids: Ref<Map<string, string[]>> = ref(new Map());
 const logs: Ref<Map<string, PropsLAD>> = ref(new Map());
-const InitLogs = () =>
-  GetLAT(db.value!)
-    .then((propsLATs) => {
-      propsLATs.forEach((propsLAT) =>
-        latids.value.set(propsLAT.latid, propsLAT.lids)
-      );
-      return GetLAD(db.value!);
-    })
-    .then((propsLADs) => {
-      propsLADs.forEach((propsLAD) => logs.value.set(propsLAD.lid, propsLAD));
-      SendLogs();
-    });
 const SendLogs = () =>
   PawprintsEvent.EventDispatcher("update-logs", {
     latids: latids.value,
@@ -125,15 +118,30 @@ const UpdateLog = (
     latids.value.set(latid, lids);
   }
 };
+const UpdateLogs = async (propsLATs: PropsLAT[]) => {
+  propsLATs.forEach((propsLAT) =>
+    latids.value.set(propsLAT.latid, propsLAT.lids)
+  );
+  return GetLAD(db.value!).then((propsLADs) => {
+    propsLADs.forEach((propsLAD) => logs.value.set(propsLAD.lid, propsLAD));
+    SendLogs();
+  });
+};
+const InitLogs = () => GetLAT(db.value!).then(UpdateLogs);
+const SyncLogs = () => {};
 
 onBeforeMount(() => {
   PawprintsEvent.AddEventListener("request-db", SendDatabase);
   PawprintsEvent.AddEventListener("set-themes", SetThemes);
+
   PawprintsEvent.AddEventListener("request-dogs", SendDogs);
+  PawprintsEvent.AddEventListener("request-dog", SendDog);
   PawprintsEvent.AddEventListener("update-dog", UpdateDog);
   PawprintsEvent.AddEventListener("sync-dogs", SyncDogs);
+
   PawprintsEvent.AddEventListener("request-logs", SendLogs);
   PawprintsEvent.AddEventListener("update-log", UpdateLog);
+  PawprintsEvent.AddEventListener("sync-logs", SyncLogs);
 
   // PawprintsEvent.AddEventListener("sync-data", SyncData);
   // PawprintsEvent.AddEventListener("reset-data", ResetData);
@@ -150,10 +158,15 @@ onUnmounted(async () => {
   if (!!db.value) await Close(db.value);
   PawprintsEvent.RemoveEventListener("request-db", SendDatabase);
   PawprintsEvent.RemoveEventListener("set-themes", SetThemes);
+
   PawprintsEvent.RemoveEventListener("request-dogs", SendDogs);
+  PawprintsEvent.RemoveEventListener("request-dog", SendDog);
   PawprintsEvent.RemoveEventListener("update-dog", UpdateDog);
+  PawprintsEvent.RemoveEventListener("sync-dogs", SyncDogs);
+
   PawprintsEvent.RemoveEventListener("request-logs", SendLogs);
   PawprintsEvent.RemoveEventListener("update-log", UpdateLog);
+  PawprintsEvent.RemoveEventListener("sync-logs", SyncLogs);
 
   // PawprintsEvent.RemoveEventListener("sync-data", SyncData);
   // PawprintsEvent.RemoveEventListener("reset-data", ResetData);

@@ -21,23 +21,18 @@
       />
     </section>
     <section class="logs">
-      <section class="daily-log" v-for="date of GetCells(year, month)">
+      <section
+        class="daily-log"
+        v-for="date of GetCells(year, month)"
+        :class="{ active: isSelected(date) }"
+      >
         <section class="date-day">
           <TextSubheading>{{ date }}</TextSubheading>
           <TextSubheading>{{
             Calendar.days[new Date(year, month, date).getDay()]
           }}</TextSubheading>
         </section>
-        <CardLog
-          v-for="lid of logs
-            ?.get(SeedGenerator(new Date(year, month, date)).toString())
-            ?.keys()"
-          :log="
-            logs
-              ?.get(SeedGenerator(new Date(year, month, date)).toString())
-              ?.get(lid)
-          "
-        />
+        <CardLog v-for="lid of GetLIDs(date)" :log="GetLog(lid)" />
       </section>
     </section>
   </section>
@@ -45,14 +40,32 @@
 <script setup lang="ts">
 import { PropType, computed, reactive } from "vue";
 import { Props as PropsLAD } from "../server/models/LogAddressingData";
-import { Calendar, SeedGenerator } from "../utils";
+import { Calendar } from "../utils";
 import { CardLog, InputDropdown, TextSubheading } from "../components";
+import { GetLATID } from "../server/models/Logs";
 
 const props = defineProps({
   modelValue: Date,
-  logs: Object as PropType<Map<string, Map<string, PropsLAD>>>,
+  latids: Object as PropType<Map<string, string[]>>,
+  logs: Object as PropType<Map<string, PropsLAD>>,
   pid: String,
 });
+
+const GetLog = (lid: string) => props.logs?.get(lid);
+
+const GetLIDs = (date: number) => {
+  const latid = GetLATID(
+    new Date(year.value, month.value, date, 0, 0, 0),
+    props.pid!
+  );
+  return props.latids?.get(latid);
+};
+
+const currentDate = new Date();
+const isSelected = (i: number) =>
+  i === currentDate.getDate() &&
+  month.value === currentDate.getMonth() &&
+  year.value === currentDate.getFullYear();
 
 const GetYears = (): string[] => Calendar.GetYears(75).map((i) => i.toString());
 
@@ -117,6 +130,10 @@ const emit = defineEmits(["update:modelValue", "select"]);
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.active {
+  outline: 3px solid var(--theme-tertiary-background);
 }
 
 .date-day {

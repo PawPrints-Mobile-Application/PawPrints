@@ -29,7 +29,7 @@ const Refresh = (event: any) => {
 const filter = ref("");
 // -------------------------- DOGS --------------------------
 const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
-const UpdateDogs = (value: Map<string, PropsDog>) => value.forEach(UpdateDog);
+const UpdateDogs = (values: Map<string, PropsDog>) => values.forEach(UpdateDog);
 const UpdateDog = (value: PropsDog) => dogs.value.set(value.pid, value);
 const RequestDogs = () => PawprintsEvent.EventDispatcher("request-dogs");
 
@@ -43,7 +43,7 @@ const UpdateDB = (value: any) => {
 onBeforeMount(() => {
   DatabaseMounter.Mount(UpdateDB);
   PawprintsEvent.AddEventListener("update-dogs", UpdateDogs);
-  PawprintsEvent.AddEventListener("update-dog", UpdateDogs);
+  PawprintsEvent.AddEventListener("update-dog", UpdateDog);
 });
 
 onMounted(() => {
@@ -53,7 +53,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   DatabaseMounter.Unmount(UpdateDB);
   PawprintsEvent.RemoveEventListener("update-dogs", UpdateDogs);
-  PawprintsEvent.RemoveEventListener("update-dog", UpdateDogs);
+  PawprintsEvent.RemoveEventListener("update-dog", UpdateDog);
 });
 </script>
 <style scoped>

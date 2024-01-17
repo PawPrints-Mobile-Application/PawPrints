@@ -2,12 +2,8 @@
   <LayoutPage>
     <LayoutHeader returnTarget="/dogs">
       <section class="header">
-        <TextHeading :value="dog?.props.name" />
-        <Avatar
-          type="dog"
-          :value="dog?.props.breed"
-          :color="dog?.props.color"
-        />
+        <TextHeading :value="dog?.name" />
+        <Avatar type="dog" :value="dog?.breed" :color="dog?.color" />
       </section>
     </LayoutHeader>
     <main>
@@ -18,18 +14,28 @@
         v-show="!!dog"
         v-if="view.label === views[0].label"
       >
-        <LayoutPIDCalendarView v-model="date" :logs="dog?.logs" :pid="pid" />
+        <LayoutPIDCalendarView
+          v-model="date"
+          :latids="latids"
+          :logs="logs"
+          :pid="pid"
+        />
       </section>
       <section class="view view-list" v-show="!!dog" v-else>
-        <LayoutPIDListView v-model="date" :logs="dog?.logs" :pid="pid" />
+        <LayoutPIDListView
+          v-model="date"
+          :latids="latids"
+          :logs="logs"
+          :pid="pid"
+        />
       </section>
     </main>
-    <ModalAddLog :db="db" :pid="pid" @success="AddLog" />
+    <ModalAddLog :db="db" :pid="pid" />
   </LayoutPage>
 </template>
 <script setup lang="ts">
 import { LayoutPage, LayoutHeader, LayoutPIDListView } from "../../layout";
-import { Ref, onBeforeMount, onMounted, onUnmounted, ref } from "vue";
+import { Ref, onBeforeMount, onBeforeUnmount, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { DatabaseMounter, PawprintsEvent, SegmentOption } from "../../utils";
 import {
@@ -44,26 +50,14 @@ import {
   calendar as calendarView,
 } from "ionicons/icons";
 import { LayoutPIDCalendarView } from "../../layout";
-import { Props as PropsDog } from "../../server/models/Dogs";
 import { Props as PropsLAD } from "../../server/models/LogAddressingData";
 import { GetLATID } from "../../server/models/Logs";
+import { Props as PropsDog } from "../../server/models/Dogs";
 
 const route = useRoute();
 const params = ref(route.params);
 const pid = params.value.pid.toString();
-
-const Refresh = (event: any) => {
-  PawprintsEvent.EventDispatcher("reload-dogs");
-  setTimeout(() => event.target.complete(), 500);
-};
-
 const date = ref(new Date());
-
-type DogData = {
-  props: PropsDog;
-  logs: Map<string, Map<string, PropsLAD>>;
-};
-const dog: Ref<DogData | undefined> = ref();
 
 const views = [
   new SegmentOption("Calendar View", calendarView),
@@ -71,13 +65,28 @@ const views = [
 ];
 const view = ref(views[0]);
 
-const SetData = (dogData: DogData) => {
-  if (!dogData) return;
-  dog.value = dogData;
+const Refresh = (event: any) => {
+  PawprintsEvent.EventDispatcher("sync-logs");
+  setTimeout(() => event.target.complete(), 500);
 };
-const RequestData = () =>
-  PawprintsEvent.EventDispatcher("request-dog-data", params.value.pid);
-const AddLog = (value: { propsLAD: PropsLAD; DStart: Date; DEnd: Date }) => {
+
+const dog: Ref<PropsDog | undefined> = ref();
+const UpdateDog = (value: PropsDog) => (dog.value = value);
+const RequestDog = () => PawprintsEvent.EventDispatcher("request-dog", pid);
+
+// -------------------------- LOGS --------------------------
+const latids: Ref<Map<string, string[]>> = ref(new Map());
+const logs: Ref<Map<string, PropsLAD>> = ref(new Map());
+const UpdateLogs = (values: {
+  latids: Map<string, string[]>;
+  logs: Map<string, PropsLAD>;
+}) => {
+  logs.value = values.logs;
+  Array.from(values.latids.entries()).forEach((value) =>
+    latids.value.set(value[0], value[1])
+  );
+};
+const UpdateLog = (value: { log: PropsLAD; DStart: Date; DEnd: Date }) => {
   const startDate = new Date(
     value.DStart.getFullYear(),
     value.DStart.getMonth(),
@@ -94,36 +103,39 @@ const AddLog = (value: { propsLAD: PropsLAD; DStart: Date; DEnd: Date }) => {
     date.setDate(date.getDate() + 1)
   ) {
     const latid = GetLATID(date, pid);
-    let logs = dog.value?.logs.get(latid);
-    if (!logs) logs = new Map<string, PropsLAD>();
-    logs.set(value.propsLAD.lid, value.propsLAD);
-    dog.value?.logs.set(latid, logs);
-    console.log(logs);
+    logs.value.set(value.log.lid, value.log);
+    let lids = latids.value.get(latid);
+    if (!lids) lids = new Array<string>();
+    lids.push(value.log.lid);
+    latids.value.set(latid, lids);
   }
-  PawprintsEvent.EventDispatcher("add-to-logs", dog.value);
 };
+const RequestLogs = () => PawprintsEvent.EventDispatcher("request-logs");
 
 const db = ref();
 const UpdateDB = (value: any) => {
   if (!value) return;
   db.value = value;
-  setTimeout(() => PawprintsEvent.EventDispatcher("request-dogs"), 1);
+  setTimeout(RequestDog, 10);
+  setTimeout(RequestLogs, 20);
 };
 
 onBeforeMount(() => {
-  PawprintsEvent.AddEventListener("response-dog-data", SetData);
-  DatabaseMounter.Mount(UpdateDB, RequestData);
+  DatabaseMounter.Mount(UpdateDB);
+  PawprintsEvent.AddEventListener("set-dog", UpdateDog);
+  PawprintsEvent.AddEventListener("update-logs", UpdateLogs);
+  PawprintsEvent.AddEventListener("update-log", UpdateLog);
 });
 
 onMounted(() => {
   DatabaseMounter.Request();
-  if (!dog.value) RequestData();
 });
 
-onUnmounted(() => {
-  PawprintsEvent.RemoveEventListener("response-dog-data", SetData);
-  PawprintsEvent.RemoveEventListener("ready-data", RequestData);
-  DatabaseMounter.Unmount(UpdateDB, RequestData);
+onBeforeUnmount(() => {
+  DatabaseMounter.Unmount(UpdateDB);
+  PawprintsEvent.RemoveEventListener("set-dog", UpdateDog);
+  PawprintsEvent.RemoveEventListener("update-logs", UpdateLogs);
+  PawprintsEvent.RemoveEventListener("update-log", UpdateLog);
 });
 </script>
 

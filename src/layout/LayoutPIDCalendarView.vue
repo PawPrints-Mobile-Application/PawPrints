@@ -39,16 +39,16 @@
         <TextSmall class="date" :value="date.toString()" />
         <article class="logs">
           <IonIcon
-            v-for="lid of GetIcons(date).lids"
+            v-for="lid of GetLIDs(date)"
             class="log"
-            :class="[GetLog(date, lid).type]"
-            :icon="GetLog(date, lid).category"
+            :class="[GetLog(lid)?.type]"
+            :icon="GetLog(lid)?.category"
           />
         </article>
         <TextSmall
           class="extra"
-          v-show="GetIcons(date).extra > 0"
-          :value="GetIcons(date).extra.toString()"
+          v-show="!!GetExtra(date)"
+          :value="GetExtra(date).toString()"
         />
       </div>
     </footer>
@@ -70,35 +70,26 @@ import { GetLATID } from "../server/models/Logs";
 
 const props = defineProps({
   modelValue: Date,
-  logs: Object as PropType<Map<string, Map<string, PropsLAD>>>,
+  latids: Object as PropType<Map<string, string[]>>,
+  logs: Object as PropType<Map<string, PropsLAD>>,
   pid: String,
 });
 
-const GetLog = (date: number, lid: string) => {
+const GetLog = (lid: string) => props.logs?.get(lid);
+
+const GetLIDs = (date: number) => {
   const latid = GetLATID(
     new Date(year.value, month.value, date, 0, 0, 0),
     props.pid!
   );
-  return props.logs?.get(latid)?.get(lid)!;
+  return props.latids?.get(latid);
 };
 
 const iconLimit = 4;
-const GetIcons = (date: number) => {
-  const temp = {
-    lids: [],
-    extra: 0,
-  };
-  if (!props.logs) return temp;
-  const latid = GetLATID(
-    new Date(year.value, month.value, date, 0, 0, 0),
-    props.pid!
-  );
-  if (!props.logs?.get(latid)) return temp;
-  const lids = Array.from(props.logs?.get(latid)!.keys());
-  return {
-    lids: lids.filter((_, i) => i < iconLimit),
-    extra: lids.length! - iconLimit,
-  };
+const GetExtra = (date: number) => {
+  const lids = GetLIDs(date);
+  if (!lids) return 0;
+  return Math.max(0, lids.length - iconLimit);
 };
 
 const month = computed(() => props.modelValue!.getMonth());
