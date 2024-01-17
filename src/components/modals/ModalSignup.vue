@@ -36,12 +36,23 @@
       <InputWrapper label="Password">
         <InputPassword placeholder="Enter Password" v-model="form.password" />
       </InputWrapper>
-      <InputToggle id="TOS" v-model="form.acceptTOS">
-        <TextSmall>
-          By creating an account you agree to our
-          <span class="navigation-link">Privacy Policy</span> and
-          <span class="navigation-link">Terms of Service</span>.
-        </TextSmall>
+      <InputToggle
+        id="TOS"
+        :modelValue="form.acceptTOS"
+        @click="ShowTermsOfService"
+      >
+        <TextSmall
+          value="By creating an account you agree to our Terms of Service.F"
+        />
+      </InputToggle>
+      <InputToggle
+        id="PP"
+        :modelValue="form.acceptPP"
+        @click="ShowPrivacyPolicy"
+      >
+        <TextSmall
+          value="By creating an account you agree to our Privacy Policy."
+        />
       </InputToggle>
       <div class="buttons">
         <ButtonDanger value="Clear" @click="Clear" :disabled="disableClear" />
@@ -52,6 +63,8 @@
         />
       </div>
     </section>
+    <PopupTOS @accept="() => (form.acceptTOS = true)" />
+    <PopupPP @accept="() => (form.acceptPP = true)" />
   </Modal>
 </template>
 <script setup lang="ts">
@@ -69,6 +82,8 @@ import {
   NoteWarning,
   TextSmall,
   InputUserAvatar,
+  PopupTOS,
+  PopupPP,
 } from "..";
 import { IonSpinner, useIonRouter } from "@ionic/vue";
 import {
@@ -86,6 +101,9 @@ const Navigate = () => {
   ionRouter.navigate("/tutorials", "forward", "replace");
 };
 
+const ShowPrivacyPolicy = () => PawprintsEvent.EventDispatcher("popup-pp");
+const ShowTermsOfService = () => PawprintsEvent.EventDispatcher("popup-tos");
+
 const props = defineProps({
   db: SQLiteDBConnection,
 });
@@ -96,6 +114,7 @@ const defaultValues = {
   email: "",
   password: "",
   acceptTOS: false,
+  acceptPP: false,
 };
 
 const form = reactive({
@@ -104,6 +123,7 @@ const form = reactive({
   email: defaultValues.email,
   password: defaultValues.password,
   acceptTOS: defaultValues.acceptTOS,
+  acceptPP: defaultValues.acceptPP,
 });
 
 const state = reactive({
@@ -120,6 +140,7 @@ const Clear = () => {
   form.email = defaultValues.email;
   form.password = defaultValues.password;
   form.acceptTOS = defaultValues.acceptTOS;
+  form.acceptPP = defaultValues.acceptPP;
 };
 
 const disableClear = computed(
@@ -127,11 +148,14 @@ const disableClear = computed(
     form.email === defaultValues.email &&
     form.username === defaultValues.username &&
     form.password === defaultValues.password &&
-    form.acceptTOS === defaultValues.acceptTOS
+    form.acceptTOS === defaultValues.acceptTOS &&
+    form.acceptPP === defaultValues.acceptPP
 );
 const disableSave = computed(
   () =>
-    [form.email, form.username, form.password].includes("") || !form.acceptTOS
+    [form.email, form.username, form.password].includes("") ||
+    !form.acceptTOS ||
+    !form.acceptPP
 );
 
 const Process = () => {
@@ -211,7 +235,7 @@ const Process = () => {
   flex-direction: column;
   gap: 20px;
   padding: 2px;
-  height: 300px;
+  height: 350px;
   overflow: hidden;
   transition: all 200ms ease-out;
 
@@ -279,5 +303,9 @@ const Process = () => {
   text-decoration: underline;
   font-weight: 500;
   cursor: pointer;
+}
+
+.text-small {
+  color: var(--theme-primary-text);
 }
 </style>

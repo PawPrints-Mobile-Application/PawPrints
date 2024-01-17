@@ -64,6 +64,8 @@ import ModalAddLog from "./modals/ModalAddLog.vue";
 import Popup from "./popups/Popup.vue";
 import PopupAddPost from "./popups/PopupAddPost.vue";
 import PopupAddComment from "./popups/PopupAddComment.vue";
+import PopupTOS from "./popups/PopupTOS.vue";
+import PopupPP from "./popups/PopupPP.vue";
 
 // texts
 import TextSmall from "./texts/TextSmall.vue";
@@ -139,6 +141,8 @@ export {
   Popup,
   PopupAddPost,
   PopupAddComment,
+  PopupTOS,
+  PopupPP,
   // texts
   TextSmall,
   TextParagraph,

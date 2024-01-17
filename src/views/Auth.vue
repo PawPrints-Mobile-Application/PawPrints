@@ -59,6 +59,7 @@ onBeforeUnmount(() => {
 </script>
 <style scoped>
 .auth {
+  background-color: var(--theme-primary-background);
   display: flex;
   align-items: center;
   justify-content: center;
