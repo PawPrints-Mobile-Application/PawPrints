@@ -29,25 +29,45 @@ const map = ref();
 //   }
 // };
 
+const CenterLatLng = (latlng: { lat: number; lng: number }) => [
+  latlng.lat,
+  latlng.lng,
+];
+
+const self = ref();
 const onLocationFound = (e: any) => {
-  var radius = e.accuracy;
-
-  Leaflet.marker(e.latlng)
-    .addTo(map.value)
-    .bindPopup("You are within " + radius + " meters from this point")
-    .openPopup();
-
-  Leaflet.circle(e.latlng, radius).addTo(map.value);
+  self.value = [e.latlng.lat, e.latlng.lng];
+  setTimeout(
+    () =>
+      Leaflet.circle(self.value, {
+        color: "red",
+        fillColor: "#f03",
+        fillOpacity: 0.5,
+        radius: 10 * zoom.value,
+      })
+        .addTo(map.value)
+        .on("click", FocusOnMarker),
+    1000
+  );
 };
 const onLocationError = (e: any) => console.log(e.message);
 
+const zoom = ref(0);
+const SetZoom = (e: any) => (zoom.value = e.target._zoom);
+
 const SetMarkers = () =>
   Array.from(ObjectToMap(Landmarks.entries).values()).map((landmark) => {
-    Leaflet.marker([landmark.coords.x, landmark.coords.y]).addTo(map.value);
+    Leaflet.marker([landmark.coords.x, landmark.coords.y])
+      .addTo(map.value)
+      .on("click", FocusOnMarker);
   });
+
+const FocusOnMarker = (e: any) =>
+  map.value.setView(CenterLatLng(e.target.getLatLng()), 15);
 
 onMounted(() => {
   map.value = Leaflet.map(containerMap.value).fitWorld();
+  setTimeout(() => map.value.invalidateSize(), 1);
   Leaflet.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: "© OpenStreetMap",
@@ -55,7 +75,11 @@ onMounted(() => {
   map.value.locate({ setView: true, maxZoom: 50 });
   map.value.on("locationfound", onLocationFound);
   map.value.on("locationerror", onLocationError);
+  map.value.on("zoomend", SetZoom);
   SetMarkers();
+  setTimeout(() => {
+    map.value.flyTo(self.value, 15);
+  }, 1000);
 });
 </script>
 <style scoped>
