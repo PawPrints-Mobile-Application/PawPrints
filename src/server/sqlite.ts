@@ -154,7 +154,6 @@ const DeleteRowData = async (
 ) => {
   let keys = new Array(...identifier.keys());
   let values = new Array(...identifier.values());
-
   return await db.query(
     `DELETE FROM ${tableName} WHERE ${keys.map((key) => `${key} = ?`)};`,
     values

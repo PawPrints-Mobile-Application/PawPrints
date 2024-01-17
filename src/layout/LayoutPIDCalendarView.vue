@@ -37,14 +37,14 @@
         :style="{ gridColumnStart: i === 0 ? calendar.dayStart : 'auto' }"
       >
         <TextSmall class="date" :value="date.toString()" />
-        <article class="logs">
+        <section class="logs">
           <IonIcon
-            v-for="lid of GetLIDs(date)"
+            v-for="lid of GetLIDs(date).slice(0, iconLimit)"
             class="log"
-            :class="[GetLog(lid)?.type]"
-            :icon="GetLog(lid)?.category"
+            :class="[GetLog(lid)!.type]"
+            :icon="ObjectToMap(Enums.Category).get(GetLog(lid)!.category).icon"
           />
-        </article>
+        </section>
         <TextSmall
           class="extra"
           v-show="!!GetExtra(date)"
@@ -63,9 +63,9 @@ import {
   TextParagraph,
   TextSmall,
 } from "../components";
-import { Calendar } from "../utils";
+import { Calendar, ObjectToMap } from "../utils";
 import { PropType, computed, onMounted, reactive } from "vue";
-import { Props as PropsLAD } from "../server/models/LogAddressingData";
+import { Enums, Props as PropsLAD } from "../server/models/LogAddressingData";
 import { GetLATID } from "../server/models/Logs";
 
 const props = defineProps({
@@ -75,15 +75,23 @@ const props = defineProps({
   pid: String,
 });
 
-const GetLog = (lid: string) => props.logs?.get(lid);
+const GetLog = (lid: string) => props.logs!.get(lid);
 
 const GetLIDs = (date: number) => {
   const latid = GetLATID(
     new Date(year.value, month.value, date, 0, 0, 0),
     props.pid!
   );
-  return props.latids?.get(latid);
+  const temp = props.latids!.get(latid);
+  if (!temp) return [];
+  return temp;
 };
+
+const currentDate = new Date();
+const isSelected = (i: number) =>
+  i === currentDate.getDate() &&
+  month.value === currentDate.getMonth() &&
+  year.value === currentDate.getFullYear();
 
 const iconLimit = 4;
 const GetExtra = (date: number) => {
@@ -94,12 +102,6 @@ const GetExtra = (date: number) => {
 
 const month = computed(() => props.modelValue!.getMonth());
 const year = computed(() => props.modelValue!.getFullYear());
-
-const currentDate = new Date();
-const isSelected = (i: number) =>
-  i === currentDate.getDate() &&
-  month.value === currentDate.getMonth() &&
-  year.value === currentDate.getFullYear();
 
 const GetYears = (): string[] => Calendar.GetYears(75).map((i) => i.toString());
 
@@ -221,6 +223,11 @@ header > .forms {
 .logs {
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.log {
+  font-size: 15px;
 }
 
 .extra {

@@ -11,34 +11,26 @@ import {
   Set as InitializeInformation,
 } from "./Information";
 import {
-  CreateModel as CreateModelLAD,
-  ClearModel as ClearModelLAD,
-  DeleteModel as DeleteModelLAD,
-} from "./LogAddressingData";
-import {
-  CreateModel as CreateModelLAT,
-  ClearModel as ClearModelLAT,
-  DeleteModel as DeleteModelLAT,
-} from "./LogAddressingTable";
+  Sync as SyncLogs,
+  CreateModel as CreateModelLogs,
+  ClearModel as ClearModelLogs,
+  DeleteModel as DeleteModelLogs,
+} from "./Logs";
 
 const CreateModels = async (db: SQLiteDBConnection) =>
-  CreateModelDogs(db)
-    .then(() => CreateModelLAD(db))
-    .then(() => CreateModelLAT(db));
+  CreateModelDogs(db).then(() => CreateModelLogs(db));
 const SyncModels = async (db: SQLiteDBConnection, uid: string) =>
-  SyncAllDogs(db, uid).then(() => SyncAllInformation(uid));
+  SyncAllDogs(db, uid)
+    .then(() => SyncLogs(db, uid))
+    .then(() => SyncAllInformation(uid));
 const InitializeModels = async (
   _: SQLiteDBConnection,
   props: InformationProps
 ) => InitializeInformation(props).then(() => props);
 const ClearModels = async (db: SQLiteDBConnection) =>
-  ClearModelDogs(db)
-    .then(() => ClearModelLAD(db))
-    .then(() => ClearModelLAT(db));
+  ClearModelDogs(db).then(() => ClearModelLogs(db));
 const DeleteModels = async (db: SQLiteDBConnection) =>
-  DeleteModelDogs(db)
-    .then(() => DeleteModelLAD(db))
-    .then(() => DeleteModelLAT(db));
+  DeleteModelDogs(db).then(() => DeleteModelLogs(db));
 
 export {
   CreateModels,

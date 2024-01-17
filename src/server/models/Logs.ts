@@ -4,9 +4,27 @@ import {
   Set as SetLAD,
   Get as GetLAD,
   Remove as RemoveLAD,
+  SyncAll as SyncAllLAD,
+  CreateModel as CreateModelLAD,
+  ClearModel as ClearModelLAD,
+  DeleteModel as DeleteModelLAD,
 } from "./LogAddressingData";
-import { Set as SetLAT, Get as GetLAT } from "./LogAddressingTable";
+import {
+  Set as SetLAT,
+  Get as GetLAT,
+  SyncAll as SyncAllLAT,
+  CreateModel as CreateModelLAT,
+  ClearModel as ClearModelLAT,
+  DeleteModel as DeleteModelLAT,
+} from "./LogAddressingTable";
 import { SeedGenerator } from "../../utils";
+
+const CreateModel = (db: SQLiteDBConnection) =>
+  CreateModelLAD(db).then(() => CreateModelLAT(db));
+const ClearModel = (db: SQLiteDBConnection) =>
+  ClearModelLAD(db).then(() => ClearModelLAT(db));
+const DeleteModel = (db: SQLiteDBConnection) =>
+  DeleteModelLAD(db).then(() => DeleteModelLAT(db));
 
 const GetLATID = (date: Date, pid: string): string =>
   pid +
@@ -118,22 +136,18 @@ const Remove = async (
     });
 };
 
-// const Sync = async (
-//   db: SQLiteDBConnection,
-//   date: Date,
-//   pid: string,
-//   lid: string,
-//   uid: string
-// ) => {
-//   const latid = GetLATID(date, pid);
-//   return GetCollection(CollectionPathLAD(uid, latid)).then(async (value) => {
-//     let temp = new Array<Props>();
-//     for (let cloudProps of value!.values) {
-//       const response = await Sync(db, uid, cloudProps.pid);
-//       temp.push(response);
-//     }
-//     return temp;
-//   });
-// };
+const Sync = async (db: SQLiteDBConnection, uid?: string) =>
+  SyncAllLAD(db, uid).then(() => SyncAllLAT(db, uid));
 
-export { SetBatch, Set, Get, Remove, GetLATID, RemoveLATID };
+export {
+  SetBatch,
+  Set,
+  Get,
+  Remove,
+  GetLATID,
+  RemoveLATID,
+  Sync,
+  CreateModel,
+  ClearModel,
+  DeleteModel,
+};

@@ -18,7 +18,12 @@ import {
   activity as activityIcon,
 } from "../../assets";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { DeleteDocument, SetDocument } from "../firebase";
+import {
+  DeleteDocument,
+  GetCollection,
+  GetDocument,
+  SetDocument,
+} from "../firebase";
 
 const Enums = {
   Category: {
@@ -175,6 +180,39 @@ const Remove = async (db: SQLiteDBConnection, lid: string, uid?: string) => {
   return DeleteRowData(db, constants.document, ObjectToMap({ lid: lid }));
 };
 
+const Sync = async (db: SQLiteDBConnection, lid: string, uid: string) => {
+  if (!uid) return Get(db, lid);
+  return GetDocument(documentPath(uid, lid)).then(async (response) => {
+    const documentData = response!.data()!;
+    const props = ToProps(documentData);
+    const localProps = ToOtherProps(props);
+    const data = ObjectToMap(localProps);
+    return InsertRowData(
+      db,
+      constants.document,
+      {
+        keys: Array.from(data.keys()),
+        values: Array.from(data.values()),
+      },
+      true
+    ).then(() => props);
+  });
+};
+
+const SyncAll = async (db: SQLiteDBConnection, uid?: string) => {
+  if (!uid) return GetAll(db);
+  return ClearModel(db).then(() =>
+    GetCollection(CollectionPath(uid)).then(async (value) => {
+      let temp = new Array<Props>();
+      for (let cloudProps of value!.values) {
+        const response = await Sync(db, cloudProps.lid, uid);
+        temp.push(response!);
+      }
+      return temp;
+    })
+  );
+};
+
 export type { Props, OtherProps };
 export {
   Enums,
@@ -187,4 +225,6 @@ export {
   Remove,
   ToProps,
   ToOtherProps,
+  SyncAll,
+  Sync,
 };

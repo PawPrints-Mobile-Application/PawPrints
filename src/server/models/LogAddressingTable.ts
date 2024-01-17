@@ -10,7 +10,12 @@ import {
 import { ObjectToMap } from "../../utils";
 import { DocumentData } from "firebase/firestore";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { DeleteDocument, SetDocument } from "../firebase";
+import {
+  DeleteDocument,
+  GetCollection,
+  GetDocument,
+  SetDocument,
+} from "../firebase";
 
 const constants = {
   collection: "Users",
@@ -31,7 +36,7 @@ type OtherProps = {
   lids: string;
 };
 
-const ToProps = (props: OtherProps): Props => {
+const ToProps = (props: any): Props => {
   return {
     latid: props.latid,
     lids: JSON.parse(props.lids),
@@ -90,5 +95,48 @@ const Remove = async (db: SQLiteDBConnection, latid: string, uid?: string) => {
   return DeleteRowData(db, constants.document, ObjectToMap({ latid: latid }));
 };
 
+const Sync = async (db: SQLiteDBConnection, latid: string, uid: string) => {
+  if (!uid) return Get(db, latid);
+  return GetDocument(documentPath(uid, latid)).then(async (response) => {
+    const documentData = response!.data()!;
+    const props = ToProps(documentData);
+    const localProps = ToOtherProps(props);
+    const data = ObjectToMap(localProps);
+    return InsertRowData(
+      db,
+      constants.document,
+      {
+        keys: Array.from(data.keys()),
+        values: Array.from(data.values()),
+      },
+      true
+    ).then(() => props);
+  });
+};
+
+const SyncAll = async (db: SQLiteDBConnection, uid?: string) => {
+  if (!uid) return GetAll(db);
+  return ClearModel(db).then(() =>
+    GetCollection(CollectionPath(uid)).then(async (value) => {
+      let temp = new Array<Props>();
+      for (let cloudProps of value!.values) {
+        const response = await Sync(db, cloudProps.latid, uid);
+        temp.push(response!);
+      }
+      return temp;
+    })
+  );
+};
+
 export type { Props, OtherProps };
-export { CreateModel, DeleteModel, ClearModel, Set, GetAll, Get, Remove };
+export {
+  CreateModel,
+  DeleteModel,
+  ClearModel,
+  Set,
+  GetAll,
+  Get,
+  Remove,
+  Sync,
+  SyncAll,
+};

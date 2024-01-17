@@ -25,7 +25,7 @@ import {
   Props as PropsLAT,
 } from "./server/models/LogAddressingTable";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { GetLATID } from "./server/models/Logs";
+import { GetLATID, Sync as SyncAllLogs } from "./server/models/Logs";
 
 const state = reactive({
   userFound: false,
@@ -80,7 +80,7 @@ const UpdateDogs = (propsDogs: PropsDog[]) => {
 };
 const InitDogs = () => GetDogs(db.value!).then(UpdateDogs);
 const SyncDogs = () =>
-  SyncAllDogs(db.value!, UserInfo.GetUID(true)).then(UpdateDogs);
+  SyncAllDogs(db.value!, UserInfo.GetUID(true)).then(InitDogs);
 
 // -------------------------- LOGS --------------------------
 const latids: Ref<Map<string, string[]>> = ref(new Map());
@@ -90,45 +90,53 @@ const SendLogs = () =>
     latids: latids.value,
     logs: logs.value,
   });
-const UpdateLog = (
-  log: PropsLAD,
-  pid: string,
-  date: { DStart: Date; DEnd: Date }
-) => {
+const UpdateLog = (value: {
+  log: PropsLAD;
+  DStart: Date;
+  DEnd: Date;
+  pid: string;
+}) => {
   const startDate = new Date(
-    date.DStart.getFullYear(),
-    date.DStart.getMonth(),
-    date.DStart.getDate()
+    value.DStart.getFullYear(),
+    value.DStart.getMonth(),
+    value.DStart.getDate()
   );
   const endDtate = new Date(
-    date.DEnd.getFullYear(),
-    date.DEnd.getMonth(),
-    date.DEnd.getDate()
+    value.DEnd.getFullYear(),
+    value.DEnd.getMonth(),
+    value.DEnd.getDate()
   );
   for (
     let date = startDate;
     date <= endDtate;
     date.setDate(date.getDate() + 1)
   ) {
-    const latid = GetLATID(date, pid);
-    logs.value.set(log.lid, log);
+    const latid = GetLATID(date, value.pid);
+    logs.value.set(value.log.lid, value.log);
     let lids = latids.value.get(latid);
     if (!lids) lids = new Array<string>();
-    lids.push(log.lid);
+    lids.push(value.log.lid);
     latids.value.set(latid, lids);
   }
 };
-const UpdateLogs = async (propsLATs: PropsLAT[]) => {
-  propsLATs.forEach((propsLAT) =>
-    latids.value.set(propsLAT.latid, propsLAT.lids)
-  );
-  return GetLAD(db.value!).then((propsLADs) => {
-    propsLADs.forEach((propsLAD) => logs.value.set(propsLAD.lid, propsLAD));
+const UpdateLogs = async (propsLADs: PropsLAD[]) => {
+  propsLADs.forEach((propsLAD) => logs.value.set(propsLAD.lid, propsLAD));
+  return GetLAT(db.value!).then((propsLATs: PropsLAT[]) => {
+    propsLATs.forEach((propsLAT) =>
+      latids.value.set(propsLAT.latid, propsLAT.lids)
+    );
     SendLogs();
   });
 };
-const InitLogs = () => GetLAT(db.value!).then(UpdateLogs);
-const SyncLogs = () => {};
+const InitLogs = () => GetLAD(db.value!).then(UpdateLogs);
+const SyncLogs = () =>
+  SyncAllLogs(db.value!, UserInfo.GetUID(true)).then(InitLogs);
+
+const ResetData = () => {
+  dogs.value = new Map();
+  logs.value = new Map();
+  latids.value = new Map();
+};
 
 onBeforeMount(() => {
   PawprintsEvent.AddEventListener("request-db", SendDatabase);
@@ -143,13 +151,7 @@ onBeforeMount(() => {
   PawprintsEvent.AddEventListener("update-log", UpdateLog);
   PawprintsEvent.AddEventListener("sync-logs", SyncLogs);
 
-  // PawprintsEvent.AddEventListener("sync-data", SyncData);
-  // PawprintsEvent.AddEventListener("reset-data", ResetData);
-  // PawprintsEvent.AddEventListener("request-db", ResponseDB);
-  // PawprintsEvent.AddEventListener("add-to-dogs", AddDog);
-  // PawprintsEvent.AddEventListener("add-to-logs", AddLog);
-  // PawprintsEvent.AddEventListener("request-dogs", SendDogs);
-  // PawprintsEvent.AddEventListener("request-dog-data", SendDog);
+  PawprintsEvent.AddEventListener("reset-data", ResetData);
 });
 
 onMounted(() => setTimeout(InitDatabase, 1));
@@ -168,13 +170,7 @@ onUnmounted(async () => {
   PawprintsEvent.RemoveEventListener("update-log", UpdateLog);
   PawprintsEvent.RemoveEventListener("sync-logs", SyncLogs);
 
-  // PawprintsEvent.RemoveEventListener("sync-data", SyncData);
-  // PawprintsEvent.RemoveEventListener("reset-data", ResetData);
-  // PawprintsEvent.RemoveEventListener("request-db", ResponseDB);
-  // PawprintsEvent.RemoveEventListener("add-to-dogs", AddDog);
-  // PawprintsEvent.RemoveEventListener("add-to-logs", AddLog);
-  // PawprintsEvent.RemoveEventListener("request-dogs", SendDogs);
-  // PawprintsEvent.RemoveEventListener("request-dog-data", SendDog);
+  PawprintsEvent.RemoveEventListener("reset-data", ResetData);
 });
 </script>
 

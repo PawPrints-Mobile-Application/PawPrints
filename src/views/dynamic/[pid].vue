@@ -56,7 +56,7 @@ import { Props as PropsDog } from "../../server/models/Dogs";
 
 const route = useRoute();
 const params = ref(route.params);
-const pid = params.value.pid.toString();
+const pid = ref(params.value.pid.toString());
 const date = ref(new Date());
 
 const views = [
@@ -72,7 +72,8 @@ const Refresh = (event: any) => {
 
 const dog: Ref<PropsDog | undefined> = ref();
 const UpdateDog = (value: PropsDog) => (dog.value = value);
-const RequestDog = () => PawprintsEvent.EventDispatcher("request-dog", pid);
+const RequestDog = () =>
+  PawprintsEvent.EventDispatcher("request-dog", pid.value);
 
 // -------------------------- LOGS --------------------------
 const latids: Ref<Map<string, string[]>> = ref(new Map());
@@ -86,7 +87,12 @@ const UpdateLogs = (values: {
     latids.value.set(value[0], value[1])
   );
 };
-const UpdateLog = (value: { log: PropsLAD; DStart: Date; DEnd: Date }) => {
+const UpdateLog = (value: {
+  log: PropsLAD;
+  DStart: Date;
+  DEnd: Date;
+  pid: string;
+}) => {
   const startDate = new Date(
     value.DStart.getFullYear(),
     value.DStart.getMonth(),
@@ -102,7 +108,7 @@ const UpdateLog = (value: { log: PropsLAD; DStart: Date; DEnd: Date }) => {
     date <= endDtate;
     date.setDate(date.getDate() + 1)
   ) {
-    const latid = GetLATID(date, pid);
+    const latid = GetLATID(date, value.pid);
     logs.value.set(value.log.lid, value.log);
     let lids = latids.value.get(latid);
     if (!lids) lids = new Array<string>();
@@ -110,14 +116,19 @@ const UpdateLog = (value: { log: PropsLAD; DStart: Date; DEnd: Date }) => {
     latids.value.set(latid, lids);
   }
 };
-const RequestLogs = () => PawprintsEvent.EventDispatcher("request-logs");
+const SyncLogs = () => PawprintsEvent.EventDispatcher("sync-logs");
 
 const db = ref();
 const UpdateDB = (value: any) => {
   if (!value) return;
   db.value = value;
   setTimeout(RequestDog, 10);
-  setTimeout(RequestLogs, 20);
+  setTimeout(SyncLogs, 20);
+};
+
+const ResetData = () => {
+  logs.value = new Map();
+  latids.value = new Map();
 };
 
 onBeforeMount(() => {
@@ -125,6 +136,8 @@ onBeforeMount(() => {
   PawprintsEvent.AddEventListener("set-dog", UpdateDog);
   PawprintsEvent.AddEventListener("update-logs", UpdateLogs);
   PawprintsEvent.AddEventListener("update-log", UpdateLog);
+
+  PawprintsEvent.AddEventListener("reset-data", ResetData);
 });
 
 onMounted(() => {
@@ -136,6 +149,8 @@ onBeforeUnmount(() => {
   PawprintsEvent.RemoveEventListener("set-dog", UpdateDog);
   PawprintsEvent.RemoveEventListener("update-logs", UpdateLogs);
   PawprintsEvent.RemoveEventListener("update-log", UpdateLog);
+
+  PawprintsEvent.RemoveEventListener("reset-data", ResetData);
 });
 </script>
 
