@@ -23,6 +23,8 @@ const themes = {
       "list-log-background": "rgba(255, 216, 3, 0.7)",
       "list-log-text": "#000000",
       "card-highlight-color": "#000000",
+      "forum-post-background": "#FFFFFE",
+      "forum-post-text": "#0D0D0D",
     },
 
     dark: {
@@ -46,6 +48,8 @@ const themes = {
       "list-log-background": "rgba(60, 67, 76, 0.7)",
       "list-log-text": "#F7F9F9",
       "card-highlight-color": "#242D38",
+      "forum-post-background": "#242D38",
+      "forum-post-text": "#F7F9F9",
     },
   },
   pink: {
@@ -70,6 +74,8 @@ const themes = {
       "list-log-background": "rgba(255, 249, 196, 0.7)",
       "list-log-text": "#33272A",
       "card-highlight-color": "#33272A",
+      "forum-post-background": "#FFFFFE",
+      "forum-post-text": "#33272A",
     },
     dark: {
       "primary-background": "#202020",
@@ -92,6 +98,8 @@ const themes = {
       "list-log-background": "rgba(255, 249, 196, 0.7)",
       "list-log-text": "#202020",
       "card-highlight-color": "#202020",
+      "forum-post-background": "#FFFFFE",
+      "forum-post-text": "#202020",
     },
   },
   blue: {
@@ -116,6 +124,8 @@ const themes = {
       "list-log-background": "rgba(255, 255, 255, 0.7)",
       "list-log-text": "#000000",
       "card-highlight-color": "#000000",
+      "forum-post-background": "#DBEBF5",
+      "forum-post-text": "#000000",
     },
 
     dark: {
@@ -139,6 +149,8 @@ const themes = {
       "list-log-background": "rgba(135, 158, 173,0.7)",
       "list-log-text": "#FEFEFE",
       "card-highlight-color": "#14354D",
+      "forum-post-background": "#0D0D0D",
+      "forum-post-text": "#FEFEFE",
     },
   },
 };

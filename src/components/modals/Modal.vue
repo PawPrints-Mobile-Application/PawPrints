@@ -81,6 +81,7 @@ header {
   min-height: 40px;
   display: flex;
   align-items: center;
+  padding-top: 25px;
 
   > .button-back {
     position: absolute;

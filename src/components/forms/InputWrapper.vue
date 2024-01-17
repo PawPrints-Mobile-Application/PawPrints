@@ -29,5 +29,6 @@ defineProps({
 .input-wrapper {
   display: flex;
   flex-direction: column;
+  color: var(--theme-primary-text);
 }
 </style>

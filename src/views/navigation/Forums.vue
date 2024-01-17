@@ -66,8 +66,8 @@ onUnmounted(() => {
   align-items: center;
 
   > .button {
-    background-color: var(--theme-secondary-background);
-    color: var(--theme-secondary-text);
+    background-color: var(--theme-secondary-dark-background);
+    color: var(--theme-secondary-dark-text);
     display: flex;
     padding: 5px 10px;
     border-radius: 10px;

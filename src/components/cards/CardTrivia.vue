@@ -26,6 +26,7 @@ onMounted(() => {
   width: 100%;
   display: flex;
   gap: 20px;
+  font-weight: bold;
 }
 
 article {

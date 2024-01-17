@@ -47,7 +47,7 @@ const age = [
   background-color: var(--theme-secondary-dark-background);
   padding: 10px;
   border-radius: 10px;
-  outline: 3px solid var(--theme-primary-text);
+  outline: 3px solid var(--theme-card-highlight-color);
   display: flex;
   flex-direction: column;
   gap: 6px;

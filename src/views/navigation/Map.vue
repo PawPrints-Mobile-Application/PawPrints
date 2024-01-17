@@ -11,7 +11,7 @@
       </div>
       <div class="schedule detail">
         <ion-icon :icon="time" class="detailIcon" />
-        <TextParagraph :value="ScheduleEvaluate()" />
+        <TextParagraph :value="data.schedule" />
       </div>
       <div class="address detail">
         <ion-icon :icon="location" class="detailIcon" />
@@ -39,17 +39,13 @@ const map = ref();
 const data = reactive({
   marked: false,
   name: "",
-  schedule: {},
+  schedule: "",
   address: "",
   contact: "",
 });
 
 const HideDetails = () => (data.marked = false);
 
-const ScheduleEvaluate = () => {
-  if (!data.marked) return "";
-  return "";
-};
 
 const CenterLatLng = (latlng: { lat: number; lng: number }) => [
   latlng.lat,
