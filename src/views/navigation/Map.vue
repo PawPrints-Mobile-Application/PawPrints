@@ -1,6 +1,6 @@
 <template>
   <LayoutPage>
-    <LayoutHeader label="MAP" />
+    <LayoutHeader label="DOGGO CLINICS" />
     <main>
       <div ref="containerMap" id="map" />
     </main>
@@ -155,7 +155,7 @@ main {
   justify-content: space-between;
   align-items: center;
 }
-.detailIcon{
+.detailIcon {
   font-size: 20px;
   min-width: 20px;
 }
