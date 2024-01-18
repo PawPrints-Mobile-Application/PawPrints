@@ -37,7 +37,6 @@
           trigger="doggo-breed"
           :options="Breeds.names"
           closeOnSelect
-          searchable
         />
       </InputWrapper>
       <InputWrapper label="Background Color">
