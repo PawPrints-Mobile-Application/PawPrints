@@ -18,6 +18,7 @@
 import { computed, onMounted, reactive } from "vue";
 import { Avatar, TextParagraph, TextSmall } from "..";
 import { UserInfo } from "../../utils";
+import { Enums } from "../../server/models/Information";
 
 const user = reactive({
   avatar: 2,
@@ -45,7 +46,11 @@ const details = computed(() => [
 
 onMounted(() => {
   user.name = UserInfo.GetUsername();
-  user.email = UserInfo.GetEmail();
+  user.email =
+    UserInfo.GetSubscription().toLowerCase() ===
+    Enums.Subscription.guest.toLowerCase()
+      ? "Guest"
+      : UserInfo.GetEmail();
   user.subscription = UserInfo.GetSubscription();
   user.avatar = UserInfo.GetAvatar();
 });

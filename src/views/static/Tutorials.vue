@@ -88,7 +88,7 @@ const data = [
     picture: tutorialPage2,
     subtitle: "Holistic Health Monitoring",
     description:
-      "Record your dog’s vaccinations, set medication reminders and schedule their activities effortlessly.",
+      "Record your dog's vaccinations, set medication reminders and schedule their activities effortlessly.",
     button: "Continue",
   },
   {

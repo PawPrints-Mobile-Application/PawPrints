@@ -8,7 +8,7 @@
       <section class="add-post">
         <header>
           <aside>
-            <Avatar type="user" />
+            <Avatar type="user" :value="UserInfo.GetAvatar().toString()" />
             <TextHeading :value="UserInfo.GetUsername()" />
           </aside>
           <IonIcon :icon="icon" @click="Hide" />

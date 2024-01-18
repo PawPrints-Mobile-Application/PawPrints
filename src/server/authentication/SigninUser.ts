@@ -5,17 +5,17 @@ import {
   Enums as InformationEnums,
   Props as InformationProps,
 } from "../models/Information";
-import { PawprintsEvent, SeedGenerator, UserInfo } from "../../utils";
+import { PawprintsEvent, UserInfo } from "../../utils";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 const GuestData = {
   informationProps: {
-    uid: SeedGenerator().toString(),
-    email: "Guest",
+    uid: "",
+    email: "",
     username: "Hooman",
     subscription: InformationEnums.Subscription.guest,
     theme: InformationEnums.Theme.yellow,
-    mode: InformationEnums.Mode.dark,
+    mode: InformationEnums.Mode.light,
     avatar: 2,
   },
 };

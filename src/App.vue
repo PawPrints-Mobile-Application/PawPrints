@@ -51,8 +51,7 @@ const InitDatabase = () =>
     .then(GetAuth)
     .then(() => PawprintsEvent.EventDispatcher("ready-app"))
     .then(InitDogs)
-    .then(InitLogs)
-    .then(() => console.log(dogs.value, logs.value, latids.value));
+    .then(InitLogs);
 const SendDatabase = () =>
   PawprintsEvent.EventDispatcher("response-db", db.value);
 

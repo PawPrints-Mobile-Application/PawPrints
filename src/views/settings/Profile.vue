@@ -1,7 +1,12 @@
 <template>
   <LayoutPage>
     <LayoutHeader returnTarget="/settings" label="PROFILE" />
-    <main>
+    <main
+      v-if="
+        UserInfo.GetSubscription().toLowerCase() !==
+        Enums.Subscription.guest.toLowerCase()
+      "
+    >
       <InputUserAvatar v-model="form.avatar" />
       <InputWrapper label="Username">
         <InputText placeholder="Username" v-model="form.username" />
@@ -18,6 +23,10 @@
           class="button-reset"
           value="Reset Password"
           @click="ResetPassword"
+          :disabled="
+            UserInfo.GetSubscription().toLowerCase() ===
+            Enums.Subscription.guest.toLowerCase()
+          "
         />
       </InputWrapper>
 
@@ -26,16 +35,23 @@
         <ButtonSuccess value="Save" @click="Save" :disabled="disableButton" />
       </div>
     </main>
+
+    <article v-else>
+      <Avatar />
+      <TextTitle value="You Have discovered a Verified content!" />
+    </article>
   </LayoutPage>
 </template>
 <script setup lang="ts">
 import { computed, reactive, ref } from "vue";
 import {
+  Avatar,
   ButtonDanger,
   ButtonSuccess,
   InputText,
   InputUserAvatar,
   InputWrapper,
+  TextTitle,
 } from "../../components";
 import { LayoutHeader, LayoutPage } from "../../layout";
 import { Themes, UserInfo } from "../../utils";
@@ -45,7 +61,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import auth from "../../server/firebase";
-import { Set } from "../../server/models/Information";
+import { Enums, Set } from "../../server/models/Information";
 
 const defaultValues = reactive({
   username: UserInfo.GetUsername(),
@@ -125,6 +141,21 @@ main {
 
   > .button {
     flex: 1 0 0;
+  }
+}
+
+article {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 90%;
+  > .avatar {
+    height: 200px;
+  }
+
+  > .text-title {
+    text-align: center;
   }
 }
 </style>

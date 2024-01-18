@@ -2,7 +2,7 @@ import { SetDocument, GetDocument } from "../firebase";
 
 const Enums = {
   Subscription: {
-    guest: "fuest",
+    guest: "guest",
     free: "free",
     pawmium: "pawmium",
   },
@@ -47,14 +47,26 @@ const ToProps = (values: any): Props => {
 const documentPath = (uid: string) =>
   `${constants.collection}/${uid}/Profile/${constants.document}`;
 
-const Get = (uid: string) =>
-  GetDocument(documentPath(uid)).then(async (response) => {
+const Get = (uid: string) => {
+  if (uid === "")
+    return {
+      uid: "",
+      email: "",
+      username: "Hooman",
+      subscription: Enums.Subscription.guest,
+      theme: Enums.Theme.yellow,
+      mode: Enums.Mode.light,
+      avatar: 2,
+    };
+  return GetDocument(documentPath(uid)).then(async (response) => {
     console.log("Downloading Information");
     return ToProps(response!.data()!);
   });
+};
 
 const Set = async (props: Props) => {
   console.log("Uploading Information");
+  if (props.uid === "") return;
   SetDocument(documentPath(props.uid), props);
 };
 

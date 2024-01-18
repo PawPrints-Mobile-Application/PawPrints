@@ -8,7 +8,7 @@
       <section class="add-comment">
         <header>
           <aside>
-            <Avatar type="user" />
+            <Avatar type="user" :value="UserInfo.GetAvatar().toString()" />
             <TextHeading :value="UserInfo.GetUsername()" />
           </aside>
           <IonIcon :icon="icon" @click="Hide" />
@@ -64,7 +64,10 @@ const AddComment = (callback: () => void) => {
   })
     .then(callback)
     .then(Clear)
-    .then(() => PawprintsEvent.EventDispatcher("reload-post"));
+    .then(() => {
+      PawprintsEvent.EventDispatcher("reload-post");
+      PawprintsEvent.EventDispatcher("reload-forums");
+    });
 };
 </script>
 <style scoped>
