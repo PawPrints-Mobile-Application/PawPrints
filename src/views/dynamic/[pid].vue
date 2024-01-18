@@ -100,6 +100,7 @@ const UpdateLog = (value: {
   DEnd: Date;
   pid: string;
 }) => {
+  if (!!logs.value.get(value.log.lid)) return;
   const startDate = new Date(
     value.DStart.getFullYear(),
     value.DStart.getMonth(),
@@ -151,7 +152,7 @@ onBeforeMount(() => {
   DatabaseMounter.Mount(UpdateDB);
   PawprintsEvent.AddEventListener("set-dog", UpdateDog);
   PawprintsEvent.AddEventListener("update-logs", UpdateLogs);
-  PawprintsEvent.AddEventListener("update-log", UpdateLog);
+  PawprintsEvent.AddEventListener("create-log", UpdateLog);
 
   PawprintsEvent.AddEventListener("reset-data", ResetData);
 });
@@ -165,7 +166,7 @@ onBeforeUnmount(() => {
   DatabaseMounter.Unmount(UpdateDB);
   PawprintsEvent.RemoveEventListener("set-dog", UpdateDog);
   PawprintsEvent.RemoveEventListener("update-logs", UpdateLogs);
-  PawprintsEvent.RemoveEventListener("update-log", UpdateLog);
+  PawprintsEvent.RemoveEventListener("create-log", UpdateLog);
 
   PawprintsEvent.RemoveEventListener("reset-data", ResetData);
 });

@@ -57,8 +57,13 @@ const date = computed(
 );
 
 const GetLogs = (pid: string) => {
-  let lids = latids.value.get(GetLATID(new Date(), pid))!;
-  return lids.map((lid) => logs.value.get(lid)!);
+  try {
+    let lids = latids.value.get(GetLATID(new Date(), pid))!;
+    if (logs.value.size === 0) return [];
+    return lids.map((lid) => logs.value.get(lid)!);
+  } catch (e) {
+    return [];
+  }
 };
 
 const Refresh = (event: any) => {
@@ -66,6 +71,50 @@ const Refresh = (event: any) => {
   PawprintsEvent.EventDispatcher("sync-logs");
   setTimeout(() => event.target.complete(), 500);
 };
+
+// -------------------------- LOGS --------------------------
+const latids: Ref<Map<string, string[]>> = ref(new Map());
+const logs: Ref<Map<string, PropsLAD>> = ref(new Map());
+const UpdateLogs = (values: {
+  latids: Map<string, string[]>;
+  logs: Map<string, PropsLAD>;
+}) => {
+  logs.value = values.logs;
+  Array.from(values.latids.entries()).forEach((value) =>
+    latids.value.set(value[0], value[1])
+  );
+};
+const UpdateLog = (value: {
+  log: PropsLAD;
+  DStart: Date;
+  DEnd: Date;
+  pid: string;
+}) => {
+  if (!!logs.value.get(value.log.lid)) return;
+  const startDate = new Date(
+    value.DStart.getFullYear(),
+    value.DStart.getMonth(),
+    value.DStart.getDate()
+  );
+  const endDtate = new Date(
+    value.DEnd.getFullYear(),
+    value.DEnd.getMonth(),
+    value.DEnd.getDate()
+  );
+  for (
+    let date = startDate;
+    date <= endDtate;
+    date.setDate(date.getDate() + 1)
+  ) {
+    const latid = GetLATID(date, value.pid);
+    logs.value.set(value.log.lid, value.log);
+    let lids = latids.value.get(latid);
+    if (!lids) lids = new Array<string>();
+    lids.push(value.log.lid);
+    latids.value.set(latid, lids);
+  }
+};
+const RequestLogs = () => PawprintsEvent.EventDispatcher("request-logs");
 
 // -------------------------- DOGS --------------------------
 const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
@@ -86,6 +135,7 @@ watch(
   () => !!db.value && update.value,
   () => {
     RequestDogs();
+    RequestLogs();
     update.value = false;
   }
 );
@@ -99,6 +149,9 @@ onBeforeMount(() => {
   PawprintsEvent.AddEventListener("update-dogs", UpdateDogs);
   PawprintsEvent.AddEventListener("create-dog", UpdateDog);
 
+  PawprintsEvent.AddEventListener("update-logs", UpdateLogs);
+  PawprintsEvent.AddEventListener("create-log", UpdateLog);
+
   PawprintsEvent.AddEventListener("reset-data", ResetData);
 });
 
@@ -111,6 +164,9 @@ onBeforeUnmount(() => {
   DatabaseMounter.Unmount(UpdateDB);
   PawprintsEvent.RemoveEventListener("update-dogs", UpdateDogs);
   PawprintsEvent.RemoveEventListener("create-dog", UpdateDog);
+
+  PawprintsEvent.RemoveEventListener("update-logs", UpdateLogs);
+  PawprintsEvent.RemoveEventListener("create-log", UpdateLog);
 
   PawprintsEvent.RemoveEventListener("reset-data", ResetData);
 });

@@ -4,7 +4,10 @@
     :disableBack="state.processing"
     @dismiss="Clear"
   >
-    <template #header><TextHeading class="bold" value="ADD LOG" /> </template>
+    <template #header><TextHeading class="bold" value="ADD LOG" /></template>
+    <section class="indicator" :class="{ hide: !state.processing }">
+      <TextSubheading value="Creating Log..." />
+    </section>
     <section class="form" :class="{ hide: state.processing }">
       <InputSegment :options="viewOptions" v-model="type" show="both" />
       <InputWrapper label="Title">
@@ -78,6 +81,7 @@ import {
   InputTime,
   InputTextarea,
   InputChoice,
+  TextSubheading,
 } from "..";
 import {
   SeedGenerator,
@@ -238,7 +242,7 @@ const Process = () => {
       ).then(() => {
         state.processing = false;
         PawprintsEvent.EventDispatcher("modal-add-log", "hide");
-        PawprintsEvent.EventDispatcher("update-log", {
+        PawprintsEvent.EventDispatcher("create-log", {
           log: data,
           DStart: form.DStart,
           DEnd: form.DEnd,
@@ -260,12 +264,23 @@ const Process = () => {
   overflow: hidden;
   height: 500px;
   transition: all 200ms ease-out;
+  padding: 3px;
 }
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  overflow: hidden;
+  transition: all 200ms ease-out;
+}
+
 .text-heading {
   color: var(--theme-primary-text);
 }
 .hide {
   height: 0;
+  padding: 0;
 }
 
 .input-segment {
