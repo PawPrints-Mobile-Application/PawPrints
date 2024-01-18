@@ -9,7 +9,11 @@
       <section class="schedule">
         <Refresher @refresh="Refresh" />
         <TextSubheading value="Today's History" class="bold" />
-        <section class="dog-log" v-for="dog in Array.from(dogs.values())">
+        <section
+          class="dog-log"
+          v-for="dog in Array.from(dogs.values())"
+          v-show="!!GetLogs(dog.pid).length"
+        >
           <aside class="identity">
             <Avatar type="dog" :value="dog.breed" :color="dog.color" />
             <TextParagraph :value="dog.name" class="bold" />
@@ -200,6 +204,7 @@ main {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
+  gap: 10px;
 }
 
 .dog-log {
@@ -209,7 +214,7 @@ main {
   background-color: var(--theme-secondary-dark-background);
   border-radius: 10px;
   padding: 5px;
-  gap: 5px;
+  gap: 10px;
 }
 
 .identity {
@@ -217,11 +222,14 @@ main {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 10px;
+  padding-block: 10px;
 }
 
 .logs {
   flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .avatar {

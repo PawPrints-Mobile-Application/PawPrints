@@ -28,10 +28,6 @@ import { GetLATID, Sync as SyncAllLogs } from "./server/models/Logs";
 
 const state = reactive({
   userFound: false,
-
-  auth: false,
-  themes: false,
-  localDatabase: false,
 });
 
 // -------------------------- DB --------------------------
@@ -44,21 +40,19 @@ const InitDatabase = () =>
     })
     .then(() => CreateModels(db.value!))
     .then(() => {
-      state.localDatabase = true;
       PawprintsEvent.EventDispatcher("init-db");
       SendDatabase();
     })
-    .then(GetAuth)
-    .then(() => PawprintsEvent.EventDispatcher("ready-app"))
-    .then(InitDogs)
-    .then(InitLogs);
+    .then(GetAuth);
 const SendDatabase = () =>
   PawprintsEvent.EventDispatcher("response-db", db.value);
 
 const GetAuth = () => {
-  PawprintsEvent.EventDispatcher("user-finder", !!UserInfo.GetUID(true));
+  state.userFound = !!UserInfo.GetUID(true);
+  PawprintsEvent.EventDispatcher("user-finder", state.userFound);
   SetThemes();
   PawprintsEvent.EventDispatcher("init-themes");
+  PawprintsEvent.EventDispatcher("ready-app");
 };
 
 const SetThemes = () => {
@@ -160,7 +154,19 @@ onBeforeMount(() => {
   PawprintsEvent.AddEventListener("reset-data", ResetData);
 });
 
-onMounted(() => setTimeout(InitDatabase, 1));
+onMounted(() =>
+  setTimeout(
+    async () =>
+      await InitDatabase().then(async () => {
+        if (state.userFound) await InitUserData();
+        else InitSystemData();
+      }),
+    1
+  )
+);
+
+const InitUserData = () => InitDogs().then(InitLogs);
+const InitSystemData = () => {};
 
 onUnmounted(async () => {
   if (!!db.value) await Close(db.value);
