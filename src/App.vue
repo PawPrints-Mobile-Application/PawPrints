@@ -51,7 +51,8 @@ const InitDatabase = () =>
     .then(GetAuth)
     .then(() => PawprintsEvent.EventDispatcher("ready-app"))
     .then(InitDogs)
-    .then(InitLogs);
+    .then(InitLogs)
+    .then(() => console.log(dogs.value, logs.value, latids.value));
 const SendDatabase = () =>
   PawprintsEvent.EventDispatcher("response-db", db.value);
 
@@ -65,6 +66,7 @@ const SetThemes = () => {
   Themes.Set(UserInfo.GetTheme());
   PawprintsEvent.EventDispatcher("updated-themes");
 };
+const SyncData = () => SyncDogs().then(SyncLogs);
 
 // -------------------------- DOGS --------------------------
 const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
@@ -72,9 +74,13 @@ const SendDogs = () =>
   PawprintsEvent.EventDispatcher("update-dogs", dogs.value);
 const SendDog = (pid: string) =>
   PawprintsEvent.EventDispatcher("set-dog", dogs.value.get(pid));
-const UpdateDog = (dog: PropsDog) => dogs.value.set(dog.pid, dog);
+const UpdateDog = (dog: PropsDog) => {
+  dogs.value.set(dog.pid, dog);
+  PawprintsEvent.EventDispatcher("count-dogs", dogs.value.size);
+};
 const UpdateDogs = (propsDogs: PropsDog[]) => {
   propsDogs.forEach(UpdateDog);
+  PawprintsEvent.EventDispatcher("count-dogs", dogs.value.size);
   SendDogs();
 };
 const InitDogs = () => GetDogs(db.value!).then(UpdateDogs);
@@ -140,7 +146,9 @@ const ResetData = () => {
 onBeforeMount(() => {
   PawprintsEvent.AddEventListener("request-db", SendDatabase);
   PawprintsEvent.AddEventListener("set-themes", SetThemes);
+  PawprintsEvent.AddEventListener("sync-data", SyncData);
 
+  PawprintsEvent.AddEventListener("create-dog", UpdateDog);
   PawprintsEvent.AddEventListener("request-dogs", SendDogs);
   PawprintsEvent.AddEventListener("request-dog", SendDog);
   PawprintsEvent.AddEventListener("update-dog", UpdateDog);
@@ -159,6 +167,7 @@ onUnmounted(async () => {
   if (!!db.value) await Close(db.value);
   PawprintsEvent.RemoveEventListener("request-db", SendDatabase);
   PawprintsEvent.RemoveEventListener("set-themes", SetThemes);
+  PawprintsEvent.RemoveEventListener("sync-data", SyncData);
 
   PawprintsEvent.RemoveEventListener("request-dogs", SendDogs);
   PawprintsEvent.RemoveEventListener("request-dog", SendDog);

@@ -1,4 +1,5 @@
 import { ObjectToMap, PawprintsEvent, UserInfo } from ".";
+import { Set as SetInformation } from "../server/models/Information";
 
 const themes = {
   yellow: {
@@ -166,6 +167,16 @@ const Set = (value: string) => {
   });
   PawprintsEvent.EventDispatcher("modified", "themes");
   UserInfo.SetTheme(theme[0], theme[1]);
+  if (!UserInfo.GetUID(true)) return;
+  SetInformation({
+    uid: UserInfo.GetUID()!,
+    email: UserInfo.GetEmail()!,
+    username: UserInfo.GetUsername()!,
+    subscription: UserInfo.GetSubscription()!,
+    theme: theme[0],
+    mode: theme[1],
+    avatar: UserInfo.GetAvatar()!,
+  });
 };
 
 const Get = () => {

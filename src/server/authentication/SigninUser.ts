@@ -5,7 +5,7 @@ import {
   Enums as InformationEnums,
   Props as InformationProps,
 } from "../models/Information";
-import { SeedGenerator, UserInfo } from "../../utils";
+import { PawprintsEvent, SeedGenerator, UserInfo } from "../../utils";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 const GuestData = {
@@ -52,6 +52,8 @@ const WindowDatabaseInitialization = (props: InformationProps) => {
   UserInfo.SetTheme(props.theme, props.mode);
   UserInfo.SetAvatar(props.avatar);
   console.log(`${props.username} has logged in.`);
+  PawprintsEvent.EventDispatcher("set-themes");
+  PawprintsEvent.EventDispatcher("sync-data");
 };
 
 export { FirebaseLogin, DatabaseInitialization, WindowDatabaseInitialization };

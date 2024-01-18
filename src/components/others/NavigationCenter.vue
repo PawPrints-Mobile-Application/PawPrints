@@ -30,13 +30,14 @@
 import { IonIcon, IonRippleEffect, useIonRouter } from "@ionic/vue";
 import { useRouter } from "vue-router";
 import { TextSmall } from "..";
-import { reactive } from "vue";
+import { onMounted, onUnmounted, reactive, ref } from "vue";
 import {
   add as addIcon,
   paw as pawIcon,
   document as documentIcon,
 } from "ionicons/icons";
-import { PawprintsEvent } from "../../utils";
+import { PawprintsEvent, UserInfo } from "../../utils";
+import { Enums } from "../../server/models/Information";
 
 const animation = reactive({
   grow: false,
@@ -70,6 +71,22 @@ const Navigate = () => {
         animation.readyToClick = true;
       }, 800);
       break;
+    case "modal-add-dog":
+      let max = 2;
+      if (
+        UserInfo.GetSubscription().toLowerCase() ===
+        Enums.Subscription.free.toLowerCase()
+      )
+        max = 3;
+      else if (
+        UserInfo.GetSubscription().toLowerCase() ===
+        Enums.Subscription.pawmium.toLowerCase()
+      )
+        max = 1000;
+      if (dogSize.value >= max)
+        PawprintsEvent.EventDispatcher("prohibit-add-dog");
+      else PawprintsEvent.EventDispatcher("modal-add-dog");
+      break;
     default:
       PawprintsEvent.EventDispatcher(action);
       break;
@@ -89,6 +106,15 @@ const props = defineProps({
     type: String,
     required: true,
   },
+});
+
+const dogSize = ref(0);
+const SetDogSize = (count: number) => (dogSize.value = count);
+onMounted(() => {
+  PawprintsEvent.AddEventListener("count-dogs", SetDogSize);
+});
+onUnmounted(() => {
+  PawprintsEvent.RemoveEventListener("count-dogs", SetDogSize);
 });
 </script>
 <style scoped>

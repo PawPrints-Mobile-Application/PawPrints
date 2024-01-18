@@ -1,9 +1,18 @@
 <template>
   <LayoutPage>
+    <Toast trigger="prohibit-add-dog" height="70px">
+      <template #default="{ Toggle }">
+        <ToastSmall
+          type="danger"
+          title="Dog Amount Exceeded!"
+          content="Subscribe for more dog slots!"
+          @close="Toggle"
+        />
+      </template>
+    </Toast>
     <LayoutHeader label="MY DOGGOS" />
     <section class="content">
       <Refresher @refresh="Refresh" />
-      <InputText v-model="filter" placeholder="Search" />
       <section class="dogs">
         <CardDog v-for="dog in dogs" :dog="dog[1]" @click="Navigate(dog[0])" />
       </section>
@@ -12,8 +21,16 @@
   </LayoutPage>
 </template>
 <script setup lang="ts">
-import { InputText, CardDog, ModalAddDog, Refresher } from "../../components";
-import { onBeforeMount, onBeforeUnmount, onMounted, ref, Ref } from "vue";
+import { CardDog, ModalAddDog, Refresher, Toast } from "../../components";
+import { ToastSmall } from "../../layout";
+import {
+  onBeforeMount,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  Ref,
+  watch,
+} from "vue";
 import { Props as PropsDog } from "../../server/models/Dogs";
 import { PawprintsEvent, DatabaseMounter } from "../../utils";
 import { LayoutHeader, LayoutPage } from "../../layout";
@@ -26,19 +43,28 @@ const Refresh = (event: any) => {
   setTimeout(() => event.target.complete(), 500);
 };
 
-const filter = ref("");
 // -------------------------- DOGS --------------------------
 const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
+
 const UpdateDogs = (values: Map<string, PropsDog>) => values.forEach(UpdateDog);
 const UpdateDog = (value: PropsDog) => dogs.value.set(value.pid, value);
-const SyncDogs = () => PawprintsEvent.EventDispatcher("request-dogs");
+const RequestDogs = () => PawprintsEvent.EventDispatcher("request-dogs");
 
 const db = ref();
 const UpdateDB = (value: any) => {
   if (!value) return;
   db.value = value;
-  setTimeout(SyncDogs, 10);
+  update.value = true;
 };
+
+const update = ref(false);
+watch(
+  () => !!db.value && update.value,
+  () => {
+    RequestDogs();
+    update.value = false;
+  }
+);
 
 const ResetData = () => {
   dogs.value = new Map();
@@ -47,19 +73,20 @@ const ResetData = () => {
 onBeforeMount(() => {
   DatabaseMounter.Mount(UpdateDB);
   PawprintsEvent.AddEventListener("update-dogs", UpdateDogs);
-  PawprintsEvent.AddEventListener("update-dog", UpdateDog);
+  PawprintsEvent.AddEventListener("create-dog", UpdateDog);
 
   PawprintsEvent.AddEventListener("reset-data", ResetData);
 });
 
 onMounted(() => {
-  DatabaseMounter.Request();
+  if (!db.value) DatabaseMounter.Request();
+  else update.value = true;
 });
 
 onBeforeUnmount(() => {
   DatabaseMounter.Unmount(UpdateDB);
   PawprintsEvent.RemoveEventListener("update-dogs", UpdateDogs);
-  PawprintsEvent.RemoveEventListener("update-dog", UpdateDog);
+  PawprintsEvent.RemoveEventListener("create-dog", UpdateDog);
 
   PawprintsEvent.RemoveEventListener("reset-data", ResetData);
 });

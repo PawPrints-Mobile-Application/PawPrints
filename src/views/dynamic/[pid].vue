@@ -35,7 +35,14 @@
 </template>
 <script setup lang="ts">
 import { LayoutPage, LayoutHeader, LayoutPIDListView } from "../../layout";
-import { Ref, onBeforeMount, onBeforeUnmount, onMounted, ref } from "vue";
+import {
+  Ref,
+  onBeforeMount,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  watch,
+} from "vue";
 import { useRoute } from "vue-router";
 import { DatabaseMounter, PawprintsEvent, SegmentOption } from "../../utils";
 import {
@@ -116,15 +123,24 @@ const UpdateLog = (value: {
     latids.value.set(latid, lids);
   }
 };
-const SyncLogs = () => PawprintsEvent.EventDispatcher("request-logs");
+const RequestLogs = () => PawprintsEvent.EventDispatcher("request-logs");
 
 const db = ref();
 const UpdateDB = (value: any) => {
   if (!value) return;
   db.value = value;
-  setTimeout(RequestDog, 10);
-  setTimeout(SyncLogs, 20);
+  update.value = true;
 };
+
+const update = ref(false);
+watch(
+  () => !!db.value && update.value,
+  () => {
+    RequestDog();
+    RequestLogs();
+    update.value = false;
+  }
+);
 
 const ResetData = () => {
   logs.value = new Map();
@@ -141,7 +157,8 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  DatabaseMounter.Request();
+  if (!db.value) DatabaseMounter.Request();
+  else update.value = true;
 });
 
 onBeforeUnmount(() => {

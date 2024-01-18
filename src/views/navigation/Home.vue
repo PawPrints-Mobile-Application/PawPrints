@@ -8,7 +8,7 @@
       <CardTrivia />
       <section class="schedule">
         <Refresher @refresh="Refresh" />
-        <TextSubheading value="Today's Schedules" class="bold" />
+        <TextSubheading value="Today's History" class="bold" />
         <section class="dog-log" v-for="dog in Array.from(dogs.values())">
           <aside class="identity">
             <Avatar type="dog" :value="dog.breed" :color="dog.color" />
@@ -23,7 +23,15 @@
   </LayoutPage>
 </template>
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, ref, Ref } from "vue";
+import {
+  computed,
+  onBeforeMount,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  Ref,
+  watch,
+} from "vue";
 import { LayoutPage, LayoutHeader } from "../../layout";
 import {
   Calendar,
@@ -48,101 +56,61 @@ const date = computed(
   () => `${Calendar.monthsShort[new Date().getMonth()]} ${new Date().getDate()}`
 );
 
-const Refresh = (event: any) => {
-  PawprintsEvent.EventDispatcher("sync-data");
-  setTimeout(() => event.target.complete(), 500);
-};
-
 const GetLogs = (pid: string) => {
   let lids = latids.value.get(GetLATID(new Date(), pid))!;
   return lids.map((lid) => logs.value.get(lid)!);
 };
 
+const Refresh = (event: any) => {
+  PawprintsEvent.EventDispatcher("sync-dogs");
+  PawprintsEvent.EventDispatcher("sync-logs");
+  setTimeout(() => event.target.complete(), 500);
+};
+
 // -------------------------- DOGS --------------------------
 const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
+
 const UpdateDogs = (values: Map<string, PropsDog>) => values.forEach(UpdateDog);
 const UpdateDog = (value: PropsDog) => dogs.value.set(value.pid, value);
-const SyncDogs = () => PawprintsEvent.EventDispatcher("request-dogs");
-
-// -------------------------- LOGS --------------------------
-const latids: Ref<Map<string, string[]>> = ref(new Map());
-const logs: Ref<Map<string, PropsLAD>> = ref(new Map());
-const UpdateLogs = (values: {
-  latids: Map<string, string[]>;
-  logs: Map<string, PropsLAD>;
-}) => {
-  logs.value = values.logs;
-  Array.from(values.latids.entries()).forEach((value) =>
-    latids.value.set(value[0], value[1])
-  );
-};
-const UpdateLog = (value: {
-  log: PropsLAD;
-  DStart: Date;
-  DEnd: Date;
-  pid: string;
-}) => {
-  const startDate = new Date(
-    value.DStart.getFullYear(),
-    value.DStart.getMonth(),
-    value.DStart.getDate()
-  );
-  const endDtate = new Date(
-    value.DEnd.getFullYear(),
-    value.DEnd.getMonth(),
-    value.DEnd.getDate()
-  );
-  for (
-    let date = startDate;
-    date <= endDtate;
-    date.setDate(date.getDate() + 1)
-  ) {
-    const latid = GetLATID(date, value.pid);
-    logs.value.set(value.log.lid, value.log);
-    let lids = latids.value.get(latid);
-    if (!lids) lids = new Array<string>();
-    lids.push(value.log.lid);
-    latids.value.set(latid, lids);
-  }
-};
-const SyncLogs = () => PawprintsEvent.EventDispatcher("request-logs");
+const RequestDogs = () => PawprintsEvent.EventDispatcher("request-dogs");
 
 const db = ref();
 const UpdateDB = (value: any) => {
   if (!value) return;
   db.value = value;
-  setTimeout(SyncDogs, 10);
-  setTimeout(SyncLogs, 20);
+  update.value = true;
 };
+
+const update = ref(false);
+watch(
+  () => !!db.value && update.value,
+  () => {
+    RequestDogs();
+    update.value = false;
+  }
+);
 
 const ResetData = () => {
   dogs.value = new Map();
-  logs.value = new Map();
-  latids.value = new Map();
 };
 
 onBeforeMount(() => {
   DatabaseMounter.Mount(UpdateDB);
-  PawprintsEvent.AddEventListener("update-logs", UpdateLogs);
-  PawprintsEvent.AddEventListener("update-log", UpdateLog);
-
   PawprintsEvent.AddEventListener("update-dogs", UpdateDogs);
-  PawprintsEvent.AddEventListener("update-dog", UpdateDog);
+  PawprintsEvent.AddEventListener("create-dog", UpdateDog);
 
   PawprintsEvent.AddEventListener("reset-data", ResetData);
 });
 
 onMounted(() => {
-  DatabaseMounter.Request();
+  if (!db.value) DatabaseMounter.Request();
+  else update.value = true;
 });
 
-onBeforeMount(() => {
+onBeforeUnmount(() => {
   DatabaseMounter.Unmount(UpdateDB);
-  PawprintsEvent.RemoveEventListener("update-logs", UpdateLogs);
-  PawprintsEvent.RemoveEventListener("update-log", UpdateLog);
-
   PawprintsEvent.RemoveEventListener("update-dogs", UpdateDogs);
-  PawprintsEvent.RemoveEventListener("update-dog", UpdateDog);
+  PawprintsEvent.RemoveEventListener("create-dog", UpdateDog);
 
   PawprintsEvent.RemoveEventListener("reset-data", ResetData);
 });

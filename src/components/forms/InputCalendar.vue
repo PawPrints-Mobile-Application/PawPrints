@@ -13,8 +13,8 @@
       />
       <InputDropdown
         class="year"
-        :modelValue="calendar.year"
-        @update:modelValue="SetYear"
+        :modelValue="calendar.year.toString()"
+        @update:modelValue="(value) => SetYear(Number(value))"
         :options="calendar.years"
         hideIcon
         trigger="popup-year"
@@ -65,24 +65,21 @@ const isSelected = (i: number) =>
   calendar.month === props.modelValue?.getMonth() &&
   calendar.year === props.modelValue?.getFullYear();
 
-const GetYears = (): number[] => {
+const GetYears = (): string[] => {
   const range = Math.floor(props.length / 2);
   if (!!props.disableFuture && !!props.disablePast) {
-    return [new Date().getFullYear()];
+    return [new Date().getFullYear().toString()];
   } else if (!!props.disableFuture) {
-    return Array.from(
-      { length: range + 1 },
-      (_, i) => i + new Date().getFullYear() - range
+    return Array.from({ length: range + 1 }, (_, i) =>
+      (i + new Date().getFullYear() - range).toString()
     );
   } else if (!!props.disablePast) {
-    return Array.from(
-      { length: range + 1 },
-      (_, i) => i + new Date().getFullYear()
+    return Array.from({ length: range + 1 }, (_, i) =>
+      (i + new Date().getFullYear()).toString()
     );
   }
-  return Array.from(
-    { length: 2 * range + 1 },
-    (_, i) => i + new Date().getFullYear() - range
+  return Array.from({ length: 2 * range + 1 }, (_, i) =>
+    (i + new Date().getFullYear() - range).toString()
   );
 };
 

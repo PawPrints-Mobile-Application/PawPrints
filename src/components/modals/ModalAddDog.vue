@@ -172,15 +172,13 @@ const Process = () => {
     () =>
       Add(props.db!, data, UserInfo.GetUID()).then(() => {
         state.processing = false;
+        PawprintsEvent.EventDispatcher("create-dog", data);
         Navigate(pid);
         PawprintsEvent.EventDispatcher("modal-add-dog", "hide");
-        emit("update-dog", data);
       }),
     1500
   );
 };
-
-const emit = defineEmits(["update-dog"]);
 </script>
 <style scoped>
 .pseudo-card {
@@ -294,6 +292,6 @@ const emit = defineEmits(["update-dog"]);
 }
 
 .text-heading {
-  color: var(--theme-primary-text)
+  color: var(--theme-primary-text);
 }
 </style>

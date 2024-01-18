@@ -33,12 +33,12 @@ import { UserInfo } from "../../utils";
 const current = ref(0);
 const subscriptions = [
   {
-    name: Enums.Subscription.free,
+    name: Enums.Subscription.guest,
     icon: subscriptionGuest,
     info: ["No profile edit", "No cloud support", "Up to 2 dog profiles"],
   },
   {
-    name: Enums.Subscription.guest,
+    name: Enums.Subscription.free,
     icon: subscriptionFree,
     info: ["Advertisement included", "Up to 3 dog profiles"],
   },
