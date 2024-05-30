@@ -35,6 +35,7 @@
         :class="{ active: isSelected(date) }"
         v-for="(date, i) of calendar.cells"
         :style="{ gridColumnStart: i === 0 ? calendar.dayStart : 'auto' }"
+        @click="emit('dateClick')"
       >
         <TextSmall class="date" :value="date.toString()" />
         <section class="logs">
@@ -135,7 +136,7 @@ const MoveMonth = (increment: 1 | -1) => {
 const SetMonth = (value: number) => CellsRecalculate(year.value, value);
 const SetYear = (value: number) => CellsRecalculate(value, month.value);
 
-const emit = defineEmits(["update:modelValue", "select"]);
+const emit = defineEmits(["update:modelValue", "select", "dateClick"]);
 
 onMounted(() => {
   CellsRecalculate(year.value, month.value);

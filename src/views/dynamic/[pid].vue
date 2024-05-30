@@ -19,6 +19,7 @@
           :latids="latids"
           :logs="logs"
           :pid="pid"
+          @dateClick="view = views[1]"
         />
       </section>
       <section class="view view-list" v-show="!!dog" v-else>
