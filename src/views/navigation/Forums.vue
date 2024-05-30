@@ -15,7 +15,7 @@
         </div>
       </section>
       <section class="posts">
-        <CardPost v-for="post of Array.from(posts.values())" :post="post" />
+        <CardPost v-for="post of getPosts()" :post="post" />
       </section>
     </main>
     <article v-else>
@@ -65,6 +65,12 @@ const Get = () => {
 const ReloadForums = async () => {
   const temp = await GetPosts();
   temp.map((post) => posts.value.set(post.fid, post));
+};
+
+const getPosts = () => {
+  const temp = Array.from(posts.value.values());
+  temp.reverse();
+  return temp;
 };
 
 onBeforeMount(() => {

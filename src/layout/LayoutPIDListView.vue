@@ -32,7 +32,11 @@
             Calendar.days[new Date(year, month, date).getDay()]
           }}</TextSubheading>
         </section>
-        <CardLog v-for="lid of GetLIDs(date)" :log="GetLog(lid)" />
+        <CardLog
+          v-for="lid of GetLIDs(date)"
+          :log="GetLog(lid)"
+          @click="Navigate(lid)"
+        />
       </section>
     </section>
   </section>
@@ -43,6 +47,10 @@ import { Props as PropsLAD } from "../server/models/LogAddressingData";
 import { Calendar } from "../utils";
 import { CardLog, InputDropdown, TextSubheading } from "../components";
 import { GetLATID } from "../server/models/Logs";
+import { useIonRouter } from "@ionic/vue";
+const ionRouter = useIonRouter();
+const Navigate = (lid: string) =>
+  ionRouter.navigate(`/dogs/${props.pid}/logs/${lid}`);
 
 const props = defineProps({
   modelValue: Date,

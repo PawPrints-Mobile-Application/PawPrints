@@ -1,6 +1,10 @@
 <template>
   <header class="layout layout-header">
-    <ButtonBack v-show="!!returnTarget" @click="Navigate" />
+    <ButtonBack
+      v-show="!!returnTarget"
+      @click="Navigate"
+      :disabled="!!disableBack"
+    />
     <section>
       <slot><TextHeading v-show="!!label" :value="label" /></slot>
     </section>
@@ -16,6 +20,7 @@ const Navigate = () =>
 const props = defineProps({
   returnTarget: String,
   label: String,
+  disableBack: Boolean,
 });
 </script>
 <style scoped>
