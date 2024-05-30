@@ -22,7 +22,9 @@
 </template>
 <script setup lang="ts">
 import { PropType } from "vue";
-import { Props as PropsLAD } from "../../server/models/LogAddressingData";
+import {
+  Props as PropsLAD,
+} from "../../server/models/LogAddressingData";
 import { PawprintsEvent } from "../../utils";
 import { TextParagraph, TextSmall, TextSubheading } from "..";
 
