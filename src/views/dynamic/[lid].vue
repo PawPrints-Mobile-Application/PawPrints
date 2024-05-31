@@ -59,7 +59,6 @@ import {
   Props as PropsLAD,
 } from "../../server/models/LogAddressingData";
 import { Props as PropsDog } from "../../server/models/Dogs";
-// import { GetLATID } from "../../server/models/Logs";
 import {
   Avatar,
   TextHeading,
@@ -106,7 +105,7 @@ const UpdateLogs = (values: {
   Array.from(values.latids.entries()).forEach((value) =>
     latids.value.set(value[0], value[1])
   );
-  log.value = getLog(lid.value);
+  log.value = getLog();
   console.log(log.value.TStart.toString());
   iconSrc.value = ObjectToMap(Enums.Category).get(log.value.category).icon;
 };
@@ -141,8 +140,8 @@ const UpdateLogs = (values: {
 //   }
 // };
 const RequestLogs = () => PawprintsEvent.EventDispatcher("request-logs");
-const getLog = (lid: string) => {
-  const data = logs.value.get(lid)!;
+const getLog = () => {
+  const data = logs.value.get(lid.value)!;
   console.log(data);
   return data;
 };
@@ -264,5 +263,16 @@ main {
     border-radius: 5px;
     padding: 5px;
   }
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.button-danger {
+  width: 100%;
 }
 </style>

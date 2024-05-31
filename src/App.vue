@@ -50,8 +50,8 @@ const InitDatabase = () =>
     })
     .then(GetAuth)
     .then(() => PawprintsEvent.EventDispatcher("ready-app"))
-    .then(InitDogs)
-    .then(InitLogs);
+    .then(SyncDogs)
+    .then(SyncLogs);
 const SendDatabase = () =>
   PawprintsEvent.EventDispatcher("response-db", db.value);
 
@@ -69,8 +69,10 @@ const SyncData = () => SyncDogs().then(SyncLogs);
 
 // -------------------------- DOGS --------------------------
 const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
-const SendDogs = () =>
+const SendDogs = () => {
+  console.log(dogs.value);
   PawprintsEvent.EventDispatcher("update-dogs", dogs.value);
+};
 const SendDog = (pid: string) =>
   PawprintsEvent.EventDispatcher("set-dog", dogs.value.get(pid));
 const UpdateDog = (dog: PropsDog) => {

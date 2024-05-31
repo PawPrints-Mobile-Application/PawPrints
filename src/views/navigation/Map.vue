@@ -46,7 +46,6 @@ const data = reactive({
 
 const HideDetails = () => (data.marked = false);
 
-
 const CenterLatLng = (latlng: { lat: number; lng: number }) => [
   latlng.lat,
   latlng.lng,
@@ -106,8 +105,8 @@ onMounted(() => {
   map.value.on("locationfound", onLocationFound);
   map.value.on("locationerror", onLocationError);
   map.value.on("zoomend", SetZoom);
-  map.value.locate({ setView: true, maxZoom: 50 });
   SetMarkers();
+  map.value.locate({ setView: true, maxZoom: 50 });
 });
 </script>
 <style scoped>

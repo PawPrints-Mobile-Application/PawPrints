@@ -61,6 +61,7 @@ const update = ref(false);
 watch(
   () => !!db.value && update.value,
   () => {
+    console.log("request");
     RequestDogs();
     update.value = false;
   }

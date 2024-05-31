@@ -74,6 +74,11 @@ let routes: Array<RouteRecordRaw> = [
         component: () => import(`./views/dynamic/[pid].vue`),
       },
       {
+        path: "/dogs/:pid/information",
+        name: "dog information",
+        component: () => import(`./views/dynamic/[iid].vue`),
+      },
+      {
         path: "/dogs/:pid/logs/:lid",
         name: "logs",
         component: () => import(`./views/dynamic/[lid].vue`),
