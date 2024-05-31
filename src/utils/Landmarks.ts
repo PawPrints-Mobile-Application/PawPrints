@@ -207,5 +207,47 @@ const entries = {
     contact: "0285311581",
     coords: { x: 14.581042114970572, y: 121.03181730996661 },
   },
+  "Green Bay Pet Grooming And Veterinary Clinic": {
+    name: "Green Bay Pet Grooming And Veterinary Clinic",
+    schedule: "Monday - Sunday: 7:00 AM - 7:00 PM",
+    address: "8748 Sandoval Ave, Pasig, Metro Manila",
+    contact: "09173191547",
+    coords: { x: 14.543976083491351, y: 121.10602808161677 },
+  },
+  "CityVets Animal Clinic- Pasig": {
+    name: "CityVets Animal Clinic- Pasig",
+    schedule: "Monday - Sunday: 9:00 AM - 5:00 PM",
+    address: "Unit 1E, Alpha Square, 138 Sandoval Ave, Pasig, 1602 Metro Manila",
+    contact: "09270773081",
+    coords: { x: 14.554882511285083, y: 121.09683294681425 },
+  },
+  "Greenwoods Pet Hospital": {
+    name: "Greenwoods Pet Hospital",
+    schedule: "Monday - Sunday: 9:00 AM - 7:00 PM",
+    address: "Deedee & Lou Building, Lot 3, Blk 4, Greenwoods Avenue, Greenwoods Executive Village, Greenwoods Ave, Cainta, 1900 Metro Manila",
+    contact: "0285711130",
+    coords: { x: 14.561320819257352, y: 121.10142488856549 },
+  },
+  "Animales De Compania Veterinary Clinic - Greenwoods Avenue": {
+    name: "Animales De Compania Veterinary Clinic - Greenwoods Avenue",
+    schedule: "Monday - Sunday: 10:00 AM - 8:00 PM",
+    address: "Unit 2 The Greenwoods Place, Greenwoods Avenue, Greenwoods Executive Village, Cainta, Rizal",
+    contact: "09173124833",
+    coords: { x: 14.561694650722561, y:  121.1011244811612 },
+  },
+  "East Lakeshore Pet Grooming and Veterinary Clinic": {
+    name: "East Lakeshore Pet Grooming and Veterinary Clinic",
+    schedule: "Monday - Sunday: 7:00 AM - 7:00 PM",
+    address: "75 Ynares Ave, Taytay, 1920 Rizal",
+    contact: "0282807892",
+    coords: { x: 14.533987869782067,  y: 121.10777635948202 },
+  },
+  "Pet Buddy Animal Clinic": {
+    name: "Pet Buddy Animal Clinic",
+    schedule: "Monday - Sunday: 9:00 AM - 5:00 PM",
+    address: "A.B Cruz, Elizco Rd, Pasig, Metro Manila",
+    contact: "09851795495",
+    coords: { x: 14.5512427072231,  y: 121.08152925936963 },
+  },
 };
 export default { entries };

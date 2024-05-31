@@ -210,6 +210,8 @@ main {
   border-radius: 10px;
   padding: 5px;
   gap: 5px;
+  margin-top: 5px;
+  border:2px solid red;
 }
 
 .identity {
