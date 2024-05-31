@@ -69,10 +69,8 @@ const SyncData = () => SyncDogs().then(SyncLogs);
 
 // -------------------------- DOGS --------------------------
 const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
-const SendDogs = () => {
-  console.log(dogs.value);
+const SendDogs = () => 
   PawprintsEvent.EventDispatcher("update-dogs", dogs.value);
-};
 const SendDog = (pid: string) =>
   PawprintsEvent.EventDispatcher("set-dog", dogs.value.get(pid));
 const UpdateDog = (dog: PropsDog) => {

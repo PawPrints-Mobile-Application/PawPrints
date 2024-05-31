@@ -248,6 +248,7 @@ const Process = () => {
           DEnd: form.DEnd,
           pid: props.pid,
         });
+        PawprintsEvent.EventDispatcher("sync-logs");
       }),
     1500
   );
