@@ -3,18 +3,22 @@
     class="button-theme text small"
     :style="{
       backgroundColor: ObjectToMap(options.light).get('tertiary-background'),
-      color: ObjectToMap(options.light).get('button-middle-text'),
     }"
     :class="{ selected: active }"
     @click="Click"
   >
-    {{ props.name! }}
+    <TextSmall
+      :value="ObjectToMap(Themes.themeName).get(props.name!)"
+      :style="{
+        color: ObjectToMap(options.light).get('tertiary-text'),
+      }"
+    />
   </section>
 </template>
 <script setup lang="ts">
-import { PawprintsEvent, Themes, UserInfo } from "../../utils";
+import { PawprintsEvent, Themes, UserInfo, ObjectToMap } from "../../utils";
 import { computed, onMounted, onUnmounted, ref } from "vue";
-import { ObjectToMap } from "../../utils";
+import { TextSmall } from "..";
 const props = defineProps({
   name: {
     type: String,
@@ -58,5 +62,9 @@ onUnmounted(() => {
   outline: 2px solid var(--theme-tertiary-text);
   opacity: 1;
   font-weight: 700;
+}
+
+.text-small {
+  font-size: 10px;
 }
 </style>

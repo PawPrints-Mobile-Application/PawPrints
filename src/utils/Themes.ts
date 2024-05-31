@@ -1,6 +1,12 @@
 import { ObjectToMap, PawprintsEvent, UserInfo } from ".";
 import { Set as SetInformation } from "../server/models/Information";
 
+const themeName = {
+  yellow: "Squeaky Toys",
+  blue: "Splashy Zoomies",
+  pink: "Tasty Treat",
+};
+
 const themes = {
   yellow: {
     light: {
@@ -186,4 +192,4 @@ const Get = () => {
   return { theme, mode };
 };
 
-export default { themes, Set, Get };
+export default { themes, Set, Get, themeName };
