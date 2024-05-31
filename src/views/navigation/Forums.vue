@@ -73,8 +73,9 @@ const getPosts = () => {
   return temp;
 };
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   PawprintsEvent.AddEventListener("reload-forums", ReloadForums);
+  await ReloadForums();
 });
 
 onMounted(() => {
