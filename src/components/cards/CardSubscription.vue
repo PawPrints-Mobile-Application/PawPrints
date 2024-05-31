@@ -17,6 +17,7 @@
       v-show="!hideButton || !buttonText"
       :value="buttonText!"
       :disabled="!!disableButton"
+      @click="emit('buttonClick')"
     />
   </section>
 </template>
@@ -37,6 +38,8 @@ defineProps({
     validator: (value: number) => value >= 0 && value <= 1,
   },
 });
+
+const emit = defineEmits(["buttonClick"]);
 </script>
 <style scoped>
 .selected {

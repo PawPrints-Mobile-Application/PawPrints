@@ -13,6 +13,7 @@
         :hide-button="current > key"
         :disable-button="current === key"
         :design="Math.max(0, Math.min(1, current))"
+        @buttonClick="ButtonClick"
       />
     </main>
   </LayoutPage>
@@ -48,6 +49,15 @@ const subscriptions = [
     info: ["No advertisement", "Unlimited dog profiles"],
   },
 ];
+
+const ButtonClick = () => {
+  switch (UserInfo.GetSubscription()) {
+    case Enums.Subscription.free:
+      UserInfo.SetSubscription(Enums.Subscription.pawmium);
+      current.value++;
+      break;
+  }
+};
 
 onMounted(() => {
   switch (UserInfo.GetSubscription()) {
