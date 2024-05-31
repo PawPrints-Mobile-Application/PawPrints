@@ -49,6 +49,7 @@ const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
 const UpdateDogs = (values: Map<string, PropsDog>) => values.forEach(UpdateDog);
 const UpdateDog = (value: PropsDog) => dogs.value.set(value.pid, value);
 const RequestDogs = () => PawprintsEvent.EventDispatcher("request-dogs");
+const ResetDogs = () => dogs.value = new Map();
 
 const db = ref();
 const UpdateDB = (value: any) => {
@@ -76,6 +77,7 @@ onBeforeMount(() => {
   PawprintsEvent.AddEventListener("update-dogs", UpdateDogs);
   PawprintsEvent.AddEventListener("create-dog", UpdateDog);
 
+  PawprintsEvent.AddEventListener("reset-dogs", ResetDogs);
   PawprintsEvent.AddEventListener("reset-data", ResetData);
 });
 
@@ -89,6 +91,7 @@ onBeforeUnmount(() => {
   PawprintsEvent.RemoveEventListener("update-dogs", UpdateDogs);
   PawprintsEvent.RemoveEventListener("create-dog", UpdateDog);
 
+  PawprintsEvent.RemoveEventListener("reset-dogs", ResetDogs);
   PawprintsEvent.RemoveEventListener("reset-data", ResetData);
 });
 </script>

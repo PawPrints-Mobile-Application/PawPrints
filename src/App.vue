@@ -69,7 +69,7 @@ const SyncData = () => SyncDogs().then(SyncLogs);
 
 // -------------------------- DOGS --------------------------
 const dogs: Ref<Map<string, PropsDog>> = ref(new Map());
-const SendDogs = () => 
+const SendDogs = () =>
   PawprintsEvent.EventDispatcher("update-dogs", dogs.value);
 const SendDog = (pid: string) =>
   PawprintsEvent.EventDispatcher("set-dog", dogs.value.get(pid));
@@ -142,6 +142,11 @@ const ResetData = () => {
   latids.value = new Map();
 };
 
+const ResetDogs = () => {
+  dogs.value = new Map();
+  SyncDogs();
+};
+
 onBeforeMount(() => {
   PawprintsEvent.AddEventListener("request-db", SendDatabase);
   PawprintsEvent.AddEventListener("set-themes", SetThemes);
@@ -152,6 +157,7 @@ onBeforeMount(() => {
   PawprintsEvent.AddEventListener("request-dog", SendDog);
   PawprintsEvent.AddEventListener("update-dog", UpdateDog);
   PawprintsEvent.AddEventListener("sync-dogs", SyncDogs);
+  PawprintsEvent.AddEventListener("reset-dogs", ResetDogs);
 
   PawprintsEvent.AddEventListener("request-logs", SendLogs);
   PawprintsEvent.AddEventListener("update-log", UpdateLog);
@@ -172,6 +178,7 @@ onUnmounted(async () => {
   PawprintsEvent.RemoveEventListener("request-dog", SendDog);
   PawprintsEvent.RemoveEventListener("update-dog", UpdateDog);
   PawprintsEvent.RemoveEventListener("sync-dogs", SyncDogs);
+  PawprintsEvent.RemoveEventListener("reset-dogs", ResetDogs);
 
   PawprintsEvent.RemoveEventListener("request-logs", SendLogs);
   PawprintsEvent.RemoveEventListener("update-log", UpdateLog);

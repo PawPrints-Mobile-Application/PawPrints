@@ -3,7 +3,12 @@
     <LayoutHeader returnTarget="/dogs">
       <section class="header">
         <TextHeading :value="dog?.name" />
-        <Avatar type="dog" :value="dog?.breed" :color="dog?.color" />
+        <Avatar
+          type="dog"
+          :value="dog?.breed"
+          :color="dog?.color"
+          @click="Navigate"
+        />
       </section>
     </LayoutHeader>
     <main>
@@ -61,6 +66,10 @@ import { LayoutPIDCalendarView } from "../../layout";
 import { Props as PropsLAD } from "../../server/models/LogAddressingData";
 import { GetLATID } from "../../server/models/Logs";
 import { Props as PropsDog } from "../../server/models/Dogs";
+import { useIonRouter } from "@ionic/vue";
+const ionRouter = useIonRouter();
+const Navigate = () =>
+  ionRouter.navigate(`/dogs/${pid.value}/information`);
 
 const route = useRoute();
 const params = ref(route.params);
