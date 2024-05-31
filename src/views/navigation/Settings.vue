@@ -38,14 +38,14 @@ import { DatabaseMounter, ObjectToMap } from "../../utils";
 import {
   person as profileIcon,
   pricetags as subscriptionIcon,
-  helpCircle as faqsIcon,
+  // helpCircle as faqsIcon,
   alertCircle as aboutIcon,
 } from "ionicons/icons";
 
 const data = [
   { name: "Profile", icon: profileIcon, target: "profile" },
   { name: "Subscriptions", icon: subscriptionIcon, target: "subscription" },
-  { name: "Frequently Asked Questions", icon: faqsIcon, target: "faqs" },
+  // { name: "Frequently Asked Questions", icon: faqsIcon, target: "faqs" },
   { name: "About Us", icon: aboutIcon, target: "about" },
 ];
 
