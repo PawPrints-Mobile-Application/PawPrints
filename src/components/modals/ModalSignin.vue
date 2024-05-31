@@ -29,6 +29,11 @@
     <section class="form" :class="{ hide: state.processing }">
       <InputWrapper label="Email">
         <InputText placeholder="Enter Email" v-model="form.email" />
+        <TextSmall
+          value="Reset Password"
+          @click="ResetPassword"
+          class="reset-password"
+        />
       </InputWrapper>
       <InputWrapper label="Password">
         <InputPassword placeholder="Enter Password" v-model="form.password" />
@@ -42,10 +47,13 @@
         />
       </div>
     </section>
+    <Toast :default="false" trigger="toast-reset-password" height="100px">
+      <ToastSmall :title="toastTitle" :content="toastContent"
+    /></Toast>
   </Modal>
 </template>
 <script setup lang="ts">
-import { computed, reactive } from "vue";
+import { computed, reactive, ref } from "vue";
 import {
   Modal,
   TextHeading,
@@ -57,6 +65,8 @@ import {
   ButtonDanger,
   Avatar,
   NoteWarning,
+  TextSmall,
+  Toast,
 } from "..";
 import { IonSpinner, useIonRouter } from "@ionic/vue";
 import {
@@ -65,12 +75,34 @@ import {
   WindowDatabaseInitialization,
 } from "../../server/authentication";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
+import { sendPasswordResetEmail } from "firebase/auth";
+import auth from "../../server/firebase";
 import { PawprintsEvent } from "../../utils";
+import { ToastSmall } from "../../layout";
 const ionRouter = useIonRouter();
 const Navigate = () => {
   console.log("Redirecting to Home Page...");
   ionRouter.navigate("/home", "forward", "replace");
 };
+const toastTitle = ref("");
+const toastContent = ref("");
+
+const ResetPassword = () =>
+  sendPasswordResetEmail(auth, form.email)
+    .then(() => {
+      console.log("Password Reset Sent.");
+      toastTitle.value = "Reset Password Request";
+      toastContent.value =
+        "Password reset request has been sent to your email.";
+    })
+    .catch((error) => {
+      console.log(error);
+      toastTitle.value = "Reset Password Denied";
+      toastContent.value = "Please input your email address.";
+    })
+    .finally(() => {
+      PawprintsEvent.EventDispatcher("toast-reset-password", "show");
+    });
 
 const props = defineProps({
   db: SQLiteDBConnection,
@@ -186,6 +218,11 @@ const Process = () => {
   &.hide {
     height: 0;
     padding: 0;
+  }
+
+  .reset-password {
+    margin-top: 5px;
+    color: var(--theme-danger-background);
   }
 }
 
