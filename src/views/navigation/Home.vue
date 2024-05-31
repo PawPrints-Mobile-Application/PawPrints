@@ -15,7 +15,11 @@
             <TextParagraph :value="dog.name" class="bold" />
           </aside>
           <aside class="logs">
-            <CardLog v-for="log of GetLogs(dog.pid)" :log="log" />
+            <CardLog
+              v-for="log of GetLogs(dog.pid)"
+              :log="log"
+              @click="Navigate(dog.pid, log.lid)"
+            />
           </aside>
         </section>
       </section>
@@ -51,6 +55,10 @@ import {
 import { Props as PropsDog } from "../../server/models/Dogs";
 import { Props as PropsLAD } from "../../server/models/LogAddressingData";
 import { GetLATID } from "../../server/models/Logs";
+import { useIonRouter } from "@ionic/vue";
+const ionRouter = useIonRouter();
+const Navigate = (pid: string, lid: string) =>
+  ionRouter.navigate(`/dogs/${pid}/logs/${lid}`);
 
 const date = computed(
   () => `${Calendar.monthsShort[new Date().getMonth()]} ${new Date().getDate()}`

@@ -140,11 +140,7 @@ const UpdateLogs = (values: {
 //   }
 // };
 const RequestLogs = () => PawprintsEvent.EventDispatcher("request-logs");
-const getLog = () => {
-  const data = logs.value.get(lid.value)!;
-  console.log(data);
-  return data;
-};
+const getLog = () => logs.value.get(lid.value)!;
 
 const db = ref();
 const UpdateDB = (value: any) => {
