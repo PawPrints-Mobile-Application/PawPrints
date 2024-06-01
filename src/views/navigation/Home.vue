@@ -11,14 +11,19 @@
         <TextSubheading value="Today's History" class="bold" />
         <section class="dog-log" v-for="dog in Array.from(dogs.values())">
           <aside class="identity">
-            <Avatar type="dog" :value="dog.breed" :color="dog.color" />
+            <Avatar
+              type="dog"
+              :value="dog.breed"
+              :color="dog.color"
+              @click="NavigateToDog(dog.pid)"
+            />
             <TextParagraph :value="dog.name" class="bold" />
           </aside>
           <aside class="logs">
             <CardLog
               v-for="log of GetLogs(dog.pid)"
               :log="log"
-              @click="Navigate(dog.pid, log.lid)"
+              @click="NavigateToLog(dog.pid, log.lid)"
             />
           </aside>
         </section>
@@ -57,8 +62,9 @@ import { Props as PropsLAD } from "../../server/models/LogAddressingData";
 import { GetLATID } from "../../server/models/Logs";
 import { useIonRouter } from "@ionic/vue";
 const ionRouter = useIonRouter();
-const Navigate = (pid: string, lid: string) =>
+const NavigateToLog = (pid: string, lid: string) =>
   ionRouter.navigate(`/dogs/${pid}/logs/${lid}`);
+const NavigateToDog = (pid: string) => ionRouter.navigate(`/dogs/${pid}`);
 
 const date = computed(
   () => `${Calendar.monthsShort[new Date().getMonth()]} ${new Date().getDate()}`
@@ -219,7 +225,7 @@ main {
   padding: 5px;
   gap: 5px;
   margin-top: 5px;
-  border:2px solid red;
+  border: 2px solid red;
 }
 
 .identity {

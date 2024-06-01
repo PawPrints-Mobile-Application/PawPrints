@@ -9,8 +9,8 @@
     <main>
       <section class="top">
         <div class="right">
-          <TextSubheading :value="log.category" />
-          <TextSmall :value="log.type" />
+          <TextSubheading :value="log.category" class="top-texts" />
+          <TextSmall :value="log.type" class="top-texts" />
         </div>
         <IonIcon :icon="iconSrc" class="icon" />
       </section>
@@ -227,6 +227,10 @@ main {
   .right {
     width: max-content;
   }
+}
+
+.top-texts {
+  color: var(--theme-secondary-text);
 }
 
 .icon {
