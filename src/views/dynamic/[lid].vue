@@ -28,7 +28,7 @@
         <TextSubheading :value="log.value" />
         <TextSubheading :value="log.units" />
       </div>
-      <div class="note">
+      <div class="note heading-text">
         <InputLabel value="Note: " />
         <TextSmall :value="log.note" />
       </div>
@@ -263,6 +263,10 @@ main {
     border-radius: 5px;
     padding: 5px;
   }
+}
+
+.heading-text {
+  color: var(--theme-secondary-text);
 }
 
 .footer {

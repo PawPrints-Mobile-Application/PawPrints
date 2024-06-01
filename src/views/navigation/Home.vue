@@ -8,7 +8,7 @@
       <CardTrivia />
       <section class="schedule">
         <Refresher @refresh="Refresh" />
-        <TextSubheading value="Today's History" class="bold" />
+        <TextSubheading value="Today's Log" class="bold" />
         <section class="dog-log" v-for="dog in Array.from(dogs.values())">
           <aside class="identity">
             <Avatar
